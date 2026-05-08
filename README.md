@@ -248,6 +248,37 @@ GitHub Actions
 
 The current workflow lives in `.github/workflows/deploy.yml`.
 
+## Releases
+
+GitHub releases are now created through `.github/workflows/release.yml`.
+
+Release flow:
+
+```text
+Workflow dispatch
+  -> choose version and target commit
+  -> build + validate the exact release candidate
+  -> wait for human approval on the protected release environment
+  -> create the Git tag and GitHub release with generated notes
+  -> attach a tarball of dist/
+```
+
+Use the release workflow from the Actions tab when you want to cut a GitHub release from `main`.
+
+Before relying on the approval gate, configure a protected `release` environment in the repository settings and add the required reviewers who must approve a release run.
+
+The workflow enforces these checks before publication:
+
+| Release guard | Why it exists |
+| ------------- | ------------- |
+| Manual dispatch input | Keeps the operator in control of versioning and timing |
+| `main` ancestry check | Prevents cutting a release from an unrelated branch tip |
+| `npm run validate:full` | Uses the same validation and build path as a production-quality local check |
+| Protected `release` environment | Inserts a real human approval step before the GitHub release is created |
+
+> [!IMPORTANT]
+> The approval gate only becomes enforceable after the repository's `release` environment has required reviewers configured.
+
 > [!IMPORTANT]
 > Keep `public/CNAME` and `astro.config.mjs` aligned with `rustuse.org` so the deployed Pages site and custom domain stay in sync.
 
