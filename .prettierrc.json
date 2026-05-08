@@ -1,5 +1,7 @@
 {
-  "plugins": ["prettier-plugin-astro"],
-  "proseWrap": "preserve",
-  "singleQuote": true
+    "plugins": [
+        "prettier-plugin-astro"
+    ],
+    "proseWrap": "preserve",
+    "singleQuote": true
 }
