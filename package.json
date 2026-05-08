@@ -25,6 +25,7 @@
     "prepare": "npm run setup:hooks",
     "setup:hooks": "node scripts/setup-githooks.mjs",
     "smoke:dist": "node scripts/smoke-dist.mjs",
+    "smoke:preview": "node scripts/smoke-preview.mjs",
     "validate": "npm run format && npm run lint && npm run lint:css && npm run check",
     "validate:full": "npm run validate && npm run build && npm run smoke:dist",
     "verify:changed": "node scripts/verify-changed.mjs",

@@ -2,84 +2,43 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
+import { getSmokeChecks, validateSourceArtifact } from './smoke-contract.mjs';
+
 const repoRoot = process.cwd();
 const distRoot = path.join(repoRoot, 'dist');
-const rustdocSourcesPath = path.join(repoRoot, 'docs', 'rustdoc-sources.json');
 
 if (!existsSync(distRoot)) {
   console.error('Build output not found at dist/. Run "npm run build" first.');
   process.exit(1);
 }
 
-const expectedSiteFiles = [
-  { path: '404.html', mustInclude: ['404'] },
-  { path: 'index.html', mustInclude: ['RustUse'] },
-  { path: 'api-reference/index.html', mustInclude: ['API Reference'] },
-  { path: 'contributing/index.html', mustInclude: ['Contributing'] },
-  { path: 'crates/index.html', mustInclude: ['Crates'] },
-  { path: 'onboarding/index.html', mustInclude: ['Onboarding'] },
-  { path: 'sets/index.html', mustInclude: ['Sets'] },
-  { path: 'sets/use-math/index.html', mustInclude: ['use-math'] },
-  { path: 'use-math/index.html', mustInclude: ['Copy full crate'] },
-  {
-    path: 'use-math/use-combinatorics/index.html',
-    mustInclude: ['Copy full crate'],
-  },
-  {
-    path: 'use-math/use-geometry/index.html',
-    mustInclude: ['Copy full crate'],
-  },
-  { path: 'sitemap-index.xml', mustInclude: ['sitemap'] },
-];
-
-const rustdocSources = JSON.parse(readFileSync(rustdocSourcesPath, 'utf8'));
-const expectedApiFiles = [{ path: 'api/rustuse-rustdoc-shell.css' }];
-
-for (const source of rustdocSources.sources ?? []) {
-  expectedApiFiles.push({
-    path: path.posix.join('api', source.bundleSlug, 'index.html'),
-  });
-  expectedApiFiles.push({
-    path: path.posix.join('api', source.bundleSlug, 'theme.css'),
-  });
-
-  for (const crateName of source.publishedCrates ?? []) {
-    expectedApiFiles.push({
-      path: path.posix.join('api', crateName, 'index.html'),
-    });
-    expectedApiFiles.push({
-      path: path.posix.join('api', crateName, 'rustuse-source.json'),
-      validateJson: true,
-    });
-  }
-}
-
 const problems = [];
 let checks = 0;
+const smokeChecks = getSmokeChecks(repoRoot);
 
 function readDistFile(relativePath) {
   return readFileSync(path.join(distRoot, ...relativePath.split('/')), 'utf8');
 }
 
 function checkFile({
-  path: relativePath,
+  distPath,
   mustInclude = [],
-  validateJson = false,
+  sourceArtifact,
 }) {
-  const absolutePath = path.join(distRoot, ...relativePath.split('/'));
+  const absolutePath = path.join(distRoot, ...distPath.split('/'));
   checks += 1;
 
   if (!existsSync(absolutePath)) {
-    problems.push(`Missing built artifact: ${relativePath}`);
+    problems.push(`Missing built artifact: ${distPath}`);
     return;
   }
 
-  if (validateJson) {
+  if (sourceArtifact) {
     try {
-      JSON.parse(readDistFile(relativePath));
+      validateSourceArtifact(readDistFile(distPath), sourceArtifact);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      problems.push(`Invalid JSON artifact: ${relativePath} (${message})`);
+      problems.push(`Invalid JSON artifact: ${distPath} (${message})`);
     }
     return;
   }
@@ -88,15 +47,15 @@ function checkFile({
     return;
   }
 
-  const content = readDistFile(relativePath);
+  const content = readDistFile(distPath);
   for (const snippet of mustInclude) {
     if (!content.includes(snippet)) {
-      problems.push(`Expected ${relativePath} to include "${snippet}".`);
+      problems.push(`Expected ${distPath} to include "${snippet}".`);
     }
   }
 }
 
-for (const file of [...expectedSiteFiles, ...expectedApiFiles]) {
+for (const file of smokeChecks) {
   checkFile(file);
 }
 
