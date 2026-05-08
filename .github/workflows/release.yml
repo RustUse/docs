@@ -1,152 +1,152 @@
 name: Release Docs
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Release version (with or without a leading v)
-        required: true
-        type: string
-      target:
-        description: Branch, tag, or commit to release from
-        required: false
-        default: main
-        type: string
-      prerelease:
-        description: Mark the GitHub release as a prerelease
-        required: false
-        default: false
-        type: boolean
-      notes:
-        description: Optional release notes to prepend ahead of generated notes
-        required: false
-        type: string
+    workflow_dispatch:
+        inputs:
+            version:
+                description: Release version (with or without a leading v)
+                required: true
+                type: string
+            target:
+                description: Branch, tag, or commit to release from
+                required: false
+                default: main
+                type: string
+            prerelease:
+                description: Mark the GitHub release as a prerelease
+                required: false
+                default: false
+                type: boolean
+            notes:
+                description: Optional release notes to prepend ahead of generated notes
+                required: false
+                type: string
 
 permissions:
-  contents: read
+    contents: read
 
 concurrency:
-  group: release-${{ github.event.inputs.version }}
-  cancel-in-progress: false
+    group: release-${{ github.event.inputs.version }}
+    cancel-in-progress: false
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    outputs:
-      artifact_name: ${{ steps.meta.outputs.artifact_name }}
-      prerelease: ${{ steps.meta.outputs.prerelease }}
-      release_name: ${{ steps.meta.outputs.release_name }}
-      tag_name: ${{ steps.meta.outputs.tag_name }}
-      target_sha: ${{ steps.meta.outputs.target_sha }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.inputs.target || 'main' }}
+    build:
+        runs-on: ubuntu-latest
+        outputs:
+            artifact_name: ${{ steps.meta.outputs.artifact_name }}
+            prerelease: ${{ steps.meta.outputs.prerelease }}
+            release_name: ${{ steps.meta.outputs.release_name }}
+            tag_name: ${{ steps.meta.outputs.tag_name }}
+            target_sha: ${{ steps.meta.outputs.target_sha }}
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.event.inputs.target || 'main' }}
 
-      - name: Resolve release metadata
-        id: meta
-        shell: bash
-        run: |
-          set -euo pipefail
+            - name: Resolve release metadata
+              id: meta
+              shell: bash
+              run: |
+                  set -euo pipefail
 
-          raw_version='${{ github.event.inputs.version }}'
-          version="${raw_version#v}"
+                  raw_version='${{ github.event.inputs.version }}'
+                  version="${raw_version#v}"
 
-          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
-            echo "Release version must look like 1.2.3, 1.2.3-rc.1, or v1.2.3" >&2
-            exit 1
-          fi
+                  if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
+                    echo "Release version must look like 1.2.3, 1.2.3-rc.1, or v1.2.3" >&2
+                    exit 1
+                  fi
 
-          tag_name="v$version"
-          release_name="RustUse Docs $tag_name"
-          target_sha="$(git rev-parse HEAD)"
-          artifact_name="rustuse-docs-$tag_name.tar.gz"
+                  tag_name="v$version"
+                  release_name="RustUse Docs $tag_name"
+                  target_sha="$(git rev-parse HEAD)"
+                  artifact_name="rustuse-docs-$tag_name.tar.gz"
 
-          if git rev-parse -q --verify "refs/tags/$tag_name" >/dev/null; then
-            echo "Tag $tag_name already exists" >&2
-            exit 1
-          fi
+                  if git rev-parse -q --verify "refs/tags/$tag_name" >/dev/null; then
+                    echo "Tag $tag_name already exists" >&2
+                    exit 1
+                  fi
 
-          {
-            echo "artifact_name=$artifact_name"
-            echo "prerelease=${{ github.event.inputs.prerelease }}"
-            echo "release_name=$release_name"
-            echo "tag_name=$tag_name"
-            echo "target_sha=$target_sha"
-          } >> "$GITHUB_OUTPUT"
+                  {
+                    echo "artifact_name=$artifact_name"
+                    echo "prerelease=${{ github.event.inputs.prerelease }}"
+                    echo "release_name=$release_name"
+                    echo "tag_name=$tag_name"
+                    echo "target_sha=$target_sha"
+                  } >> "$GITHUB_OUTPUT"
 
-      - name: Confirm release target is on main
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch --no-tags origin main
-          git merge-base --is-ancestor "${{ steps.meta.outputs.target_sha }}" origin/main
+            - name: Confirm release target is on main
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  git fetch --no-tags origin main
+                  git merge-base --is-ancestor "${{ steps.meta.outputs.target_sha }}" origin/main
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
 
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Validate and build release candidate
-        run: npm run validate:full
+            - name: Validate and build release candidate
+              run: npm run validate:full
 
-      - name: Archive built site
-        run: tar -czf "${{ steps.meta.outputs.artifact_name }}" dist
+            - name: Archive built site
+              run: tar -czf "${{ steps.meta.outputs.artifact_name }}" dist
 
-      - name: Upload release bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.meta.outputs.artifact_name }}
-          path: ${{ steps.meta.outputs.artifact_name }}
-          if-no-files-found: error
+            - name: Upload release bundle
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ steps.meta.outputs.artifact_name }}
+                  path: ${{ steps.meta.outputs.artifact_name }}
+                  if-no-files-found: error
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    permissions:
-      contents: write
-    steps:
-      - name: Download release bundle
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.build.outputs.artifact_name }}
+    publish:
+        runs-on: ubuntu-latest
+        needs: build
+        permissions:
+            contents: write
+        steps:
+            - name: Download release bundle
+              uses: actions/download-artifact@v4
+              with:
+                  name: ${{ needs.build.outputs.artifact_name }}
 
-      - name: Create draft GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PRERELEASE: ${{ needs.build.outputs.prerelease }}
-          RELEASE_NAME: ${{ needs.build.outputs.release_name }}
-          RELEASE_NOTES: ${{ github.event.inputs.notes }}
-          TAG_NAME: ${{ needs.build.outputs.tag_name }}
-          TARGET_SHA: ${{ needs.build.outputs.target_sha }}
-        shell: bash
-        run: |
-          set -euo pipefail
+            - name: Create draft GitHub release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  PRERELEASE: ${{ needs.build.outputs.prerelease }}
+                  RELEASE_NAME: ${{ needs.build.outputs.release_name }}
+                  RELEASE_NOTES: ${{ github.event.inputs.notes }}
+                  TAG_NAME: ${{ needs.build.outputs.tag_name }}
+                  TARGET_SHA: ${{ needs.build.outputs.target_sha }}
+              shell: bash
+              run: |
+                  set -euo pipefail
 
-          args=(
-            release create "$TAG_NAME"
-            "./${{ needs.build.outputs.artifact_name }}"
-            --draft
-            --title "$RELEASE_NAME"
-            --target "$TARGET_SHA"
-            --generate-notes
-          )
+                  args=(
+                    release create "$TAG_NAME"
+                    "./${{ needs.build.outputs.artifact_name }}"
+                    --draft
+                    --title "$RELEASE_NAME"
+                    --target "$TARGET_SHA"
+                    --generate-notes
+                  )
 
-          if [[ "$PRERELEASE" == 'true' ]]; then
-            args+=(--prerelease)
-          fi
+                  if [[ "$PRERELEASE" == 'true' ]]; then
+                    args+=(--prerelease)
+                  fi
 
-          if [[ -n "$RELEASE_NOTES" ]]; then
-            args+=(--notes "$RELEASE_NOTES")
-          fi
+                  if [[ -n "$RELEASE_NOTES" ]]; then
+                    args+=(--notes "$RELEASE_NOTES")
+                  fi
 
-          gh "${args[@]}"
+                  gh "${args[@]}"
