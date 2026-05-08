@@ -1,0 +1,25 @@
+# RustUse
+
+RustUse provides composable sets of primitive Rust utility crates.
+
+Primary site: https://rustuse.org/
+Onboarding docs: https://rustuse.org/onboarding/
+Crate docs overview: https://rustuse.org/crates/
+Set docs overview: https://rustuse.org/sets/
+API reference: https://rustuse.org/api-reference/
+Workspace Rustdocs: https://rustuse.org/api/workspaces/use-math/
+
+Current core crates:
+- use-math
+- use-geometry
+- use-combinatorics
+
+Key crate pages:
+- https://rustuse.org/use-math/
+- https://rustuse.org/use-math/use-geometry/
+- https://rustuse.org/use-math/use-combinatorics/
+
+Key API pages:
+- https://rustuse.org/api/use-math/
+- https://rustuse.org/api/use-geometry/
+- https://rustuse.org/api/use-combinatorics/

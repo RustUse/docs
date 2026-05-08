@@ -1,0 +1,60 @@
+---
+import type { CrateStatus } from '../data/crates';
+
+interface Props {
+  status: CrateStatus;
+}
+
+const { status } = Astro.props as Props;
+
+const labels: Record<CrateStatus, string> = {
+  planned: 'Planned',
+  scaffolded: 'Scaffolded',
+  published: 'Published',
+};
+---
+
+<span class:list={['ru-status-badge', 'ru-pill', `is-${status}`]}
+  >{labels[status]}</span
+>
+
+<style>
+  .ru-status-badge {
+    --ru-pill-padding: 0.35rem 0.7rem;
+    --ru-pill-font-size: 0.74rem;
+    --ru-pill-font-weight: 700;
+    --ru-pill-letter-spacing: 0.08em;
+    --ru-pill-text-transform: uppercase;
+  }
+
+  .ru-status-badge.is-published {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-teal) 18%, transparent);
+    --ru-pill-color: var(--sl-color-accent-high);
+  }
+
+  .ru-status-badge.is-scaffolded {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-sand) 18%, transparent);
+    --ru-pill-color: var(--ru-color-sand);
+  }
+
+  .ru-status-badge.is-planned {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-clay) 18%, transparent);
+    --ru-pill-color: color-mix(
+      in srgb,
+      var(--sl-color-white) 82%,
+      var(--ru-color-clay)
+    );
+  }
+
+  :root[data-theme='light'] .ru-status-badge.is-published {
+    --ru-pill-color: var(--ru-color-teal);
+  }
+
+  :root[data-theme='light'] .ru-status-badge.is-scaffolded {
+    --ru-pill-color: var(--ru-color-clay);
+  }
+
+  :root[data-theme='light'] .ru-status-badge.is-planned {
+    --ru-pill-color: var(--ru-color-clay);
+  }
+</style>

@@ -1,0 +1,509 @@
+---
+import propsDarkMode2D from '../assets/props-dark-mode-2D.png';
+import propsDarkMode3D from '../assets/props-dark-mode-3D.png';
+import propsLightMode2D from '../assets/props-light-mode-2D.png';
+import propsLightMode3D from '../assets/props-light-mode-3D.png';
+
+type IllustrationVariant =
+  | 'overview'
+  | 'composable'
+  | 'predictable'
+  | 'independent'
+  | 'documented'
+  | 'consistent'
+  | 'pragmatic';
+
+interface Props {
+  variant: IllustrationVariant;
+  size?: 'card' | 'section';
+  class?: string;
+}
+
+const spriteSheetWidth = 1536;
+const spriteSheetHeight = 1024;
+
+const spriteVariants: Partial<
+  Record<
+    IllustrationVariant,
+    { x: number; y: number; width: number; height: number; scale?: number }
+  >
+> = {
+  composable: { x: 55, y: 55, width: 437, height: 270, scale: 0.7 },
+  predictable: { x: 555, y: 55, width: 437, height: 270, scale: 0.7 },
+  independent: { x: 1055, y: 55, width: 437, height: 270, scale: 0.7 },
+  documented: { x: 45, y: 580, width: 437, height: 219, scale: 0.7 },
+  consistent: { x: 540, y: 580, width: 437, height: 219, scale: 0.7 },
+  pragmatic: { x: 1055, y: 580, width: 437, height: 219, scale: 0.7 },
+};
+
+const { variant, size = 'card', class: className } = Astro.props as Props;
+
+const sprite = spriteVariants[variant];
+const spriteStyle = sprite
+  ? [
+      `--ru-home-illustration-sheet-dark-2d: url(${propsDarkMode2D.src})`,
+      `--ru-home-illustration-sheet-dark-3d: url(${propsDarkMode3D.src})`,
+      `--ru-home-illustration-sheet-light-2d: url(${propsLightMode2D.src})`,
+      `--ru-home-illustration-sheet-light-3d: url(${propsLightMode3D.src})`,
+      `--ru-home-illustration-sheet-width: ${spriteSheetWidth}px`,
+      `--ru-home-illustration-sheet-height: ${spriteSheetHeight}px`,
+      `--ru-home-illustration-width: ${sprite.width}px`,
+      `--ru-home-illustration-height: ${sprite.height}px`,
+      `--ru-home-illustration-offset-x: -${sprite.x}px`,
+      `--ru-home-illustration-offset-y: -${sprite.y}px`,
+      `--ru-home-illustration-scale: ${sprite.scale ?? 0.24}`,
+    ].join('; ')
+  : undefined;
+---
+
+<div
+  class:list={[
+    'ru-home-illustration',
+    `is-${variant}`,
+    `is-${size}`,
+    { 'is-sprite': Boolean(sprite) },
+    className,
+  ]}
+  aria-hidden="true"
+  style={spriteStyle}
+>
+  {
+    variant === 'overview' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <path class="line-soft" d="M24 24c16-10 35-15 55-15 27 0 50 9 65 26" />
+        <rect
+          class="accent-fill"
+          x="18"
+          y="34"
+          width="42"
+          height="30"
+          rx="12"
+        />
+        <rect
+          class="secondary-fill"
+          x="100"
+          y="24"
+          width="42"
+          height="32"
+          rx="12"
+        />
+        <rect
+          class="tertiary-fill"
+          x="60"
+          y="74"
+          width="40"
+          height="28"
+          rx="11"
+        />
+        <path class="line" d="M60 49h18" />
+        <circle class="dot" cx="80" cy="49" r="5" />
+        <path class="line" d="M85 49h15" />
+        <path class="line" d="M39 64v10c0 6 4 10 10 10h11" />
+        <path class="line" d="M121 56v14c0 6-4 10-10 10h-11" />
+        <path class="line-soft" d="M32 100c17 7 33 11 50 11 20 0 39-5 56-14" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'composable' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <rect
+          class="accent-fill"
+          x="18"
+          y="40"
+          width="40"
+          height="28"
+          rx="10"
+        />
+        <rect
+          class="secondary-fill"
+          x="68"
+          y="28"
+          width="44"
+          height="34"
+          rx="12"
+        />
+        <rect
+          class="tertiary-fill"
+          x="118"
+          y="46"
+          width="24"
+          height="24"
+          rx="7"
+        />
+        <rect class="accent-fill" x="68" y="78" width="44" height="18" rx="9" />
+        <path class="line" d="M58 54h10" />
+        <path class="line" d="M112 46h6" />
+        <path class="line" d="M90 62v16" />
+        <circle class="dot" cx="63" cy="54" r="4" />
+        <circle class="dot" cx="115" cy="46" r="4" />
+        <path class="line-soft" d="M24 24c11-9 24-14 38-14 17 0 31 8 42 24" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'predictable' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <path class="line-soft" d="M28 26v12M54 26v12M80 26v12M106 26v12" />
+        <path class="line-soft" d="M26 20h88" />
+        <path class="line" d="M26 80h72" />
+        <circle class="accent-fill" cx="42" cy="80" r="8" />
+        <circle class="secondary-fill" cx="68" cy="80" r="8" />
+        <circle class="tertiary-fill" cx="94" cy="80" r="8" />
+        <path class="line" d="M102 74l18-18" />
+        <rect
+          class="accent-fill"
+          x="118"
+          y="34"
+          width="24"
+          height="24"
+          rx="7"
+        />
+        <path class="line" d="M124 46h12" />
+        <path class="line-soft" d="M36 98h78" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'independent' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <rect
+          class="accent-fill"
+          x="18"
+          y="22"
+          width="36"
+          height="30"
+          rx="10"
+        />
+        <rect
+          class="secondary-fill"
+          x="106"
+          y="18"
+          width="36"
+          height="30"
+          rx="10"
+        />
+        <rect
+          class="tertiary-fill"
+          x="62"
+          y="72"
+          width="36"
+          height="30"
+          rx="10"
+        />
+        <path class="line" d="M28 37h16" />
+        <path class="line" d="M116 33h16" />
+        <path class="line" d="M72 87h16" />
+        <path class="line-soft" d="M36 54v10" />
+        <path class="line-soft" d="M124 50v12" />
+        <path class="line-soft" d="M80 54v8" />
+        <circle class="dot" cx="36" cy="68" r="3.5" />
+        <circle class="dot" cx="124" cy="66" r="3.5" />
+        <circle class="dot" cx="80" cy="66" r="3.5" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'documented' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <path
+          class="accent-fill"
+          d="M28 28h34c10 0 16 6 16 16v42c-7-7-14-10-22-10H28z"
+        />
+        <path
+          class="secondary-fill"
+          d="M82 28h34c10 0 16 6 16 16v42c-7-7-14-10-22-10H82z"
+        />
+        <path class="line" d="M79 34v54" />
+        <path class="line" d="M42 46h20M42 58h26M96 46h20M96 58h26" />
+        <path class="line-soft" d="M46 78c8-4 16-6 24-6" />
+        <path class="line-soft" d="M90 72c10 0 18 2 24 6" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'consistent' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <rect
+          class="accent-fill"
+          x="18"
+          y="24"
+          width="34"
+          height="56"
+          rx="10"
+        />
+        <rect
+          class="secondary-fill"
+          x="63"
+          y="24"
+          width="34"
+          height="56"
+          rx="10"
+        />
+        <rect
+          class="tertiary-fill"
+          x="108"
+          y="24"
+          width="34"
+          height="56"
+          rx="10"
+        />
+        <path class="line" d="M26 40h18M26 52h18M26 64h18" />
+        <path class="line" d="M71 40h18M71 52h18M71 64h18" />
+        <path class="line" d="M116 40h18M116 52h18M116 64h18" />
+        <path class="line-soft" d="M18 94h124" />
+      </svg>
+    )
+  }
+
+  {
+    !sprite && variant === 'pragmatic' && (
+      <svg viewBox="0 0 160 120" focusable="false">
+        <path class="line" d="M58 42v-8c0-7 5-12 12-12h20c7 0 12 5 12 12v8" />
+        <rect
+          class="accent-fill"
+          x="24"
+          y="42"
+          width="112"
+          height="42"
+          rx="12"
+        />
+        <path class="line" d="M24 58h112" />
+        <path class="line" d="M66 58h28" />
+        <circle class="secondary-fill" cx="108" cy="71" r="15" />
+        <path class="line" d="M101 71l5 5 10-11" />
+        <path class="line-soft" d="M32 96h96" />
+      </svg>
+    )
+  }
+
+  {sprite && <div class="ru-home-illustration-sprite" />}
+</div>
+
+<style>
+  .ru-home-illustration {
+    --ru-illustration-accent: var(--ru-color-teal);
+    --ru-illustration-secondary: var(--ru-color-sand);
+    --ru-illustration-tertiary: var(--ru-color-flame);
+    --ru-illustration-ink: color-mix(
+      in srgb,
+      var(--sl-color-white) 90%,
+      var(--ru-illustration-accent)
+    );
+    display: grid;
+    justify-self: start;
+    place-items: center;
+    inline-size: min(100%, 6.25rem);
+    padding: 0.72rem;
+    border: 1px solid
+      color-mix(in srgb, var(--ru-illustration-accent) 20%, transparent);
+    border-radius: 1.2rem;
+    background:
+      radial-gradient(
+        circle at 22% 18%,
+        color-mix(in srgb, var(--ru-illustration-secondary) 16%, transparent),
+        transparent 42%
+      ),
+      linear-gradient(
+        145deg,
+        color-mix(
+          in srgb,
+          var(--sl-color-bg) 88%,
+          var(--ru-illustration-accent) 12%
+        ),
+        rgba(255, 255, 255, 0.02)
+      );
+    box-shadow: var(--ru-elevation-float);
+  }
+
+  .ru-home-illustration.is-sprite {
+    inline-size: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .ru-home-illustration.is-section {
+    inline-size: min(100%, 15rem);
+    padding: 0.95rem 1.05rem;
+    border-radius: 1.5rem;
+  }
+
+  .ru-home-illustration-sprite {
+    --ru-home-illustration-sheet-dark: var(
+      --ru-home-illustration-sheet-dark-3d
+    );
+    --ru-home-illustration-sheet-light: var(
+      --ru-home-illustration-sheet-light-3d
+    );
+    --ru-home-illustration-sheet: var(--ru-home-illustration-sheet-dark);
+    --ru-home-illustration-shadow: drop-shadow(0 14px 24px rgba(2, 6, 10, 0.2));
+    display: block;
+    width: calc(
+      var(--ru-home-illustration-width) * var(--ru-home-illustration-scale)
+    );
+    height: calc(
+      var(--ru-home-illustration-height) * var(--ru-home-illustration-scale)
+    );
+    background-image: var(--ru-home-illustration-sheet);
+    background-repeat: no-repeat;
+    background-size: calc(
+        var(--ru-home-illustration-sheet-width) *
+          var(--ru-home-illustration-scale)
+      )
+      calc(
+        var(--ru-home-illustration-sheet-height) *
+          var(--ru-home-illustration-scale)
+      );
+    background-position: calc(
+        var(--ru-home-illustration-offset-x) * var(--ru-home-illustration-scale)
+      )
+      calc(
+        var(--ru-home-illustration-offset-y) * var(--ru-home-illustration-scale)
+      );
+    filter: var(--ru-home-illustration-shadow);
+  }
+
+  .ru-home-illustration svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 4.8rem;
+    overflow: visible;
+  }
+
+  .ru-home-illustration.is-section svg {
+    max-height: 8.25rem;
+  }
+
+  .ru-home-illustration.is-overview {
+    --ru-illustration-accent: var(--ru-color-teal);
+    --ru-illustration-secondary: var(--ru-color-sand);
+    --ru-illustration-tertiary: var(--ru-color-flame);
+  }
+
+  .ru-home-illustration.is-composable {
+    --ru-illustration-accent: var(--ru-color-flame);
+    --ru-illustration-secondary: var(--ru-color-sand);
+    --ru-illustration-tertiary: var(--ru-color-teal);
+  }
+
+  .ru-home-illustration.is-predictable {
+    --ru-illustration-accent: var(--ru-color-teal);
+    --ru-illustration-secondary: var(--ru-color-clay);
+    --ru-illustration-tertiary: var(--ru-color-sand);
+  }
+
+  .ru-home-illustration.is-independent {
+    --ru-illustration-accent: var(--ru-color-clay);
+    --ru-illustration-secondary: var(--ru-color-sand);
+    --ru-illustration-tertiary: var(--ru-color-teal);
+  }
+
+  .ru-home-illustration.is-documented {
+    --ru-illustration-accent: var(--ru-color-sand);
+    --ru-illustration-secondary: var(--ru-color-teal);
+    --ru-illustration-tertiary: var(--ru-color-clay);
+  }
+
+  .ru-home-illustration.is-consistent {
+    --ru-illustration-accent: var(--ru-color-teal);
+    --ru-illustration-secondary: var(--ru-color-clay);
+    --ru-illustration-tertiary: var(--ru-color-sand);
+  }
+
+  .ru-home-illustration.is-pragmatic {
+    --ru-illustration-accent: var(--ru-color-flame);
+    --ru-illustration-secondary: var(--ru-color-teal);
+    --ru-illustration-tertiary: var(--ru-color-sand);
+  }
+
+  .ru-home-illustration .line,
+  .ru-home-illustration .line-soft,
+  .ru-home-illustration .accent-fill,
+  .ru-home-illustration .secondary-fill,
+  .ru-home-illustration .tertiary-fill,
+  .ru-home-illustration .dot {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ru-home-illustration .line {
+    fill: none;
+    stroke: var(--ru-illustration-ink);
+    stroke-width: 4;
+  }
+
+  .ru-home-illustration .line-soft {
+    fill: none;
+    stroke: color-mix(in srgb, var(--ru-illustration-ink) 62%, transparent);
+    stroke-width: 3;
+    stroke-dasharray: 4 7;
+  }
+
+  .ru-home-illustration .accent-fill {
+    fill: color-mix(in srgb, var(--ru-illustration-accent) 24%, transparent);
+    stroke: var(--ru-illustration-accent);
+    stroke-width: 3.25;
+  }
+
+  .ru-home-illustration .secondary-fill {
+    fill: color-mix(in srgb, var(--ru-illustration-secondary) 24%, transparent);
+    stroke: var(--ru-illustration-secondary);
+    stroke-width: 3.25;
+  }
+
+  .ru-home-illustration .tertiary-fill {
+    fill: color-mix(in srgb, var(--ru-illustration-tertiary) 22%, transparent);
+    stroke: var(--ru-illustration-tertiary);
+    stroke-width: 3.25;
+  }
+
+  .ru-home-illustration .dot {
+    fill: var(--ru-illustration-ink);
+    stroke: none;
+  }
+
+  :root[data-theme='light'] .ru-home-illustration {
+    --ru-illustration-ink: color-mix(
+      in srgb,
+      var(--ru-color-deep) 82%,
+      var(--ru-illustration-accent)
+    );
+    background:
+      radial-gradient(
+        circle at 20% 18%,
+        color-mix(in srgb, var(--ru-illustration-secondary) 14%, transparent),
+        transparent 40%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.92),
+        color-mix(in srgb, var(--ru-illustration-accent) 8%, white)
+      );
+  }
+
+  :root[data-theme='light'] .ru-home-illustration-sprite {
+    --ru-home-illustration-sheet: var(--ru-home-illustration-sheet-light);
+    --ru-home-illustration-shadow: drop-shadow(
+      0 12px 20px rgba(38, 70, 83, 0.12)
+    );
+  }
+
+  :root[data-mascot-mode='2d'] .ru-home-illustration-sprite {
+    --ru-home-illustration-sheet-dark: var(
+      --ru-home-illustration-sheet-dark-2d
+    );
+    --ru-home-illustration-sheet-light: var(
+      --ru-home-illustration-sheet-light-2d
+    );
+    --ru-home-illustration-shadow: none;
+  }
+</style>

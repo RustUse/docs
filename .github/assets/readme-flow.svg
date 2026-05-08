@@ -1,0 +1,88 @@
+<svg width="1600" height="920" viewBox="0 0 1600 920" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">RustUse documentation build flow</title>
+  <desc id="desc">Vertical flow diagram showing Rust workspace sources moving through the rustdoc build script into public API output, the RustUse docs site, and rustuse.org.</desc>
+  <defs>
+    <linearGradient id="flow-bg" x1="120" y1="72" x2="1446" y2="856" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#13252c"/>
+      <stop offset="0.62" stop-color="#264653"/>
+      <stop offset="1" stop-color="#1b343c"/>
+    </linearGradient>
+    <linearGradient id="flow-panel" x1="120" y1="72" x2="1508" y2="864" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff4e8" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#fff4e8" stop-opacity="0.03"/>
+    </linearGradient>
+    <linearGradient id="flow-line" x1="800" y1="312" x2="800" y2="756" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff4e8"/>
+      <stop offset="0.45" stop-color="#f4a261"/>
+      <stop offset="1" stop-color="#ff4500"/>
+    </linearGradient>
+    <filter id="flow-shadow" x="0" y="0" width="1600" height="920" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="36" flood-color="#08161b" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="920" rx="40" fill="url(#flow-bg)"/>
+  <path d="M0 792C210 676 402 684 568 734C716 778 854 844 1038 828C1246 810 1406 694 1600 724V920H0V792Z" fill="#2a9d8f" fill-opacity="0.11"/>
+  <path d="M0 828C170 772 326 782 462 812C658 854 814 930 1036 900C1260 870 1404 770 1600 790V920H0V828Z" fill="#f4a261" fill-opacity="0.12"/>
+  <circle cx="1332" cy="116" r="124" fill="#2a9d8f" fill-opacity="0.12"/>
+  <circle cx="1432" cy="174" r="72" fill="#ff4500" fill-opacity="0.14"/>
+  <g filter="url(#flow-shadow)">
+    <rect x="92" y="56" width="1416" height="808" rx="38" fill="url(#flow-panel)" stroke="#fff4e8" stroke-opacity="0.12"/>
+  </g>
+  <text x="160" y="150" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="48" font-weight="800">RustUse documentation build flow</text>
+  <text x="160" y="198" fill="#fff4e8" fill-opacity="0.78" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="500">From configured Rust workspaces to published docs.</text>
+
+  <g>
+    <rect x="338" y="224" width="924" height="88" rx="28" fill="#fff4e8" fill-opacity="0.08" stroke="#fff4e8" stroke-opacity="0.16"/>
+    <rect x="368" y="246" width="14" height="44" rx="7" fill="#fff4e8" fill-opacity="0.9"/>
+    <text x="410" y="262" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800">Rust workspace or source repo</text>
+    <text x="410" y="292" fill="#fff4e8" fill-opacity="0.76" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500">Configured sibling checkout or repo fallback clone</text>
+  </g>
+
+  <g stroke="url(#flow-line)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M800 324V346"/>
+    <path d="M784 330L800 346L816 330"/>
+  </g>
+
+  <g>
+    <rect x="338" y="360" width="924" height="88" rx="28" fill="#2a9d8f" fill-opacity="0.16" stroke="#2a9d8f" stroke-opacity="0.34"/>
+    <rect x="368" y="382" width="14" height="44" rx="7" fill="#2a9d8f"/>
+    <text x="410" y="398" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800">scripts/build-rustdocs.mjs</text>
+    <text x="410" y="428" fill="#fff4e8" fill-opacity="0.76" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500">Reads rustdoc sources, runs cargo doc, writes redirect pages</text>
+  </g>
+
+  <g stroke="url(#flow-line)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M800 460V482"/>
+    <path d="M784 466L800 482L816 466"/>
+  </g>
+
+  <g>
+    <rect x="338" y="496" width="924" height="88" rx="28" fill="#f4a261" fill-opacity="0.15" stroke="#f4a261" stroke-opacity="0.34"/>
+    <rect x="368" y="518" width="14" height="44" rx="7" fill="#f4a261"/>
+    <text x="410" y="534" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800">public/api/</text>
+    <text x="410" y="564" fill="#fff4e8" fill-opacity="0.76" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500">Generated workspace bundle, route redirects, and themed Rustdoc output</text>
+  </g>
+
+  <g stroke="url(#flow-line)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M800 596V618"/>
+    <path d="M784 602L800 618L816 602"/>
+  </g>
+
+  <g>
+    <rect x="338" y="632" width="924" height="88" rx="28" fill="#fff4e8" fill-opacity="0.08" stroke="#fff4e8" stroke-opacity="0.16"/>
+    <rect x="368" y="654" width="14" height="44" rx="7" fill="#264653"/>
+    <text x="410" y="670" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800">RustUse docs site</text>
+    <text x="410" y="700" fill="#fff4e8" fill-opacity="0.76" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500">Human docs and generated API reference presented as one public surface</text>
+  </g>
+
+  <g stroke="url(#flow-line)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M800 732V754"/>
+    <path d="M784 738L800 754L816 738"/>
+  </g>
+
+  <g>
+    <rect x="338" y="768" width="924" height="88" rx="28" fill="#ff4500" fill-opacity="0.14" stroke="#ff4500" stroke-opacity="0.34"/>
+    <rect x="368" y="790" width="14" height="44" rx="7" fill="#ff4500"/>
+    <text x="410" y="806" fill="#fff4e8" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800">rustuse.org</text>
+    <text x="410" y="836" fill="#fff4e8" fill-opacity="0.76" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="500">Published GitHub Pages output with authored docs and generated API routes</text>
+  </g>
+</svg>

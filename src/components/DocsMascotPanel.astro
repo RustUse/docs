@@ -1,0 +1,328 @@
+---
+import type { ImageMetadata } from 'astro';
+
+interface QuickLink {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  image?: ImageMetadata;
+  image2d?: ImageMetadata;
+  image3d?: ImageMetadata;
+  alt: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  quickLinks?: QuickLink[];
+  actionHref?: string;
+  actionLabel?: string;
+  theme?: 'flame' | 'teal' | 'clay' | 'sand';
+  reverse?: boolean;
+}
+
+const {
+  image,
+  image2d,
+  image3d,
+  alt,
+  eyebrow,
+  title,
+  description,
+  quickLinks = [],
+  actionHref,
+  actionLabel,
+  theme = 'flame',
+  reverse = false,
+} = Astro.props;
+
+const fallbackImage = image ?? image3d ?? image2d;
+const hasArtSlot = Astro.slots.has('art');
+---
+
+<section
+  class:list={[
+    'ru-mascot-panel',
+    `is-${theme}`,
+    reverse && 'is-reverse',
+    'not-content',
+  ]}
+>
+  <div class="ru-mascot-copy">
+    {eyebrow && <span class="ru-mascot-eyebrow">{eyebrow}</span>}
+    <h2>{title}</h2>
+    <p>{description}</p>
+    {
+      quickLinks.length > 0 && (
+        <ul class="ru-mascot-links">
+          {quickLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      actionHref && actionLabel && (
+        <a class="ru-mascot-action" href={actionHref}>
+          {actionLabel}
+        </a>
+      )
+    }
+  </div>
+  <div class="ru-mascot-art">
+    {
+      hasArtSlot ? (
+        <slot name="art" />
+      ) : image2d && image3d ? (
+        <>
+          <img
+            src={image3d.src}
+            width={image3d.width}
+            height={image3d.height}
+            alt={alt}
+            loading="eager"
+            class="ru-mascot-image is-3d"
+          />
+          <img
+            src={image2d.src}
+            width={image2d.width}
+            height={image2d.height}
+            alt={alt}
+            loading="eager"
+            class="ru-mascot-image is-2d"
+          />
+        </>
+      ) : (
+        fallbackImage && (
+          <img
+            src={fallbackImage.src}
+            width={fallbackImage.width}
+            height={fallbackImage.height}
+            alt={alt}
+            loading="eager"
+            class="ru-mascot-image"
+          />
+        )
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .ru-mascot-panel {
+    --ru-panel-accent: var(--ru-color-flame);
+    --ru-panel-glow: color-mix(
+      in srgb,
+      var(--ru-panel-accent) 18%,
+      transparent
+    );
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(14rem, 18rem);
+    gap: 1.5rem;
+    align-items: center;
+    margin: 0 0 2rem;
+    padding: clamp(1.2rem, 1rem + 1.1vw, 1.8rem);
+    border: 1px solid
+      color-mix(in srgb, var(--ru-panel-accent) 18%, transparent);
+    border-radius: 1.6rem;
+    background:
+      radial-gradient(
+        circle at top right,
+        var(--ru-panel-glow),
+        transparent 38%
+      ),
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--sl-color-bg) 88%, var(--ru-panel-accent) 12%),
+        rgba(255, 255, 255, 0.02)
+      );
+    box-shadow: var(--sl-shadow-md);
+    overflow: hidden;
+  }
+
+  .ru-mascot-panel.is-teal {
+    --ru-panel-accent: var(--ru-color-teal);
+  }
+
+  .ru-mascot-panel.is-clay {
+    --ru-panel-accent: var(--ru-color-clay);
+  }
+
+  .ru-mascot-panel.is-sand {
+    --ru-panel-accent: var(--ru-color-sand);
+  }
+
+  .ru-mascot-panel.is-reverse {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1.3fr);
+  }
+
+  .ru-mascot-panel.is-reverse .ru-mascot-copy {
+    order: 2;
+  }
+
+  .ru-mascot-panel.is-reverse .ru-mascot-art {
+    order: 1;
+  }
+
+  .ru-mascot-copy {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ru-mascot-copy h2,
+  .ru-mascot-copy p {
+    margin: 0;
+  }
+
+  .ru-mascot-copy h2 {
+    font-size: clamp(1.6rem, 1.35rem + 0.9vw, 2.2rem);
+    line-height: 1.02;
+  }
+
+  .ru-mascot-copy p {
+    max-width: 62ch;
+    color: color-mix(in srgb, var(--sl-color-text) 94%, var(--ru-color-mist));
+  }
+
+  .ru-mascot-eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    border-radius: 999rem;
+    padding: 0.38rem 0.72rem;
+    background: color-mix(in srgb, var(--ru-panel-accent) 16%, transparent);
+    color: color-mix(
+      in srgb,
+      var(--sl-color-white) 82%,
+      var(--ru-panel-accent)
+    );
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ru-mascot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ru-mascot-links a,
+  .ru-mascot-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999rem;
+    padding: 0.62rem 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .ru-mascot-links a {
+    background: color-mix(in srgb, var(--sl-color-white) 8%, transparent);
+    color: var(--sl-color-white);
+    border: 1px solid
+      color-mix(in srgb, var(--ru-panel-accent) 18%, transparent);
+  }
+
+  .ru-mascot-links a:hover,
+  .ru-mascot-action:hover {
+    transform: translateY(-1px);
+  }
+
+  .ru-mascot-action {
+    width: fit-content;
+    background: linear-gradient(
+      135deg,
+      var(--ru-panel-accent),
+      color-mix(in srgb, var(--ru-panel-accent) 70%, white)
+    );
+    color: #fff7f0;
+  }
+
+  .ru-mascot-art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    background:
+      radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--ru-panel-accent) 18%, transparent),
+        transparent 68%
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0));
+  }
+
+  .ru-mascot-image {
+    --ru-mascot-image-shadow: drop-shadow(
+      0 22px 30px color-mix(in srgb, var(--ru-panel-accent) 24%, transparent)
+    );
+    display: block;
+    width: min(100%, 15rem);
+    height: auto;
+    filter: var(--ru-mascot-image-shadow);
+  }
+
+  .ru-mascot-image.is-2d {
+    display: none;
+  }
+
+  :root[data-mascot-mode='2d'] .ru-mascot-image.is-3d {
+    display: none;
+  }
+
+  :root[data-mascot-mode='2d'] .ru-mascot-image.is-2d {
+    display: block;
+  }
+
+  :root[data-mascot-mode='2d'] .ru-mascot-image {
+    --ru-mascot-image-shadow: none;
+  }
+
+  :root[data-theme='light'] .ru-mascot-panel {
+    background:
+      radial-gradient(
+        circle at top right,
+        color-mix(in srgb, var(--ru-panel-accent) 12%, transparent),
+        transparent 36%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.88),
+        color-mix(in srgb, var(--ru-panel-accent) 8%, white)
+      );
+  }
+
+  :root[data-theme='light'] .ru-mascot-copy p {
+    color: color-mix(in srgb, var(--sl-color-gray-2) 92%, var(--ru-color-deep));
+  }
+
+  :root[data-theme='light'] .ru-mascot-links a {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--sl-color-gray-1);
+  }
+
+  @media (max-width: 50rem) {
+    .ru-mascot-panel,
+    .ru-mascot-panel.is-reverse {
+      grid-template-columns: 1fr;
+    }
+
+    .ru-mascot-panel.is-reverse .ru-mascot-copy,
+    .ru-mascot-panel.is-reverse .ru-mascot-art {
+      order: initial;
+    }
+
+    .ru-mascot-art {
+      min-height: 12rem;
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import config from 'virtual:starlight/user-config';
+
+const links = config.social || [];
+---
+
+{
+  links.length > 0 && (
+    <>
+      {links.map(({ label, href, icon }) => (
+        <a
+          href={href}
+          rel="me noopener noreferrer"
+          target="_blank"
+          class="sl-flex"
+        >
+          <span class="sr-only">{label}</span>
+          <Icon name={icon} />
+        </a>
+      ))}
+    </>
+  )
+}
+
+<style>
+  @layer starlight.core {
+    a {
+      color: #fff7f0;
+      padding: 0.5em;
+      margin: -0.5em;
+      transition: opacity 180ms ease;
+    }
+
+    :root[data-theme='light'] a {
+      color: #050c10;
+    }
+
+    a:hover {
+      opacity: 0.82;
+    }
+  }
+</style>

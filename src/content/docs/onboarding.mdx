@@ -1,0 +1,96 @@
+---
+title: Onboarding
+description: Start using RustUse by choosing the smallest crate that fits the problem.
+---
+
+import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import ferris2d from '../../assets/ferris-2D.png';
+import ferris3d from '../../assets/ferris-3D.png';
+
+<DocsMascotPanel
+  image2d={ferris2d}
+  image3d={ferris3d}
+  alt="Ferris introducing the RustUse onboarding guide"
+  eyebrow="Onboarding"
+  title="Use the crate that fits the problem."
+  description="RustUse keeps adoption precise. Start with the smallest public crate that solves the job, then compose outward only when a broader entry point makes your codebase clearer."
+  quickLinks={[
+    { href: '/crates/', label: 'Browse crates' },
+    { href: '/sets/', label: 'Browse sets' },
+  ]}
+  theme="sand"
+/>
+
+RustUse organizes focused utility crates into composable sets. Each crate can stand alone, while each set forms part of a larger reef of reusable Rust utilities. The current public surface begins with the `use-math` set, including `use-geometry`, `use-combinatorics`, and the `use-math` facade crate.
+
+## Choose the crate that matches the work
+
+Choose the crate by the shape of the immediate problem. Add more surface area only when it makes the system easier to understand, not just broader.
+
+- Start with `use-geometry` for direct 2D primitives, measurements, and related helpers.
+- Start with `use-combinatorics` for counting, permutations, combinations, factorials, and other discrete helpers.
+- Start with `use-math` when you want one facade dependency that can expose curated functionality through features and a shared `prelude`.
+
+## Install from the shared repository first
+
+The current public crates are scaffolded, so the shared `use-math` workspace repository is the clearest installation path while publication metadata remains staged.
+
+```toml
+[dependencies]
+use-geometry = { git = "https://github.com/RustUse/use-math", package = "use-geometry" }
+```
+
+Switch the package name when you want a different crate from the same workspace.
+
+```toml
+[dependencies]
+use-combinatorics = { git = "https://github.com/RustUse/use-math", package = "use-combinatorics" }
+use-math = { git = "https://github.com/RustUse/use-math", package = "use-math" }
+```
+
+Treat each crate README as the source of truth for versioning, feature flags, examples, and any crate-specific setup notes.
+
+## Read the docs in this order
+
+Onboarding moves fastest when you go from scope, to API surface, to workspace context.
+
+1. Read the crate overview page to confirm what belongs in the crate.
+2. Open the crate API docs for the concrete modules, functions, and types you need.
+3. Use the workspace Rustdocs when you want to trace re-exports or browse the set as a whole.
+
+- [use-geometry crate page](/use-math/use-geometry/)
+- [use-combinatorics crate page](/use-math/use-combinatorics/)
+- [use-math crate page](/use-math/)
+- [use-geometry API docs](/api/use-geometry/)
+- [use-combinatorics API docs](/api/use-combinatorics/)
+- [use-math API docs](/api/use-math/)
+- [use-math workspace Rustdocs](/api/workspaces/use-math/)
+
+<MascotTip title="Use the facade crate deliberately">
+  <p>
+    Reach for <code>use-math</code> when a broader entry point clarifies the
+    boundary of the code you are building. If geometry or combinatorics is all
+    you need, keep the dependency focused and direct.
+  </p>
+</MascotTip>
+
+## Common adoption paths
+
+A few starting points map cleanly to the current surface.
+
+- A rendering, layout, or CAD-adjacent tool usually starts with `use-geometry`.
+- A scheduling, allocation, or enumeration-heavy tool usually starts with `use-combinatorics`.
+- An application or library that wants one shared math dependency surface usually starts with `use-math`.
+
+## What stays stable
+
+RustUse keeps the adoption path predictable even while the current crates remain scaffolded.
+
+- The curated crate pages explain intended scope and role.
+- The stable `/api/` routes host the generated rustdocs.
+- External registry pages and `docs.rs` stay secondary until publication is fully live.
+
+## Expand only when it helps
+
+RustUse favors small crates over premature consolidation. Start with one dependency, confirm that it fits the problem, and compose outward only when an additional crate or facade layer makes the system clearer.

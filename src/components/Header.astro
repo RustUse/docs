@@ -1,0 +1,178 @@
+---
+import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import Search from 'virtual:starlight/components/Search';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import config from 'virtual:starlight/user-config';
+
+import logoTransparent from '../assets/logo.png';
+import MascotModeSelect from './MascotModeSelect.astro';
+
+const shouldRenderSearch =
+  config.pagefind ||
+  config.components.Search !== '@astrojs/starlight/components/Search.astro';
+
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+---
+
+<div class="header">
+  <div class="brand-lockup sl-flex">
+    <div class="title-wrapper sl-flex">
+      <a href={siteTitleHref} class="site-title site-home sl-flex">
+        <img
+          class="site-logo"
+          src={logoTransparent.src}
+          width={logoTransparent.width}
+          height={logoTransparent.height}
+          alt=""
+          aria-hidden="true"
+        />
+        <span class="ru-header-wordmark" translate="no">{siteTitle}</span>
+      </a>
+    </div>
+  </div>
+  <div class="sl-flex print:hidden search-slot">
+    {shouldRenderSearch && <Search />}
+  </div>
+  <div class="sl-flex md:sl-hidden print:hidden mobile-controls">
+    <MascotModeSelect compact />
+    <ThemeSelect compact />
+  </div>
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    <div class="sl-flex social-icons">
+      <SocialIcons />
+    </div>
+    <MascotModeSelect />
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+</div>
+
+<style>
+  @layer starlight.core {
+    .header {
+      display: flex;
+      gap: var(--sl-nav-gap);
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .brand-lockup {
+      align-items: center;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .title-wrapper {
+      overflow: visible;
+      padding: 0.25rem;
+      margin: -0.25rem;
+      min-width: 0;
+    }
+
+    .site-home {
+      align-items: center;
+      font-family: var(--ru-font-display);
+      font-size: var(--sl-text-h4);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .site-logo {
+      display: block;
+      width: auto;
+      height: 3rem;
+      flex: none;
+      object-fit: contain;
+    }
+
+    .search-slot,
+    .mobile-controls,
+    .right-group,
+    .social-icons {
+      align-items: center;
+    }
+
+    .mobile-controls {
+      gap: 0.5rem;
+    }
+
+    .right-group,
+    .social-icons {
+      gap: 1rem;
+    }
+
+    .search-slot :global(button[data-open-modal]),
+    .mobile-controls :global(rustuse-mascot-mode-select),
+    .mobile-controls :global(starlight-theme-select),
+    .right-group :global(rustuse-mascot-mode-select),
+    .right-group :global(starlight-theme-select),
+    .right-group :global(starlight-lang-select) {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-slot :global(button[data-open-modal]),
+    .right-group :global(rustuse-mascot-mode-select label),
+    .right-group :global(rustuse-mascot-mode-select select),
+    .right-group :global(starlight-theme-select label),
+    .right-group :global(starlight-theme-select select),
+    .right-group :global(starlight-lang-select label),
+    .right-group :global(starlight-lang-select select) {
+      box-sizing: border-box;
+      block-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .social-icons::after {
+      content: '';
+      height: 2rem;
+      border-inline-end: 1px solid var(--sl-color-gray-5);
+    }
+
+    @media (min-width: 50rem) {
+      :global(:root[data-has-sidebar]) {
+        --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+      }
+
+      :global(:root:not([data-has-toc])) {
+        --__toc-width: 0rem;
+      }
+
+      .header {
+        --__sidebar-width: max(
+          0rem,
+          var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x)
+        );
+        --__main-column-fr: calc(
+          (
+              100% + var(--__sidebar-pad, 0rem) -
+                var(--__toc-width, var(--sl-sidebar-width)) -
+                (2 * var(--__toc-width, var(--sl-nav-pad-x))) -
+                var(--sl-content-inline-start, 0rem) - var(--sl-content-width)
+            ) /
+            2
+        );
+        display: grid;
+        grid-template-columns:
+          minmax(
+            calc(
+              var(--__sidebar-width) +
+                max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))
+            ),
+            auto
+          )
+          1fr
+          auto;
+        align-content: center;
+      }
+
+      .search-slot {
+        min-width: 0;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,61 @@
+{
+  "name": "rustuse",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "a11y": "npm run a11y:axe && npm run a11y:pa11y",
+    "a11y:axe": "npm exec -- axe http://localhost:8080 --rules color-contrast",
+    "a11y:pa11y": "npm exec -- pa11y http://localhost:8080 --standard WCAG2AA",
+    "dev": "npm run build:api && astro dev",
+    "start": "npm run build:api && astro dev",
+    "build:api": "node scripts/build-rustdocs.mjs",
+    "build": "npm run build:api && astro build",
+    "check": "astro check",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint . --cache --cache-location ./.cache/eslint/.eslintcache",
+    "lint:fix": "eslint . --cache --cache-location ./.cache/eslint/.eslintcache --fix",
+    "lint:css": "stylelint \"src/**/*.{css,astro}\"",
+    "lint:js": "npm run lint",
+    "lint:js:fix": "npm run lint:fix",
+    "preview": "astro preview",
+    "preview:8080": "astro preview --host 127.0.0.1 --port 8080",
+    "astro": "astro",
+    "update": "npx npm-check-updates -u && npm install"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "overrides": {
+    "@astrojs/language-server": "^2.16.8",
+    "fast-uri": "^3.1.2",
+    "yaml": "^2.8.4"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/starlight": "^0.39.2",
+    "@fontsource/alfa-slab-one": "^5.2.8",
+    "@fontsource/fira-sans": "^5.2.7",
+    "astro": "^6.3.1",
+    "sharp": "^0.34.5",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@axe-core/cli": "^4.11.3",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-perfectionist": "^5.9.0",
+    "globals": "^17.6.0",
+    "npm-check-updates": "^22.1.1",
+    "pa11y": "^9.1.1",
+    "postcss-html": "^1.8.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "stylelint": "^17.11.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript-eslint": "^8.59.2"
+  }
+}

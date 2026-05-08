@@ -1,0 +1,92 @@
+---
+title: use-math
+description: Overview of the use-math set and the use-math facade crate.
+---
+
+import CrateGrid from '../../../components/CrateGrid.astro';
+import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
+import MascotImportant from '../../../components/MascotImportant.astro';
+import MascotNote from '../../../components/MascotNote.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+import { getPublicCratesBySet } from '../../../data/crates';
+
+<DocsMascotPanel
+  alt="A Rust mascot introducing the use-math set"
+  eyebrow="Set + facade"
+  title="Math stays clearer when crates stay narrow."
+  description="The initial use-math surface stays intentionally narrow: use-math provides the facade layer, while use-geometry and use-combinatorics stay focused crates inside the set."
+  quickLinks={[
+    { href: '/use-math/use-combinatorics/', label: 'use-combinatorics' },
+    { href: '/use-math/use-geometry/', label: 'use-geometry' },
+    { href: '/api/use-math/', label: 'use-math Rustdocs' },
+  ]}
+  theme="teal"
+>
+  <MascotNote slot="art" spriteOnly />
+</DocsMascotPanel>
+
+This page tracks the current public crate tracks in the `use-math` set and the role the `use-math` facade crate plays across them.
+
+<MascotImportant
+  title="Scaffolded facade surface"
+  description="use-math is the scaffolded integration layer across the current RustUse math crates. RustUse-hosted generated rustdocs remain canonical for the facade and the focused crates while external crates.io and docs.rs targets stay staged."
+/>
+
+<p>
+  <StatusBadge status="scaffolded" /> Pre-1.0 facade crate with canonical
+  RustUse-hosted API docs.
+</p>
+
+## Overview
+
+The initial `use-math` set currently surfaces three public crate tracks. `use-math` is the facade crate for feature-flagged re-exports and a `prelude` module, `use-geometry` provides direct 2D primitives and common measurement helpers, and `use-combinatorics` provides the discrete-math counting track.
+
+Use this page as the combined entry point for the set overview and the `use-math` facade crate itself.
+
+## Supported crates
+
+<CrateGrid crates={getPublicCratesBySet('use-math')} />
+
+## Facade role
+
+Use `use-math` when you want a curated entry point instead of depending on focused crates one by one.
+
+- Feature-flagged re-exports from supported crates such as `use-geometry`
+- A `prelude` module for common imports
+- Shared convenience helpers that belong at the facade layer
+- Set-level documentation that shows how the supported crates compose
+
+## Design direction
+
+The facade should stay thin. It should expose high-value conveniences, keep feature flags explicit, and avoid turning the set into a mandatory all-in-one dependency.
+
+Shared conventions and helper types that support the facade belong here only when they make the public surface clearer. They should not become a separate public crate.
+
+## Generated Rustdocs
+
+- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the set workspace.
+- [use-combinatorics API reference](/api/use-combinatorics/) - crate-level Rustdocs for discrete counting helpers.
+- [use-math API reference](/api/use-math/) - crate-level Rustdocs for the facade crate.
+- [use-geometry API reference](/api/use-geometry/) - crate-level Rustdocs for the geometry crate.
+
+## Composition
+
+Start with `use-geometry` when you want direct access to geometry primitives without extra surface area. Reach for `use-combinatorics` when your work centers on counting, permutations, combinations, or other discrete helpers. Reach for `use-math` when you want a curated entry point that can re-export selected functionality behind features.
+
+## Example API sketch
+
+The sketch below is illustrative only. Names and signatures are not final.
+
+```rust
+use use_math::prelude::*;
+use use_math::{distance, Point2};
+
+let start = Point2::new(0.0, 0.0);
+let end = Point2::new(3.0, 4.0);
+
+assert_eq!(distance(start, end), 5.0);
+```
+
+## Status
+
+`use-math` is a scaffolded public facade crate in the RustUse docs surface. The API remains pre-1.0, and the RustUse-hosted generated rustdocs stay canonical while external crates.io and docs.rs pages remain staged.

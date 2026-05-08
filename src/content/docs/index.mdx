@@ -1,0 +1,116 @@
+---
+title: RustUse
+description: RustUse provides composable sets of primitive Rust utility crates.
+template: splash
+hero:
+  title: RustUse
+  image:
+    file: ../../assets/ferris-3D.png
+    alt: Ferris the Rust crab
+  tagline: 'Composable sets of primitive <a class="ru-hero-tagline-link ru-hero-tagline-accent" href="https://www.rust-lang.org/" target="_blank" rel="noopener noreferrer">Rust</a> utility <a class="ru-hero-tagline-link ru-hero-tagline-accent" href="https://crates.io/" target="_blank" rel="noopener noreferrer">crates</a> for fellow c<span class="ru-hero-tagline-accent">rust</span>aceans.'
+  actions:
+    - text: Onboarding
+      link: /onboarding/
+      icon: right-arrow
+    - text: Contribute on GitHub
+      link: https://github.com/RustUse
+      variant: minimal
+---
+
+import MascotExperimental from '../../components/MascotExperimental.astro';
+import HomeInlineIllustration from '../../components/HomeInlineIllustration.astro';
+import MascotGrid from '../../components/MascotGrid.astro';
+import MascotImportant from '../../components/MascotImportant.astro';
+import MascotNote from '../../components/MascotNote.astro';
+import MascotSuccess from '../../components/MascotSuccess.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import MascotWarning from '../../components/MascotWarning.astro';
+
+<div class="home-stack not-content">
+  <section class="home-section home-intro-section">
+    <div class="home-section-header">
+      <span class="home-kicker">Composable Rust utilities</span>
+      <h2>What is RustUse?</h2>
+      <p>
+        RustUse is a collection of pragmatic Rust utility crates organized into focused sets that are easy to discover, simple to adopt, and practical to compose.
+      </p>
+    </div>
+
+    <div class="home-principles-grid">
+      <article class="home-card home-card-emphasis">
+        <HomeInlineIllustration variant="composable" />
+        <span class="home-card-tag">Composable</span>
+        <h3>Focused utilities that work together</h3>
+        <p>
+          Each crate is designed to solve a clear problem on its own while remaining easy to combine with other RustUse crates.
+        </p>
+      </article>
+
+      <article class="home-card">
+        <HomeInlineIllustration variant="predictable" />
+        <span class="home-card-tag">Predictable</span>
+        <h3>Clear APIs with direct behavior</h3>
+        <p>
+          RustUse favors explicit naming, direct inputs, and focused utility surfaces that make behavior easy to understand.
+        </p>
+      </article>
+
+      <article class="home-card">
+        <HomeInlineIllustration variant="independent" />
+        <span class="home-card-tag">Independent</span>
+        <h3>Adopt only what you need</h3>
+        <p>
+          Each crate stands on its own, allowing developers to adopt individual utilities without committing to an entire collection.
+        </p>
+      </article>
+
+      <article class="home-card">
+        <HomeInlineIllustration variant="documented" />
+        <span class="home-card-tag">Documented</span>
+        <h3>Examples close to real usage</h3>
+        <p>
+          Documentation and examples are treated as part of the crate's design so adoption stays clear, practical, and approachable.
+        </p>
+      </article>
+
+      <article class="home-card">
+        <HomeInlineIllustration variant="consistent" />
+        <span class="home-card-tag">Consistent</span>
+        <h3>Shared patterns across sets</h3>
+        <p>
+          RustUse uses common naming, structure, and repository conventions so each supported set feels familiar as the collection grows.
+        </p>
+      </article>
+
+      <article class="home-card">
+        <HomeInlineIllustration variant="pragmatic" />
+        <span class="home-card-tag">Pragmatic</span>
+        <h3>Built for everyday Rust work</h3>
+        <p>
+          RustUse focuses on reusable utilities that are practical, well-scoped, and useful in real engineering contexts.
+        </p>
+      </article>
+    </div>
+
+  </section>
+
+  <section class="home-section home-intro-section">
+    <div class="home-section-header">
+      <span class="home-kicker">Ferris callout system</span>
+      <h2>Stable status semantics across visual modes</h2>
+      <p>
+        RustUse uses Ferris to give documentation callouts a clear visual language across Note, Tip, Warning, Success, Important, and Experimental content. Each status keeps a consistent meaning while adapting cleanly across light/2D, dark/2D, light/3D, and dark/3D modes.
+      </p>
+    </div>
+
+    <MascotGrid label="RustUse mascot callout cards">
+      <MascotNote />
+      <MascotTip />
+      <MascotWarning />
+      <MascotSuccess />
+      <MascotImportant />
+      <MascotExperimental />
+    </MascotGrid>
+
+  </section>
+</div>

@@ -1,0 +1,112 @@
+---
+import type { RustUseCrate } from '../data/crates';
+
+import ApiDocsLink from './ApiDocsLink.astro';
+
+interface Props {
+  crate: RustUseCrate;
+}
+
+const { crate } = Astro.props as Props;
+const registryLinksLive = crate.status === 'published';
+const cratesIoLabel = crate.cratesIoUrl
+  ? registryLinksLive
+    ? 'crates.io'
+    : 'crates.io after publish'
+  : 'crates.io pending';
+const docsRsLabel = crate.docsRsUrl
+  ? registryLinksLive
+    ? 'docs.rs fallback'
+    : 'docs.rs after publish'
+  : 'docs.rs pending';
+---
+
+<ul class="ru-docs-links">
+  <li>
+    <ApiDocsLink href={crate.docsUrl} label="RustUse API docs" compact />
+  </li>
+  <li>
+    <a
+      class="ru-docs-link ru-pill"
+      href={crate.repositoryUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      GitHub
+    </a>
+  </li>
+  <li>
+    {
+      crate.cratesIoUrl && registryLinksLive ? (
+        <a
+          class="ru-docs-link ru-pill"
+          href={crate.cratesIoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {cratesIoLabel}
+        </a>
+      ) : (
+        <span class="ru-docs-link ru-pill is-disabled" aria-disabled="true">
+          {cratesIoLabel}
+        </span>
+      )
+    }
+  </li>
+  <li>
+    {
+      crate.docsRsUrl && registryLinksLive ? (
+        <a
+          class="ru-docs-link ru-pill"
+          href={crate.docsRsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {docsRsLabel}
+        </a>
+      ) : (
+        <span class="ru-docs-link ru-pill is-disabled" aria-disabled="true">
+          {docsRsLabel}
+        </span>
+      )
+    }
+  </li>
+</ul>
+
+<style>
+  .ru-docs-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ru-docs-link {
+    --ru-pill-bg: color-mix(in srgb, var(--sl-color-white) 8%, transparent);
+    --ru-pill-border: 1px solid
+      color-mix(in srgb, var(--ru-color-sand) 18%, transparent);
+    --ru-pill-color: var(--sl-color-white);
+    --ru-pill-hover-color: var(--ru-color-sand);
+  }
+
+  .ru-docs-link.is-disabled {
+    --ru-pill-color: color-mix(
+      in srgb,
+      var(--sl-color-white) 70%,
+      var(--ru-color-sand)
+    );
+    --ru-pill-opacity: 0.8;
+  }
+
+  :root[data-theme='light'] .ru-docs-link {
+    --ru-pill-bg: rgba(255, 255, 255, 0.9);
+    --ru-pill-color: var(--sl-color-gray-1);
+    --ru-pill-hover-color: var(--ru-color-clay);
+  }
+
+  :root[data-theme='light'] .ru-docs-link.is-disabled {
+    --ru-pill-color: var(--ru-color-clay);
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import type { RustUseCrate } from '../data/crates';
+
+import CrateCard from './CrateCard.astro';
+
+interface Props {
+  crates: RustUseCrate[];
+  emptyMessage?: string;
+}
+
+const { crates, emptyMessage = 'No crates are available in this view yet.' } =
+  Astro.props as Props;
+---
+
+{
+  crates.length > 0 ? (
+    <div class="ru-crate-grid not-content">
+      {crates.map((crate) => (
+        <CrateCard crate={crate} />
+      ))}
+    </div>
+  ) : (
+    <p>{emptyMessage}</p>
+  )
+}
+
+<style>
+  .ru-crate-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+
+  @media (min-width: 50rem) {
+    .ru-crate-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

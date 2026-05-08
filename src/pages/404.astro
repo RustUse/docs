@@ -1,0 +1,29 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+import ferris3d from '../assets/ferris-3D.png';
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Page Not Found',
+    description: 'The requested RustUse documentation page could not be found.',
+    template: 'splash',
+    editUrl: false,
+    pagefind: false,
+    hero: {
+      image: {
+        file: ferris3d,
+        alt: 'A Rust mascot helping the reader recover from a missing page',
+      },
+      tagline: 'This page may have moved, been renamed, or not exist yet.',
+      actions: [
+        {
+          text: 'Return Home',
+          link: '/',
+          icon: 'right-arrow',
+        },
+      ],
+    },
+  }}
+/>

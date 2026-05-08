@@ -1,0 +1,17 @@
+{
+  "name": "RustUse",
+  "short_name": "RustUse",
+  "description": "RustUse provides composable sets of primitive Rust utility crates.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8f0",
+  "theme_color": "#ff5a1f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

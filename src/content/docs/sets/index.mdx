@@ -1,0 +1,52 @@
+---
+title: Sets
+description: How RustUse organizes its initial set and current public crate tracks.
+---
+
+import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
+import MascotImportant from '../../../components/MascotImportant.astro';
+
+<DocsMascotPanel
+  alt="A Rust mascot framing the RustUse set map"
+  eyebrow="Ecosystem map"
+  title="Pick the set before you pick the crate."
+  description="RustUse currently has one active set and three public crate tracks, so the docs can explain the shape of the platform without reopening the entire planned surface."
+  quickLinks={[{ href: '/sets/use-math/', label: 'use-math' }]}
+  theme="clay"
+  reverse
+>
+  <MascotImportant slot="art" spriteOnly />
+</DocsMascotPanel>
+
+RustUse currently organizes its initial docs around a single set so the launch surface stays easy to understand and adopt.
+
+## Set
+
+A set is the top-level RustUse domain. Today that means `use-math`.
+
+Sets define the shared problem space, naming conventions, and the boundary between the facade crate and the focused crates inside the set.
+
+## Current public crate tracks
+
+The current `use-math` set surfaces three public crate tracks:
+
+- [use-combinatorics](/use-math/use-combinatorics/) - discrete-math crate for counting, combinations, permutations, and finite-structure helpers.
+- [use-math](/use-math/) - facade crate with feature-flagged re-exports and a `prelude` module.
+- [use-geometry](/use-math/use-geometry/) - 2D geometry primitives and common measurement helpers.
+
+## Current model in practice
+
+- `use-combinatorics` provides the discrete counting track.
+- The set defines the domain.
+- `use-geometry` provides focused primitives and helpers.
+- `use-math` provides the curated facade layer.
+
+## Current sets
+
+RustUse is currently focused on a single initial set:
+
+- [use-math](/sets/use-math/) - currently represented by `use-math`, `use-geometry`, and `use-combinatorics`.
+
+## Status
+
+Initial scope. The current focus is stabilizing `use-math`, `use-geometry`, and `use-combinatorics` as the first public set.

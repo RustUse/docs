@@ -1,0 +1,196 @@
+---
+const { compact = false } = Astro.props;
+---
+
+<rustuse-mascot-mode-select class:list={{ 'is-compact': compact }}>
+  {
+    compact ? (
+      <button
+        class="ru-toolbar-icon-toggle"
+        type="button"
+        aria-label="Mascot mode"
+        title="Toggle mascot mode"
+      >
+        <span class="sr-only">Mascot mode</span>
+        <svg
+          aria-hidden="true"
+          class="ru-toolbar-mobile-icon is-2d"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          style="--sl-icon-size: 1em;"
+        >
+          <rect
+            x="5"
+            y="5"
+            width="14"
+            height="14"
+            rx="2.5"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <path
+            d="M8 8.5h8M8 12h8M8 15.5h5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          class="ru-toolbar-mobile-icon is-3d"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          style="--sl-icon-size: 1em;"
+        >
+          <path
+            d="M12 3 5 7v10l7 4 7-4V7l-7-4Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M5 7l7 4 7-4M12 11v10"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    ) : (
+      <>
+        <label
+          class="ru-toolbar-select"
+          style="--sl-select-width: 5.5em"
+          title="Toggle mascot mode with Shift+M"
+        >
+          <span class="sr-only">Mascot mode</span>
+          <svg
+            aria-hidden="true"
+            class="ru-toolbar-select-icon ru-toolbar-label-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            style="--sl-icon-size: 1em;"
+          >
+            <path
+              d="M12 3 5 7v10l7 4 7-4V7l-7-4Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5 7l7 4 7-4M12 11v10"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <select
+            class="ru-toolbar-select-input"
+            autocomplete="off"
+            aria-label="Mascot mode"
+            title="Toggle mascot mode with Shift+M"
+          >
+            <option value="2d">2D</option>
+            <option value="3d" selected>
+              3D
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            class="ru-toolbar-select-icon ru-toolbar-select-caret"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            style="--sl-icon-size: 1em;"
+          >
+            <path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z" />
+          </svg>
+        </label>
+        <kbd
+          class="ru-toolbar-shortcut"
+          style="--ru-toolbar-shortcut-width: 2.2rem;"
+          aria-hidden="true"
+          title="Shortcut: Shift+M"
+        >
+          ⇧M
+        </kbd>
+      </>
+    )
+  }
+</rustuse-mascot-mode-select>
+
+<script is:inline>
+  RustUseMascotModeProvider.updatePickers();
+</script>
+
+<script>
+  type MascotMode = '2d' | '3d';
+
+  type MascotModeProvider = {
+    updatePickers: (mode?: MascotMode) => void;
+    setMode: (mode: MascotMode) => void;
+    toggleMode: () => void;
+  };
+
+  const mascotModeProvider = (
+    window as unknown as Window & {
+      RustUseMascotModeProvider: MascotModeProvider;
+    }
+  ).RustUseMascotModeProvider;
+
+  const parseMode = (mode: unknown): MascotMode =>
+    mode === '2d' ? '2d' : '3d';
+
+  class RustUseMascotModeSelect extends HTMLElement {
+    constructor() {
+      super();
+      mascotModeProvider.updatePickers(
+        parseMode(document.documentElement.dataset.mascotMode),
+      );
+      this.querySelector('select')?.addEventListener('change', (event) => {
+        if (event.currentTarget instanceof HTMLSelectElement) {
+          mascotModeProvider.setMode(parseMode(event.currentTarget.value));
+        }
+      });
+      this.querySelector('button.ru-toolbar-icon-toggle')?.addEventListener(
+        'click',
+        () => {
+          mascotModeProvider.toggleMode();
+        },
+      );
+    }
+  }
+
+  customElements.define('rustuse-mascot-mode-select', RustUseMascotModeSelect);
+</script>
+
+<style>
+  @layer starlight.components {
+    .ru-toolbar-mobile-icon,
+    .ru-toolbar-label-icon {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    :global(:root[data-mascot-mode='2d'])
+      rustuse-mascot-mode-select.is-compact
+      .ru-toolbar-mobile-icon.is-2d {
+      display: block;
+    }
+
+    :global(:root:not([data-mascot-mode='2d']))
+      rustuse-mascot-mode-select.is-compact
+      .ru-toolbar-mobile-icon.is-3d {
+      display: block;
+    }
+  }
+</style>

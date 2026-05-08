@@ -1,0 +1,21 @@
+@layer starlight.utilities {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero,
+    .content-panel,
+    .pagination-links a {
+      animation: ru-fade-up 480ms ease both;
+    }
+  }
+
+  @keyframes ru-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

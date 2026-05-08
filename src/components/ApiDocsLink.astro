@@ -1,0 +1,68 @@
+---
+interface Props {
+  href?: string;
+  label?: string;
+  pendingLabel?: string;
+  compact?: boolean;
+}
+
+const {
+  href,
+  label = 'Open RustUse API docs',
+  pendingLabel = 'RustUse API docs pending',
+  compact = false,
+} = Astro.props as Props;
+---
+
+{
+  href ? (
+    <a
+      class:list={['ru-api-link', 'ru-pill', compact && 'is-compact']}
+      href={href}
+    >
+      {label}
+    </a>
+  ) : (
+    <span
+      class:list={[
+        'ru-api-link',
+        'ru-pill',
+        'is-disabled',
+        compact && 'is-compact',
+      ]}
+      aria-disabled="true"
+    >
+      {pendingLabel}
+    </span>
+  )
+}
+
+<style>
+  .ru-api-link {
+    --ru-pill-padding: 0.72rem 1rem;
+    --ru-pill-bg: var(--ru-gradient-warm);
+    --ru-pill-color: #fff7f0;
+    --ru-pill-hover-color: #fff7f0;
+    --ru-pill-font-weight: 700;
+    --ru-pill-shadow: var(--ru-elevation-accent);
+  }
+
+  .ru-api-link.is-compact {
+    --ru-pill-padding: 0.52rem 0.8rem;
+  }
+
+  .ru-api-link.is-disabled {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-deep) 34%, transparent);
+    --ru-pill-color: color-mix(
+      in srgb,
+      var(--sl-color-white) 72%,
+      var(--ru-color-sand)
+    );
+    --ru-pill-shadow: none;
+  }
+
+  :root[data-theme='light'] .ru-api-link.is-disabled {
+    --ru-pill-bg: rgba(255, 255, 255, 0.92);
+    --ru-pill-color: var(--ru-color-clay);
+  }
+</style>

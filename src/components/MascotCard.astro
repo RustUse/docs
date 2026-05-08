@@ -1,0 +1,276 @@
+---
+import ferrisStatusesDarkMode2d from '../assets/ferris-statuses-dark-mode-2D.png';
+import ferrisStatusesDarkMode3d from '../assets/ferris-statuses-dark-mode-3D.png';
+import ferrisStatusesLightMode2d from '../assets/ferris-statuses-light-mode-2D.png';
+import ferrisStatusesLightMode3d from '../assets/ferris-statuses-light-mode-3D.png';
+
+type MascotVariant =
+  | 'note'
+  | 'tip'
+  | 'warning'
+  | 'success'
+  | 'important'
+  | 'experimental';
+
+interface Props {
+  variant: MascotVariant;
+  title?: string;
+  description?: string;
+  class?: string;
+  spriteOnly?: boolean;
+}
+
+const mascotVariants: Record<
+  MascotVariant,
+  { title: string; tagline: string; description: string; x: string; y: string }
+> = {
+  note: {
+    title: 'Note',
+    tagline: 'Helpful context',
+    description:
+      'Ferris highlights supporting information that adds clarity without changing the main path. Notes explain background, constraints, or useful details worth keeping in mind.',
+    x: '5%',
+    y: '-5%',
+  },
+  tip: {
+    title: 'Tip',
+    tagline: 'Practical suggestion',
+    description:
+      'Ferris points out a cleaner, faster, or more ergonomic way to work. Tips improve usage without being required. They surface small refinements.',
+    x: '49%',
+    y: '-5%',
+  },
+  warning: {
+    title: 'Warning',
+    tagline: 'Potential issue',
+    description:
+      'Ferris calls attention to something that may cause errors, confusion, or unintended behavior. Warnings help prevent avoidable mistakes.',
+    x: '95%',
+    y: '-5%',
+  },
+  success: {
+    title: 'Success',
+    tagline: 'Confirmed outcome',
+    description:
+      'Ferris marks something that worked, passed, or reached the intended result. Success callouts reinforce correct setup, expected behavior, or completed steps.',
+    x: '5%',
+    y: '95%',
+  },
+  important: {
+    title: 'Important',
+    tagline: 'Required attention',
+    description:
+      'Ferris emphasizes information that directly affects correctness, compatibility, or adoption. Important callouts should be read before continuing.',
+    x: '50%',
+    y: '95%',
+  },
+  experimental: {
+    title: 'Experimental',
+    tagline: 'Early-stage idea',
+    description:
+      'Ferris identifies APIs, patterns, or examples that are still being tested. Experimental callouts signal that behavior, naming, or structure may change.',
+    x: '95%',
+    y: '95%',
+  },
+};
+
+const {
+  variant,
+  title,
+  description,
+  class: className,
+  spriteOnly = false,
+} = Astro.props as Props;
+
+const mascot = mascotVariants[variant];
+const ariaLabel = `${title ?? mascot.title}: ${description ?? mascot.description}`;
+const spriteStyle = [
+  `--ru-mascot-system-image-dark-2d: url(${ferrisStatusesDarkMode2d.src})`,
+  `--ru-mascot-system-image-dark-3d: url(${ferrisStatusesDarkMode3d.src})`,
+  `--ru-mascot-system-image-light-2d: url(${ferrisStatusesLightMode2d.src})`,
+  `--ru-mascot-system-image-light-3d: url(${ferrisStatusesLightMode3d.src})`,
+  `--ru-mascot-sprite-x: ${mascot.x}`,
+  `--ru-mascot-sprite-y: ${mascot.y}`,
+].join('; ');
+---
+
+{
+  spriteOnly ? (
+    <div
+      class:list={['ru-mascot-card', 'is-thumbnail', className]}
+      style={spriteStyle}
+      role="img"
+      aria-label={ariaLabel}
+    />
+  ) : (
+    <aside
+      class:list={['ru-mascot-callout', `is-${variant}`, className]}
+      aria-label={ariaLabel}
+    >
+      <div class="ru-mascot-callout-art" aria-hidden="true">
+        <div class="ru-mascot-card is-thumbnail" style={spriteStyle} />
+      </div>
+      <div class="ru-mascot-callout-copy">
+        <p class="ru-mascot-callout-title">{title ?? mascot.title}</p>
+        <span class="ru-mascot-callout-tagline">{mascot.tagline}</span>
+        <p class="ru-mascot-callout-description">
+          {description ?? mascot.description}
+        </p>
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  .ru-mascot-card {
+    --ru-mascot-system-image-dark: var(--ru-mascot-system-image-dark-3d);
+    --ru-mascot-system-image-light: var(--ru-mascot-system-image-light-3d);
+    --ru-mascot-system-image: var(--ru-mascot-system-image-dark);
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 15 / 16;
+    border-radius: 1.35rem;
+    background-color: var(--ru-color-flame);
+    background-image: var(--ru-mascot-system-image);
+    background-repeat: no-repeat;
+    background-size: 300% 200%;
+    background-position: var(--ru-mascot-sprite-x) var(--ru-mascot-sprite-y);
+    /* border: 1px solid color-mix(in srgb, var(--sl-color-white) 72%, transparent);
+		box-shadow: 0 18px 36px rgba(2, 6, 10, 0.16); */
+  }
+
+  .ru-mascot-card.is-thumbnail {
+    max-inline-size: 21rem;
+  }
+
+  .ru-mascot-callout {
+    --ru-mascot-accent: var(--ru-color-teal);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+    margin: 1.35rem 0;
+    padding: 1rem;
+    /* border: 1px solid color-mix(in srgb, var(--ru-mascot-accent) 18%, transparent); */
+    border-radius: 1.35rem;
+    background:
+      radial-gradient(
+        circle at top right,
+        color-mix(in srgb, var(--ru-mascot-accent) 16%, transparent),
+        transparent 34%
+      ),
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--sl-color-bg) 90%, var(--ru-mascot-accent) 10%),
+        rgba(255, 255, 255, 0.02)
+      );
+    /* box-shadow: var(--sl-shadow-sm); */
+  }
+
+  .ru-mascot-callout.is-note,
+  .ru-mascot-callout.is-success {
+    --ru-mascot-accent: var(--ru-color-teal);
+  }
+
+  .ru-mascot-callout.is-tip {
+    --ru-mascot-accent: var(--ru-color-sand);
+  }
+
+  .ru-mascot-callout.is-warning {
+    --ru-mascot-accent: var(--ru-color-flame);
+  }
+
+  .ru-mascot-callout.is-important {
+    --ru-mascot-accent: var(--ru-color-clay);
+  }
+
+  .ru-mascot-callout.is-experimental {
+    --ru-mascot-accent: color-mix(
+      in srgb,
+      var(--sl-color-accent-high) 78%,
+      var(--ru-color-teal)
+    );
+  }
+
+  .ru-mascot-callout-art {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ru-mascot-callout-copy {
+    display: grid;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  .ru-mascot-callout-title,
+  .ru-mascot-callout-description {
+    margin: 0;
+  }
+
+  .ru-mascot-callout-title {
+    font-family: var(--ru-font-display);
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+
+  .ru-mascot-callout-description {
+    font-family: var(--ru-font-body);
+    color: color-mix(in srgb, var(--sl-color-text) 90%, var(--ru-color-mist));
+  }
+
+  .ru-mascot-callout-body {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .ru-mascot-callout-body :global(p),
+  .ru-mascot-callout-body :global(ul),
+  .ru-mascot-callout-body :global(ol) {
+    margin: 0;
+  }
+
+  .ru-mascot-callout-body :global(code) {
+    font-size: 0.95em;
+  }
+
+  :root[data-mascot-mode='2d'] .ru-mascot-card {
+    --ru-mascot-system-image-dark: var(--ru-mascot-system-image-dark-2d);
+    --ru-mascot-system-image-light: var(--ru-mascot-system-image-light-2d);
+  }
+
+  :root[data-theme='light'] .ru-mascot-card {
+    --ru-mascot-system-image: var(--ru-mascot-system-image-light);
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(18, 32, 39, 0.08);
+  }
+
+  :root[data-theme='light'] .ru-mascot-callout {
+    background:
+      radial-gradient(
+        circle at top right,
+        color-mix(in srgb, var(--ru-mascot-accent) 12%, transparent),
+        transparent 34%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9),
+        color-mix(in srgb, var(--ru-mascot-accent) 8%, white)
+      );
+  }
+
+  :root[data-theme='light'] .ru-mascot-callout-description {
+    color: color-mix(in srgb, var(--sl-color-gray-2) 92%, var(--ru-color-deep));
+  }
+
+  @media (max-width: 42rem) {
+    .ru-mascot-callout {
+      grid-template-columns: 1fr;
+    }
+
+    .ru-mascot-callout-art {
+      justify-content: start;
+    }
+  }
+</style>

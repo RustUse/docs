@@ -1,0 +1,75 @@
+---
+title: Contributing
+description: How to update the RustUse docs site, crate catalog, and generated API docs.
+---
+
+import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import MascotWarning from '../../components/MascotWarning.astro';
+
+<DocsMascotPanel
+  alt="A Rust mascot introducing the RustUse contribution flow"
+  eyebrow="Contributing"
+  title="Curated docs and generated rustdocs move together."
+  description="RustUse keeps human-authored guides, crate metadata, and generated API docs aligned. The goal is simple maintenance, stable API paths, and a narrow public surface until support expands deliberately."
+  quickLinks={[
+    { href: '/crates/', label: 'Current catalog' },
+    { href: '/api-reference/', label: 'API guidance' },
+  ]}
+  theme="sand"
+>
+  <MascotTip slot="art" spriteOnly />
+</DocsMascotPanel>
+
+RustUse docs combine curated content under `src/content/docs/` with generated API docs under `public/api/`.
+
+## Working areas
+
+- `src/data/crates.ts` is the single source of truth for public crate cards, statuses, and docs links.
+- `docs/rustdoc-sources.json` controls which crate workspaces produce hosted rustdocs.
+- `scripts/build-rustdocs.mjs` builds workspace rustdocs and publishes stable entry roots under `/api/`.
+
+## Publication dry-run
+
+- Prewire the future `crates.io` and `docs.rs` URLs in `src/data/crates.ts` while a crate is still scaffolded.
+- Keep `status: 'scaffolded'` until the live registry pages resolve and the crate metadata is ready to point at RustUse.
+- Flip the crate to `published` only after the RustUse API route, crates.io page, and docs.rs page all match the release state.
+
+## Local workflow
+
+1. `npm install`
+2. `npm run build`
+3. `npm run preview`
+
+`npm run build` now generates Rustdocs first, then builds the Astro site. Use that path when you need to validate the final published shape.
+
+## Styling layout
+
+- `src/styles/rustuse.css` stays as the single Astro entry stylesheet.
+- Shared site styling is split by responsibility under `src/styles/rustuse/` into tokens, base, components, and utilities.
+- `src/styles/rustdoc-extend.css` is the supported place to restyle generated rustdoc pages.
+- `src/styles/rustdoc-shell.css` styles the generated `/api/` redirect pages and workspace index shells.
+- Treat `public/api/workspaces/*/static.files/` as generated vendor output. Do not hand-edit hashed rustdoc assets there.
+
+## Scope guardrails
+
+<MascotWarning title="Do not widen the public surface early">
+  <p>
+    Keep additional planned crates out of navigation, homepage copy, and public
+    set pages until they are intentionally part of the public surface. Extend
+    the catalog and `/api/` entry roots only when the crate is actually ready to
+    be public.
+  </p>
+</MascotWarning>
+
+- Keep the public support surface limited to `use-math`, `use-geometry`, and the current `use-combinatorics` track until product scope changes.
+- Do not add additional planned crates to navigation, homepage copy, or public set pages early.
+- Prefer linking to generated RustUse API docs rather than rewriting rustdoc HTML or scraping docs.rs.
+
+## When a new crate becomes supported
+
+- Add or update the crate entry in `src/data/crates.ts`.
+- Add or update the curated docs page under `src/content/docs/`.
+- Extend `docs/rustdoc-sources.json` if the new crate needs a stable `/api/<crate-name>/` entry root.
+- Prewire any future crates.io and docs.rs URLs, but leave them non-live until the crate status actually changes to `published`.
+- Run `npm run build` and verify the stable API route resolves without a 404.

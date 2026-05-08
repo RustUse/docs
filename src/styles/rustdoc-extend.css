@@ -1,0 +1,541 @@
+:root {
+  --rustuse-flame: #ff4500;
+  --rustuse-sand: #f4a261;
+  --rustuse-teal: #2a9d8f;
+  --rustuse-deep: #264653;
+  --rustuse-ink: #081116;
+  --rustuse-mist: #f3e5d5;
+  --rustuse-white: #fff7f0;
+  --rustuse-shadow: 0 12px 24px rgba(5, 12, 16, 0.12);
+  --rustuse-panel: rgba(11, 22, 28, 0.72);
+  --rustuse-panel-soft: rgba(16, 28, 35, 0.52);
+  --rustuse-border: rgba(244, 162, 97, 0.14);
+  --rustuse-rule: rgba(255, 247, 240, 0.16);
+  --rustuse-sidebar-width: 15.5rem;
+}
+
+:root[data-theme='light'] {
+  --rustuse-shadow: 0 10px 24px rgba(38, 70, 83, 0.08);
+  --rustuse-panel: rgba(255, 255, 255, 0.58);
+  --rustuse-panel-soft: rgba(255, 255, 255, 0.54);
+  --rustuse-border: rgba(38, 70, 83, 0.1);
+  --rustuse-rule: rgba(38, 70, 83, 0.12);
+}
+
+:root[data-mascot-mode='2d'] {
+  --rustuse-shadow: none;
+}
+
+body.rustdoc {
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 69, 0, 0.16),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(42, 157, 143, 0.14),
+      transparent 28%
+    ),
+    linear-gradient(180deg, #0a1218, #081116 22%, #060d11 100%);
+}
+
+:root[data-theme='light'] body.rustdoc {
+  background:
+    radial-gradient(circle at top left, rgba(255, 69, 0, 0.1), transparent 28%),
+    radial-gradient(
+      circle at top right,
+      rgba(42, 157, 143, 0.12),
+      transparent 32%
+    ),
+    linear-gradient(180deg, #fff4e8, #fff8f1 18rem);
+}
+
+body.rustdoc nav.sidebar,
+body.rustdoc rustdoc-topbar {
+  backdrop-filter: blur(14px);
+  background:
+    linear-gradient(180deg, rgba(8, 17, 22, 0.9), rgba(15, 29, 36, 0.82)),
+    rgba(8, 17, 22, 0.74);
+  border-color: var(--rustuse-border);
+}
+
+body.rustdoc nav.sidebar {
+  width: var(--rustuse-sidebar-width);
+  min-width: var(--rustuse-sidebar-width);
+}
+
+:root[data-theme='light'] body.rustdoc nav.sidebar,
+:root[data-theme='light'] body.rustdoc rustdoc-topbar {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 248, 241, 0.92),
+      rgba(249, 239, 229, 0.84)
+    ),
+    rgba(255, 248, 241, 0.78);
+}
+
+body.rustdoc .main-heading h1,
+body.rustdoc .content h2,
+body.rustdoc .content h3 {
+  color: var(--rustuse-white);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+body.rustdoc main {
+  padding-top: 1.4rem;
+  padding-bottom: 2.5rem;
+}
+
+body.rustdoc .width-limiter {
+  max-width: 78rem;
+  padding-inline: clamp(1.2rem, 2.5vw, 2.4rem);
+}
+
+body.rustdoc .content {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+body.rustdoc .main-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.85rem 1.4rem;
+  align-items: start;
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--rustuse-rule);
+}
+
+body.rustdoc .main-heading h1 {
+  font-size: clamp(2.4rem, 2rem + 1.2vw, 3.1rem);
+  line-height: 1.02;
+}
+
+body.rustdoc .sub-heading {
+  margin-top: 0.35rem;
+  color: color-mix(in srgb, var(--rustuse-mist) 74%, transparent);
+}
+
+body.rustdoc rustdoc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-family: 'Fira Sans', Arial, NanumBarunGothic, sans-serif;
+}
+
+body.rustdoc rustdoc-toolbar > * {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  line-height: 1;
+  color: color-mix(in srgb, var(--rustuse-mist) 82%, transparent);
+}
+
+body.rustdoc rustdoc-toolbar #search-button,
+body.rustdoc rustdoc-toolbar .settings-menu,
+body.rustdoc rustdoc-toolbar .help-menu {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body.rustdoc rustdoc-toolbar a,
+body.rustdoc rustdoc-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.46rem 0.72rem;
+  border: 1px solid var(--rustuse-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--rustuse-panel) 74%, transparent);
+  color: inherit;
+  box-shadow: none;
+  font:
+    600 0.92rem/1 'Fira Sans',
+    Arial,
+    NanumBarunGothic,
+    sans-serif;
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+body.rustdoc rustdoc-toolbar #search-button > a,
+body.rustdoc rustdoc-toolbar .settings-menu > a,
+body.rustdoc rustdoc-toolbar .help-menu > a,
+body.rustdoc rustdoc-toolbar #toggle-all-docs {
+  border-radius: 999px;
+  padding: 0.46rem 0.72rem;
+  border: 1px solid var(--rustuse-border);
+  background: color-mix(in srgb, var(--rustuse-panel) 74%, transparent);
+  box-shadow: none;
+  line-height: 1;
+  color: inherit;
+}
+
+body.rustdoc rustdoc-toolbar a:hover,
+body.rustdoc rustdoc-toolbar a:focus-visible,
+body.rustdoc rustdoc-toolbar button:hover,
+body.rustdoc rustdoc-toolbar button:focus-visible {
+  color: var(--rustuse-white);
+  border-color: color-mix(in srgb, var(--rustuse-sand) 28%, transparent);
+  background: color-mix(in srgb, var(--rustuse-teal) 10%, var(--rustuse-panel));
+  transform: translateY(-1px);
+}
+
+body.rustdoc rustdoc-toolbar .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+body.rustdoc rustdoc-toolbar .label::before {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--rustuse-sand) 82%, var(--rustuse-white));
+  content: '•';
+  flex: none;
+}
+
+body.rustdoc rustdoc-toolbar #search-button .label::before {
+  content: '⌕';
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+body.rustdoc rustdoc-toolbar .settings-menu .label::before {
+  content: '⚙';
+  font-size: 0.95rem;
+}
+
+body.rustdoc rustdoc-toolbar .help-menu .label::before {
+  content: '?';
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+body.rustdoc rustdoc-toolbar #toggle-all-docs .label::before {
+  content: '⇵';
+  font-size: 0.9rem;
+}
+
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar > * {
+  color: color-mix(in srgb, var(--rustuse-deep) 82%, transparent);
+}
+
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar a,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar button {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar #search-button > a,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar .settings-menu > a,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar .help-menu > a,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar #toggle-all-docs {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar a:hover,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar a:focus-visible,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar button:hover,
+:root[data-theme='light'] body.rustdoc rustdoc-toolbar button:focus-visible {
+  color: var(--rustuse-deep);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+:root[data-theme='light'] body.rustdoc .main-heading h1,
+:root[data-theme='light'] body.rustdoc .content h2,
+:root[data-theme='light'] body.rustdoc .content h3 {
+  color: var(--rustuse-deep);
+}
+
+body.rustdoc .content a:link,
+body.rustdoc .content a:visited,
+body.rustdoc nav.sidebar a:link,
+body.rustdoc nav.sidebar a:visited,
+body.rustdoc .main-heading .src {
+  color: var(--rustuse-teal);
+}
+
+body.rustdoc .content a:hover,
+body.rustdoc .content a:focus-visible,
+body.rustdoc nav.sidebar a:hover,
+body.rustdoc nav.sidebar a:focus-visible,
+body.rustdoc .main-heading .src:hover,
+body.rustdoc .main-heading .src:focus-visible {
+  color: var(--rustuse-sand);
+}
+
+body.rustdoc nav.sidebar a:hover,
+body.rustdoc nav.sidebar a:focus-visible {
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--rustuse-teal) 12%, transparent);
+}
+
+body.rustdoc .sidebar {
+  border-right: 1px solid var(--rustuse-border);
+}
+
+body.rustdoc .sidebar-elems {
+  padding-top: 0.35rem;
+}
+
+body.rustdoc .sidebar h3,
+body.rustdoc .sidebar .block > li > a,
+body.rustdoc .sidebar .block > li > strong {
+  letter-spacing: 0;
+}
+
+body.rustdoc .sidebar h3 {
+  margin-top: 1.1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--rustuse-white) 84%, var(--rustuse-sand));
+}
+
+body.rustdoc .sidebar a {
+  border-radius: 0.7rem;
+  padding-block: 0.22rem;
+  padding-inline: 0.42rem;
+}
+
+body.rustdoc .sidebar .top-toc > li > a {
+  font-weight: 600;
+  color: color-mix(in srgb, var(--rustuse-white) 88%, var(--rustuse-teal));
+}
+
+body.rustdoc .sidebar .top-toc > li > ul {
+  margin-top: 0.35rem;
+  margin-inline-start: 0.7rem;
+  padding-inline-start: 0.7rem;
+  border-inline-start: 1px solid
+    color-mix(in srgb, var(--rustuse-teal) 22%, transparent);
+}
+
+body.rustdoc .sidebar .top-toc > li > ul a {
+  font-size: 0.94rem;
+  color: color-mix(in srgb, var(--rustuse-mist) 76%, var(--rustuse-teal));
+}
+
+:root[data-theme='light'] body.rustdoc .sidebar .top-toc > li > a {
+  color: color-mix(in srgb, var(--rustuse-deep) 82%, var(--rustuse-teal));
+}
+
+:root[data-theme='light'] body.rustdoc .sidebar .top-toc > li > ul {
+  border-inline-start-color: color-mix(
+    in srgb,
+    var(--rustuse-teal) 20%,
+    transparent
+  );
+}
+
+:root[data-theme='light'] body.rustdoc .sidebar .top-toc > li > ul a {
+  color: color-mix(in srgb, var(--rustuse-deep) 72%, var(--rustuse-teal));
+}
+
+body.rustdoc details.top-doc,
+body.rustdoc .example-wrap pre,
+body.rustdoc .docblock pre,
+body.rustdoc .content table {
+  border-radius: 0.85rem;
+  box-shadow: var(--rustuse-shadow);
+  overflow: hidden;
+}
+
+body.rustdoc details.top-doc {
+  background: var(--rustuse-panel-soft);
+  border: 1px solid var(--rustuse-border);
+  padding: 0.25rem 0;
+}
+
+:root[data-theme='light'] body.rustdoc details.top-doc {
+  background: var(--rustuse-panel-soft);
+}
+
+body.rustdoc details.top-doc > .docblock {
+  padding: 0 1.2rem 0.95rem;
+}
+
+body.rustdoc details.top-doc > summary {
+  padding: 0.95rem 1.2rem 0.8rem;
+}
+
+body.rustdoc details.top-doc > summary::before {
+  left: 0.2rem;
+}
+
+body.rustdoc .docblock > :first-child {
+  margin-top: 0;
+}
+
+body.rustdoc .docblock > h2,
+body.rustdoc .docblock > h3 {
+  padding-bottom: 0.35rem;
+  margin-top: 1.7rem;
+  border-bottom: 1px solid var(--rustuse-rule);
+}
+
+body.rustdoc .docblock > p,
+body.rustdoc .docblock li {
+  max-width: 72ch;
+  line-height: 1.72;
+}
+
+body.rustdoc .example-wrap pre,
+body.rustdoc .docblock pre,
+body.rustdoc .content table {
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(9, 17, 22, 0.52);
+}
+
+:root[data-theme='light'] body.rustdoc .example-wrap pre,
+:root[data-theme='light'] body.rustdoc .docblock pre,
+:root[data-theme='light'] body.rustdoc .content table {
+  border-color: rgba(38, 70, 83, 0.07);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+body.rustdoc .example-wrap {
+  margin-block: 0.9rem 1.25rem;
+}
+
+body.rustdoc .docblock pre,
+body.rustdoc .example-wrap pre {
+  padding: 0.85rem 1rem;
+}
+
+body.rustdoc .content table {
+  margin-block: 1rem 1.5rem;
+}
+
+body.rustdoc .content th,
+body.rustdoc .content td {
+  padding: 0.72rem 0.95rem;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+body.rustdoc #copy-path {
+  border: 1px solid color-mix(in srgb, var(--rustuse-sand) 18%, transparent);
+  border-radius: 999rem;
+  padding: 0.4rem 0.72rem;
+  background: rgba(9, 17, 22, 0.52);
+  color: inherit;
+  box-shadow: var(--rustuse-shadow);
+}
+
+:root[data-theme='light'] body.rustdoc #copy-path {
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--rustuse-deep);
+}
+
+@media (max-width: 60rem) {
+  body.rustdoc .main-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  body.rustdoc rustdoc-toolbar {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  body.rustdoc main {
+    padding-top: 0.55rem;
+    padding-bottom: 1.4rem;
+  }
+
+  body.rustdoc .width-limiter {
+    padding-inline: 0.9rem;
+  }
+
+  body.rustdoc .main-heading {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+  }
+
+  body.rustdoc .main-heading h1 {
+    font-size: clamp(2rem, 1.4rem + 3.8vw, 2.55rem);
+  }
+
+  body.rustdoc rustdoc-toolbar {
+    gap: 0.45rem;
+    row-gap: 0.5rem;
+  }
+
+  body.rustdoc rustdoc-toolbar a,
+  body.rustdoc rustdoc-toolbar button {
+    padding: 0.42rem 0.62rem;
+    font-size: 0.84rem;
+  }
+
+  body.rustdoc rustdoc-toolbar #search-button > a,
+  body.rustdoc rustdoc-toolbar .settings-menu > a,
+  body.rustdoc rustdoc-toolbar .help-menu > a,
+  body.rustdoc rustdoc-toolbar #toggle-all-docs {
+    padding: 0.42rem 0.62rem;
+  }
+
+  body.rustdoc rustdoc-toolbar .label {
+    gap: 0.28rem;
+  }
+
+  body.rustdoc details.top-doc > summary {
+    padding: 0.82rem 0.95rem 0.72rem;
+  }
+
+  body.rustdoc details.top-doc > .docblock {
+    padding: 0 0.95rem 0.85rem;
+  }
+
+  body.rustdoc .docblock > p,
+  body.rustdoc .docblock li {
+    max-width: none;
+  }
+
+  body.rustdoc .docblock pre,
+  body.rustdoc .example-wrap pre {
+    padding: 0.75rem 0.82rem;
+  }
+
+  body.rustdoc .content th,
+  body.rustdoc .content td {
+    padding: 0.62rem 0.75rem;
+  }
+
+  body.rustdoc #copy-path {
+    padding: 0.35rem 0.58rem;
+  }
+}

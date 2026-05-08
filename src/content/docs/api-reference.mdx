@@ -1,0 +1,90 @@
+---
+title: API Reference
+description: How RustUse.org, crates.io, docs.rs, and generated rustdocs fit together.
+---
+
+import CrateGrid from '../../components/CrateGrid.astro';
+import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
+import MascotExperimental from '../../components/MascotExperimental.astro';
+import MascotImportant from '../../components/MascotImportant.astro';
+import { publicCrates } from '../../data/crates';
+
+<DocsMascotPanel
+  alt="A Rust mascot pointing to the generated API docs"
+  eyebrow="API docs"
+  title="RustUse.org is the canonical API surface."
+  description="RustUse hosts the primary generated API docs for the currently supported crates. The curated docs stay in Starlight pages, and the generated rustdoc output stays under stable /api paths."
+  quickLinks={[
+    { href: '/api/workspaces/use-math/', label: 'Workspace Rustdocs' },
+    { href: '/crates/', label: 'Current crates' },
+  ]}
+  theme="teal"
+  reverse
+>
+  <MascotImportant slot="art" spriteOnly />
+</DocsMascotPanel>
+
+RustUse.org is the primary API documentation surface for the currently supported crates.
+
+The current public crates remain scaffolded. Their future crates.io and docs.rs URLs are prewired in the catalog as a dry-run, but the site keeps those links disabled until the external pages exist.
+
+<MascotImportant title="Keep external registry links staged until release">
+  <p>
+    Prewire future `crates.io` and `docs.rs` targets in the catalog, but do not
+    expose them as live links until the registry pages exist and point back to
+    the stable RustUse API routes.
+  </p>
+</MascotImportant>
+
+## Current API entry points
+
+- [use-math workspace Rustdocs](/api/workspaces/use-math/)
+- [use-combinatorics API docs](/api/use-combinatorics/)
+- [use-math API docs](/api/use-math/)
+- [use-geometry API docs](/api/use-geometry/)
+
+<CrateGrid crates={publicCrates} />
+
+## How RustUse.org relates to crates.io and docs.rs
+
+- RustUse.org hosts the curated guides, set pages, crate overviews, and generated API docs.
+- `crates.io` is the package registry and should point each published crate's `documentation` field at the stable RustUse API URL.
+- `docs.rs` may still build generated docs automatically after publication, but it is a fallback reference rather than the canonical destination.
+- Prewire future crates.io and docs.rs URLs in the crate catalog while a crate is still scaffolded, then flip the crate status to `published` only after the live registry pages resolve.
+- Do not scrape or mirror `docs.rs` HTML into this site.
+
+## Recommended Cargo.toml metadata
+
+```toml
+[package]
+name = "use-geometry"
+description = "Primitive geometry utilities for Rust."
+repository = "https://github.com/RustUse/use-math"
+homepage = "https://rustuse.org"
+documentation = "https://rustuse.org/api/use-geometry"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["geometry", "math", "utility"]
+categories = ["mathematics"]
+```
+
+- Use `homepage` for the RustUse project site.
+- Use `documentation` for the stable RustUse API path once it is live for a published crate.
+- Use `repository` for GitHub.
+- Keep `README.md` ready for the crates.io package page.
+- Keep scaffolded crates on RustUse-hosted API docs until the external registry pages are confirmed live.
+
+## Future enhancement
+
+<MascotExperimental title="Rustdoc JSON is a later enhancement">
+  <p>
+    A later pass can consume `docs.rs` rustdoc JSON for lightweight symbol
+    indexes or summaries, but the first version of the site should not depend on
+    that feed and must validate `format_version` before parsing it.
+  </p>
+</MascotExperimental>
+
+- Later we can fetch docs.rs rustdoc JSON from `https://docs.rs/crate/<crate-name>/latest/json` for lightweight symbol indexes or generated summaries.
+- Validate the rustdoc JSON `format_version` before parsing it in Rust or Node.
+- Do not depend on rustdoc JSON for the first version of the site.
+- Do not mirror full docs.rs HTML.

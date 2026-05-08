@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "name": "use-math",
+      "path": "../use-math",
+      "repo": "https://github.com/RustUse/use-math",
+      "bundleSlug": "workspaces/use-math",
+      "publishedCrates": ["use-math", "use-geometry", "use-combinatorics"]
+    }
+  ]
+}

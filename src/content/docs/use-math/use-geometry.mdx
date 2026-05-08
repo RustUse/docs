@@ -1,0 +1,157 @@
+---
+title: use-geometry
+description: 2D geometry primitives, validated construction helpers, and direct measurement utilities for RustUse.
+---
+
+import MascotImportant from '../../../components/MascotImportant.astro';
+import MascotTip from '../../../components/MascotTip.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+
+<MascotTip
+  title="Focused geometry track"
+  description="use-geometry is the direct 2D crate in the current RustUse math surface. Its public status is still scaffolded, so RustUse-hosted generated rustdocs remain the canonical API reference while crates.io and docs.rs targets stay staged."
+/>
+
+<p>
+  <StatusBadge status="scaffolded" /> Pre-1.0 crate surface with canonical
+  RustUse-hosted API docs.
+</p>
+
+`use-geometry` is the supported RustUse crate for small 2D Euclidean geometry primitives, validated construction at API boundaries, and direct measurement helpers.
+
+## Purpose
+
+The crate is designed to provide direct structs and standalone helpers for common geometry work without a large abstraction layer.
+
+## Current direction
+
+`use-geometry` favors:
+
+- direct 2D structs
+- standalone measurement helpers
+- validated construction at app boundaries
+- predictable naming
+- exact and tolerance-aware checks where ambiguity matters
+- small APIs
+- primitives that compose into larger geometry operations
+
+Current surface areas include:
+
+- `Point2`
+- `Vector2`
+- `Line2`
+- `Segment2`
+- `Circle`
+- `Triangle`
+- `Aabb2`
+- distance, midpoint, and orientation helpers
+
+## API reference
+
+- [Open generated Rustdocs for use-geometry](/api/use-geometry/)
+
+## Triangle API
+
+`Triangle` remains a key primitive represented by three 2D vertices:
+
+- `a`
+- `b`
+- `c`
+
+The triangle surface keeps raw assembly and validated construction separate:
+
+- `Triangle::new(a, b, c)` for already-trusted points
+- `Triangle::try_new(a, b, c)` for points that still need validation
+- `Triangle::area()`
+- `Triangle::perimeter()`
+- `Triangle::sides()`
+- `Triangle::twice_signed_area()`
+- `Triangle::twice_area()`
+- `Triangle::is_degenerate()`
+- `triangle_area(a, b, c)`
+
+Standalone helpers mirror the measurement surface that exists today:
+
+- `triangle_twice_signed_area(a, b, c)`
+- `triangle_twice_area(a, b, c)`
+- `Triangle::is_degenerate_with_tolerance(tolerance)`
+
+Perimeter currently stays on the `Triangle` type itself; there is no standalone `triangle_perimeter(...)` helper.
+
+Signed twice-area is the foundation for triangle measurement. It preserves orientation, avoids unnecessary division, and provides a direct base for area and degeneracy checks.
+
+## Degeneracy
+
+<MascotImportant
+  title="Degeneracy needs an explicit policy"
+  description="For `use-geometry`, degeneracy is not a cosmetic edge case. Exact degeneracy and tolerance-based degeneracy are different checks, and callers need to choose deliberately based on coordinate scale and input quality."
+/>
+
+Degeneracy occurs when a geometric value collapses into a lower-dimensional or invalid form.
+
+For triangles, exact degeneracy means the three vertices are collinear and the signed twice-area is exactly zero. `Triangle::is_degenerate()` is that exact check.
+
+`f64::EPSILON` is usually not a useful geometry tolerance. It is tied to floating-point precision around `1.0`, not the coordinate scale of a triangle. Practical degeneracy checks should use a caller-provided tolerance chosen for the coordinate scale, input source, and expected numeric noise.
+
+`use-geometry` keeps exact and tolerance-based degeneracy separate:
+
+```rust
+triangle.is_degenerate();
+triangle.is_degenerate_with_tolerance(tolerance)?;
+```
+
+Use exact degeneracy when checking mathematical collapse. Use tolerance-based degeneracy when working with measured data, generated geometry, simulations, or CAD-like inputs.
+
+## Examples
+
+These examples describe the current API shape.
+
+### Validated construction at an API boundary
+
+```rust
+use use_geometry::{Point2, Triangle};
+
+let triangle = Triangle::try_new(
+	Point2::try_new(0.0, 0.0).expect("valid vertex"),
+	Point2::try_new(4.0, 0.0).expect("valid vertex"),
+	Point2::try_new(0.0, 3.0).expect("valid vertex"),
+)
+.expect("valid triangle");
+
+assert_eq!(triangle.area(), 6.0);
+assert_eq!(triangle.perimeter(), 12.0);
+```
+
+### Working with trusted coordinates
+
+```rust
+use use_geometry::{Point2, Triangle};
+
+let triangle = Triangle::new(
+	Point2::new(0.0, 0.0),
+	Point2::new(4.0, 0.0),
+	Point2::new(0.0, 3.0),
+);
+
+assert_eq!(triangle.sides(), [4.0, 5.0, 3.0]);
+```
+
+### Checking exact vs tolerance-based degeneracy
+
+```rust
+use use_geometry::{Point2, Triangle};
+
+let triangle = Triangle::try_new(
+	Point2::try_new(0.0, 0.0).expect("valid vertex"),
+	Point2::try_new(4.0, 0.0).expect("valid vertex"),
+	Point2::try_new(8.0, 1.0e-13).expect("valid vertex"),
+)
+.expect("valid triangle");
+
+assert!(!triangle.is_degenerate());
+assert_eq!(triangle.is_degenerate_with_tolerance(1.0e-12), Ok(true));
+```
+
+## Status
+
+`use-geometry` is a scaffolded public crate in the RustUse docs surface. The API remains pre-1.0, and the RustUse-hosted generated rustdocs stay canonical while external crates.io and docs.rs pages remain staged.

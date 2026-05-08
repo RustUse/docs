@@ -1,0 +1,42 @@
+---
+interface Props {
+  columns?: number;
+  label?: string;
+  class?: string;
+}
+
+const {
+  columns = 3,
+  label = 'Mascot card grid',
+  class: className,
+} = Astro.props as Props;
+
+const gridStyle = `--ru-mascot-grid-columns: ${columns};`;
+---
+
+<div
+  class:list={['ru-mascot-grid', className]}
+  style={gridStyle}
+  role="group"
+  aria-label={label}
+>
+  <slot />
+</div>
+
+<style>
+  .ru-mascot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1rem;
+    margin: 0 0 1.4rem;
+  }
+
+  @media (min-width: 50rem) {
+    .ru-mascot-grid {
+      grid-template-columns: repeat(
+        var(--ru-mascot-grid-columns),
+        minmax(0, 1fr)
+      );
+    }
+  }
+</style>

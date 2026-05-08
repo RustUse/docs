@@ -1,0 +1,127 @@
+---
+import type { RustUseCrate } from '../data/crates';
+
+import DocsLinks from './DocsLinks.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  crate: RustUseCrate;
+}
+
+const { crate } = Astro.props as Props;
+---
+
+<article class:list={['ru-crate-card', `is-${crate.status}`]}>
+  <div class="ru-crate-card-header">
+    <a class="ru-crate-set" href={crate.setPath}>
+      {crate.set}
+    </a>
+    <StatusBadge status={crate.status} />
+  </div>
+  <h3>
+    {
+      crate.pagePath ? (
+        <a href={crate.pagePath}>{crate.name}</a>
+      ) : (
+        <span>{crate.name}</span>
+      )
+    }
+  </h3>
+  <p>{crate.description}</p>
+  <ul class="ru-crate-tags" aria-label={`${crate.name} tags`}>
+    {crate.tags.map((tag) => <li class="ru-crate-tag ru-pill">{tag}</li>)}
+  </ul>
+  <DocsLinks crate={crate} />
+</article>
+
+<style>
+  .ru-crate-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1.3rem;
+    border: 1px solid color-mix(in srgb, var(--ru-color-sand) 16%, transparent);
+    border-radius: 1.35rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 35%),
+      linear-gradient(145deg, rgba(18, 32, 39, 0.92), rgba(10, 18, 23, 0.94));
+    box-shadow: var(--sl-shadow-sm);
+  }
+
+  .ru-crate-card.is-planned {
+    opacity: 0.9;
+  }
+
+  .ru-crate-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ru-crate-set {
+    color: var(--sl-color-accent-high);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .ru-crate-card h3,
+  .ru-crate-card p {
+    margin: 0;
+  }
+
+  .ru-crate-card h3 {
+    font-size: 1.45rem;
+    line-height: 1.08;
+  }
+
+  .ru-crate-card h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ru-crate-card h3 a:hover {
+    color: var(--ru-color-sand);
+  }
+
+  .ru-crate-card p {
+    color: color-mix(in srgb, var(--sl-color-text) 92%, var(--ru-color-mist));
+  }
+
+  .ru-crate-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ru-crate-tag {
+    --ru-pill-padding: 0.34rem 0.62rem;
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-deep) 48%, transparent);
+    --ru-pill-color: color-mix(
+      in srgb,
+      var(--sl-color-white) 78%,
+      var(--ru-color-sand)
+    );
+    --ru-pill-font-size: 0.82rem;
+    --ru-pill-font-weight: 600;
+  }
+
+  :root[data-theme='light'] .ru-crate-card {
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  :root[data-theme='light'] .ru-crate-card p {
+    color: color-mix(in srgb, var(--sl-color-gray-2) 92%, var(--ru-color-deep));
+  }
+
+  :root[data-theme='light'] .ru-crate-tag {
+    --ru-pill-bg: rgba(244, 162, 97, 0.14);
+    --ru-pill-color: var(--ru-color-clay);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+title: Crates
+description: Current RustUse crates, their roles, and where to find their guides and API docs.
+---
+
+import CrateGrid from '../../../components/CrateGrid.astro';
+import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
+import MascotNote from '../../../components/MascotNote.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+import { publicCrates } from '../../../data/crates';
+
+<DocsMascotPanel
+  alt="A Rust mascot presenting the RustUse crate catalog"
+  eyebrow="Catalog"
+  title="One catalog, three public crate tracks."
+  description="RustUse keeps the current public surface intentionally small. The catalog below is driven from one data file so status badges, guide links, and API entry points stay aligned."
+  quickLinks={[
+    { href: '/sets/use-math/', label: 'use-math set' },
+    { href: '/api-reference/', label: 'API reference' },
+  ]}
+  theme="clay"
+>
+  <MascotNote slot="art" spriteOnly />
+</DocsMascotPanel>
+
+RustUse currently surfaces three public crate tracks. `use-math`, `use-geometry`, and `use-combinatorics` all have RustUse-hosted generated API docs today.
+
+The catalog also carries the future crates.io and docs.rs targets for these crates as a publication dry-run, but those external links stay disabled until the release pages are actually live.
+
+<MascotNote
+  title="Scaffolded public catalog"
+  description="All current public crates in the catalog are scaffolded today. Their RustUse-hosted generated rustdocs are canonical while crates.io and docs.rs targets remain staged until publication."
+/>
+
+<p>
+  <StatusBadge status="scaffolded" /> Every current public crate track in this
+  catalog is scaffolded today.
+</p>
+
+<CrateGrid crates={publicCrates} />
+
+## How to read the catalog
+
+- `use-combinatorics` is the discrete-math crate for counting, combinations, permutations, and finite-structure helpers.
+- `use-geometry` is the focused crate for direct 2D primitives and measurement helpers.
+- `use-math` is the facade crate that can re-export supported functionality behind explicit feature flags.
+- `Scaffolded` means the crate has an active RustUse docs surface and hosted rustdoc output, and its future crates.io/docs.rs targets may already be staged in the catalog without being rendered as live links.
+- `Published` is reserved for crates whose registry metadata points at stable RustUse API URLs.
+- `Planned` means the crate is visible in the public catalog and set overview, but its implementation and hosted API docs are not ready yet.
