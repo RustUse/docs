@@ -20,6 +20,8 @@
     "lint:js:fix": "npm run lint:fix",
     "preview": "astro preview",
     "preview:8080": "astro preview --host 127.0.0.1 --port 8080",
+    "validate": "npm run format && npm run lint && npm run lint:css && npm run check",
+    "validate:full": "npm run validate && npm run build",
     "astro": "astro",
     "update": "npx npm-check-updates -u && npm install"
   },

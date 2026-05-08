@@ -136,6 +136,17 @@ function injectUiStateBootstrap(html) {
   );
 }
 
+function stripRustdocFontPreloadScript(html) {
+  return html.replace(
+    /<script>if\(window\.location\.protocol!=="file:"\)document\.head\.insertAdjacentHTML\("beforeend",[\s\S]*?<link rel="preload" as="font" type="font\/woff2"href[^<]*?<\/script>/,
+    '',
+  );
+}
+
+function transformRustdocHtml(html) {
+  return injectUiStateBootstrap(stripRustdocFontPreloadScript(html));
+}
+
 function applyUiStateBootstrapToHtmlFiles(rootDir) {
   for (const entry of readdirSync(rootDir, { withFileTypes: true })) {
     const entryPath = path.join(rootDir, entry.name);
@@ -148,7 +159,7 @@ function applyUiStateBootstrapToHtmlFiles(rootDir) {
     if (entry.isFile() && entry.name.endsWith('.html')) {
       writeFileSync(
         entryPath,
-        injectUiStateBootstrap(readFileSync(entryPath, 'utf8')),
+        transformRustdocHtml(readFileSync(entryPath, 'utf8')),
       );
     }
   }

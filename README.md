@@ -135,10 +135,12 @@ Build path at a glance:
 Use these prerequisites when working on the site locally:
 
 ```text
-Node.js >=20.20.0
+Node.js >=22.12.0
 npm
 Rust stable toolchain
 ```
+
+If you use `nvm` or a compatible tool, the repository pins `22.12.0` in `.nvmrc`.
 
 ## Local development
 
@@ -151,16 +153,21 @@ npm install
 npm run dev
 ```
 
-| Command             | What it does                                                    |
-| ------------------- | --------------------------------------------------------------- |
-| `npm install`       | Installs site dependencies                                      |
-| `npm run dev`       | Builds Rustdocs first, then starts the local docs site          |
-| `npm run build:api` | Builds and copies configured Rustdocs into `public/api/`        |
-| `npm run build`     | Builds Rustdocs first, then builds the static site into `dist/` |
-| `npm run preview`   | Serves the production build locally                             |
+| Command                 | What it does                                                    |
+| ----------------------- | --------------------------------------------------------------- |
+| `npm install`           | Installs site dependencies                                      |
+| `npm run dev`           | Builds Rustdocs first, then starts the local docs site          |
+| `npm run build:api`     | Builds and copies configured Rustdocs into `public/api/`        |
+| `npm run build`         | Builds Rustdocs first, then builds the static site into `dist/` |
+| `npm run preview`       | Serves the production build locally                             |
+| `npm run validate`      | Runs format, JS lint, CSS lint, and `astro check`               |
+| `npm run validate:full` | Runs `validate` and then a production build                     |
 
 > [!TIP]
 > `npm run dev` runs `npm run build:api` first, so the generated `/api/` routes exist before the local docs site starts.
+
+> [!TIP]
+> The VS Code workspace launch config now runs `npm run dev` as well, so editor launches follow the same generated-API bootstrapping path.
 
 If you want to refresh only generated API docs before restarting the site:
 

@@ -12,9 +12,11 @@ Keep curated docs and generated Rustdocs separate. Do not copy generated Rustdoc
 
 ## Prerequisites
 
-- Node.js `>=20.20.0`
+- Node.js `>=22.12.0`
 - npm
 - Rust stable toolchain
+
+If you use `nvm` or a compatible version manager, the repository pins `22.12.0` in `.nvmrc`.
 
 For the `use-math` workspace, local development prefers a sibling checkout at `../use-math`.
 If that path is not present, the rustdoc build falls back to cloning the configured GitHub repository from `docs/rustdoc-sources.json`.
@@ -25,11 +27,13 @@ If that path is not present, the rustdoc build falls back to cloning the configu
 npm install
 npm run build:api
 npm run check
+npm run validate
 npm run build
 npm run preview
 ```
 
 Use `npm run dev` for day-to-day site work.
+Use `npm run validate` before opening a PR when you want the quickest repo-health check, and `npm run validate:full` when you also want a fresh production build.
 
 ## Content and API changes
 
@@ -45,7 +49,7 @@ When adding or changing supported crates:
 Keep pull requests focused. A good PR includes:
 
 - a short summary of the user-visible change
-- the commands you ran locally
+- the commands you ran locally, ideally including `npm run validate` or `npm run validate:full`
 - screenshots when the change affects layout, navigation, or visual styling
 - notes on any known follow-up work or tradeoffs
 
