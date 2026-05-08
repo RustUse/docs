@@ -1,0 +1,534 @@
+---
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { getPublicCrate } from '../data/crates';
+
+interface SourceArtifactFile {
+  content: string;
+  language: 'rust' | 'toml';
+  path: string;
+}
+
+interface SourceArtifact {
+  bundle: string;
+  crateName: string;
+  files: SourceArtifactFile[];
+}
+
+interface Props {
+  crateName: string;
+  description?: string;
+  title?: string;
+}
+
+const { crateName, description, title } = Astro.props;
+
+const crate = getPublicCrate(crateName);
+if (!crate) {
+  throw new Error(`Unknown public crate for source panel: ${crateName}`);
+}
+
+let artifact: SourceArtifact | null = null;
+
+if (crate.apiPath) {
+  const artifactPath = path.join(
+    process.cwd(),
+    'public',
+    crate.apiPath.replace(/^\/+/, ''),
+    'rustuse-source.json',
+  );
+
+  if (existsSync(artifactPath)) {
+    artifact = JSON.parse(readFileSync(artifactPath, 'utf8')) as SourceArtifact;
+  }
+}
+
+const artifactJson = artifact
+  ? JSON.stringify(artifact).replace(/</g, '\\u003c')
+  : null;
+const initialFile = artifact?.files[0] ?? null;
+const panelTitle = title ?? `Copy ${crate.name} into your codebase`;
+const panelDescription =
+  description ??
+  `If you do not want to install ${crate.packageName} as a dependency, copy the full crate bundle or browse individual files below.`;
+const panelLabelId = `ru-crate-source-title-${crate.packageName}`;
+const selectId = `ru-crate-source-select-${crate.packageName}`;
+---
+
+<section class="ru-crate-source not-content" aria-labelledby={panelLabelId}>
+  <div class="ru-crate-source-header">
+    <div class="ru-crate-source-copy">
+      <p class="ru-crate-source-eyebrow">Copyable source</p>
+      <h2 id={panelLabelId}>{panelTitle}</h2>
+      <p>{panelDescription}</p>
+    </div>
+    {
+      artifact ? (
+        <button class="ru-crate-source-action" type="button" data-copy-all>
+          Copy full crate
+        </button>
+      ) : (
+        <p class="ru-crate-source-missing">
+          Source bundle unavailable. Run <code>npm run build:api</code> to
+          regenerate it.
+        </p>
+      )
+    }
+  </div>
+
+  {
+    artifact && initialFile && artifactJson && (
+      <rustuse-crate-source class="ru-crate-source-browser">
+        <script
+          is:inline
+          type="application/json"
+          data-source-artifact
+          set:html={artifactJson}
+        />
+
+        <div class="ru-crate-source-controls">
+          <label for={selectId}>Browse files</label>
+          <div class="ru-crate-source-actions">
+            <select id={selectId} data-file-select>
+              {artifact.files.map((file) => (
+                <option value={file.path}>{file.path}</option>
+              ))}
+            </select>
+            <button type="button" data-copy-current>
+              Copy current file
+            </button>
+          </div>
+        </div>
+
+        <div class="ru-crate-source-meta">
+          <p>
+            <strong data-current-file>{initialFile.path}</strong>
+          </p>
+          <p>
+            <span>{artifact.files.length} files</span>
+            <span aria-hidden="true">&#183;</span>
+            <span data-current-language>
+              {initialFile.language === 'toml' ? 'TOML' : 'Rust'}
+            </span>
+          </p>
+        </div>
+
+        <details class="ru-crate-source-details" open>
+          <summary>Browse crate files</summary>
+          <pre
+            class="ru-crate-source-code"
+            data-language={initialFile.language}
+          >
+            <code data-file-content>{initialFile.content}</code>
+          </pre>
+        </details>
+
+        <p class="sr-only" aria-live="polite" data-copy-status />
+      </rustuse-crate-source>
+    )
+  }
+</section>
+
+<script>
+  type SourceArtifactFile = {
+    content: string;
+    language: 'rust' | 'toml';
+    path: string;
+  };
+
+  type SourceArtifact = {
+    bundle: string;
+    crateName: string;
+    files: SourceArtifactFile[];
+  };
+
+  const copyText = async (text: string) => {
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
+  };
+
+  class RustUseCrateSource extends HTMLElement {
+    artifact: SourceArtifact | null = null;
+    currentFile: SourceArtifactFile | null = null;
+
+    connectedCallback() {
+      if (this.dataset.ready === 'true') {
+        return;
+      }
+
+      this.dataset.ready = 'true';
+
+      const artifactScript = this.querySelector<HTMLScriptElement>(
+        'script[data-source-artifact]',
+      );
+      if (!artifactScript?.textContent) {
+        return;
+      }
+
+      this.artifact = JSON.parse(artifactScript.textContent) as SourceArtifact;
+      const initialPath =
+        this.fileSelect?.value ?? this.artifact.files[0]?.path ?? null;
+
+      this.copyAllButton?.addEventListener('click', () => {
+        void this.copyBundle();
+      });
+      this.copyCurrentButton?.addEventListener('click', () => {
+        void this.copyCurrentFile();
+      });
+      this.fileSelect?.addEventListener('change', (event) => {
+        if (event.currentTarget instanceof HTMLSelectElement) {
+          this.showFile(event.currentTarget.value);
+        }
+      });
+
+      if (initialPath) {
+        this.showFile(initialPath);
+      }
+    }
+
+    get copyAllButton() {
+      return this.parentElement?.querySelector<HTMLButtonElement>(
+        'button[data-copy-all]',
+      );
+    }
+
+    get copyCurrentButton() {
+      return this.querySelector<HTMLButtonElement>('button[data-copy-current]');
+    }
+
+    get currentFileElement() {
+      return this.querySelector<HTMLElement>('[data-current-file]');
+    }
+
+    get currentLanguageElement() {
+      return this.querySelector<HTMLElement>('[data-current-language]');
+    }
+
+    get fileCodeElement() {
+      return this.querySelector<HTMLElement>('[data-file-content]');
+    }
+
+    get fileSelect() {
+      return this.querySelector<HTMLSelectElement>('select[data-file-select]');
+    }
+
+    get filePreElement() {
+      return this.querySelector<HTMLElement>('.ru-crate-source-code');
+    }
+
+    get statusElement() {
+      return this.querySelector<HTMLElement>('[data-copy-status]');
+    }
+
+    announce(message: string) {
+      if (this.statusElement) {
+        this.statusElement.textContent = message;
+      }
+    }
+
+    async copyBundle() {
+      if (!this.artifact) {
+        return;
+      }
+
+      const copied = await copyText(this.artifact.bundle);
+      this.announce(
+        copied
+          ? `Copied the full ${this.artifact.crateName} crate bundle.`
+          : `Unable to copy the full ${this.artifact.crateName} crate bundle.`,
+      );
+    }
+
+    async copyCurrentFile() {
+      if (!this.currentFile) {
+        return;
+      }
+
+      const copied = await copyText(this.currentFile.content);
+      this.announce(
+        copied
+          ? `Copied ${this.currentFile.path}.`
+          : `Unable to copy ${this.currentFile.path}.`,
+      );
+    }
+
+    showFile(filePath: string) {
+      if (!this.artifact) {
+        return;
+      }
+
+      const nextFile =
+        this.artifact.files.find((file) => file.path === filePath) ?? null;
+      if (!nextFile) {
+        return;
+      }
+
+      this.currentFile = nextFile;
+
+      if (this.fileSelect && this.fileSelect.value !== filePath) {
+        this.fileSelect.value = filePath;
+      }
+
+      if (this.currentFileElement) {
+        this.currentFileElement.textContent = nextFile.path;
+      }
+
+      if (this.currentLanguageElement) {
+        this.currentLanguageElement.textContent =
+          nextFile.language === 'toml' ? 'TOML' : 'Rust';
+      }
+
+      if (this.fileCodeElement) {
+        this.fileCodeElement.textContent = nextFile.content;
+      }
+
+      if (this.filePreElement) {
+        this.filePreElement.dataset.language = nextFile.language;
+      }
+    }
+  }
+
+  if (!customElements.get('rustuse-crate-source')) {
+    customElements.define('rustuse-crate-source', RustUseCrateSource);
+  }
+</script>
+
+<style>
+  .ru-crate-source {
+    display: grid;
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: clamp(1rem, 0.95rem + 0.5vw, 1.4rem);
+    border: 1px solid
+      color-mix(in srgb, var(--sl-color-accent) 22%, transparent);
+    border-radius: 1.25rem;
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--sl-color-bg) 92%, var(--sl-color-accent) 8%),
+        color-mix(in srgb, var(--sl-color-bg) 98%, transparent)
+      ),
+      var(--sl-color-bg);
+    box-shadow: var(--sl-shadow-sm);
+  }
+
+  .ru-crate-source-header {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-between;
+  }
+
+  .ru-crate-source-copy {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .ru-crate-source-copy h2,
+  .ru-crate-source-copy p {
+    margin: 0;
+  }
+
+  .ru-crate-source-eyebrow {
+    width: fit-content;
+    margin: 0;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999rem;
+    background: color-mix(in srgb, var(--sl-color-accent) 18%, transparent);
+    color: color-mix(in srgb, var(--sl-color-text) 88%, var(--sl-color-accent));
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ru-crate-source-action,
+  .ru-crate-source-actions button {
+    appearance: none;
+    border: 1px solid
+      color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+    border-radius: 0.9rem;
+    padding: 0.7rem 1rem;
+    background: color-mix(in srgb, var(--sl-color-accent) 16%, transparent);
+    color: var(--sl-color-white);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      transform 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .ru-crate-source-action:hover,
+  .ru-crate-source-action:focus-visible,
+  .ru-crate-source-actions button:hover,
+  .ru-crate-source-actions button:focus-visible {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--sl-color-accent) 28%, transparent);
+    border-color: color-mix(in srgb, var(--sl-color-accent) 62%, transparent);
+  }
+
+  .ru-crate-source-action:focus-visible,
+  .ru-crate-source-actions button:focus-visible,
+  .ru-crate-source-actions select:focus-visible,
+  .ru-crate-source-details summary:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+
+  .ru-crate-source-missing {
+    max-width: 28rem;
+    margin: 0;
+    color: color-mix(in srgb, var(--sl-color-text) 86%, var(--sl-color-gray-3));
+  }
+
+  .ru-crate-source-browser {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ru-crate-source-controls {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ru-crate-source-controls label {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .ru-crate-source-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .ru-crate-source-actions select {
+    min-width: min(100%, 24rem);
+    padding: 0.75rem 0.9rem;
+    border: 1px solid
+      color-mix(in srgb, var(--sl-color-gray-3) 38%, transparent);
+    border-radius: 0.9rem;
+    background: color-mix(
+      in srgb,
+      var(--sl-color-bg) 88%,
+      var(--sl-color-black) 12%
+    );
+    color: var(--sl-color-text);
+    font: inherit;
+  }
+
+  .ru-crate-source-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: color-mix(in srgb, var(--sl-color-text) 84%, var(--sl-color-gray-3));
+  }
+
+  .ru-crate-source-meta p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin: 0;
+  }
+
+  .ru-crate-source-details {
+    border: 1px solid
+      color-mix(in srgb, var(--sl-color-gray-3) 22%, transparent);
+    border-radius: 1rem;
+    background: color-mix(
+      in srgb,
+      var(--sl-color-bg) 88%,
+      var(--sl-color-black) 12%
+    );
+    overflow: hidden;
+  }
+
+  .ru-crate-source-details summary {
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .ru-crate-source-code {
+    margin: 0;
+    padding: 1rem;
+    max-height: 36rem;
+    overflow: auto;
+    border-top: 1px solid
+      color-mix(in srgb, var(--sl-color-gray-3) 18%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--sl-color-black) 72%,
+      var(--sl-color-bg)
+    );
+    color: var(--sl-color-white);
+    font-family: var(--sl-font-mono, monospace);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .ru-crate-source-code::before {
+    content: attr(data-language);
+    display: inline-flex;
+    margin: 0 0 0.8rem;
+    padding: 0.16rem 0.55rem;
+    border-radius: 999rem;
+    background: color-mix(in srgb, var(--sl-color-accent) 18%, transparent);
+    color: color-mix(
+      in srgb,
+      var(--sl-color-white) 90%,
+      var(--sl-color-accent)
+    );
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ru-crate-source-code code {
+    display: block;
+    white-space: pre;
+  }
+
+  @media (max-width: 50rem) {
+    .ru-crate-source-header {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+
+    .ru-crate-source-action {
+      width: 100%;
+    }
+
+    .ru-crate-source-actions {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+
+    .ru-crate-source-actions select,
+    .ru-crate-source-actions button {
+      width: 100%;
+    }
+
+    .ru-crate-source-meta {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>

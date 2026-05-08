@@ -29,6 +29,7 @@ const rustdocShellCssPath = path.join(
 );
 const rustdocShellCssFileName = 'rustuse-rustdoc-shell.css';
 const rustdocThemeCssFileName = 'theme.css';
+const sourceArtifactFileName = 'rustuse-source.json';
 const cargoFlagSeparator = '\u001f';
 
 function fail(message) {
@@ -64,6 +65,133 @@ function normalizeApiSlug(value, fieldName) {
 
 function crateDocDir(crateName) {
   return crateName.replace(/-/g, '_');
+}
+
+function readJsonCommandOutput(command, args, cwd, extraEnv = {}) {
+  return JSON.parse(
+    execFileSync(command, args, {
+      cwd,
+      env: {
+        ...process.env,
+        ...extraEnv,
+      },
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'inherit'],
+    }),
+  );
+}
+
+function collectRustSourcePaths(crateRootDir, relativeDir) {
+  const directory = path.join(crateRootDir, relativeDir);
+  const entries = readdirSync(directory, { withFileTypes: true }).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+
+  const paths = [];
+
+  for (const entry of entries) {
+    const entryRelativePath = path
+      .join(relativeDir, entry.name)
+      .replace(/\\/g, '/');
+
+    if (entry.isDirectory()) {
+      paths.push(...collectRustSourcePaths(crateRootDir, entryRelativePath));
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith('.rs')) {
+      paths.push(entryRelativePath);
+    }
+  }
+
+  return paths;
+}
+
+function sourcePathSortKey(filePath) {
+  switch (filePath) {
+    case 'Cargo.toml':
+      return '0:Cargo.toml';
+    case 'build.rs':
+      return '1:build.rs';
+    case 'src/lib.rs':
+      return '2:src/lib.rs';
+    case 'src/main.rs':
+      return '3:src/main.rs';
+    default:
+      return `4:${filePath}`;
+  }
+}
+
+function collectCrateSourceFiles(crateRootDir) {
+  const candidatePaths = [];
+
+  for (const fileName of ['Cargo.toml', 'build.rs']) {
+    const filePath = path.join(crateRootDir, fileName);
+    if (existsSync(filePath)) {
+      candidatePaths.push(fileName);
+    }
+  }
+
+  for (const directoryName of ['src', 'examples', 'tests', 'benches']) {
+    const directoryPath = path.join(crateRootDir, directoryName);
+    if (existsSync(directoryPath)) {
+      candidatePaths.push(
+        ...collectRustSourcePaths(crateRootDir, directoryName),
+      );
+    }
+  }
+
+  return [...new Set(candidatePaths)]
+    .sort((left, right) =>
+      sourcePathSortKey(left).localeCompare(sourcePathSortKey(right)),
+    )
+    .map((filePath) => ({
+      content: readFileSync(path.join(crateRootDir, filePath), 'utf8'),
+      language: filePath.endsWith('.toml') ? 'toml' : 'rust',
+      path: filePath,
+    }));
+}
+
+function renderCrateSourceBundle(crateName, files) {
+  const sections = [
+    `========== RustUse crate source bundle: ${crateName} ==========`,
+    'Copy the files below into your codebase as needed.',
+  ];
+
+  for (const file of files) {
+    sections.push(
+      '',
+      `========== file: ${file.path} ==========`,
+      file.content.trimEnd(),
+    );
+  }
+
+  return `${sections.join('\n')}\n`;
+}
+
+function buildCrateSourceArtifact(crateName, cargoMetadata) {
+  const cratePackage = cargoMetadata.packages.find(
+    (pkg) => pkg.name === crateName,
+  );
+
+  if (!cratePackage) {
+    fail(
+      `Rustdoc source metadata does not contain the published crate "${crateName}".`,
+    );
+  }
+
+  const crateRootDir = path.dirname(cratePackage.manifest_path);
+  const files = collectCrateSourceFiles(crateRootDir);
+
+  if (files.length === 0) {
+    fail(`No source files found for published crate "${crateName}".`);
+  }
+
+  return {
+    bundle: renderCrateSourceBundle(crateName, files),
+    crateName,
+    files,
+  };
 }
 
 function renderUiStateBootstrapScript() {
@@ -370,6 +498,12 @@ try {
       fail(`Rustdoc output not found for ${name}: ${builtDocsDir}`);
     }
 
+    const cargoMetadata = readJsonCommandOutput(
+      'cargo',
+      ['metadata', '--format-version', '1', '--no-deps'],
+      workingDir,
+    );
+
     mkdirSync(outputDir, { recursive: true });
     cpSync(builtDocsDir, outputDir, { recursive: true });
     writeFileSync(
@@ -410,6 +544,14 @@ try {
             `${entry.crateName} API Docs`,
             redirectTarget,
             stylesheetHref,
+          ),
+        );
+        writeFileSync(
+          path.join(publishedDir, sourceArtifactFileName),
+          JSON.stringify(
+            buildCrateSourceArtifact(entry.crateName, cargoMetadata),
+            null,
+            2,
           ),
         );
         console.log(

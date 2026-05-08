@@ -150,30 +150,67 @@ Fastest path to a working local site:
 
 ```bash
 npm install
+npm run dev:doctor
 npm run dev
 ```
 
-| Command                 | What it does                                                    |
-| ----------------------- | --------------------------------------------------------------- |
-| `npm install`           | Installs site dependencies                                      |
-| `npm run dev`           | Builds Rustdocs first, then starts the local docs site          |
-| `npm run build:api`     | Builds and copies configured Rustdocs into `public/api/`        |
-| `npm run build`         | Builds Rustdocs first, then builds the static site into `dist/` |
-| `npm run preview`       | Serves the production build locally                             |
-| `npm run validate`      | Runs format, JS lint, CSS lint, and `astro check`               |
-| `npm run validate:full` | Runs `validate` and then a production build                     |
+| Command                  | What it does                                                         |
+| ------------------------ | -------------------------------------------------------------------- |
+| `npm install`            | Installs site dependencies and applies the local Git hooks path      |
+| `npm run dev:doctor`     | Checks Node, npm, Rust, ports, and expected local workspace wiring   |
+| `npm run dev`            | Builds Rustdocs first, then starts the local docs site               |
+| `npm run build:api`      | Builds and copies configured Rustdocs into `public/api/`             |
+| `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`      |
+| `npm run preview`        | Serves the production build locally                                  |
+| `npm run smoke:dist`     | Verifies the built `dist/` artifact contains the expected routes     |
+| `npm run verify:changed` | Runs Prettier, ESLint, and Stylelint only on changed authored files  |
+| `npm run verify:fast`    | Runs `verify:changed` and then `astro check`                         |
+| `npm run validate`       | Runs format, JS lint, CSS lint, and `astro check`                    |
+| `npm run validate:full`  | Runs `validate`, a production build, and the built-route smoke check |
+| `npm run setup:hooks`    | Reapplies `.githooks` as the repo Git hooks path                     |
 
 > [!TIP]
 > `npm run dev` runs `npm run build:api` first, so the generated `/api/` routes exist before the local docs site starts.
 
 > [!TIP]
-> The VS Code workspace launch config now runs `npm run dev` as well, so editor launches follow the same generated-API bootstrapping path.
+> VS Code tasks and launch profiles now map directly to the same npm scripts for dev, preview, doctor, and validation, so editor shortcuts follow the same bootstrapping path as terminal and CI workflows.
+
+> [!TIP]
+> `npm install` runs `prepare`, which points Git at `.githooks/`. The pre-commit hook runs `npm run precommit:check`, mirroring the staged-file verification path.
+
+> [!NOTE]
+> This repository is a static docs site plus generated Rustdocs. It intentionally does not include Docker, database reset or seed commands, shared-db tooling, `.env` bootstrapping, or Ollama setup because no such runtime surface exists here.
 
 If you want to refresh only generated API docs before restarting the site:
 
 ```bash
 npm run build:api
 ```
+
+If you already have a fresh build and want to sanity-check the final published artifact shape without rerunning the whole validation chain:
+
+```bash
+npm run smoke:dist
+```
+
+## VS Code workflows
+
+The workspace now includes task and launch entries for the core docs workflows:
+
+| VS Code entry            | Underlying command       |
+| ------------------------ | ------------------------ |
+| `Docs: dev`              | `npm run dev`            |
+| `Docs: build API`        | `npm run build:api`      |
+| `Docs: dev doctor`       | `npm run dev:doctor`     |
+| `Docs: verify changed`   | `npm run verify:changed` |
+| `Docs: verify fast`      | `npm run verify:fast`    |
+| `Docs: validate full`    | `npm run validate:full`  |
+| `Docs: smoke dist`       | `npm run smoke:dist`     |
+| `Docs: preview 8080`     | `npm run preview:8080`   |
+| `Docs dev server` launch | `npm run dev`            |
+| `Docs preview 8080`      | `npm run preview:8080`   |
+
+Use the launch profiles when you want a one-click server start, and use the tasks when you want repeatable terminal workflows from the command palette.
 
 ## Generated Rust API docs
 
@@ -258,26 +295,24 @@ Release flow:
 Workflow dispatch
   -> choose version and target commit
   -> build + validate the exact release candidate
-  -> wait for human approval on the protected release environment
-  -> create the Git tag and GitHub release with generated notes
+  -> create a draft GitHub release with generated notes
   -> attach a tarball of dist/
+  -> human reviews and publishes the draft release
 ```
 
 Use the release workflow from the Actions tab when you want to cut a GitHub release from `main`.
 
-Before relying on the approval gate, configure a protected `release` environment in the repository settings and add the required reviewers who must approve a release run.
-
 The workflow enforces these checks before publication:
 
-| Release guard | Why it exists |
-| ------------- | ------------- |
-| Manual dispatch input | Keeps the operator in control of versioning and timing |
-| `main` ancestry check | Prevents cutting a release from an unrelated branch tip |
-| `npm run validate:full` | Uses the same validation and build path as a production-quality local check |
-| Protected `release` environment | Inserts a real human approval step before the GitHub release is created |
+| Release guard           | Why it exists                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------- |
+| Manual dispatch input   | Keeps the operator in control of versioning and timing                                          |
+| `main` ancestry check   | Prevents cutting a release from an unrelated branch tip                                         |
+| `npm run validate:full` | Uses the same validation, build, and built-route smoke path as a production-quality local check |
+| Draft release output    | Keeps a human review-and-publish step after automation finishes                                 |
 
 > [!IMPORTANT]
-> The approval gate only becomes enforceable after the repository's `release` environment has required reviewers configured.
+> The workflow creates a draft release on purpose. A maintainer still needs to open the draft, review the generated notes and attached artifact, and publish it.
 
 > [!IMPORTANT]
 > Keep `public/CNAME` and `astro.config.mjs` aligned with `rustuse.org` so the deployed Pages site and custom domain stay in sync.
