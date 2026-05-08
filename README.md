@@ -163,6 +163,7 @@ npm run dev
 | `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`      |
 | `npm run preview`        | Serves the production build locally                                  |
 | `npm run smoke:dist`     | Verifies the built `dist/` artifact contains the expected routes     |
+| `npm run smoke:preview`  | Starts a temporary preview server and verifies the served responses  |
 | `npm run verify:changed` | Runs Prettier, ESLint, and Stylelint only on changed authored files  |
 | `npm run verify:fast`    | Runs `verify:changed` and then `astro check`                         |
 | `npm run validate`       | Runs format, JS lint, CSS lint, and `astro check`                    |
@@ -193,6 +194,14 @@ If you already have a fresh build and want to sanity-check the final published a
 npm run smoke:dist
 ```
 
+If you want to verify the served HTTP responses as well, run the preview smoke check directly:
+
+```bash
+npm run smoke:preview
+```
+
+By default the script starts and stops its own temporary preview server on a free local port. If you want to target an already-running preview instead, set `RUSTUSE_PREVIEW_URL` first.
+
 ## VS Code workflows
 
 The workspace now includes task and launch entries for the core docs workflows:
@@ -206,6 +215,7 @@ The workspace now includes task and launch entries for the core docs workflows:
 | `Docs: verify fast`      | `npm run verify:fast`    |
 | `Docs: validate full`    | `npm run validate:full`  |
 | `Docs: smoke dist`       | `npm run smoke:dist`     |
+| `Docs: smoke preview`    | `npm run smoke:preview`  |
 | `Docs: preview 8080`     | `npm run preview:8080`   |
 | `Docs dev server` launch | `npm run dev`            |
 | `Docs preview 8080`      | `npm run preview:8080`   |

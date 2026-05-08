@@ -66,6 +66,13 @@
       "detail": "Verify the built dist artifact contains the expected docs and API routes."
     },
     {
+      "label": "Docs: smoke preview",
+      "type": "shell",
+      "command": "npm run smoke:preview",
+      "problemMatcher": [],
+      "detail": "Start a temporary preview server and verify the served docs and API responses."
+    },
+    {
       "label": "Docs: preview 8080",
       "type": "shell",
       "command": "npm run preview:8080",

@@ -29,6 +29,7 @@ npm run dev:doctor
 npm run dev
 npm run build:api
 npm run smoke:dist
+npm run smoke:preview
 npm run verify:changed
 npm run verify:fast
 npm run check
@@ -41,6 +42,7 @@ npm run preview
 Use `npm run dev` for day-to-day site work.
 Use `npm run dev:doctor` after cloning or when local setup seems off.
 Use `npm run smoke:dist` after `npm run build` when you want to verify the final published artifact shape without rerunning the whole repo validation chain.
+Use `npm run smoke:preview` when you want an HTTP-level check of the served docs and API routes; it starts and stops its own temporary preview server by default.
 Use `npm run verify:changed` for the fastest changed-files-only lint and formatting loop, and `npm run verify:fast` when you also want `astro check`.
 Use `npm run validate` before opening a PR when you want the quickest whole-repo health check, and `npm run validate:full` when you also want a fresh production build plus the built-route smoke check.
 
