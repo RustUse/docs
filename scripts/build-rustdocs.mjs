@@ -391,10 +391,19 @@ function githubCloneAuthEnv(repoUrl) {
   const basicAuth = Buffer.from(`x-access-token:${token}`, 'utf8').toString(
     'base64',
   );
+  const currentConfigCount = Number.parseInt(
+    process.env.GIT_CONFIG_COUNT ?? '0',
+    10,
+  );
+  const nextConfigIndex =
+    Number.isInteger(currentConfigCount) && currentConfigCount >= 0
+      ? currentConfigCount
+      : 0;
   return {
-    GIT_CONFIG_COUNT: '1',
-    GIT_CONFIG_KEY_0: 'http.https://github.com/.extraheader',
-    GIT_CONFIG_VALUE_0: `Authorization: Basic ${basicAuth}`,
+    GIT_CONFIG_COUNT: String(nextConfigIndex + 1),
+    [`GIT_CONFIG_KEY_${nextConfigIndex}`]:
+      'http.https://github.com/.extraheader',
+    [`GIT_CONFIG_VALUE_${nextConfigIndex}`]: `Authorization: Basic ${basicAuth}`,
   };
 }
 
