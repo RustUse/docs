@@ -97,6 +97,8 @@ jobs:
               run: npm ci
 
             - name: Validate and build release candidate
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
               run: npm run validate:full
 
             - name: Archive built site

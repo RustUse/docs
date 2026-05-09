@@ -35,6 +35,8 @@ jobs:
         run: npm ci
 
       - name: Build generated Rustdocs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: npm run build:api
 
       - name: Build site

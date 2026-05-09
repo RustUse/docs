@@ -371,6 +371,28 @@ function run(command, args, cwd, extraEnv = {}) {
   });
 }
 
+function withGithubToken(repoUrl) {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token || typeof repoUrl !== 'string' || repoUrl.length === 0) {
+    return repoUrl;
+  }
+
+  let parsed;
+  try {
+    parsed = new URL(repoUrl);
+  } catch {
+    return repoUrl;
+  }
+
+  if (parsed.protocol !== 'https:' || parsed.hostname !== 'github.com') {
+    return repoUrl;
+  }
+
+  parsed.username = 'x-access-token';
+  parsed.password = token;
+  return parsed.toString();
+}
+
 if (!existsSync(configPath)) {
   fail(`Missing Rustdoc source config: ${configPath}`);
 }
@@ -474,7 +496,7 @@ try {
       if (typeof source.branch === 'string' && source.branch.length > 0) {
         cloneArgs.push('--branch', source.branch);
       }
-      cloneArgs.push(repo, workingDir);
+      cloneArgs.push(withGithubToken(repo), workingDir);
       run('git', cloneArgs, repoRoot);
     }
 
