@@ -371,26 +371,31 @@ function run(command, args, cwd, extraEnv = {}) {
   });
 }
 
-function withGithubToken(repoUrl) {
+function githubCloneAuthEnv(repoUrl) {
   const token = process.env.GITHUB_TOKEN;
-  if (!token || typeof repoUrl !== 'string' || repoUrl.length === 0) {
-    return repoUrl;
+  if (!token || typeof repoUrl !== 'string') {
+    return {};
   }
 
   let parsed;
   try {
     parsed = new URL(repoUrl);
   } catch {
-    return repoUrl;
+    return {};
   }
 
   if (parsed.protocol !== 'https:' || parsed.hostname !== 'github.com') {
-    return repoUrl;
+    return {};
   }
 
-  parsed.username = 'x-access-token';
-  parsed.password = token;
-  return parsed.toString();
+  const basicAuth = Buffer.from(`x-access-token:${token}`, 'utf8').toString(
+    'base64',
+  );
+  return {
+    GIT_CONFIG_COUNT: '1',
+    GIT_CONFIG_KEY_0: 'http.https://github.com/.extraheader',
+    GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${basicAuth}`,
+  };
 }
 
 if (!existsSync(configPath)) {
@@ -496,8 +501,8 @@ try {
       if (typeof source.branch === 'string' && source.branch.length > 0) {
         cloneArgs.push('--branch', source.branch);
       }
-      cloneArgs.push(withGithubToken(repo), workingDir);
-      run('git', cloneArgs, repoRoot);
+      cloneArgs.push(repo, workingDir);
+      run('git', cloneArgs, repoRoot, githubCloneAuthEnv(repo));
     }
 
     console.log(`Building Rustdocs for ${name}...`);
