@@ -17,12 +17,27 @@ export interface RustUseCrate {
   public: boolean;
 }
 
+const rustUseRepositoryUrl = 'https://github.com/RustUse/rustuse';
 const useMathRepositoryUrl = 'https://github.com/RustUse/use-math';
 const cratesIoBaseUrl = 'https://crates.io/crates';
 const docsRsBaseUrl = 'https://docs.rs';
 
 // Public crates keep their external registry and docs.rs targets prewired so publication is a status flip once those pages are live.
 export const crates: RustUseCrate[] = [
+  {
+    name: 'rustuse',
+    packageName: 'rustuse',
+    set: 'rustuse',
+    setPath: '/rustuse/',
+    status: 'planned',
+    description:
+      'Umbrella crate that publishes all use-* sets under a single crates.io entry with set-level feature flags.',
+    repositoryUrl: rustUseRepositoryUrl,
+    cratesIoUrl: `${cratesIoBaseUrl}/rustuse`,
+    pagePath: '/rustuse/',
+    tags: ['umbrella', 'meta', 'sets'],
+    public: false,
+  },
   {
     name: 'use-math',
     packageName: 'use-math',

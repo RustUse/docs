@@ -51,6 +51,17 @@ use-math = { git = "https://github.com/RustUse/use-math", package = "use-math" }
 
 Treat each crate README as the source of truth for versioning, feature flags, examples, and any crate-specific setup notes.
 
+## Future: add a set, not individual crates
+
+Once [`rustuse`](/rustuse/) is published on crates.io, adding the `use-math` set will be a single dependency declaration:
+
+```toml
+[dependencies]
+rustuse = { version = "0.1", features = ["use-math"] }
+```
+
+You add the set you want by name. The umbrella crate handles the rest — there is no need to list focused crates like `use-geometry` or `use-combinatorics` separately.
+
 ## Read the docs in this order
 
 Onboarding moves fastest when you go from scope, to API surface, to workspace context.

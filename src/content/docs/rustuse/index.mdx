@@ -1,0 +1,66 @@
+---
+title: rustuse
+description: The umbrella crates.io crate that publishes all RustUse sets under one entry with set-level feature flags.
+---
+
+import MascotNote from '../../../components/MascotNote.astro';
+import MascotTip from '../../../components/MascotTip.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+
+<MascotNote
+  title="Planned umbrella crate"
+  description="rustuse is planned as the single crates.io entry point for the RustUse ecosystem. It is not yet published. Use the individual workspace repositories while this crate is in its planned stage."
+/>
+
+<p>
+  <StatusBadge status="planned" /> Planned crates.io umbrella crate for the
+  RustUse ecosystem.
+</p>
+
+`rustuse` is the planned crates.io umbrella crate for the RustUse ecosystem. It will publish all `use-*` sets under one registry entry, with each set available as a named feature flag. You add the set you want rather than listing individual crates.
+
+## Purpose
+
+The goal of `rustuse` is to keep adoption simple. A single dependency declaration selects the set you need. Everything inside that set is available through the feature gate — you do not need to know which focused crates compose it.
+
+## Planned usage
+
+When `rustuse` is published, adding the `use-math` set to a project will look like this:
+
+```toml
+[dependencies]
+rustuse = { version = "0.1", features = ["use-math"] }
+```
+
+That single line brings in the `use-math` set, including its facade crate and the focused crates it composes.
+
+<MascotTip title="Add sets, not individual crates">
+  <p>
+    <code>rustuse</code> is designed so that you think in sets, not in
+    individual crates. Add <code>features = ["use-math"]</code> and the full
+    set is available. There is no need to list <code>use-geometry</code> or{' '}
+    <code>use-combinatorics</code> separately when you want the whole set.
+  </p>
+</MascotTip>
+
+## Planned feature flags
+
+Each RustUse set maps to one feature flag in `rustuse`:
+
+| Feature flag | Set |
+| --- | --- |
+| `use-math` | The initial math set: `use-math`, `use-geometry`, `use-combinatorics`. |
+
+Feature flags will be additive. You can enable more than one set in a single `rustuse` dependency if a project spans multiple domains.
+
+## Repository
+
+The `rustuse` crate will live in its own repository at [github.com/RustUse/rustuse](https://github.com/RustUse/rustuse), separate from the individual set workspaces.
+
+## Status
+
+`rustuse` is planned. The repository is being created and the crate is not yet published to crates.io. Use the individual workspace repositories directly while the umbrella crate is in its planned stage.
+
+- [Onboarding](/onboarding/) — current installation paths while `rustuse` is planned.
+- [use-math set](/sets/use-math/) — the first set that will be available through `rustuse`.
+- [Crates](/crates/) — the current public crate catalog.

@@ -102,6 +102,7 @@ export default defineConfig({
           label: 'Crates',
           items: [
             { label: 'Overview', link: '/crates/' },
+            { label: 'rustuse', link: '/rustuse/' },
             { label: 'use-math', link: '/use-math/' },
             {
               label: 'use-combinatorics',
