@@ -1,6 +1,9 @@
 name: Deploy Docs
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       ref:
@@ -16,7 +19,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:

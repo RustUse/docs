@@ -290,14 +290,15 @@ The site is intended to deploy to GitHub Pages.
 Deployment flow:
 
 ```text
-Release Please workflow
-  -> validate and build the released commit
+Push to main or manual redeploy workflow
+  -> build configured Rustdocs into public/api/
+  -> build the docs site into dist/
   -> upload the Pages artifact from dist/
   -> deploy static output to GitHub Pages
 ```
 
-The release-triggered Pages path lives in `.github/workflows/release-please.yml`.
-`.github/workflows/deploy.yml` remains available as a manual fallback when you need to redeploy a specific ref from the Actions tab.
+The primary production deploy path lives in `.github/workflows/deploy.yml` and runs on reviewed pushes to `main`.
+The same workflow also remains available as a manual redeploy path when you need to deploy a specific ref from the Actions tab.
 
 ## Releases
 
@@ -310,7 +311,7 @@ Merge conventional commits to main
   -> Release Please updates or opens a release PR
   -> maintainer reviews and merges the release PR
   -> Release Please creates the GitHub release and tag
-  -> workflow validates the released commit, uploads a dist/ tarball, and deploys GitHub Pages
+  -> workflow validates the released commit and uploads a dist/ tarball
 ```
 
 Release Please is bootstrapped from the repository's current public baseline commit so it does not backfill older history into the automated changelog.
@@ -320,7 +321,6 @@ Release Please is bootstrapped from the repository's current public baseline com
 | Conventional Commit titles         | Drive semver bumps and changelog sections automatically                             |
 | Release PR review                  | Keeps a maintainer in the loop before tags and releases are cut                     |
 | `npm run validate:full` on release | Uses the same validation, build, and built-route smoke path as local release checks |
-| Pages deploy in the release run    | Avoids relying on follow-on workflows that `github.token` would not trigger         |
 | Attached `dist/` tarball           | Preserves the exact built artifact alongside the GitHub release                     |
 
 > [!IMPORTANT]
