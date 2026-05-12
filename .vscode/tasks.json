@@ -1,89 +1,89 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Docs: dev",
-            "type": "shell",
-            "command": "npm run dev",
-            "isBackground": true,
-            "problemMatcher": [],
-            "detail": "Build Rustdocs, then start the local Astro dev server.",
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
-        },
-        {
-            "label": "Docs: build API",
-            "type": "shell",
-            "command": "npm run build:api",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Regenerate the published Rustdoc bundle under public/api/."
-        },
-        {
-            "label": "Docs: dev doctor",
-            "type": "shell",
-            "command": "npm run dev:doctor",
-            "problemMatcher": [],
-            "detail": "Check local prerequisites and expected workspace wiring."
-        },
-        {
-            "label": "Docs: verify changed",
-            "type": "shell",
-            "command": "npm run verify:changed",
-            "problemMatcher": [],
-            "group": "test",
-            "detail": "Run Prettier, ESLint, and Stylelint only on changed authored files."
-        },
-        {
-            "label": "Docs: verify fast",
-            "type": "shell",
-            "command": "npm run verify:fast",
-            "problemMatcher": [],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "detail": "Run changed-file verification plus astro check."
-        },
-        {
-            "label": "Docs: validate full",
-            "type": "shell",
-            "command": "npm run validate:full",
-            "problemMatcher": [],
-            "detail": "Run the full repo validation path used for releases."
-        },
-        {
-            "label": "Docs: smoke dist",
-            "type": "shell",
-            "command": "npm run smoke:dist",
-            "problemMatcher": [],
-            "detail": "Verify the built dist artifact contains the expected docs and API routes."
-        },
-        {
-            "label": "Docs: smoke preview",
-            "type": "shell",
-            "command": "npm run smoke:preview",
-            "problemMatcher": [],
-            "detail": "Start a temporary preview server and verify the served docs and API responses."
-        },
-        {
-            "label": "Docs: preview 8080",
-            "type": "shell",
-            "command": "npm run preview:8080",
-            "isBackground": true,
-            "problemMatcher": [],
-            "detail": "Serve the production build locally on 127.0.0.1:8080.",
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Docs: dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "isBackground": true,
+      "problemMatcher": [],
+      "detail": "Build Rustdocs, then start the local Astro dev server.",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Docs: build API",
+      "type": "shell",
+      "command": "npm run build:api",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Regenerate the published Rustdoc bundle under public/api/."
+    },
+    {
+      "label": "Docs: dev doctor",
+      "type": "shell",
+      "command": "npm run dev:doctor",
+      "problemMatcher": [],
+      "detail": "Check local prerequisites and expected workspace wiring."
+    },
+    {
+      "label": "Docs: verify changed",
+      "type": "shell",
+      "command": "npm run verify:changed",
+      "problemMatcher": [],
+      "group": "test",
+      "detail": "Run Prettier, ESLint, and Stylelint only on changed authored files."
+    },
+    {
+      "label": "Docs: verify fast",
+      "type": "shell",
+      "command": "npm run verify:fast",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "detail": "Run changed-file verification plus astro check."
+    },
+    {
+      "label": "Docs: validate full",
+      "type": "shell",
+      "command": "npm run validate:full",
+      "problemMatcher": [],
+      "detail": "Run the full repo validation path used for releases."
+    },
+    {
+      "label": "Docs: smoke dist",
+      "type": "shell",
+      "command": "npm run smoke:dist",
+      "problemMatcher": [],
+      "detail": "Verify the built dist artifact contains the expected docs and API routes."
+    },
+    {
+      "label": "Docs: smoke preview",
+      "type": "shell",
+      "command": "npm run smoke:preview",
+      "problemMatcher": [],
+      "detail": "Start a temporary preview server and verify the served docs and API responses."
+    },
+    {
+      "label": "Docs: preview 8080",
+      "type": "shell",
+      "command": "npm run preview:8080",
+      "isBackground": true,
+      "problemMatcher": [],
+      "detail": "Serve the production build locally on 127.0.0.1:8080.",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    }
+  ]
 }

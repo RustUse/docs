@@ -20,11 +20,7 @@ function readDistFile(relativePath) {
   return readFileSync(path.join(distRoot, ...relativePath.split('/')), 'utf8');
 }
 
-function checkFile({
-  distPath,
-  mustInclude = [],
-  sourceArtifact,
-}) {
+function checkFile({ distPath, mustInclude = [], sourceArtifact }) {
   const absolutePath = path.join(distRoot, ...distPath.split('/'));
   checks += 1;
 

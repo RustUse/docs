@@ -2,7 +2,11 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 function readRustdocSources(repoRoot) {
-  const rustdocSourcesPath = path.join(repoRoot, 'docs', 'rustdoc-sources.json');
+  const rustdocSourcesPath = path.join(
+    repoRoot,
+    'docs',
+    'rustdoc-sources.json',
+  );
   return JSON.parse(readFileSync(rustdocSourcesPath, 'utf8'));
 }
 
@@ -29,7 +33,9 @@ export function validateSourceArtifact(text, expectedCrateName) {
     }
 
     if (typeof file?.content !== 'string') {
-      throw new Error(`Expected bundled file "${file.path}" to have string content.`);
+      throw new Error(
+        `Expected bundled file "${file.path}" to have string content.`,
+      );
     }
 
     if (file.language !== 'rust' && file.language !== 'toml') {
