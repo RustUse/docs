@@ -1,7 +1,7 @@
 {
   "name": "rustuse",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "a11y": "npm run a11y:axe && npm run a11y:pa11y",
     "a11y:axe": "npm exec -- axe http://localhost:8080 --rules color-contrast",
