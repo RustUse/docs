@@ -173,6 +173,9 @@ npm run dev
 > [!TIP]
 > `npm run dev` runs `npm run build:api` first, so the generated `/api/` routes exist before the local docs site starts.
 
+> [!NOTE]
+> A sibling `../use-math` checkout is optional. If it is missing, the Rustdoc build clones the configured GitHub repo automatically. Expect the first cold `npm run build:api`, `npm run build`, or `npm run dev` run to take longer because it may need to clone the workspace and build Rustdocs from scratch.
+
 > [!TIP]
 > VS Code tasks and launch profiles now map directly to the same npm scripts for dev, preview, doctor, and validation, so editor shortcuts follow the same bootstrapping path as terminal and CI workflows.
 
@@ -247,7 +250,9 @@ The current source configuration points at a local sibling `use-math` workspace 
 
 </details>
 
-When that local sibling checkout is unavailable, `scripts/build-rustdocs.mjs` falls back to cloning the configured `repo` URL.
+For faster local iteration, keep a sibling `use-math` workspace checkout at `../use-math`.
+When that checkout is unavailable, `scripts/build-rustdocs.mjs` falls back to cloning the configured `repo` URL automatically.
+That fallback is what CI uses today, so contributors do not need a sibling checkout just to build the docs site successfully.
 
 Generated output currently lands at:
 
@@ -285,44 +290,44 @@ The site is intended to deploy to GitHub Pages.
 Deployment flow:
 
 ```text
-GitHub Actions
-  -> install Node dependencies
-  -> install Rust stable
-  -> build configured Rustdocs into public/api/
-  -> build static site into dist/
+Release Please workflow
+  -> validate and build the released commit
+  -> upload the Pages artifact from dist/
   -> deploy static output to GitHub Pages
 ```
 
-The current workflow lives in `.github/workflows/deploy.yml`.
+The release-triggered Pages path lives in `.github/workflows/release-please.yml`.
+`.github/workflows/deploy.yml` remains available as a manual fallback when you need to redeploy a specific ref from the Actions tab.
 
 ## Releases
 
-GitHub releases are now created through `.github/workflows/release.yml`.
+GitHub releases are now created through `.github/workflows/release-please.yml`.
 
 Release flow:
 
 ```text
-Workflow dispatch
-  -> choose version and target commit
-  -> build + validate the exact release candidate
-  -> create a draft GitHub release with generated notes
-  -> attach a tarball of dist/
-  -> human reviews and publishes the draft release
+Merge conventional commits to main
+  -> Release Please updates or opens a release PR
+  -> maintainer reviews and merges the release PR
+  -> Release Please creates the GitHub release and tag
+  -> workflow validates the released commit, uploads a dist/ tarball, and deploys GitHub Pages
 ```
 
-Use the release workflow from the Actions tab when you want to cut a GitHub release from `main`.
+Release Please is bootstrapped from the repository's current public baseline commit so it does not backfill older history into the automated changelog.
 
-The workflow enforces these checks before publication:
-
-| Release guard           | Why it exists                                                                                   |
-| ----------------------- | ----------------------------------------------------------------------------------------------- |
-| Manual dispatch input   | Keeps the operator in control of versioning and timing                                          |
-| `main` ancestry check   | Prevents cutting a release from an unrelated branch tip                                         |
-| `npm run validate:full` | Uses the same validation, build, and built-route smoke path as a production-quality local check |
-| Draft release output    | Keeps a human review-and-publish step after automation finishes                                 |
+| Release guard                      | Why it exists                                                                       |
+| ---------------------------------- | ----------------------------------------------------------------------------------- |
+| Conventional Commit titles         | Drive semver bumps and changelog sections automatically                             |
+| Release PR review                  | Keeps a maintainer in the loop before tags and releases are cut                     |
+| `npm run validate:full` on release | Uses the same validation, build, and built-route smoke path as local release checks |
+| Pages deploy in the release run    | Avoids relying on follow-on workflows that `github.token` would not trigger         |
+| Attached `dist/` tarball           | Preserves the exact built artifact alongside the GitHub release                     |
 
 > [!IMPORTANT]
-> The workflow creates a draft release on purpose. A maintainer still needs to open the draft, review the generated notes and attached artifact, and publish it.
+> If branch protection requires checks on Release Please PRs, add a `RELEASE_PLEASE_TOKEN` secret, update `.github/workflows/release-please.yml` to use that secret instead of `github.token`, and allow GitHub Actions to create pull requests in the repository settings. The default workflow token can open the release PR, but it does not trigger follow-on PR workflows.
+
+> [!TIP]
+> With squash merges, the PR title becomes the release signal. Use titles like `feat: add public API docs`, `fix: correct Pages route`, or `docs: clarify contributor setup`.
 
 > [!IMPORTANT]
 > Keep `public/CNAME` and `astro.config.mjs` aligned with `rustuse.org` so the deployed Pages site and custom domain stay in sync.
@@ -348,11 +353,16 @@ Contributor-facing project docs are already in place:
 
 | File                 | Purpose                                                           |
 | -------------------- | ----------------------------------------------------------------- |
+| `CHANGELOG.md`       | Public release notes generated and maintained by Release Please   |
 | `CONTRIBUTING.md`    | Contributor workflow, repo expectations, and contribution process |
+| `GOVERNANCE.md`      | Review, merge, and release policy for this repository             |
+| `MAINTAINERS.md`     | Current maintainer roster and responsibilities                    |
 | `CODE_OF_CONDUCT.md` | Community behavior guidelines                                     |
 | `SECURITY.md`        | Security reporting and disclosure guidance                        |
 
 Use them together with this README when onboarding new contributors or maintainers.
+
+Public changes are intended to land through pull requests with passing checks and one maintainer approval before merge.
 
 ## License
 

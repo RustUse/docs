@@ -470,6 +470,10 @@ try {
         );
       }
 
+      console.log(
+        `Cloning Rustdoc source for ${name} into a temporary workspace. This can take a bit on the first run.`,
+      );
+
       const cloneArgs = ['clone', '--depth', '1'];
       if (typeof source.branch === 'string' && source.branch.length > 0) {
         cloneArgs.push('--branch', source.branch);
@@ -478,7 +482,9 @@ try {
       run('git', cloneArgs, repoRoot);
     }
 
-    console.log(`Building Rustdocs for ${name}...`);
+    console.log(
+      `Building Rustdocs for ${name} with cargo doc --workspace --no-deps. Cold builds can take several minutes.`,
+    );
     const rustdocFlags = [
       '--default-theme',
       'dark',
