@@ -232,10 +232,10 @@ async function main() {
     status: existsSync(siblingWorkspacePath) ? 'pass' : 'warn',
     summary: existsSync(siblingWorkspacePath)
       ? `Found local sibling workspace at ${siblingWorkspacePath}.`
-      : 'Local sibling workspace is missing; build:api will fall back to cloning GitHub.',
+      : 'Local sibling workspace is missing; build:api and dev will fall back to cloning the configured GitHub repo.',
     suggestion: existsSync(siblingWorkspacePath)
       ? undefined
-      : 'Clone the sibling ../use-math workspace if you want faster local Rustdoc rebuilds and local source edits.',
+      : 'Clone the sibling ../use-math workspace only if you want faster local Rustdoc rebuilds or need to edit the Rust source locally.',
   });
 
   for (const portCheck of portChecks) {
