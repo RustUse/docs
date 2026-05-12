@@ -1,13 +1,10 @@
 name: Deploy Docs
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      ref:
-        description: Branch, tag, or commit to deploy
-        required: false
-        default: main
-        type: string
     inputs:
       ref:
         description: Branch, tag, or commit to deploy
@@ -65,11 +62,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
         uses: actions/deploy-pages@v5
