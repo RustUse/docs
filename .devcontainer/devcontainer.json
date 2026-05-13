@@ -1,0 +1,35 @@
+{
+  "name": "rustuse-docs",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "remoteUser": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/rust:1": {
+      "version": "stable"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "astro"
+        ]
+      },
+      "extensions": [
+        "ms-vscode-remote.remote-containers",
+        "astro-build.astro-vscode",
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "redhat.vscode-yaml",
+        "stylelint.vscode-stylelint"
+      ]
+    }
+  }
+}

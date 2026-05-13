@@ -351,16 +351,18 @@ Release Please is bootstrapped from the repository's current public baseline com
 
 Contributor-facing project docs are already in place:
 
-| File                 | Purpose                                                           |
-| -------------------- | ----------------------------------------------------------------- |
-| `CHANGELOG.md`       | Public release notes generated and maintained by Release Please   |
-| `CONTRIBUTING.md`    | Contributor workflow, repo expectations, and contribution process |
-| `GOVERNANCE.md`      | Review, merge, and release policy for this repository             |
-| `MAINTAINERS.md`     | Current maintainer roster and responsibilities                    |
-| `CODE_OF_CONDUCT.md` | Community behavior guidelines                                     |
-| `SECURITY.md`        | Security reporting and disclosure guidance                        |
+| File                                                                                            | Purpose                                                                         |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `CHANGELOG.md`                                                                                  | Public release notes generated and maintained by Release Please                 |
+| `src/content/docs/contributing.mdx`                                                             | Docs-site-specific contributor workflow, repo expectations, and release process |
+| [RustUse/.github CONTRIBUTING.md](https://github.com/RustUse/.github/blob/main/CONTRIBUTING.md) | Shared RustUse contribution policy inherited by this repository                 |
+| `GOVERNANCE.md`                                                                                 | Review, merge, and release policy for this repository                           |
+| `MAINTAINERS.md`                                                                                | Current maintainer roster and responsibilities                                  |
+| `CODE_OF_CONDUCT.md`                                                                            | Community behavior guidelines                                                   |
+| `SECURITY.md`                                                                                   | Security reporting and disclosure guidance                                      |
 
-Use them together with this README when onboarding new contributors or maintainers.
+Use the shared RustUse contribution policy together with the docs contributor
+guide and this README when onboarding new contributors or maintainers.
 
 Public changes are intended to land through pull requests with passing checks and one maintainer approval before merge.
 

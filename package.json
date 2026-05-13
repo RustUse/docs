@@ -1,12 +1,13 @@
 {
   "name": "rustuse",
-  "description": "Composable sets of primitive Rust utility crates for fellow crustaceans.",
+  "description": "Public documentation site and generated API reference for RustUse.",
   "type": "module",
   "version": "0.1.1",
   "scripts": {
     "a11y": "npm run a11y:axe && npm run a11y:pa11y",
     "a11y:axe": "npm exec -- axe http://localhost:8080 --rules color-contrast",
     "a11y:pa11y": "npm exec -- pa11y http://localhost:8080 --standard WCAG2AA",
+    "audit": "npm audit --audit-level=high",
     "dev:doctor": "node scripts/dev-doctor.mjs",
     "dev": "npm run build:api && astro dev",
     "start": "npm run build:api && astro dev",
@@ -25,6 +26,7 @@
     "preview:8080": "astro preview --host 127.0.0.1 --port 8080",
     "prepare": "npm run setup:hooks",
     "setup:hooks": "node scripts/setup-githooks.mjs",
+    "sbom": "npm sbom --package-lock-only --sbom-format cyclonedx --sbom-type application > sbom.cyclonedx.json",
     "smoke:dist": "node scripts/smoke-dist.mjs",
     "smoke:preview": "node scripts/smoke-preview.mjs",
     "validate": "npm run format && npm run lint && npm run lint:css && npm run check",

@@ -15,6 +15,13 @@
       }
     },
     {
+      "label": "Docs: audit",
+      "type": "shell",
+      "command": "npm run audit",
+      "problemMatcher": [],
+      "detail": "Run npm audit at the repo's high-severity threshold."
+    },
+    {
       "label": "Docs: build API",
       "type": "shell",
       "command": "npm run build:api",
@@ -59,11 +66,25 @@
       "detail": "Run the full repo validation path used for releases."
     },
     {
+      "label": "Docs: sbom",
+      "type": "shell",
+      "command": "npm run sbom",
+      "problemMatcher": [],
+      "detail": "Generate a CycloneDX SBOM from package-lock.json."
+    },
+    {
       "label": "Docs: smoke dist",
       "type": "shell",
       "command": "npm run smoke:dist",
       "problemMatcher": [],
       "detail": "Verify the built dist artifact contains the expected docs and API routes."
+    },
+    {
+      "label": "Docs: validate",
+      "type": "shell",
+      "command": "npm run validate",
+      "problemMatcher": [],
+      "detail": "Run the standard repo validation path used by PR checks."
     },
     {
       "label": "Docs: smoke preview",

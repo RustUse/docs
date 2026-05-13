@@ -4,6 +4,8 @@ public/api/
 # generated types
 .astro/
 .cache/
+.tools/
+.direnv/
 
 # dependencies
 node_modules/
@@ -18,6 +20,14 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+
+# security and analysis artifacts
+*.sarif
+sbom.cyclonedx*
+
+# local reports
+coverage/
 
 # macOS-specific files
 .DS_Store
