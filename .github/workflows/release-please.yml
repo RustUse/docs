@@ -1,72 +1,72 @@
 name: Release Please
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
 
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+    contents: write
+    issues: write
+    pull-requests: write
 
 concurrency:
-  group: release-please-${{ github.ref }}
-  cancel-in-progress: true
+    group: release-please-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Release Please
-        id: release
-        uses: googleapis/release-please-action@v5
-        with:
-          # The repository or organization setting must allow GitHub Actions to
-          # create pull requests when using the built-in workflow token.
-          token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
+    release-please:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run Release Please
+              id: release
+              uses: googleapis/release-please-action@v5
+              with:
+                  # The repository or organization setting must allow GitHub Actions to
+                  # create pull requests when using the built-in workflow token.
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  config-file: release-please-config.json
+                  manifest-file: .release-please-manifest.json
 
-      - name: Check out released commit
-        if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.release.outputs.sha }}
+            - name: Check out released commit
+              if: ${{ steps.release.outputs.release_created }}
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ steps.release.outputs.sha }}
 
-      - name: Set up Node.js
-        if: ${{ steps.release.outputs.release_created }}
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+            - name: Set up Node.js
+              if: ${{ steps.release.outputs.release_created }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
 
-      - name: Set up Rust
-        if: ${{ steps.release.outputs.release_created }}
-        uses: dtolnay/rust-toolchain@stable
+            - name: Set up Rust
+              if: ${{ steps.release.outputs.release_created }}
+              uses: dtolnay/rust-toolchain@stable
 
-      - name: Install dependencies
-        if: ${{ steps.release.outputs.release_created }}
-        run: npm ci
+            - name: Install dependencies
+              if: ${{ steps.release.outputs.release_created }}
+              run: npm ci
 
-      - name: Validate and build release artifact
-        if: ${{ steps.release.outputs.release_created }}
-        run: npm run validate:full
+            - name: Validate and build release artifact
+              if: ${{ steps.release.outputs.release_created }}
+              run: npm run validate:full
 
-      - name: Archive built site
-        if: ${{ steps.release.outputs.release_created }}
-        shell: bash
-        run: tar -czf "rustuse-docs-${{ steps.release.outputs.tag_name }}.tar.gz" dist
+            - name: Archive built site
+              if: ${{ steps.release.outputs.release_created }}
+              shell: bash
+              run: tar -czf "rustuse-docs-${{ steps.release.outputs.tag_name }}.tar.gz" dist
 
-      - name: Upload release artifact
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh release upload \
-            "${{ steps.release.outputs.tag_name }}" \
-            "./rustuse-docs-${{ steps.release.outputs.tag_name }}.tar.gz" \
-            --clobber
+            - name: Upload release artifact
+              if: ${{ steps.release.outputs.release_created }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  gh release upload \
+                    "${{ steps.release.outputs.tag_name }}" \
+                    "./rustuse-docs-${{ steps.release.outputs.tag_name }}.tar.gz" \
+                    --clobber

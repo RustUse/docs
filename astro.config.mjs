@@ -75,6 +75,7 @@ export default defineConfig({
       titleDelimiter: '|',
       description:
         'RustUse provides composable sets of primitive Rust utility crates.',
+      favicon: '/favicon.ico',
       disable404Route: true,
       customCss: ['./src/styles/rustuse.css'],
       components: {
