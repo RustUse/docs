@@ -12,8 +12,8 @@ import { publicCrates } from '../../../data/crates';
 <DocsMascotPanel
   alt="A Rust mascot presenting the RustUse crate catalog"
   eyebrow="Catalog"
-  title="One catalog, three public crate tracks."
-  description="RustUse keeps the current public surface intentionally small. The catalog below is driven from one data file so status badges, guide links, and API entry points stay aligned."
+  title="One catalog, four public crate tracks."
+  description="RustUse keeps the current public surface intentionally small. The catalog below is driven from one data file so status badges, set links, guide links, and API entry points stay aligned."
   quickLinks={[
     { href: '/sets/use-math/', label: 'use-math set' },
     { href: '/api-reference/', label: 'API reference' },
@@ -23,7 +23,7 @@ import { publicCrates } from '../../../data/crates';
   <MascotNote slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse currently surfaces three public crate tracks. `use-math`, `use-geometry`, and `use-combinatorics` all have RustUse-hosted generated API docs today.
+RustUse currently surfaces four public crate tracks across the two active sets. `use-math`, `use-geometry`, `use-combinatorics`, and `use-collatz` all have RustUse-hosted generated API docs today.
 
 The catalog also carries the future crates.io and docs.rs targets for these crates as a publication dry-run, but those external links stay disabled until the release pages are actually live.
 
@@ -42,7 +42,8 @@ The catalog also carries the future crates.io and docs.rs targets for these crat
 ## How to read the catalog
 
 - `use-combinatorics` is the discrete-math crate for counting, combinations, permutations, and finite-structure helpers.
-- `use-geometry` is the focused crate for direct 2D primitives and measurement helpers.
+- `use-collatz` is the focused crate for Collatz trajectories, stopping times, parity patterns, and bounded range verification.
+- `use-geometry` is the focused crate that anchors the `use-geometry` set for direct 2D primitives and measurement helpers.
 - `use-math` is the facade crate that can re-export supported functionality behind explicit feature flags.
 - `Scaffolded` means the crate has an active RustUse docs surface and hosted rustdoc output, and its future crates.io/docs.rs targets may already be staged in the catalog without being rendered as live links.
 - `Published` is reserved for crates whose registry metadata points at stable RustUse API URLs.

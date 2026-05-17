@@ -1,0 +1,47 @@
+---
+title: use-geometry
+description: The RustUse geometry set centered on the focused use-geometry crate.
+---
+
+import CrateGrid from '../../../components/CrateGrid.astro';
+import MascotNote from '../../../components/MascotNote.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+import { getPublicCratesBySet } from '../../../data/crates';
+
+`use-geometry` is the current RustUse geometry set. It currently surfaces one public crate track: `use-geometry`.
+
+<MascotNote
+  title="Focused launch set"
+  description="The current public use-geometry set consists of one scaffolded crate track. RustUse-hosted generated rustdocs remain canonical for the set while external crates.io and docs.rs targets stay staged."
+/>
+
+<p>
+  <StatusBadge status="scaffolded" /> All current public crates in this set are
+  scaffolded today.
+</p>
+
+## Purpose
+
+This set keeps direct 2D geometry primitives, validated construction, and common measurement helpers separate from the broader `use-math` facade surface.
+
+## Public crate tracks
+
+<CrateGrid crates={getPublicCratesBySet('use-geometry')} />
+
+## Generated Rustdocs
+
+- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the current set workspace.
+- [use-geometry API reference](/api/use-geometry/) - generated Rustdocs for the geometry crate.
+
+## Catalog and guidance
+
+- [Crates](/crates/) - current public crate catalog with shared status badges and link targets.
+- [API Reference](/api-reference/) - RustUse.org API strategy, Cargo metadata guidance, and future rustdoc JSON notes.
+
+## Why this shape
+
+Keeping geometry in its own set keeps direct point and shape primitives available without routing them through the broader `use-math` facade.
+
+## Status
+
+The initial public geometry set currently contains one scaffolded crate: `use-geometry`. RustUse-hosted generated rustdocs remain canonical while external crates.io and docs.rs targets stay staged.

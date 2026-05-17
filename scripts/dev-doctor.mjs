@@ -7,6 +7,7 @@ import process from 'node:process';
 const repoRoot = process.cwd();
 const packageJsonPath = path.join(repoRoot, 'package.json');
 const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+const rustdocSourcesPath = path.join(repoRoot, 'docs', 'rustdoc-sources.json');
 
 const portChecks = [
   {
@@ -22,6 +23,10 @@ const portChecks = [
       'Stop the existing preview server on port 8080 or use a different preview port.',
   },
 ];
+
+function readRustdocSources() {
+  return JSON.parse(readFileSync(rustdocSourcesPath, 'utf8'));
+}
 
 function resolveCommand(command) {
   if (process.platform === 'win32' && command === 'npm') {
@@ -226,17 +231,32 @@ async function main() {
       : 'Install Cargo via the Rust toolchain before running build:api or build.',
   });
 
-  const siblingWorkspacePath = path.resolve(repoRoot, '../use-math');
-  checks.push({
-    label: 'Local use-math workspace',
-    status: existsSync(siblingWorkspacePath) ? 'pass' : 'warn',
-    summary: existsSync(siblingWorkspacePath)
-      ? `Found local sibling workspace at ${siblingWorkspacePath}.`
-      : 'Local sibling workspace is missing; build:api and dev will fall back to cloning the configured GitHub repo.',
-    suggestion: existsSync(siblingWorkspacePath)
-      ? undefined
-      : 'Clone the sibling ../use-math workspace only if you want faster local Rustdoc rebuilds or need to edit the Rust source locally.',
-  });
+  for (const source of readRustdocSources().sources ?? []) {
+    if (!source || typeof source !== 'object') {
+      continue;
+    }
+
+    if (typeof source.path !== 'string' || source.path.length === 0) {
+      continue;
+    }
+
+    const sourceName =
+      typeof source.name === 'string' && source.name.length > 0
+        ? source.name
+        : source.path;
+    const localSourcePath = path.resolve(repoRoot, source.path);
+
+    checks.push({
+      label: `Local ${sourceName} workspace`,
+      status: existsSync(localSourcePath) ? 'pass' : 'warn',
+      summary: existsSync(localSourcePath)
+        ? `Found local Rustdoc source at ${localSourcePath}.`
+        : `Local Rustdoc source is missing for ${sourceName}; build:api and dev will fall back to cloning the configured GitHub repo.`,
+      suggestion: existsSync(localSourcePath)
+        ? undefined
+        : `Clone the sibling ${source.path} workspace only if you want faster local Rustdoc rebuilds or need to edit the Rust source locally.`,
+    });
+  }
 
   for (const portCheck of portChecks) {
     const available = await isPortAvailable(portCheck.port);

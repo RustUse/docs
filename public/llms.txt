@@ -16,7 +16,7 @@ Current core crates:
 
 Key crate pages:
 - https://rustuse.org/use-math/
-- https://rustuse.org/use-math/use-geometry/
+- https://rustuse.org/use-geometry/
 - https://rustuse.org/use-math/use-combinatorics/
 
 Key API pages:

@@ -18,6 +18,7 @@ export interface RustUseCrate {
 }
 
 const useMathRepositoryUrl = 'https://github.com/RustUse/use-math';
+const useGeometryRepositoryUrl = 'https://github.com/RustUse/use-geometry';
 const cratesIoBaseUrl = 'https://crates.io/crates';
 const docsRsBaseUrl = 'https://docs.rs';
 
@@ -43,16 +44,16 @@ export const crates: RustUseCrate[] = [
   {
     name: 'use-geometry',
     packageName: 'use-geometry',
-    set: 'use-math',
-    setPath: '/sets/use-math/',
+    set: 'use-geometry',
+    setPath: '/sets/use-geometry/',
     status: 'scaffolded',
     description: '2D geometry primitives and common measurement helpers.',
-    repositoryUrl: useMathRepositoryUrl,
+    repositoryUrl: useGeometryRepositoryUrl,
     cratesIoUrl: `${cratesIoBaseUrl}/use-geometry`,
     docsUrl: '/api/use-geometry/',
     docsRsUrl: `${docsRsBaseUrl}/use-geometry`,
     apiPath: '/api/use-geometry/',
-    pagePath: '/use-math/use-geometry/',
+    pagePath: '/use-geometry/',
     tags: ['math', 'geometry', '2d'],
     public: true,
   },
@@ -70,6 +71,23 @@ export const crates: RustUseCrate[] = [
     apiPath: '/api/use-combinatorics/',
     pagePath: '/use-math/use-combinatorics/',
     tags: ['math', 'discrete', 'counting'],
+    public: true,
+  },
+  {
+    name: 'use-collatz',
+    packageName: 'use-collatz',
+    set: 'use-math',
+    setPath: '/sets/use-math/',
+    status: 'scaffolded',
+    description:
+      'Collatz trajectories, stopping times, parity patterns, and bounded verification.',
+    repositoryUrl: useMathRepositoryUrl,
+    cratesIoUrl: `${cratesIoBaseUrl}/use-collatz`,
+    docsUrl: '/api/use-collatz/',
+    docsRsUrl: `${docsRsBaseUrl}/use-collatz`,
+    apiPath: '/api/use-collatz/',
+    pagePath: '/use-math/use-collatz/',
+    tags: ['math', 'collatz', 'sequence'],
     public: true,
   },
   {

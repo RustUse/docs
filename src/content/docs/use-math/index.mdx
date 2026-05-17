@@ -15,10 +15,11 @@ import { getPublicCratesBySet } from '../../../data/crates';
   alt="A Rust mascot introducing the use-math set"
   eyebrow="Set + facade"
   title="Math stays clearer when crates stay narrow."
-  description="The initial use-math surface stays intentionally narrow: use-math provides the facade layer, while use-geometry and use-combinatorics stay focused crates inside the set."
+  description="The current use-math surface stays intentionally narrow: use-math provides the facade layer, while use-combinatorics and use-collatz stay focused crates inside the set. Geometry now lives in the sibling use-geometry set."
   quickLinks={[
+    { href: '/use-math/use-collatz/', label: 'use-collatz' },
     { href: '/use-math/use-combinatorics/', label: 'use-combinatorics' },
-    { href: '/use-math/use-geometry/', label: 'use-geometry' },
+    { href: '/use-geometry/', label: 'use-geometry' },
     { href: '/api/use-math/', label: 'use-math Rustdocs' },
   ]}
   theme="teal"
@@ -40,7 +41,7 @@ This page tracks the current public crate tracks in the `use-math` set and the r
 
 ## Overview
 
-The initial `use-math` set currently surfaces three public crate tracks. `use-math` is the facade crate for feature-flagged re-exports and a `prelude` module, `use-geometry` provides direct 2D primitives and common measurement helpers, and `use-combinatorics` provides the discrete-math counting track.
+The current `use-math` set currently surfaces three public crate tracks. `use-math` is the facade crate for feature-flagged re-exports and a `prelude` module, `use-combinatorics` provides the discrete-math counting track, and `use-collatz` provides bounded Collatz trajectory exploration helpers. Geometry primitives now live in the sibling `use-geometry` set.
 
 Use this page as the combined entry point for the set overview and the `use-math` facade crate itself.
 
@@ -53,6 +54,7 @@ Use this page as the combined entry point for the set overview and the `use-math
 Use `use-math` when you want a curated entry point instead of depending on focused crates one by one.
 
 - Feature-flagged re-exports from supported crates such as `use-geometry`
+- Feature-flagged re-exports from supported crates such as `use-combinatorics` and `use-collatz`
 - A `prelude` module for common imports
 - Shared convenience helpers that belong at the facade layer
 - Set-level documentation that shows how the supported crates compose
@@ -66,9 +68,9 @@ Shared conventions and helper types that support the facade belong here only whe
 ## Generated Rustdocs
 
 - [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the set workspace.
+- [use-collatz API reference](/api/use-collatz/) - crate-level Rustdocs for Collatz trajectory helpers.
 - [use-combinatorics API reference](/api/use-combinatorics/) - crate-level Rustdocs for discrete counting helpers.
 - [use-math API reference](/api/use-math/) - crate-level Rustdocs for the facade crate.
-- [use-geometry API reference](/api/use-geometry/) - crate-level Rustdocs for the geometry crate.
 
 <CrateSourcePanel
   crateName="use-math"
@@ -77,7 +79,7 @@ Shared conventions and helper types that support the facade belong here only whe
 
 ## Composition
 
-Start with `use-geometry` when you want direct access to geometry primitives without extra surface area. Reach for `use-combinatorics` when your work centers on counting, permutations, combinations, or other discrete helpers. Reach for `use-math` when you want a curated entry point that can re-export selected functionality behind features.
+Reach for `use-combinatorics` when your work centers on counting, permutations, combinations, or other discrete helpers. Reach for `use-collatz` when your work centers on trajectories, stopping times, parity patterns, or bounded Collatz verification. Reach for `use-math` when you want a curated entry point that can re-export selected functionality behind features. Reach for the sibling `use-geometry` set when you need direct 2D primitives.
 
 ## Example API sketch
 
@@ -85,12 +87,10 @@ The sketch below is illustrative only. Names and signatures are not final.
 
 ```rust
 use use_math::prelude::*;
-use use_math::{distance, Point2};
 
-let start = Point2::new(0.0, 0.0);
-let end = Point2::new(3.0, 4.0);
-
-assert_eq!(distance(start, end), 5.0);
+assert_eq!(factorial(5)?, 120);
+assert_eq!(combinations(5, 2)?, 10);
+# Ok::<(), use_math::combinatorics::CombinatoricsError>(())
 ```
 
 ## Status

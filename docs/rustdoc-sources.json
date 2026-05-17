@@ -5,7 +5,19 @@
       "path": "../use-math",
       "repo": "https://github.com/RustUse/use-math",
       "bundleSlug": "workspaces/use-math",
-      "publishedCrates": ["use-math", "use-geometry", "use-combinatorics"]
+      "publishedCrates": [
+        "use-math",
+        "use-combinatorics"
+      ]
+    },
+    {
+      "name": "use-geometry",
+      "path": "../use-geometry",
+      "repo": "https://github.com/RustUse/use-geometry",
+      "bundleSlug": "workspaces/use-geometry",
+      "publishedCrates": [
+        "use-geometry"
+      ]
     }
   ]
 }

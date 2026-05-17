@@ -1,6 +1,6 @@
 ---
 title: Sets
-description: How RustUse organizes its initial set and current public crate tracks.
+description: How RustUse organizes its initial sets and current public crate tracks.
 ---
 
 import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
@@ -10,43 +10,47 @@ import MascotImportant from '../../../components/MascotImportant.astro';
   alt="A Rust mascot framing the RustUse set map"
   eyebrow="Ecosystem map"
   title="Pick the set before you pick the crate."
-  description="RustUse currently has one active set and three public crate tracks, so the docs can explain the shape of the platform without reopening the entire planned surface."
-  quickLinks={[{ href: '/sets/use-math/', label: 'use-math' }]}
+  description="RustUse currently has two active sets and four public crate tracks, so the docs can explain the shape of the platform without reopening the entire planned surface."
+  quickLinks={[
+    { href: '/sets/use-math/', label: 'use-math' },
+    { href: '/sets/use-geometry/', label: 'use-geometry' },
+  ]}
   theme="clay"
   reverse
 >
   <MascotImportant slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse currently organizes its initial docs around a single set so the launch surface stays easy to understand and adopt.
+RustUse currently organizes its initial docs around two early sets so the launch surface stays easy to understand and adopt.
 
-## Set
+## Sets
 
-A set is the top-level RustUse domain. Today that means `use-math`.
+A set is the top-level RustUse domain. Today that means `use-math` and `use-geometry`.
 
-Sets define the shared problem space, naming conventions, and the boundary between the facade crate and the focused crates inside the set.
+Sets define the shared problem space, naming conventions, and the boundary between the facade crate and the focused crates inside the set. Some early sets, such as `use-geometry`, currently consist of a single focused crate.
 
 ## Current public crate tracks
 
-The current `use-math` set surfaces three public crate tracks:
+RustUse currently exposes four public crate tracks across the two active sets:
 
 - [use-combinatorics](/use-math/use-combinatorics/) - discrete-math crate for counting, combinations, permutations, and finite-structure helpers.
+- [use-collatz](/use-math/use-collatz/) - bounded Collatz trajectory helpers and parity summaries.
 - [use-math](/use-math/) - facade crate with feature-flagged re-exports and a `prelude` module.
-- [use-geometry](/use-math/use-geometry/) - 2D geometry primitives and common measurement helpers.
+- [use-geometry](/use-geometry/) - 2D geometry primitives and common measurement helpers.
 
 ## Current model in practice
 
-- `use-combinatorics` provides the discrete counting track.
-- The set defines the domain.
-- `use-geometry` provides focused primitives and helpers.
-- `use-math` provides the curated facade layer.
+- `use-combinatorics` and `use-collatz` provide focused tracks inside the `use-math` set.
+- `use-geometry` currently anchors its own focused geometry set.
+- `use-math` provides the curated facade layer for the math set.
 
 ## Current sets
 
-RustUse is currently focused on a single initial set:
+RustUse is currently focused on two early sets:
 
-- [use-math](/sets/use-math/) - currently represented by `use-math`, `use-geometry`, and `use-combinatorics`.
+- [use-math](/sets/use-math/) - currently represented by `use-math`, `use-combinatorics`, and `use-collatz`.
+- [use-geometry](/sets/use-geometry/) - currently represented by the focused `use-geometry` crate.
 
 ## Status
 
-Initial scope. The current focus is stabilizing `use-math`, `use-geometry`, and `use-combinatorics` as the first public set.
+Initial scope. The current focus is stabilizing `use-math`, `use-geometry`, `use-combinatorics`, and `use-collatz` across the first two public sets.

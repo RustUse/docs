@@ -100,6 +100,12 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/html',
+      distPath: 'sets/use-geometry/index.html',
+      mustInclude: ['use-geometry'],
+      route: '/sets/use-geometry/',
+    },
+    {
+      contentType: 'text/html',
       distPath: 'use-math/index.html',
       mustInclude: ['Copy full crate'],
       route: '/use-math/',
@@ -112,9 +118,9 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/html',
-      distPath: 'use-math/use-geometry/index.html',
+      distPath: 'use-geometry/index.html',
       mustInclude: ['Copy full crate'],
-      route: '/use-math/use-geometry/',
+      route: '/use-geometry/',
     },
     {
       contentType: 'xml',

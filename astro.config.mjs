@@ -97,6 +97,7 @@ export default defineConfig({
           items: [
             { label: 'Overview', link: '/sets/' },
             { label: 'use-math', link: '/sets/use-math/' },
+            { label: 'use-geometry', link: '/sets/use-geometry/' },
           ],
         },
         {
@@ -108,13 +109,17 @@ export default defineConfig({
               label: 'use-combinatorics',
               link: '/use-math/use-combinatorics/',
             },
-            { label: 'use-geometry', link: '/use-math/use-geometry/' },
+            { label: 'use-geometry', link: '/use-geometry/' },
           ],
         },
         {
           label: 'API Reference',
           items: [
             { label: 'Overview', link: '/api-reference/' },
+            {
+              label: 'use-geometry workspace Rustdocs',
+              link: '/api/workspaces/use-geometry/',
+            },
             {
               label: 'use-math workspace Rustdocs',
               link: '/api/workspaces/use-math/',

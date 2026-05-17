@@ -3,14 +3,14 @@ title: use-geometry
 description: 2D geometry primitives, validated construction helpers, and direct measurement utilities for RustUse.
 ---
 
-import CrateSourcePanel from '../../../components/CrateSourcePanel.astro';
-import MascotImportant from '../../../components/MascotImportant.astro';
-import MascotTip from '../../../components/MascotTip.astro';
-import StatusBadge from '../../../components/StatusBadge.astro';
+import CrateSourcePanel from '../../components/CrateSourcePanel.astro';
+import MascotImportant from '../../components/MascotImportant.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
 
 <MascotTip
-  title="Focused geometry track"
-  description="use-geometry is the direct 2D crate in the current RustUse math surface. Its public status is still scaffolded, so RustUse-hosted generated rustdocs remain the canonical API reference while crates.io and docs.rs targets stay staged."
+  title="Focused geometry set"
+  description="use-geometry is the direct 2D crate and current set anchor for RustUse geometry. Its public status is still scaffolded, so RustUse-hosted generated rustdocs remain the canonical API reference while crates.io and docs.rs targets stay staged."
 />
 
 <p>
@@ -18,7 +18,7 @@ import StatusBadge from '../../../components/StatusBadge.astro';
   RustUse-hosted API docs.
 </p>
 
-`use-geometry` is the supported RustUse crate for small 2D Euclidean geometry primitives, validated construction at API boundaries, and direct measurement helpers.
+`use-geometry` is the supported RustUse crate for small 2D Euclidean geometry primitives, validated construction at API boundaries, and direct measurement helpers. Today it also anchors the `use-geometry` set.
 
 ## Purpose
 
@@ -50,6 +50,7 @@ Current surface areas include:
 ## API reference
 
 - [Open generated Rustdocs for use-geometry](/api/use-geometry/)
+- [Open generated workspace Rustdocs for use-geometry](/api/workspaces/use-geometry/)
 
 <CrateSourcePanel
   crateName="use-geometry"
@@ -160,4 +161,4 @@ assert_eq!(triangle.is_degenerate_with_tolerance(1.0e-12), Ok(true));
 
 ## Status
 
-`use-geometry` is a scaffolded public crate in the RustUse docs surface. The API remains pre-1.0, and the RustUse-hosted generated rustdocs stay canonical while external crates.io and docs.rs pages remain staged.
+`use-geometry` is a scaffolded public crate and set anchor in the RustUse docs surface. The API remains pre-1.0, and the RustUse-hosted generated rustdocs stay canonical while external crates.io and docs.rs pages remain staged.

@@ -22,7 +22,7 @@ import ferris3d from '../../assets/ferris-3D.png';
   theme="sand"
 />
 
-RustUse organizes focused utility crates into composable sets. Each crate can stand alone, while each set forms part of a larger reef of reusable Rust utilities. The current public surface begins with the `use-math` set, including `use-geometry`, `use-combinatorics`, and the `use-math` facade crate.
+RustUse organizes focused utility crates into composable sets. Each crate can stand alone, while each set forms part of a larger reef of reusable Rust utilities. The current public surface begins with the `use-math` set and the focused `use-geometry` set.
 
 ## Choose the crate that matches the work
 
@@ -32,22 +32,24 @@ Choose the crate by the shape of the immediate problem. Add more surface area on
 - Start with `use-combinatorics` for counting, permutations, combinations, factorials, and other discrete helpers.
 - Start with `use-math` when you want one facade dependency that can expose curated functionality through features and a shared `prelude`.
 
-## Install from the shared repository first
+## Install from the matching repository while scaffolded
 
-The current public crates are scaffolded, so the shared `use-math` workspace repository is the clearest installation path while publication metadata remains staged.
+The current public crates are scaffolded, so pull each crate from the repository that currently owns it while publication metadata remains staged.
 
 ```toml
 [dependencies]
-use-geometry = { git = "https://github.com/RustUse/use-math", package = "use-geometry" }
+use-geometry = { git = "https://github.com/RustUse/use-geometry" }
 ```
 
-Switch the package name when you want a different crate from the same workspace.
+Use the shared `use-math` workspace when you want one of the current math-set crates.
 
 ```toml
 [dependencies]
 use-combinatorics = { git = "https://github.com/RustUse/use-math", package = "use-combinatorics" }
 use-math = { git = "https://github.com/RustUse/use-math", package = "use-math" }
 ```
+
+Switch the package name when you want a different crate from the shared `use-math` workspace.
 
 Treat each crate README as the source of truth for versioning, feature flags, examples, and any crate-specific setup notes.
 
@@ -59,7 +61,7 @@ Onboarding moves fastest when you go from scope, to API surface, to workspace co
 2. Open the crate API docs for the concrete modules, functions, and types you need.
 3. Use the workspace Rustdocs when you want to trace re-exports or browse the set as a whole.
 
-- [use-geometry crate page](/use-math/use-geometry/)
+- [use-geometry crate page](/use-geometry/)
 - [use-combinatorics crate page](/use-math/use-combinatorics/)
 - [use-math crate page](/use-math/)
 - [use-geometry API docs](/api/use-geometry/)
