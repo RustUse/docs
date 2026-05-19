@@ -26,13 +26,14 @@ import { publicCrates } from '../../data/crates';
 
 RustUse.org is the primary API documentation surface for the currently supported crates.
 
-The current public crates remain scaffolded. Their future crates.io and docs.rs URLs are prewired in the catalog as a dry-run, but the site keeps those links disabled until the external pages exist.
+Most current public crates are published and have live registry links. When a local crate name conflicts with an already-published package identity, RustUse keeps a workspace-scoped API route instead of linking users to the wrong external package.
 
-<MascotImportant title="Keep external registry links staged until release">
+<MascotImportant title="Registry links follow live package identity">
   <p>
-    Prewire future `crates.io` and `docs.rs` targets in the catalog, but do not
-    expose them as live links until the registry pages exist and point back to
-    the stable RustUse API routes.
+    Publish live `crates.io` and `docs.rs` links only when the external package
+    identity resolves to the intended RustUse crate. If a package name is
+    blocked or collides with another published crate, prefer a workspace-scoped
+    RustUse route until that identity is resolved.
   </p>
 </MascotImportant>
 
@@ -40,9 +41,13 @@ The current public crates remain scaffolded. Their future crates.io and docs.rs 
 
 - [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/)
 - [use-math workspace Rustdocs](/api/workspaces/use-math/)
-- [use-combinatorics API docs](/api/use-combinatorics/)
 - [use-math API docs](/api/use-math/)
 - [use-geometry API docs](/api/use-geometry/)
+- Every published focused crate also has a stable `/api/<crate>/` route from
+  the catalog grid below.
+- The geometry workspace's local `use-complex` crate currently uses the
+  workspace-scoped route `/api/workspaces/use-geometry/use_complex/` so the
+  docs site does not point at the wrong published package identity.
 
 <CrateGrid crates={publicCrates} />
 
@@ -51,7 +56,8 @@ The current public crates remain scaffolded. Their future crates.io and docs.rs 
 - RustUse.org hosts the curated guides, set pages, crate overviews, and generated API docs.
 - `crates.io` is the package registry and should point each published crate's `documentation` field at the stable RustUse API URL.
 - `docs.rs` may still build generated docs automatically after publication, but it is a fallback reference rather than the canonical destination.
-- Prewire future crates.io and docs.rs URLs in the crate catalog while a crate is still scaffolded, then flip the crate status to `published` only after the live registry pages resolve.
+- Published crates should expose live registry links only when the package identity resolves to the intended RustUse crate.
+- When package names collide, prefer a workspace-scoped RustUse route until the published identity is resolved.
 - Do not scrape or mirror `docs.rs` HTML into this site.
 
 ## Recommended Cargo.toml metadata
@@ -73,7 +79,7 @@ categories = ["mathematics"]
 - Use `documentation` for the stable RustUse API path once it is live for a published crate.
 - Use `repository` for GitHub.
 - Keep `README.md` ready for the crates.io package page.
-- Keep scaffolded crates on RustUse-hosted API docs until the external registry pages are confirmed live.
+- Keep scaffolded or blocked crates on RustUse-hosted API docs until the external registry pages are confirmed correct for that crate identity.
 
 ## Future enhancement
 

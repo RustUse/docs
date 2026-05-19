@@ -1,6 +1,6 @@
 ---
 title: use-geometry
-description: The RustUse geometry set centered on the focused use-geometry crate.
+description: The RustUse geometry set centered on the published use-geometry facade and its focused child crates.
 ---
 
 import CrateGrid from '../../../components/CrateGrid.astro';
@@ -8,21 +8,22 @@ import MascotNote from '../../../components/MascotNote.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
 import { getPublicCratesBySet } from '../../../data/crates';
 
-`use-geometry` is the current RustUse geometry set. It currently surfaces one public crate track: `use-geometry`.
+`use-geometry` is the current RustUse geometry set. It currently surfaces {getPublicCratesBySet('use-geometry').length} public crate tracks: the published `use-geometry` facade plus its focused child crates.
 
 <MascotNote
-  title="Focused launch set"
-  description="The current public use-geometry set consists of one scaffolded crate track. RustUse-hosted generated rustdocs remain canonical for the set while external crates.io and docs.rs targets stay staged."
+  title="Broad geometry set"
+  description="The public use-geometry set is now driven from the live child-crate inventory. Most geometry crates are published, and the remaining identity edge cases stay on RustUse-hosted routes instead of linking to the wrong external package."
 />
 
 <p>
-  <StatusBadge status="scaffolded" /> All current public crates in this set are
-  scaffolded today.
+  <StatusBadge status="published" /> Most current public crates in this set are
+  published. <StatusBadge status="scaffolded" /> The local geometry
+  `use-complex` crate currently stays on a workspace-scoped RustUse route.
 </p>
 
 ## Purpose
 
-This set keeps direct 2D geometry primitives, validated construction, and common measurement helpers separate from the broader `use-math` facade surface.
+This set keeps pure geometry primitives, notation, relations, constructions, and decomposition crates separate from the broader `use-math` surface while preserving a thin geometry facade for one-dependency use cases.
 
 ## Public crate tracks
 
@@ -30,8 +31,10 @@ This set keeps direct 2D geometry primitives, validated construction, and common
 
 ## Generated Rustdocs
 
-- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the current set workspace.
-- [use-geometry API reference](/api/use-geometry/) - generated Rustdocs for the geometry crate.
+- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the full geometry workspace.
+- [use-geometry API reference](/api/use-geometry/) - stable RustUse API route for the facade crate.
+- Published geometry child crates use stable `/api/<crate>/` routes from the catalog and sidebar.
+- The local geometry `use-complex` crate currently uses `/api/workspaces/use-geometry/use_complex/` so the docs do not point at the wrong published package identity.
 
 ## Catalog and guidance
 
@@ -40,8 +43,8 @@ This set keeps direct 2D geometry primitives, validated construction, and common
 
 ## Why this shape
 
-Keeping geometry in its own set keeps direct point and shape primitives available without routing them through the broader `use-math` facade.
+Keeping geometry in its own set keeps the facade thin, lets focused child crates grow without turning the facade into a monolith, and keeps geometry naming separate from the broader math facade.
 
 ## Status
 
-The initial public geometry set currently contains one scaffolded crate: `use-geometry`. RustUse-hosted generated rustdocs remain canonical while external crates.io and docs.rs targets stay staged.
+The current public geometry set contains {getPublicCratesBySet('use-geometry').filter((crate) => crate.status === 'published').length} published crate tracks and {getPublicCratesBySet('use-geometry').filter((crate) => crate.status === 'scaffolded').length} scaffolded exception. RustUse-hosted generated rustdocs remain canonical while workspace-scoped routes cover the remaining identity edge cases.

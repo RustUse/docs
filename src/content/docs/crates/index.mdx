@@ -12,10 +12,11 @@ import { publicCrates } from '../../../data/crates';
 <DocsMascotPanel
   alt="A Rust mascot presenting the RustUse crate catalog"
   eyebrow="Catalog"
-  title="One catalog, four public crate tracks."
-  description="RustUse keeps the current public surface intentionally small. The catalog below is driven from one data file so status badges, set links, guide links, and API entry points stay aligned."
+  title={`One catalog, ${publicCrates.length} public crate tracks.`}
+  description="RustUse keeps the public crate catalog in generated shared metadata so status badges, set links, guide links, and API routes stay aligned across the docs site."
   quickLinks={[
     { href: '/sets/use-math/', label: 'use-math set' },
+    { href: '/sets/use-geometry/', label: 'use-geometry set' },
     { href: '/api-reference/', label: 'API reference' },
   ]}
   theme="clay"
@@ -23,28 +24,27 @@ import { publicCrates } from '../../../data/crates';
   <MascotNote slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse currently surfaces four public crate tracks across the two active sets. `use-math`, `use-geometry`, `use-combinatorics`, and `use-collatz` all have RustUse-hosted generated API docs today.
+RustUse currently surfaces {publicCrates.length} public crate tracks across the active `use-math` and `use-geometry` sets.
 
-The catalog also carries the future crates.io and docs.rs targets for these crates as a publication dry-run, but those external links stay disabled until the release pages are actually live.
+Most current public crates are published with live crates.io and docs.rs links. A smaller set of exceptions can still appear in the catalog with RustUse-hosted docs only when the external package identity is unavailable or blocked.
 
 <MascotNote
-  title="Scaffolded public catalog"
-  description="All current public crates in the catalog are scaffolded today. Their RustUse-hosted generated rustdocs are canonical while crates.io and docs.rs targets remain staged until publication."
+  title="Generated public catalog"
+  description="The catalog is driven from one generated data source so crate pages, sidebar entries, status badges, and API links stay synchronized."
 />
 
 <p>
-  <StatusBadge status="scaffolded" /> Every current public crate track in this
-  catalog is scaffolded today.
+  <StatusBadge status="published" /> Most current public crate tracks are
+  published. <StatusBadge status="scaffolded" /> Remaining exceptions stay on
+  RustUse-hosted docs until their external package identity is ready.
 </p>
 
 <CrateGrid crates={publicCrates} />
 
 ## How to read the catalog
 
-- `use-combinatorics` is the discrete-math crate for counting, combinations, permutations, and finite-structure helpers.
-- `use-collatz` is the focused crate for Collatz trajectories, stopping times, parity patterns, and bounded range verification.
-- `use-geometry` is the focused crate that anchors the `use-geometry` set for direct 2D primitives and measurement helpers.
-- `use-math` is the facade crate that can re-export supported functionality behind explicit feature flags.
-- `Scaffolded` means the crate has an active RustUse docs surface and hosted rustdoc output, and its future crates.io/docs.rs targets may already be staged in the catalog without being rendered as live links.
-- `Published` is reserved for crates whose registry metadata points at stable RustUse API URLs.
-- `Planned` means the crate is visible in the public catalog and set overview, but its implementation and hosted API docs are not ready yet.
+- `use-math` is the facade entry point for the broader math set, which now includes focused crates for arithmetic, algebra, sequences, linear primitives, numerical helpers, and validated numeric types.
+- `use-geometry` is the facade entry point for the broader geometry set, which now includes focused child crates for foundations, primitives, transformations, relations, curves, regions, polytopes, configurations, complexes, and folding or decomposition work.
+- `Published` means the crate has live registry links plus canonical RustUse API docs.
+- `Scaffolded` means RustUse-hosted docs are available, but the external package identity is still staged or blocked.
+- `Planned` is reserved for crates that are visible in docs before they become part of the supported public surface.

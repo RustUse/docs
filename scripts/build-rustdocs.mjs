@@ -194,6 +194,26 @@ function buildCrateSourceArtifact(crateName, cargoMetadata) {
   };
 }
 
+function writeWorkspaceSourceArtifacts(outputDir, cargoMetadata) {
+  for (const cratePackage of cargoMetadata.packages) {
+    const crateDir = crateDocDir(cratePackage.name);
+    const crateIndexPath = path.join(outputDir, crateDir, 'index.html');
+
+    if (!existsSync(crateIndexPath)) {
+      continue;
+    }
+
+    writeFileSync(
+      path.join(outputDir, crateDir, sourceArtifactFileName),
+      JSON.stringify(
+        buildCrateSourceArtifact(cratePackage.name, cargoMetadata),
+        null,
+        2,
+      ),
+    );
+  }
+}
+
 function renderUiStateBootstrapScript() {
   return `<script data-rustuse-ui-state>
   (() => {
@@ -516,6 +536,7 @@ try {
       path.join(outputDir, rustdocThemeCssFileName),
       readFileSync(rustdocExtendCssPath, 'utf8'),
     );
+    writeWorkspaceSourceArtifacts(outputDir, cargoMetadata);
     applyUiStateBootstrapToHtmlFiles(outputDir);
     console.log(
       `Copied ${name} Rustdocs to ${path.relative(repoRoot, outputDir)}`,

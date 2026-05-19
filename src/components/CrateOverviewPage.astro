@@ -1,0 +1,126 @@
+---
+import CrateSourcePanel from './CrateSourcePanel.astro';
+import DocsLinks from './DocsLinks.astro';
+import MascotNote from './MascotNote.astro';
+import StatusBadge from './StatusBadge.astro';
+import { getPublicCrate } from '../data/crates';
+
+interface Props {
+  crateName: string;
+}
+
+const { crateName } = Astro.props as Props;
+const crate = getPublicCrate(crateName);
+
+if (!crate) {
+  throw new Error(`Unknown public crate for overview page: ${crateName}`);
+}
+
+const isFacade = crate.name === crate.set;
+const usesWorkspaceApiRoute =
+  crate.docsUrl?.startsWith(`/api/workspaces/${crate.set}/`) ?? false;
+const roleTitle = isFacade ? 'Facade crate' : 'Focused crate';
+const roleDescription = isFacade
+  ? `${crate.name} is the facade entry point for the ${crate.set} set. ${crate.description}`
+  : `${crate.name} is a focused crate in the ${crate.set} set. ${crate.description}`;
+const statusSummary =
+  crate.status === 'published'
+    ? 'Published crate with live registry and docs.rs links.'
+    : 'RustUse-hosted docs are available while the external package identity remains staged or blocked.';
+const apiSummary = usesWorkspaceApiRoute
+  ? 'This crate currently uses a workspace-scoped RustUse API route because a stable published crate route is not available.'
+  : 'This crate uses a stable RustUse API route alongside the workspace rustdoc bundle.';
+const sourcePanelDescription = usesWorkspaceApiRoute
+  ? `Copy the current ${crate.name} source bundle or inspect the workspace-scoped files that back this crate's RustUse docs surface.`
+  : `Copy the current ${crate.name} source bundle or inspect the files behind the stable RustUse docs surface for this crate.`;
+---
+
+<MascotNote title={roleTitle} description={roleDescription} />
+
+<p>
+  <StatusBadge status={crate.status} /> {statusSummary}
+</p>
+
+<p>
+  <code>{crate.name}</code> belongs to the <a href={crate.setPath}>{crate.set}</a>{' '}
+  set.
+</p>
+
+## Package links
+
+<DocsLinks crate={crate} />
+
+## Set placement
+
+{
+  isFacade ? (
+    <p>
+      Use <code>{crate.name}</code> when you want the set facade instead of
+      depending on focused crates one by one. The facade remains the curated
+      entry point for the current <code>{crate.set}</code> surface.
+    </p>
+  ) : (
+    <p>
+      Use <code>{crate.name}</code> directly when you want a narrower dependency
+      surface than the <code>{crate.set}</code> facade. It remains part of the
+      current public crate inventory for this set.
+    </p>
+  )
+}
+
+## API route
+
+<p>{apiSummary}</p>
+
+<CrateSourcePanel crateName={crate.name} description={sourcePanelDescription} />
+
+## Tags
+
+<ul class="ru-crate-overview-tags">
+  {crate.tags.map((tag) => (
+    <li>{tag}</li>
+  ))}
+</ul>
+
+## Status
+
+{
+  crate.status === 'published' ? (
+    <p>
+      This crate is currently treated as published in the RustUse docs surface.
+      RustUse-hosted API docs remain canonical, and the external registry links
+      are enabled because the live package identity is available.
+    </p>
+  ) : (
+    <p>
+      This crate currently remains on a non-published docs posture in the
+      RustUse catalog. RustUse-hosted docs are available, but the external
+      registry links stay disabled until the package identity becomes stable.
+    </p>
+  )
+}
+
+<style>
+  .ru-crate-overview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ru-crate-overview-tags li {
+    padding: 0.38rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--ru-color-deep) 44%, transparent);
+    color: color-mix(in srgb, var(--sl-color-white) 82%, var(--ru-color-sand));
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  :root[data-theme='light'] .ru-crate-overview-tags li {
+    background: rgba(244, 162, 97, 0.14);
+    color: var(--ru-color-clay);
+  }
+</style>

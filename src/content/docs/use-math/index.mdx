@@ -1,6 +1,6 @@
 ---
 title: use-math
-description: Overview of the use-math set and the use-math facade crate.
+description: Overview of the published use-math facade and the full current RustUse math set.
 ---
 
 import CrateGrid from '../../../components/CrateGrid.astro';
@@ -13,35 +13,39 @@ import { getPublicCratesBySet } from '../../../data/crates';
 
 <DocsMascotPanel
   alt="A Rust mascot introducing the use-math set"
-  eyebrow="Set + facade"
+  eyebrow="Published set + facade"
   title="Math stays clearer when crates stay narrow."
-  description="The current use-math surface stays intentionally narrow: use-math provides the facade layer, while use-combinatorics and use-collatz stay focused crates inside the set. Geometry now lives in the sibling use-geometry set."
+  description={`use-math is the published facade for the RustUse math set, which currently spans ${getPublicCratesBySet('use-math').length} public crate tracks across focused arithmetic, algebra, sequence, linear, numerical, and validated-number crates.`}
   quickLinks={[
-    { href: '/use-math/use-collatz/', label: 'use-collatz' },
-    { href: '/use-math/use-combinatorics/', label: 'use-combinatorics' },
-    { href: '/use-geometry/', label: 'use-geometry' },
-    { href: '/api/use-math/', label: 'use-math Rustdocs' },
+    { href: '/sets/use-math/', label: 'use-math set' },
+    { href: '/use-math/use-arithmetic/', label: 'use-arithmetic' },
+    { href: '/use-math/use-vector/', label: 'use-vector' },
+    { href: '/api/workspaces/use-math/', label: 'workspace Rustdocs' },
   ]}
   theme="teal"
 >
   <MascotNote slot="art" spriteOnly />
 </DocsMascotPanel>
 
-This page tracks the current public crate tracks in the `use-math` set and the role the `use-math` facade crate plays across them.
+This page combines the `use-math` facade overview with the current public inventory for the RustUse math set.
 
 <MascotImportant
-  title="Scaffolded facade surface"
-  description="use-math is the scaffolded integration layer across the current RustUse math crates. RustUse-hosted generated rustdocs remain canonical for the facade and the focused crates while external crates.io and docs.rs targets stay staged."
+  title="Published facade surface"
+  description="use-math is a published facade crate. RustUse-hosted API docs remain canonical, and every currently published focused math crate now has a stable RustUse API route."
 />
 
 <p>
-  <StatusBadge status="scaffolded" /> Pre-1.0 facade crate with canonical
-  RustUse-hosted API docs.
+  <StatusBadge status="published" /> Published facade crate with canonical
+  RustUse API docs and live registry links.
 </p>
 
 ## Overview
 
-The current `use-math` set currently surfaces three public crate tracks. `use-math` is the facade crate for feature-flagged re-exports and a `prelude` module, `use-combinatorics` provides the discrete-math counting track, and `use-collatz` provides bounded Collatz trajectory exploration helpers. Geometry primitives now live in the sibling `use-geometry` set.
+The current `use-math` set surfaces {getPublicCratesBySet('use-math').length}
+public crate tracks: the `use-math` facade plus its focused crates. The facade
+stays intentionally thin: it re-exports focused crates behind explicit
+features, preserves crate-shaped namespace modules, and keeps the shared
+`prelude` limited to the ergonomic layer that belongs at the facade boundary.
 
 Use this page as the combined entry point for the set overview and the `use-math` facade crate itself.
 
@@ -53,11 +57,19 @@ Use this page as the combined entry point for the set overview and the `use-math
 
 Use `use-math` when you want a curated entry point instead of depending on focused crates one by one.
 
-- Feature-flagged re-exports from supported crates such as `use-geometry`
-- Feature-flagged re-exports from supported crates such as `use-combinatorics` and `use-collatz`
+- Feature-flagged root re-exports from the focused math crates in this workspace
+- Matching nested modules for crate-shaped namespacing
 - A `prelude` module for common imports
-- Shared convenience helpers that belong at the facade layer
-- Set-level documentation that shows how the supported crates compose
+- One dependency and one import surface for the current math set
+
+## Current focused families
+
+- Arithmetic and number primitives: `use-arithmetic`, `use-integer`, `use-number`, `use-rational`, `use-real`, `use-complex`
+- Algebra, logic, and set helpers: `use-algebra`, `use-logic`, `use-set`, `use-modular`, `use-prime`
+- Sequences and counting: `use-combinatorics`, `use-catalan`, `use-collatz`, `use-series`, `use-geode`
+- Linear and reusable primitives: `use-vector`, `use-matrix`, `use-linear`, `use-eigen`
+- Equation and approximation helpers: `use-polynomial`, `use-equation`, `use-numerical`, `use-calculus`
+- Probability and descriptive summaries: `use-probability`, `use-statistics`, `use-trigonometry`
 
 ## Design direction
 
@@ -67,19 +79,18 @@ Shared conventions and helper types that support the facade belong here only whe
 
 ## Generated Rustdocs
 
-- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the set workspace.
-- [use-collatz API reference](/api/use-collatz/) - crate-level Rustdocs for Collatz trajectory helpers.
-- [use-combinatorics API reference](/api/use-combinatorics/) - crate-level Rustdocs for discrete counting helpers.
-- [use-math API reference](/api/use-math/) - crate-level Rustdocs for the facade crate.
+- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the full math workspace.
+- [use-math API reference](/api/use-math/) - stable RustUse API route for the facade crate.
+- Every published focused crate in this set also has a stable `/api/<crate>/` route. Use the crate grid above or the sidebar for direct entry points.
 
 <CrateSourcePanel
   crateName="use-math"
-  description="Copy the scaffolded facade crate as a full source bundle or browse the individual files that define the current use-math facade surface."
+  description="Copy the published use-math facade crate as a full source bundle or browse the files that define the current facade surface."
 />
 
 ## Composition
 
-Reach for `use-combinatorics` when your work centers on counting, permutations, combinations, or other discrete helpers. Reach for `use-collatz` when your work centers on trajectories, stopping times, parity patterns, or bounded Collatz verification. Reach for `use-math` when you want a curated entry point that can re-export selected functionality behind features. Reach for the sibling `use-geometry` set when you need direct 2D primitives.
+Reach for the focused crates when you want the narrowest dependency surface for a specific domain. Reach for `use-math` when one dependency, root re-exports, and a shared `prelude` are the clearer integration shape. Reach for the sibling `use-geometry` set when you need geometry primitives.
 
 ## Example API sketch
 
@@ -95,4 +106,6 @@ assert_eq!(combinations(5, 2)?, 10);
 
 ## Status
 
-`use-math` is a scaffolded public facade crate in the RustUse docs surface. The API remains pre-1.0, and the RustUse-hosted generated rustdocs stay canonical while external crates.io and docs.rs pages remain staged.
+`use-math` and the current focused math crates are published. RustUse-hosted
+generated Rustdocs remain canonical, while crates.io and docs.rs stay live as
+registry and fallback references.

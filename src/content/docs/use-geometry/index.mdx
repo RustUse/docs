@@ -1,123 +1,102 @@
 ---
 title: use-geometry
-description: 2D geometry primitives, validated construction helpers, and direct measurement utilities for RustUse.
+description: Overview of the published use-geometry facade and the full current RustUse geometry set.
 ---
 
-import CrateSourcePanel from '../../components/CrateSourcePanel.astro';
-import MascotImportant from '../../components/MascotImportant.astro';
-import MascotTip from '../../components/MascotTip.astro';
-import StatusBadge from '../../components/StatusBadge.astro';
+import CrateGrid from '../../../components/CrateGrid.astro';
+import CrateSourcePanel from '../../../components/CrateSourcePanel.astro';
+import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
+import MascotImportant from '../../../components/MascotImportant.astro';
+import MascotTip from '../../../components/MascotTip.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
+import { getPublicCratesBySet } from '../../../data/crates';
 
-<MascotTip
-  title="Focused geometry set"
-  description="use-geometry is the direct 2D crate and current set anchor for RustUse geometry. Its public status is still scaffolded, so RustUse-hosted generated rustdocs remain the canonical API reference while crates.io and docs.rs targets stay staged."
-/>
+<DocsMascotPanel
+	alt="A Rust mascot introducing the use-geometry set"
+	eyebrow="Published set + facade"
+	title="Geometry scales better when the facade stays thin."
+	description={`use-geometry is the published facade for a broad geometry workspace that currently exposes ${getPublicCratesBySet('use-geometry').length} public crate tracks across foundations, primitives, transformations, relations, curves, regions, polytopes, configurations, complexes, and decomposition or folding crates.`}
+	quickLinks={[
+		{ href: '/sets/use-geometry/', label: 'use-geometry set' },
+		{ href: '/use-geometry/use-point/', label: 'use-point' },
+		{ href: '/use-geometry/use-line/', label: 'use-line' },
+		{ href: '/api/workspaces/use-geometry/', label: 'workspace Rustdocs' },
+	]}
+	theme="clay"
+	reverse
+>
+	<MascotTip slot="art" spriteOnly />
+</DocsMascotPanel>
+
+This page combines the `use-geometry` facade overview with the current public inventory for the RustUse geometry set.
 
 <p>
-  <StatusBadge status="scaffolded" /> Pre-1.0 crate surface with canonical
-  RustUse-hosted API docs.
+	<StatusBadge status="published" /> Published facade crate with live registry
+	links. <StatusBadge status="scaffolded" /> The geometry workspace's local
+	`use-complex` crate currently stays on a RustUse-hosted workspace route.
 </p>
 
-`use-geometry` is the supported RustUse crate for small 2D Euclidean geometry primitives, validated construction at API boundaries, and direct measurement helpers. Today it also anchors the `use-geometry` set.
+<MascotImportant
+	title="Published facade, broad child-crate taxonomy"
+	description="The facade crate is published and reexports the current geometry child crates. Most child crates also use stable published package identities; the local geometry use-complex crate currently keeps a workspace-scoped RustUse docs route while its external package name remains unavailable."
+/>
 
 ## Purpose
 
-The crate is designed to provide direct structs and standalone helpers for common geometry work without a large abstraction layer.
+`use-geometry` is the feature-gated facade crate for the RustUse geometry workspace. The facade reexports focused child crates, exposes matching namespace modules, and keeps the shared geometry surface available through one dependency when that integration shape is clearer than depending on child crates individually.
 
-## Current direction
+## Overview
 
-`use-geometry` favors:
+The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').length} public crate tracks: the `use-geometry` facade plus its focused child crates. The set is intentionally broad inside pure geometry, but the facade remains thin: implementation lives in focused crates with explicit boundaries.
 
-- direct 2D structs
-- standalone measurement helpers
-- validated construction at app boundaries
-- predictable naming
-- exact and tolerance-aware checks where ambiguity matters
-- small APIs
-- primitives that compose into larger geometry operations
+## Taxonomy
 
-Current surface areas include:
+| Group                                              | Crates                                                                                                                                                |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Foundations                                        | `use-coordinate`, `use-dimension`, `use-angle`, `use-point`                                                                                           |
+| Affine and Euclidean primitives                    | `use-bounds`, `use-line`, `use-ray`, `use-segment`, `use-plane`, `use-hyperplane`, `use-circle`, `use-sphere`, `use-hypersphere`, `use-torus` |
+| Transformations                                    | `use-transform`, `use-affine`, `use-projection`, `use-reflection`, `use-inversion`                                                                    |
+| Metric and relational geometry                     | `use-distance`, `use-orientation`, `use-intersection`, `use-containment`, `use-congruence`, `use-similarity`, `use-dihedral`                          |
+| Curves and conics                                  | `use-conic`, `use-curve`, `use-polyline`, `use-bezier`, `use-spline`                                                                                  |
+| Surfaces and manifolds                             | `use-surface`, `use-manifold`                                                                                                                         |
+| Planar regions                                     | `use-triangle`, `use-rectangle`, `use-polygon`                                                                                                        |
+| Polytopes and solids                               | `use-simplex`, `use-orthotope`, `use-polytope`, `use-polyhedron`, `use-regular-polytope`, `use-archimedean`, `use-catalan-solid`, `use-johnson-solid` |
+| Polytope notation and classification               | `use-schlafli`, `use-wythoff`, `use-coxeter`, `use-uniform-polytope`                                                                                  |
+| Incidence, projective geometry, and configurations | `use-incidence`, `use-projective`, `use-configuration`, `use-duality`                                                                                 |
+| Representations and complexes                      | `use-mesh`, `use-face`, `use-cell`, `use-complex`                                                                                                     |
+| Constructions and decompositions                   | `use-hull`, `use-triangulation`, `use-tessellation`, `use-voronoi`, `use-delaunay`                                                                    |
+| Folding and unfolding                              | `use-folding`, `use-crease`, `use-origami`, `use-linkage`, `use-unfolding`, `use-rigid-folding`, `use-polyhedral-net`                                 |
 
-- `Point2`
-- `Vector2`
-- `Line2`
-- `Segment2`
-- `Circle`
-- `Triangle`
-- `Aabb2`
-- distance, midpoint, and orientation helpers
+## Public crate tracks
+
+<CrateGrid crates={getPublicCratesBySet('use-geometry')} />
 
 ## API reference
 
-- [Open generated Rustdocs for use-geometry](/api/use-geometry/)
-- [Open generated workspace Rustdocs for use-geometry](/api/workspaces/use-geometry/)
+- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the full geometry workspace.
+- [use-geometry API reference](/api/use-geometry/) - stable RustUse API route for the facade crate.
+- Published geometry child crates use stable `/api/<crate>/` routes from the catalog and sidebar.
+- The local geometry `use-complex` crate currently uses the workspace-scoped route `/api/workspaces/use-geometry/use_complex/` so the docs do not point at the wrong published package identity.
 
 <CrateSourcePanel
   crateName="use-geometry"
-  description="Copy the direct 2D geometry crate as a complete source bundle or browse the file-level implementation from the docs UI."
+	description="Copy the published geometry facade crate as a full source bundle or browse the files that define the current reexport surface."
 />
 
-## Triangle API
+## Placement notes
 
-`Triangle` remains a key primitive represented by three 2D vertices:
+- The facade crate only reexports child crates and shared namespace modules.
+- `use-line` is the published package name for line primitives; its Rust library name stays `use_line`.
+- `use-vector` remains in the sibling `use-math` workspace and is used by geometry child crates that need vector primitives.
+- `use-geode` remains in `use-math` and is not part of the geometry set.
+- The local geometry `use-complex` crate stays in the workspace taxonomy, but its external package identity is currently blocked, so RustUse keeps it on a workspace-scoped internal docs route.
 
-- `a`
-- `b`
-- `c`
+## Status
 
-The triangle surface keeps raw assembly and validated construction separate:
-
-- `Triangle::new(a, b, c)` for already-trusted points
-- `Triangle::try_new(a, b, c)` for points that still need validation
-- `Triangle::area()`
-- `Triangle::perimeter()`
-- `Triangle::sides()`
-- `Triangle::twice_signed_area()`
-- `Triangle::twice_area()`
-- `Triangle::is_degenerate()`
-- `triangle_area(a, b, c)`
-
-Standalone helpers mirror the measurement surface that exists today:
-
-- `triangle_twice_signed_area(a, b, c)`
-- `triangle_twice_area(a, b, c)`
-- `Triangle::is_degenerate_with_tolerance(tolerance)`
-
-Perimeter currently stays on the `Triangle` type itself; there is no standalone `triangle_perimeter(...)` helper.
-
-Signed twice-area is the foundation for triangle measurement. It preserves orientation, avoids unnecessary division, and provides a direct base for area and degeneracy checks.
-
-## Degeneracy
-
-<MascotImportant
-  title="Degeneracy needs an explicit policy"
-  description="For `use-geometry`, degeneracy is not a cosmetic edge case. Exact degeneracy and tolerance-based degeneracy are different checks, and callers need to choose deliberately based on coordinate scale and input quality."
-/>
-
-Degeneracy occurs when a geometric value collapses into a lower-dimensional or invalid form.
-
-For triangles, exact degeneracy means the three vertices are collinear and the signed twice-area is exactly zero. `Triangle::is_degenerate()` is that exact check.
-
-`f64::EPSILON` is usually not a useful geometry tolerance. It is tied to floating-point precision around `1.0`, not the coordinate scale of a triangle. Practical degeneracy checks should use a caller-provided tolerance chosen for the coordinate scale, input source, and expected numeric noise.
-
-`use-geometry` keeps exact and tolerance-based degeneracy separate:
-
-```rust
-triangle.is_degenerate();
-triangle.is_degenerate_with_tolerance(tolerance)?;
-```
-
-Use exact degeneracy when checking mathematical collapse. Use tolerance-based degeneracy when working with measured data, generated geometry, simulations, or CAD-like inputs.
-
-## Examples
-
-These examples describe the current API shape.
-
-### Validated construction at an API boundary
-
-```rust
-use use_geometry::{Point2, Triangle};
-
+The `use-geometry` facade is published, and most current child crates in the
+set are also published. RustUse-hosted generated Rustdocs remain canonical, and
+workspace-scoped routes cover the remaining identity edge cases without reusing
+the wrong external package name.
 let triangle = Triangle::try_new(
 	Point2::try_new(0.0, 0.0).expect("valid vertex"),
 	Point2::try_new(4.0, 0.0).expect("valid vertex"),

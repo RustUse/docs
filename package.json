@@ -27,6 +27,7 @@
     "prepare": "npm run setup:hooks",
     "setup:hooks": "node scripts/setup-githooks.mjs",
     "sbom": "npm sbom --package-lock-only --sbom-format cyclonedx --sbom-type application > sbom.cyclonedx.json",
+    "sync:crate-surface": "node scripts/sync-crate-surface.mjs",
     "smoke:dist": "node scripts/smoke-dist.mjs",
     "smoke:preview": "node scripts/smoke-preview.mjs",
     "validate": "npm run format && npm run lint && npm run lint:css && npm run check",

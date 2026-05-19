@@ -1,6 +1,6 @@
 ---
 title: use-math
-description: The current RustUse math set centered on use-math and the public combinatorics and Collatz tracks.
+description: The published RustUse math set centered on the use-math facade and its focused math crates.
 ---
 
 import CrateGrid from '../../../components/CrateGrid.astro';
@@ -8,21 +8,21 @@ import MascotNote from '../../../components/MascotNote.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
 import { getPublicCratesBySet } from '../../../data/crates';
 
-`use-math` is the initial RustUse math set. It currently surfaces three public crate tracks: `use-math`, `use-combinatorics`, and `use-collatz`.
+`use-math` is the current RustUse math set. It currently surfaces {getPublicCratesBySet('use-math').length} public crate tracks: the published `use-math` facade plus its focused math crates.
 
 <MascotNote
-  title="Scaffolded launch set"
-  description="The current public use-math set consists of three scaffolded crate tracks. RustUse-hosted generated rustdocs remain canonical for the set while external crates.io and docs.rs targets stay staged."
+  title="Published math set"
+  description="The public use-math set is now driven from the live crate inventory. RustUse-hosted generated rustdocs remain canonical, and published crates now expose live crates.io and docs.rs links."
 />
 
 <p>
-  <StatusBadge status="scaffolded" /> All current public crates in this set are
-  scaffolded today.
+  <StatusBadge status="published" /> All current public crates in this set are
+  published today.
 </p>
 
 ## Purpose
 
-This set stays intentionally narrow for the first platform release. It pairs a facade crate for curated access with focused crates for discrete counting and bounded Collatz trajectory exploration. Geometry now lives in the sibling `use-geometry` set.
+This set keeps a thin facade over focused math crates so callers can choose between one dependency and a narrower direct crate for a specific math domain. Geometry now lives in the sibling `use-geometry` set.
 
 ## Public crate tracks
 
@@ -30,10 +30,9 @@ This set stays intentionally narrow for the first platform release. It pairs a f
 
 ## Generated Rustdocs
 
-- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the current set workspace.
-- [use-collatz API reference](/api/use-collatz/) - generated Rustdocs for the Collatz crate.
-- [use-combinatorics API reference](/api/use-combinatorics/) - generated Rustdocs for the combinatorics crate.
-- [use-math API reference](/api/use-math/) - generated Rustdocs for the facade crate.
+- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the full math workspace.
+- [use-math API reference](/api/use-math/) - stable RustUse API route for the facade crate.
+- Every focused crate in this set also has a stable `/api/<crate>/` route. Use the crate grid above or the sidebar for direct entry points.
 
 ## Catalog and guidance
 
@@ -42,8 +41,10 @@ This set stays intentionally narrow for the first platform release. It pairs a f
 
 ## Why this shape
 
-Keeping the launch surface to three scaffolded crates makes naming, feature flags, examples, and API boundaries easier to stabilize before the set grows.
+Keeping the facade thin and the focused crates direct makes the set easier to adopt incrementally while preserving one-dependency ergonomics where they help.
 
 ## Status
 
-The initial public math set currently contains three scaffolded crates: `use-math`, `use-combinatorics`, and `use-collatz`. RustUse-hosted generated rustdocs remain canonical while external crates.io and docs.rs targets stay staged.
+The current public math set contains {getPublicCratesBySet('use-math').length}
+published crates. RustUse-hosted generated rustdocs remain canonical while
+crates.io and docs.rs stay live as registry and fallback references.

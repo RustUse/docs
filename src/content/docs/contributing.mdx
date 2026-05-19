@@ -128,15 +128,16 @@ site, the Rust toolchain, and the configured Rustdoc source workspace.
 
 <MascotWarning title="Do not widen the public surface early">
   <p>
-    Keep additional planned crates out of navigation, homepage copy, and public
-    set pages until they are intentionally part of the public surface. Extend
-    the catalog and `/api/` entry roots only when the crate is actually ready to
-    be public.
+    Keep the public surface aligned with the generated catalog, live package
+    identities, and the currently active sets. Do not add planned crates from
+    other sets to navigation or `/api/` roots before they are intentionally
+    public.
   </p>
 </MascotWarning>
 
-- Keep the public support surface limited to `use-math`, `use-geometry`, and the current `use-combinatorics` track until product scope changes.
-- Do not add additional planned crates to navigation, homepage copy, or public set pages early.
+- Keep the public support surface aligned with the generated math and geometry catalog entries rather than ad hoc links or hand-maintained sidebars.
+- Do not add planned crates from other sets to navigation, homepage copy, or public set pages early.
+- When a local crate name conflicts with an existing published package identity, prefer a workspace-scoped RustUse API route until the package identity is resolved.
 - Prefer linking to generated RustUse API docs rather than rewriting rustdoc HTML or scraping docs.rs.
 
 ## When a new crate becomes supported

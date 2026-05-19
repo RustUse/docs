@@ -7,6 +7,12 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import {
+  getSidebarApiLinks,
+  getSidebarCrateLinks,
+  getSidebarSetLinks,
+} from './src/data/catalog.js';
+
 const workspaceRoot = fileURLToPath(new URL('.', import.meta.url));
 const publicRoot = path.join(workspaceRoot, 'public');
 
@@ -96,40 +102,23 @@ export default defineConfig({
           label: 'Sets',
           items: [
             { label: 'Overview', link: '/sets/' },
-            { label: 'use-math', link: '/sets/use-math/' },
-            { label: 'use-geometry', link: '/sets/use-geometry/' },
+            ...getSidebarSetLinks(),
           ],
         },
         {
           label: 'Crates',
+          collapsed: true,
           items: [
             { label: 'Overview', link: '/crates/' },
-            { label: 'use-math', link: '/use-math/' },
-            {
-              label: 'use-combinatorics',
-              link: '/use-math/use-combinatorics/',
-            },
-            { label: 'use-geometry', link: '/use-geometry/' },
+            ...getSidebarCrateLinks(),
           ],
         },
         {
           label: 'API Reference',
+          collapsed: true,
           items: [
             { label: 'Overview', link: '/api-reference/' },
-            {
-              label: 'use-geometry workspace Rustdocs',
-              link: '/api/workspaces/use-geometry/',
-            },
-            {
-              label: 'use-math workspace Rustdocs',
-              link: '/api/workspaces/use-math/',
-            },
-            {
-              label: 'use-combinatorics Rustdocs',
-              link: '/api/use-combinatorics/',
-            },
-            { label: 'use-geometry Rustdocs', link: '/api/use-geometry/' },
-            { label: 'use-math Rustdocs', link: '/api/use-math/' },
+            ...getSidebarApiLinks(),
           ],
         },
         { label: 'Contributing', link: '/contributing/' },
