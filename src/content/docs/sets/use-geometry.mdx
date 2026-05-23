@@ -12,13 +12,12 @@ import { getPublicCratesBySet } from '../../../data/crates';
 
 <MascotNote
   title="Broad geometry set"
-  description="The public use-geometry set is now driven from the live child-crate inventory. Most geometry crates are published, and the remaining identity edge cases stay on RustUse-hosted routes instead of linking to the wrong external package."
+  description="The public use-geometry set is driven from the live child-crate inventory. The facade and focused geometry child crates now have stable published package identities."
 />
 
 <p>
-  <StatusBadge status="published" /> Most current public crates in this set are
-  published. <StatusBadge status="scaffolded" /> The local geometry
-  `use-complex` crate currently stays on a workspace-scoped RustUse route.
+  <StatusBadge status="published" /> Current public crates in this set are
+  published with live registry links.
 </p>
 
 ## Purpose
@@ -34,7 +33,7 @@ This set keeps pure geometry primitives, notation, relations, constructions, and
 - [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the full geometry workspace.
 - [use-geometry API reference](/api/use-geometry/) - stable RustUse API route for the facade crate.
 - Published geometry child crates use stable `/api/<crate>/` routes from the catalog and sidebar.
-- The local geometry `use-complex` crate currently uses `/api/workspaces/use-geometry/use_complex/` so the docs do not point at the wrong published package identity.
+- The geometric complex child crate publishes as `use-geometric-complex` and exposes the `use_complex` Rust library name.
 
 ## Catalog and guidance
 
@@ -47,4 +46,4 @@ Keeping geometry in its own set keeps the facade thin, lets focused child crates
 
 ## Status
 
-The current public geometry set contains {getPublicCratesBySet('use-geometry').filter((crate) => crate.status === 'published').length} published crate tracks and {getPublicCratesBySet('use-geometry').filter((crate) => crate.status === 'scaffolded').length} scaffolded exception. RustUse-hosted generated rustdocs remain canonical while workspace-scoped routes cover the remaining identity edge cases.
+The current public geometry set contains {getPublicCratesBySet('use-geometry').filter((crate) => crate.status === 'published').length} published crate tracks. RustUse-hosted generated rustdocs remain canonical while registry links point at the live package identities.

@@ -31,14 +31,13 @@ import { getPublicCratesBySet } from '../../../data/crates';
 This page combines the `use-geometry` facade overview with the current public inventory for the RustUse geometry set.
 
 <p>
-  <StatusBadge status="published" /> Published facade crate with live registry
-  links. <StatusBadge status="scaffolded" /> The geometry workspace's local
-  `use-complex` crate currently stays on a RustUse-hosted workspace route.
+  <StatusBadge status="published" /> Published facade crate and focused child
+  crates with live registry links.
 </p>
 
 <MascotImportant
   title="Published facade, broad child-crate taxonomy"
-  description="The facade crate is published and reexports the current geometry child crates. Most child crates also use stable published package identities; the local geometry use-complex crate currently keeps a workspace-scoped RustUse docs route while its external package name remains unavailable."
+  description="The facade crate is published and reexports the current geometry child crates. The geometric complex child crate publishes as use-geometric-complex while preserving the use_complex Rust library name."
 />
 
 ## Purpose
@@ -63,7 +62,7 @@ The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').le
 | Polytopes and solids                               | `use-simplex`, `use-orthotope`, `use-polytope`, `use-polyhedron`, `use-regular-polytope`, `use-archimedean`, `use-catalan-solid`, `use-johnson-solid` |
 | Polytope notation and classification               | `use-schlafli`, `use-wythoff`, `use-coxeter`, `use-uniform-polytope`                                                                                  |
 | Incidence, projective geometry, and configurations | `use-incidence`, `use-projective`, `use-configuration`, `use-duality`                                                                                 |
-| Representations and complexes                      | `use-mesh`, `use-face`, `use-cell`, `use-complex`                                                                                                     |
+| Representations and complexes                      | `use-mesh`, `use-face`, `use-cell`, `use-geometric-complex`                                                                                           |
 | Constructions and decompositions                   | `use-hull`, `use-triangulation`, `use-tessellation`, `use-voronoi`, `use-delaunay`                                                                    |
 | Folding and unfolding                              | `use-folding`, `use-crease`, `use-origami`, `use-linkage`, `use-unfolding`, `use-rigid-folding`, `use-polyhedral-net`                                 |
 
@@ -76,7 +75,7 @@ The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').le
 - [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the full geometry workspace.
 - [use-geometry API reference](/api/use-geometry/) - stable RustUse API route for the facade crate.
 - Published geometry child crates use stable `/api/<crate>/` routes from the catalog and sidebar.
-- The local geometry `use-complex` crate currently uses the workspace-scoped route `/api/workspaces/use-geometry/use_complex/` so the docs do not point at the wrong published package identity.
+- The geometric complex child crate publishes as `use-geometric-complex` and exposes the `use_complex` Rust library name.
 
 <CrateSourcePanel
   crateName="use-geometry"
@@ -87,17 +86,18 @@ The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').le
 
 - The facade crate only reexports child crates and shared namespace modules.
 - `use-line` is the published package name for line primitives; its Rust library name stays `use_line`.
+- `use-geometric-complex` is the published package name for geometric complex primitives; its Rust library name stays `use_complex`.
 - `use-vector` remains in the sibling `use-math` workspace and is used by geometry child crates that need vector primitives.
 - `use-geode` remains in `use-math` and is not part of the geometry set.
-- The local geometry `use-complex` crate stays in the workspace taxonomy, but its external package identity is currently blocked, so RustUse keeps it on a workspace-scoped internal docs route.
 
 ## Current release alignment
 
-The `use-geometry 0.2.0` facade release aligns the public geometry docs with the
+The `use-geometry 0.2.1` facade release aligns the public geometry docs with the
 child crates that consume `use-vector 0.0.7` from the sibling `use-math` set.
 The focused geometry crates in that compatibility wave are `use-point 0.1.0`,
 `use-plane 0.1.0`, `use-orientation 0.1.0`, `use-ray 0.1.0`, and
-`use-line 0.2.1`.
+`use-line 0.2.1`, with `use-geometric-complex 0.0.6` resolving the former
+complex package identity collision.
 
 RustUse keeps these crates below `0.3.0` while the APIs remain pre-production
 and pre-1.0. The generated Rustdocs and stable `/api/<crate>/` routes are the
