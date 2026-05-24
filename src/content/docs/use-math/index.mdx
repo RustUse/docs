@@ -31,12 +31,12 @@ This page combines the `use-math` facade overview with the current public invent
 
 <MascotImportant
   title="Published facade surface"
-  description="use-math is a published facade crate. RustUse-hosted API docs remain canonical, and every currently published focused math crate now has a stable RustUse API route."
+  description="use-math is a published facade crate. RustUse-hosted RustDocs remain canonical, and every currently published focused math crate now has a stable RustUse RustDocs route."
 />
 
 <p>
   <StatusBadge status="published" /> Published facade crate with canonical
-  RustUse API docs and live registry links.
+  RustUse RustDocs and live registry links.
 </p>
 
 ## Overview
@@ -48,6 +48,40 @@ features, preserves crate-shaped namespace modules, and keeps the shared
 `prelude` limited to the ergonomic layer that belongs at the facade boundary.
 
 Use this page as the combined entry point for the set overview and the `use-math` facade crate itself.
+
+## Install
+
+Use the facade when one dependency and one import surface are clearer than selecting focused crates one by one:
+
+```toml
+[dependencies]
+use-math = "0.0.7"
+```
+
+The default feature set enables the current full math surface. Disable default features when you want the facade shape with a smaller API surface:
+
+```toml
+[dependencies]
+use-math = { version = "0.0.7", default-features = false, features = ["prime", "rational", "set"] }
+```
+
+Use focused crates directly when a project only needs one domain:
+
+```toml
+[dependencies]
+use-rational = "0.0.6"
+use-prime = "0.0.6"
+```
+
+## Facade organization
+
+| Entry point         | What it gives you                                                                                               | Best fit                                                      |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Root reexports      | Enabled functions and types such as `factorial`, `is_prime`, `Rational`, `Interval`, `Vector3`, and `Matrix2`   | Small examples and application code that values short imports |
+| Namespace modules   | Crate-shaped modules such as `use_math::prime`, `use_math::rational`, `use_math::vector`, and `use_math::geode` | Code that wants the facade dependency with explicit domains   |
+| `use_math::prelude` | Common imports from enabled concrete features                                                                   | Quick starts, examples, and small tools                       |
+
+Feature names match the focused crates without the `use-` prefix. Hyphenated crate names use hyphenated feature names, while Rust module paths use underscores where Rust syntax requires them.
 
 ## Supported crates
 
@@ -62,7 +96,7 @@ Use `use-math` when you want a curated entry point instead of depending on focus
 - A `prelude` module for common imports
 - One dependency and one import surface for the current math set
 
-## Current focused families
+## Choose a focused family
 
 - Arithmetic and number primitives: `use-arithmetic`, `use-integer`, `use-number`, `use-rational`, `use-real`, `use-complex`
 - Algebra, logic, and set helpers: `use-algebra`, `use-logic`, `use-set`, `use-modular`, `use-prime`
@@ -79,8 +113,8 @@ Shared conventions and helper types that support the facade belong here only whe
 
 ## Generated Rustdocs
 
-- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the full math workspace.
-- [use-math API reference](/api/use-math/) - stable RustUse API route for the facade crate.
+- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated RustDocs bundle for the full math workspace.
+- [use-math RustDocs](/api/use-math/) - stable RustUse RustDocs route for the facade crate.
 - Every published focused crate in this set also has a stable `/api/<crate>/` route. Use the crate grid above or the sidebar for direct entry points.
 
 <CrateSourcePanel
@@ -92,17 +126,30 @@ Shared conventions and helper types that support the facade belong here only whe
 
 Reach for the focused crates when you want the narrowest dependency surface for a specific domain. Reach for `use-math` when one dependency, root re-exports, and a shared `prelude` are the clearer integration shape. Reach for the sibling `use-geometry` set when you need geometry primitives.
 
-## Example API sketch
+## Example
 
-The sketch below is illustrative only. Names and signatures are not final.
+This example uses current facade reexports from the default `full` feature set.
 
 ```rust
-use use_math::prelude::*;
+use use_math::{Rational, combinations, factorial, is_prime, set_union};
 
-assert_eq!(factorial(5)?, 120);
-assert_eq!(combinations(5, 2)?, 10);
-# Ok::<(), use_math::combinatorics::CombinatoricsError>(())
+assert_eq!(factorial(5).expect("small factorial"), 120);
+assert_eq!(combinations(5, 2).expect("small combination"), 10);
+assert!(is_prime(97));
+
+let ratio = Rational::try_new(6, 8).expect("valid rational");
+assert_eq!(ratio.numerator(), 3);
+assert_eq!(ratio.denominator(), 4);
+
+assert_eq!(set_union(&[1, 2, 2], &[2, 3]), vec![1, 2, 3]);
 ```
+
+## Placement notes
+
+- Geometry is documented under the sibling `use-geometry` set and is not reexported by `use-math`.
+- `use-vector` remains a math crate because it provides reusable vector primitives rather than geometry-specific objects.
+- `use-geode` remains a math crate because it provides exact Geode-array and recurrence helpers rather than spatial geometry types.
+- Focused crates remain usable without the facade and should be the default recommendation for single-domain dependencies.
 
 ## Status
 

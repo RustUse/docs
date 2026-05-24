@@ -8,11 +8,11 @@ import MascotNote from '../../../components/MascotNote.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
 import { getPublicCratesBySet } from '../../../data/crates';
 
-`use-math` is the current RustUse math set. It currently surfaces {getPublicCratesBySet('use-math').length} public crate tracks: the published `use-math` facade plus its focused math crates.
+`use-math` is the current RustUse math set. It surfaces {getPublicCratesBySet('use-math').length} public crate tracks: the published `use-math` facade plus focused crates for arithmetic, algebra, sequences, linear primitives, numerical helpers, statistics, probability, trigonometry, and validated number types.
 
 <MascotNote
-  title="Published math set"
-  description="The public use-math set is now driven from the live crate inventory. RustUse-hosted generated rustdocs remain canonical, and published crates now expose live crates.io and docs.rs links."
+  title="Adopt the facade or a focused crate"
+  description="The math set is designed so one-dependency adoption and narrow focused-crate adoption are both first-class. The generated crate catalog stays driven by Cargo metadata, while this page explains how to choose the right entry point."
 />
 
 <p>
@@ -22,26 +22,76 @@ import { getPublicCratesBySet } from '../../../data/crates';
 
 ## Purpose
 
-This set keeps a thin facade over focused math crates so callers can choose between one dependency and a narrower direct crate for a specific math domain. Geometry now lives in the sibling `use-geometry` set.
+This set keeps a thin facade over focused math crates so callers can choose between one dependency and a narrower direct crate for a specific math domain. The facade exists for integration ergonomics; the focused crates remain the clearest path when a project only needs one math concern.
+
+Geometry now lives in the sibling `use-geometry` set. `use-vector` remains here as reusable vector math, and `use-geode` remains here as exact Geode-array and recurrence helpers rather than spatial geometry.
+
+## Install
+
+Choose the facade when you want one dependency for the current math surface:
+
+```toml
+[dependencies]
+use-math = "0.0.7"
+```
+
+Choose focused crates directly when you want a smaller dependency and API surface:
+
+```toml
+[dependencies]
+use-rational = "0.0.6"
+use-set = "0.0.6"
+use-vector = "0.0.7"
+```
+
+The facade can also be narrowed with feature flags:
+
+```toml
+[dependencies]
+use-math = { version = "0.0.7", default-features = false, features = ["prime", "rational", "set"] }
+```
+
+## Choose an entry point
+
+| Need                                                             | Start with                                  | Why                                                                        |
+| ---------------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
+| One dependency for multiple math domains                         | `use-math`                                  | The facade enables selected focused crates behind explicit feature flags.  |
+| One focused domain such as rational arithmetic or set operations | The focused crate                           | Direct crates keep compile surface, imports, and docs narrower.            |
+| Reusable vector, matrix, or linear-system primitives             | `use-vector`, `use-matrix`, or `use-linear` | These crates own math primitives that geometry and other sets can consume. |
+| Spatial geometry objects, relations, or constructions            | `use-geometry`                              | Geometry has its own set and facade rather than living inside `use-math`.  |
+
+## Family map
+
+| Family                           | Crates                                                                                   |
+| -------------------------------- | ---------------------------------------------------------------------------------------- |
+| Arithmetic and number primitives | `use-arithmetic`, `use-integer`, `use-number`, `use-rational`, `use-real`, `use-complex` |
+| Algebra, logic, and sets         | `use-algebra`, `use-logic`, `use-set`, `use-modular`, `use-prime`                        |
+| Sequences and counting           | `use-combinatorics`, `use-catalan`, `use-collatz`, `use-series`, `use-geode`             |
+| Linear and reusable primitives   | `use-vector`, `use-matrix`, `use-linear`, `use-eigen`                                    |
+| Equations and approximation      | `use-polynomial`, `use-equation`, `use-numerical`, `use-calculus`                        |
+| Probability and summaries        | `use-probability`, `use-statistics`, `use-trigonometry`                                  |
 
 ## Public crate tracks
 
 <CrateGrid crates={getPublicCratesBySet('use-math')} />
 
-## Generated Rustdocs
+## RustDocs and source
 
-- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated API bundle for the full math workspace.
-- [use-math API reference](/api/use-math/) - stable RustUse API route for the facade crate.
+- [use-math workspace Rustdocs](/api/workspaces/use-math/) - generated RustDocs bundle for the full math workspace.
+- [use-math RustDocs](/api/use-math/) - stable RustUse RustDocs route for the facade crate.
 - Every focused crate in this set also has a stable `/api/<crate>/` route. Use the crate grid above or the sidebar for direct entry points.
 
-## Catalog and guidance
+## Catalog links
 
 - [Crates](/crates/) - current public crate catalog with shared status badges and link targets.
-- [API Reference](/api-reference/) - RustUse.org API strategy, Cargo metadata guidance, and future rustdoc JSON notes.
+- Generated RustDocs links now live under their corresponding crate entries in the Crates sidebar.
 
-## Why this shape
+## Current boundaries
 
-Keeping the facade thin and the focused crates direct makes the set easier to adopt incrementally while preserving one-dependency ergonomics where they help.
+- The `use-math` facade should stay a reexport and convenience layer, not a monolithic implementation crate.
+- Focused crate APIs should remain concrete, explicit, and usable without the facade.
+- Geometry primitives, shapes, and relations belong in `use-geometry`.
+- `use-vector` remains a math primitive crate even when geometry crates depend on it.
 
 ## Status
 

@@ -8,7 +8,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
-  getSidebarApiLinks,
   getSidebarCrateLinks,
   getSidebarSetLinks,
 } from './src/data/catalog.js';
@@ -111,14 +110,6 @@ export default defineConfig({
           items: [
             { label: 'Overview', link: '/crates/' },
             ...getSidebarCrateLinks(),
-          ],
-        },
-        {
-          label: 'API Reference',
-          collapsed: true,
-          items: [
-            { label: 'Overview', link: '/api-reference/' },
-            ...getSidebarApiLinks(),
           ],
         },
         { label: 'Contributing', link: '/contributing/' },

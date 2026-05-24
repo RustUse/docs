@@ -63,8 +63,30 @@ function normalizeApiSlug(value, fieldName) {
   return normalized;
 }
 
-function crateDocDir(crateName) {
+function rustdocDirName(crateName) {
   return crateName.replace(/-/g, '_');
+}
+
+function crateDocDir(cratePackage) {
+  const libTarget = cratePackage.targets.find(
+    (target) => Array.isArray(target.kind) && target.kind.includes('lib'),
+  );
+
+  return rustdocDirName(libTarget?.name ?? cratePackage.name);
+}
+
+function publishedCrateDocDir(crateName, cargoMetadata) {
+  const cratePackage = cargoMetadata.packages.find(
+    (pkg) => pkg.name === crateName,
+  );
+
+  if (!cratePackage) {
+    fail(
+      `Rustdoc source metadata does not contain the published crate "${crateName}".`,
+    );
+  }
+
+  return crateDocDir(cratePackage);
 }
 
 function readJsonCommandOutput(command, args, cwd, extraEnv = {}) {
@@ -196,7 +218,7 @@ function buildCrateSourceArtifact(crateName, cargoMetadata) {
 
 function writeWorkspaceSourceArtifacts(outputDir, cargoMetadata) {
   for (const cratePackage of cargoMetadata.packages) {
-    const crateDir = crateDocDir(cratePackage.name);
+    const crateDir = crateDocDir(cratePackage);
     const crateIndexPath = path.join(outputDir, crateDir, 'index.html');
 
     if (!existsSync(crateIndexPath)) {
@@ -455,8 +477,7 @@ try {
       }
 
       const route = normalizeApiSlug(crateName, 'publishedCrates');
-      const crateDir = crateDocDir(crateName);
-      return { crateName, route, crateDir };
+      return { crateName, route };
     });
 
     const localPath =
@@ -542,8 +563,13 @@ try {
       `Copied ${name} Rustdocs to ${path.relative(repoRoot, outputDir)}`,
     );
 
-    if (publishedEntries.length > 0) {
-      for (const entry of publishedEntries) {
+    const publishedEntriesWithDocDirs = publishedEntries.map((entry) => ({
+      ...entry,
+      crateDir: publishedCrateDocDir(entry.crateName, cargoMetadata),
+    }));
+
+    if (publishedEntriesWithDocDirs.length > 0) {
+      for (const entry of publishedEntriesWithDocDirs) {
         const crateIndexPath = path.join(
           outputDir,
           entry.crateDir,
@@ -592,7 +618,7 @@ try {
         path.join(outputDir, 'index.html'),
         renderWorkspaceIndex(
           `${name} Workspace Rustdocs`,
-          publishedEntries,
+          publishedEntriesWithDocDirs,
           workspaceStylesheetHref,
         ),
       );

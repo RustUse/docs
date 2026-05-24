@@ -17,6 +17,8 @@ if (!crate) {
 }
 
 const isFacade = crate.name === crate.set;
+const hasApiDocs = Boolean(crate.docsUrl);
+const hasSourceBundle = Boolean(crate.apiPath);
 const usesWorkspaceApiRoute =
   crate.docsUrl?.startsWith(`/api/workspaces/${crate.set}/`) ?? false;
 const roleTitle = isFacade ? 'Facade crate' : 'Focused crate';
@@ -27,9 +29,11 @@ const statusSummary =
   crate.status === 'published'
     ? 'Published crate with live registry and docs.rs links.'
     : 'RustUse-hosted docs are available while the external package identity remains staged or blocked.';
-const apiSummary = usesWorkspaceApiRoute
-  ? 'This crate currently uses a workspace-scoped RustUse API route because a stable published crate route is not available.'
-  : 'This crate uses a stable RustUse API route alongside the workspace rustdoc bundle.';
+const rustdocsSummary = !hasApiDocs
+  ? "RustUse-hosted RustDocs are not generated for this crate yet. Use the set page plus registry links while this set's generated docs surface is still being expanded."
+  : usesWorkspaceApiRoute
+    ? 'This crate currently uses a workspace-scoped RustUse RustDocs route because a stable published crate route is not available.'
+    : 'This crate uses a stable RustUse RustDocs route alongside the workspace Rustdocs bundle.';
 const sourcePanelDescription = usesWorkspaceApiRoute
   ? `Copy the current ${crate.name} source bundle or inspect the workspace-scoped files that back this crate's RustUse docs surface.`
   : `Copy the current ${crate.name} source bundle or inspect the files behind the stable RustUse docs surface for this crate.`;
@@ -38,11 +42,14 @@ const sourcePanelDescription = usesWorkspaceApiRoute
 <MascotNote title={roleTitle} description={roleDescription} />
 
 <p>
-  <StatusBadge status={crate.status} /> {statusSummary}
+  <StatusBadge status={crate.status} />
+  {statusSummary}
 </p>
 
 <p>
-  <code>{crate.name}</code> belongs to the <a href={crate.setPath}>{crate.set}</a>{' '}
+  <code>{crate.name}</code> belongs to the <a href={crate.setPath}
+    >{crate.set}</a
+  >{' '}
   set.
 </p>
 
@@ -68,29 +75,48 @@ const sourcePanelDescription = usesWorkspaceApiRoute
   )
 }
 
-## API route
+## RustDocs
 
-<p>{apiSummary}</p>
+<p>{rustdocsSummary}</p>
 
-<CrateSourcePanel crateName={crate.name} description={sourcePanelDescription} />
+{
+  hasSourceBundle ? (
+    <CrateSourcePanel
+      crateName={crate.name}
+      description={sourcePanelDescription}
+    />
+  ) : (
+    <p>
+      Copyable source bundles are added when this crate gets a generated RustUse
+      RustDocs route on RustUse.org.
+    </p>
+  )
+}
 
 ## Tags
 
 <ul class="ru-crate-overview-tags">
-  {crate.tags.map((tag) => (
-    <li>{tag}</li>
-  ))}
+  {crate.tags.map((tag) => <li>{tag}</li>)}
 </ul>
 
 ## Status
 
 {
   crate.status === 'published' ? (
-    <p>
-      This crate is currently treated as published in the RustUse docs surface.
-      RustUse-hosted API docs remain canonical, and the external registry links
-      are enabled because the live package identity is available.
-    </p>
+    hasApiDocs ? (
+      <p>
+        This crate is currently treated as published in the RustUse docs
+        surface. RustUse-hosted RustDocs remain canonical, and the external
+        registry links are enabled because the live package identity is
+        available.
+      </p>
+    ) : (
+      <p>
+        This crate is currently treated as published in the RustUse docs
+        surface. Registry links are live, and a dedicated RustUse RustDocs route
+        can be added later as this set&apos;s generated docs surface expands.
+      </p>
+    )
   ) : (
     <p>
       This crate currently remains on a non-published docs posture in the

@@ -48,6 +48,40 @@ This page combines the `use-geometry` facade overview with the current public in
 
 The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').length} public crate tracks: the `use-geometry` facade plus its focused child crates. The set is intentionally broad inside pure geometry, but the facade remains thin: implementation lives in focused crates with explicit boundaries.
 
+## Install
+
+Use the facade when one dependency and one import surface are clearer than selecting child crates one by one:
+
+```toml
+[dependencies]
+use-geometry = "0.2.1"
+```
+
+The default feature set enables the current full geometry surface. Disable default features when you want the facade shape with a smaller API surface:
+
+```toml
+[dependencies]
+use-geometry = { version = "0.2.1", default-features = false, features = ["point", "line", "triangle"] }
+```
+
+Use child crates directly when a project only needs one geometry family:
+
+```toml
+[dependencies]
+use-point = "0.0.6"
+use-line = "0.2.1"
+```
+
+## Facade organization
+
+| Entry point             | What it gives you                                                                                                | Best fit                                                             |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Root reexports          | Enabled child-crate items such as `Point2`, `Line2`, `Triangle`, `Sphere`, and `RegularPolytope4`                | Application code that wants short imports from one facade            |
+| Namespace modules       | Child-crate namespaces such as `use_geometry::point`, `use_geometry::line`, and `use_geometry::regular_polytope` | Code that wants the facade dependency with explicit geometry domains |
+| `use_geometry::prelude` | Common geometry imports from enabled child crates                                                                | Quick starts, examples, and small tools                              |
+
+Every child crate has a matching feature name without the `use-` prefix. Hyphenated feature names use underscore namespace modules, such as `regular-polytope` through `use_geometry::regular_polytope`.
+
 ## Taxonomy
 
 | Group                                              | Crates                                                                                                                                                |
@@ -70,10 +104,10 @@ The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').le
 
 <CrateGrid crates={getPublicCratesBySet('use-geometry')} />
 
-## API reference
+## Generated RustDocs
 
-- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated API bundle for the full geometry workspace.
-- [use-geometry API reference](/api/use-geometry/) - stable RustUse API route for the facade crate.
+- [use-geometry workspace Rustdocs](/api/workspaces/use-geometry/) - generated RustDocs bundle for the full geometry workspace.
+- [use-geometry RustDocs](/api/use-geometry/) - stable RustUse RustDocs route for the facade crate.
 - Published geometry child crates use stable `/api/<crate>/` routes from the catalog and sidebar.
 - The geometric complex child crate publishes as `use-geometric-complex` and exposes the `use_complex` Rust library name.
 
@@ -103,10 +137,9 @@ RustUse keeps these crates below `0.3.0` while the APIs remain pre-production
 and pre-1.0. The generated Rustdocs and stable `/api/<crate>/` routes are the
 canonical docs entry points for this release line.
 
-## Example API sketch
+## Example
 
-The sketch below is illustrative only. Names and signatures can still evolve
-while the geometry set remains pre-1.0.
+These examples use current facade reexports from the default `full` feature set.
 
 ### Validated construction
 
@@ -152,6 +185,23 @@ let triangle = Triangle::try_new(
 
 assert!(!triangle.is_degenerate());
 assert_eq!(triangle.is_degenerate_with_tolerance(1.0e-12), Ok(true));
+```
+
+### Mixing child-crate families through the facade
+
+```rust
+use use_geometry::{Point2, Sphere, Triangle};
+
+let triangle = Triangle::new(
+  Point2::new(0.0, 0.0),
+  Point2::new(4.0, 0.0),
+  Point2::new(0.0, 3.0),
+);
+let sphere = Sphere::new(3.0).expect("valid sphere");
+
+assert_eq!(triangle.area(), 6.0);
+assert_eq!(triangle.sides(), [4.0, 5.0, 3.0]);
+assert_eq!(sphere.diameter(), 6.0);
 ```
 
 ## Status

@@ -64,12 +64,6 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/html',
-      distPath: 'api-reference/index.html',
-      mustInclude: ['API Reference'],
-      route: '/api-reference/',
-    },
-    {
-      contentType: 'text/html',
       distPath: 'contributing/index.html',
       mustInclude: ['Contributing'],
       route: '/contributing/',

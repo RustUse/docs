@@ -1,6 +1,6 @@
 ---
 title: Contributing
-description: How to update the RustUse docs site, crate catalog, and generated API docs.
+description: How to update the RustUse docs site, crate catalog, and generated RustDocs.
 ---
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
@@ -11,17 +11,17 @@ import MascotWarning from '../../components/MascotWarning.astro';
   alt="A Rust mascot introducing the RustUse contribution flow"
   eyebrow="Contributing"
   title="Curated docs and generated rustdocs move together."
-  description="RustUse keeps human-authored guides, crate metadata, and generated API docs aligned. The goal is simple maintenance, stable API paths, and a narrow public surface until support expands deliberately."
+  description="RustUse keeps human-authored guides, crate metadata, and generated RustDocs aligned. The goal is simple maintenance, stable RustDocs paths, and a narrow public surface until support expands deliberately."
   quickLinks={[
     { href: '/crates/', label: 'Current catalog' },
-    { href: '/api-reference/', label: 'API guidance' },
+    { href: '/api/workspaces/use-math/', label: 'Workspace RustDocs' },
   ]}
   theme="sand"
 >
   <MascotTip slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse docs combine curated content under `src/content/docs/` with generated API docs under `public/api/`.
+RustUse docs combine curated content under `src/content/docs/` with generated RustDocs under `public/api/`.
 
 The shared RustUse contribution policy lives in
 [RustUse/.github CONTRIBUTING.md](https://github.com/RustUse/.github/blob/main/CONTRIBUTING.md).
@@ -31,7 +31,7 @@ expectations.
 ## Scope
 
 - Human-authored docs live in `src/content/docs/`.
-- Generated Rust API docs live in `public/api/` and are treated as build output.
+- Generated RustDocs live in `public/api/` and are treated as build output.
 - Rustdoc source definitions live in `docs/rustdoc-sources.json`.
 
 Keep curated docs and generated Rustdocs separate. Do not copy generated Rustdoc
@@ -66,7 +66,7 @@ clone the source workspace and run `cargo doc` from scratch.
 
 - Prewire the future `crates.io` and `docs.rs` URLs in `src/data/crates.ts` while a crate is still scaffolded.
 - Keep `status: 'scaffolded'` until the live registry pages resolve and the crate metadata is ready to point at RustUse.
-- Flip the crate to `published` only after the RustUse API route, crates.io page, and docs.rs page all match the release state.
+- Flip the crate to `published` only after the RustUse RustDocs route, crates.io page, and docs.rs page all match the release state.
 
 ## Common commands
 
@@ -97,7 +97,7 @@ final published artifact shape without rerunning the whole repo validation
 chain.
 
 Use `npm run smoke:preview` when you want an HTTP-level check of the served
-docs and API routes; it starts and stops its own temporary preview server by
+docs and RustDocs routes; it starts and stops its own temporary preview server by
 default.
 
 Use `npm run verify:changed` for the fastest changed-files-only lint and
@@ -137,8 +137,8 @@ site, the Rust toolchain, and the configured Rustdoc source workspace.
 
 - Keep the public support surface aligned with the generated math and geometry catalog entries rather than ad hoc links or hand-maintained sidebars.
 - Do not add planned crates from other sets to navigation, homepage copy, or public set pages early.
-- When a local crate name conflicts with an existing published package identity, prefer a workspace-scoped RustUse API route until the package identity is resolved.
-- Prefer linking to generated RustUse API docs rather than rewriting rustdoc HTML or scraping docs.rs.
+- When a local crate name conflicts with an existing published package identity, prefer a workspace-scoped RustUse RustDocs route until the package identity is resolved.
+- Prefer linking to generated RustUse RustDocs rather than rewriting rustdoc HTML or scraping docs.rs.
 
 ## When a new crate becomes supported
 
@@ -146,7 +146,7 @@ site, the Rust toolchain, and the configured Rustdoc source workspace.
 - Add or update the curated docs page under `src/content/docs/`.
 - Extend `docs/rustdoc-sources.json` if the new crate needs a stable `/api/<crate-name>/` entry root.
 - Prewire any future crates.io and docs.rs URLs, but leave them non-live until the crate status actually changes to `published`.
-- Run `npm run build` and verify the stable API route resolves without a 404.
+- Run `npm run build` and verify the stable RustDocs route resolves without a 404.
 
 ## Pull requests
 
@@ -165,7 +165,7 @@ maintainer roster.
 
 Release automation derives version bumps and changelog entries from
 Conventional Commits. When opening a PR, prefer a title or eventual squash-merge
-commit title like `feat: add crate overview`, `fix: correct API route`, or
+commit title like `feat: add crate overview`, `fix: correct RustDocs route`, or
 `docs: clarify onboarding`.
 
 Use `!` for breaking changes when the public docs contract or release behavior
