@@ -413,6 +413,109 @@ function run(command, args, cwd, extraEnv = {}) {
   });
 }
 
+function resolveRustdocSource(source, tempRoot, sourceNames) {
+  if (!source || typeof source !== 'object') {
+    fail('Each Rustdoc source must be an object.');
+  }
+
+  const name =
+    typeof source.name === 'string' && source.name.length > 0
+      ? source.name
+      : null;
+  if (!name) {
+    fail('Each Rustdoc source requires a non-empty "name" field.');
+  }
+
+  if (sourceNames.has(name)) {
+    fail(`Rustdoc source name "${name}" must be unique.`);
+  }
+  sourceNames.add(name);
+
+  const bundleSlug = normalizeApiSlug(
+    typeof source.bundleSlug === 'string' && source.bundleSlug.length > 0
+      ? source.bundleSlug
+      : name,
+    'bundleSlug',
+  );
+
+  const outputDir = path.join(apiRoot, bundleSlug);
+  const publishedCrates = Array.isArray(source.publishedCrates)
+    ? source.publishedCrates
+    : [];
+  const publishedEntries = publishedCrates.map((crateName) => {
+    if (typeof crateName !== 'string' || crateName.length === 0) {
+      fail(`Rustdoc source "${name}" has an invalid published crate entry.`);
+    }
+
+    const route = normalizeApiSlug(crateName, 'publishedCrates');
+    return { crateName, route };
+  });
+
+  const localPath =
+    typeof source.path === 'string' && source.path.length > 0
+      ? path.resolve(repoRoot, source.path)
+      : null;
+  const repo =
+    typeof source.repo === 'string' && source.repo.length > 0
+      ? source.repo
+      : null;
+  const branch =
+    typeof source.branch === 'string' && source.branch.length > 0
+      ? source.branch
+      : null;
+
+  const hasLocalPath = localPath ? existsSync(localPath) : false;
+  if (!hasLocalPath && !repo) {
+    if (localPath) {
+      fail(`Configured local Rustdoc source does not exist: ${localPath}`);
+    }
+
+    fail(
+      `Rustdoc source "${name}" requires either a valid "path" or a "repo" fallback.`,
+    );
+  }
+
+  const workingDir = hasLocalPath ? localPath : path.join(tempRoot, name);
+
+  return {
+    branch,
+    bundleSlug,
+    hasLocalPath,
+    localPath,
+    name,
+    outputDir,
+    publishedEntries,
+    repo,
+    workingDir,
+  };
+}
+
+function stageRustdocSource(source) {
+  if (source.hasLocalPath) {
+    console.log(
+      `Using local Rustdoc source for ${source.name}: ${source.localPath}`,
+    );
+    return;
+  }
+
+  if (source.localPath) {
+    console.warn(
+      `Local Rustdoc source not found for ${source.name}; falling back to ${source.repo}`,
+    );
+  }
+
+  console.log(
+    `Cloning Rustdoc source for ${source.name} into a temporary workspace. This can take a bit on the first run.`,
+  );
+
+  const cloneArgs = ['clone', '--depth', '1'];
+  if (source.branch) {
+    cloneArgs.push('--branch', source.branch);
+  }
+  cloneArgs.push(source.repo, source.workingDir);
+  run('git', cloneArgs, repoRoot);
+}
+
 if (!existsSync(configPath)) {
   fail(`Missing Rustdoc source config: ${configPath}`);
 }
@@ -445,83 +548,20 @@ rmSync(tempRoot, { recursive: true, force: true });
 mkdirSync(tempRoot, { recursive: true });
 
 try {
-  for (const source of sources) {
-    if (!source || typeof source !== 'object') {
-      fail('Each Rustdoc source must be an object.');
-    }
+  const sourceNames = new Set();
+  const rustdocSources = sources.map((source) =>
+    resolveRustdocSource(source, tempRoot, sourceNames),
+  );
 
-    const name =
-      typeof source.name === 'string' && source.name.length > 0
-        ? source.name
-        : null;
-    if (!name) {
-      fail('Each Rustdoc source requires a non-empty "name" field.');
-    }
+  for (const source of rustdocSources) {
+    stageRustdocSource(source);
+  }
 
-    const bundleSlug = normalizeApiSlug(
-      typeof source.bundleSlug === 'string' && source.bundleSlug.length > 0
-        ? source.bundleSlug
-        : name,
-      'bundleSlug',
-    );
+  for (const source of rustdocSources) {
+    const { bundleSlug, name, outputDir, publishedEntries, workingDir } =
+      source;
 
-    const outputDir = path.join(apiRoot, bundleSlug);
     rmSync(outputDir, { recursive: true, force: true });
-
-    const publishedCrates = Array.isArray(source.publishedCrates)
-      ? source.publishedCrates
-      : [];
-    const publishedEntries = publishedCrates.map((crateName) => {
-      if (typeof crateName !== 'string' || crateName.length === 0) {
-        fail(`Rustdoc source "${name}" has an invalid published crate entry.`);
-      }
-
-      const route = normalizeApiSlug(crateName, 'publishedCrates');
-      return { crateName, route };
-    });
-
-    const localPath =
-      typeof source.path === 'string' && source.path.length > 0
-        ? path.resolve(repoRoot, source.path)
-        : null;
-    const repo =
-      typeof source.repo === 'string' && source.repo.length > 0
-        ? source.repo
-        : null;
-
-    const hasLocalPath = localPath ? existsSync(localPath) : false;
-    const workingDir = hasLocalPath ? localPath : path.join(tempRoot, name);
-
-    if (hasLocalPath) {
-      console.log(`Using local Rustdoc source for ${name}: ${localPath}`);
-    } else {
-      if (!repo) {
-        if (localPath) {
-          fail(`Configured local Rustdoc source does not exist: ${localPath}`);
-        }
-
-        fail(
-          `Rustdoc source "${name}" requires either a valid "path" or a "repo" fallback.`,
-        );
-      }
-
-      if (localPath) {
-        console.warn(
-          `Local Rustdoc source not found for ${name}; falling back to ${repo}`,
-        );
-      }
-
-      console.log(
-        `Cloning Rustdoc source for ${name} into a temporary workspace. This can take a bit on the first run.`,
-      );
-
-      const cloneArgs = ['clone', '--depth', '1'];
-      if (typeof source.branch === 'string' && source.branch.length > 0) {
-        cloneArgs.push('--branch', source.branch);
-      }
-      cloneArgs.push(repo, workingDir);
-      run('git', cloneArgs, repoRoot);
-    }
 
     console.log(
       `Building Rustdocs for ${name} with cargo doc --workspace --no-deps. Cold builds can take several minutes.`,
