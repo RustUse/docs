@@ -31,45 +31,20 @@ export function getSidebarSetLinks() {
 }
 
 export function getSidebarCrateLinks() {
-  const setsByName = new Map(rustuseSets.map((set) => [set.name, set]));
+  const linksByName = new Map();
 
-  return publicRustuseCrates
-    .filter((crate) => Boolean(crate.pagePath))
-    .map((crate) => {
-      const rustdocLinks = [];
+  for (const crate of rustuseCrates) {
+    if (!crate.name.startsWith('use-') || !crate.pagePath) {
+      continue;
+    }
 
-      if (crate.docsUrl) {
-        rustdocLinks.push({
-          label: 'RustUse RustDocs',
-          link: crate.docsUrl,
-        });
-      }
-
-      const set = crate.name === crate.set ? setsByName.get(crate.set) : null;
-      if (set?.workspaceApiPath) {
-        rustdocLinks.push({
-          label: 'Workspace RustDocs',
-          link: set.workspaceApiPath,
-        });
-      }
-
-      if (rustdocLinks.length === 0) {
-        return {
-          label: crate.name,
-          link: crate.pagePath,
-        };
-      }
-
-      return {
-        label: crate.name,
-        collapsed: true,
-        items: [
-          {
-            label: 'Overview',
-            link: crate.pagePath,
-          },
-          ...rustdocLinks,
-        ],
-      };
+    linksByName.set(crate.name, {
+      label: crate.name,
+      link: crate.pagePath,
     });
+  }
+
+  return [...linksByName.values()].sort((left, right) =>
+    left.label.localeCompare(right.label, 'en'),
+  );
 }
