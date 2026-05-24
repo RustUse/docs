@@ -53,11 +53,11 @@ const sourcePanelDescription = usesWorkspaceApiRoute
   set.
 </p>
 
-## Package links
+<h2>Package links</h2>
 
 <DocsLinks crate={crate} />
 
-## Set placement
+<h2>Set placement</h2>
 
 {
   isFacade ? (
@@ -75,7 +75,7 @@ const sourcePanelDescription = usesWorkspaceApiRoute
   )
 }
 
-## RustDocs
+<h2>RustDocs</h2>
 
 <p>{rustdocsSummary}</p>
 
@@ -93,13 +93,13 @@ const sourcePanelDescription = usesWorkspaceApiRoute
   )
 }
 
-## Tags
+<h2>Tags</h2>
 
 <ul class="ru-crate-overview-tags">
   {crate.tags.map((tag) => <li>{tag}</li>)}
 </ul>
 
-## Status
+<h2>Status</h2>
 
 {
   crate.status === 'published' ? (
