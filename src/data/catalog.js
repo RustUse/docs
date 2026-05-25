@@ -7,9 +7,13 @@ export const rustuseSets = generatedRustuseSets;
 
 export const rustuseCrates = generatedRustuseCrates;
 
-export const publicRustuseCrates = rustuseCrates.filter(
-  (crate) => crate.public,
-);
+function compareCratesByName(left, right) {
+  return left.name.localeCompare(right.name, 'en');
+}
+
+export const publicRustuseCrates = rustuseCrates
+  .filter((crate) => crate.public)
+  .sort(compareCratesByName);
 
 export function getPublicCratesBySet(setName) {
   return publicRustuseCrates.filter((crate) => crate.set === setName);
