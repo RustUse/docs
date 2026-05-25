@@ -32,7 +32,8 @@ expectations.
 
 - Human-authored docs live in `src/content/docs/`.
 - Generated RustDocs live in `public/api/` and are treated as build output.
-- Rustdoc source definitions live in `docs/rustdoc-sources.json`.
+- Rustdoc source definitions are generated into `docs/rustdoc-sources.json`.
+- RustUse set and crate links inside `public/llms.txt` generated regions are generated from sibling `use-*` workspaces.
 
 Keep curated docs and generated Rustdocs separate. Do not copy generated Rustdoc
 HTML into `src/content/docs/`.
@@ -46,27 +47,31 @@ HTML into `src/content/docs/`.
 If you use `nvm` or a compatible version manager, the repository pins `22.12.0`
 in `.nvmrc`.
 
-For faster Rustdoc iteration, you can keep a sibling `use-math` checkout at
-`../use-math`. That checkout is optional.
+For faster Rustdoc iteration, you can keep sibling checkouts for configured
+Rustdoc workspaces, currently `../use-geometry` and `../use-math`. Those
+checkouts are optional.
 
 If `../use-math` is missing, `npm run build:api`, `npm run build`, and
 `npm run dev` fall back to cloning the configured GitHub repository from
-`docs/rustdoc-sources.json`.
+the generated `docs/rustdoc-sources.json`.
 
 The first cold Rustdoc build can take several minutes because it may need to
 clone the source workspace and run `cargo doc` from scratch.
 
 ## Working areas
 
-- `src/data/crates.ts` is the single source of truth for public crate cards, statuses, and docs links.
-- `docs/rustdoc-sources.json` controls which crate workspaces produce hosted rustdocs.
-- `scripts/build-rustdocs.mjs` builds workspace rustdocs and publishes stable entry roots under `/api/`.
+- `rustuse/Cargo.toml` `features.full` controls the public set inventory.
+- Set workspace Cargo metadata controls crate names, descriptions, keywords, and categories.
+- Live crates.io package records control publication status and external package links.
+- `scripts/sync-crate-surface.mjs` generates crate catalog data, overview pages, and `docs/rustdoc-sources.json`.
+- `scripts/generate-llms-txt.mjs` updates the generated RustUse inventory regions in `public/llms.txt`.
+- `scripts/build-rustdocs.mjs` consumes generated Rustdoc sources and publishes stable entry roots under `/api/`.
 
 ## Publication dry-run
 
-- Prewire the future `crates.io` and `docs.rs` URLs in `src/data/crates.ts` while a crate is still scaffolded.
-- Keep `status: 'scaffolded'` until the live registry pages resolve and the crate metadata is ready to point at RustUse.
-- Flip the crate to `published` only after the RustUse RustDocs route, crates.io page, and docs.rs page all match the release state.
+- Keep crate manifest metadata aligned before publishing so crates.io records resolve with the matching RustUse repository URL.
+- The generated catalog keeps a crate non-published until the live crates.io package record matches the local package repository URL.
+- A fully published set is added to generated RustDocs inputs automatically by `npm run sync:crate-surface`.
 
 ## Common commands
 
@@ -74,6 +79,7 @@ clone the source workspace and run `cargo doc` from scratch.
 npm install
 npm run dev:doctor
 npm run dev
+npm run generate:llms
 npm run build:api
 npm run smoke:dist
 npm run smoke:preview
@@ -116,6 +122,16 @@ This repository does not ship a project database, shared DB container flow,
 `.env` bootstrap, or Ollama setup. Keep contributor setup focused on the docs
 site, the Rust toolchain, and the configured Rustdoc source workspace.
 
+## `llms.txt` maintenance
+
+`public/llms.txt` keeps its title, primary links, and Rustdoc URL patterns as
+hand-authored content. The RustUse set and crate lists are generated between
+the `BEGIN GENERATED RUSTUSE ...` and `END GENERATED RUSTUSE ...` markers.
+
+Run `npm run generate:llms` after adding, removing, or renaming a sibling
+RustUse set or crate workspace. CI runs `npm run check:llms` and fails when the
+generated regions are stale. Keep manual edits outside the generated markers.
+
 ## Styling layout
 
 - `src/styles/rustuse.css` stays as the single Astro entry stylesheet.
@@ -135,18 +151,17 @@ site, the Rust toolchain, and the configured Rustdoc source workspace.
   </p>
 </MascotWarning>
 
-- Keep the public support surface aligned with the generated math and geometry catalog entries rather than ad hoc links or hand-maintained sidebars.
+- Keep the public support surface aligned with the generated catalog entries rather than ad hoc links or hand-maintained sidebars.
 - Do not add planned crates from other sets to navigation, homepage copy, or public set pages early.
-- When a local crate name conflicts with an existing published package identity, prefer a workspace-scoped RustUse RustDocs route until the package identity is resolved.
+- When a local crate name conflicts with an existing published package identity, resolve it in Cargo package metadata before relying on generated docs routes.
 - Prefer linking to generated RustUse RustDocs rather than rewriting rustdoc HTML or scraping docs.rs.
 
 ## When a new crate becomes supported
 
-- Add or update the crate entry in `src/data/crates.ts`.
+- Add or update the crate in the owning set workspace.
 - Add or update the curated docs page under `src/content/docs/`.
-- Extend `docs/rustdoc-sources.json` if the new crate needs a stable `/api/<crate-name>/` entry root.
-- Prewire any future crates.io and docs.rs URLs, but leave them non-live until the crate status actually changes to `published`.
-- Run `npm run build` and verify the stable RustDocs route resolves without a 404.
+- Publish the crate when it is ready and verify its crates.io repository URL matches the owning RustUse repository.
+- Run `npm run sync:crate-surface` and `npm run generate:llms`, then `npm run build`, and verify the generated catalog, `llms.txt`, and stable RustDocs route resolve without a 404.
 
 ## Pull requests
 

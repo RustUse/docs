@@ -1,5 +1,12 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import { format, resolveConfig } from 'prettier';
@@ -10,152 +17,420 @@ const dataRoot = path.join(srcRoot, 'data');
 const contentRoot = path.join(srcRoot, 'content', 'docs');
 const componentsRoot = path.join(srcRoot, 'components');
 const cratesIoBaseUrl = 'https://crates.io/crates';
+const cratesIoApiBaseUrl = 'https://crates.io/api/v1/crates';
+const cratesIoRequestConcurrency = 8;
+const cratesIoRequestHeaders = {
+  Accept: 'application/json',
+  'User-Agent':
+    'RustUse docs crate surface sync (https://github.com/RustUse/docs)',
+};
 const docsRsBaseUrl = 'https://docs.rs';
 const catalogOutputPath = path.join(dataRoot, 'catalog.generated.js');
 const rustdocSourcesPath = path.join(docsRoot, 'docs', 'rustdoc-sources.json');
+const rustuseRepoUrl = 'https://github.com/RustUse/rustuse';
+const rustuseManifestPath = path.resolve(docsRoot, '../rustuse/Cargo.toml');
+const setWorkspaceTempRoot = path.join(
+  os.tmpdir(),
+  `rustuse-set-workspaces-${process.pid}`,
+);
 const prettierOptions =
   (await resolveConfig(path.join(docsRoot, '.prettierrc.json'))) ?? {};
 
-const detailedSetConfigs = [
-  {
-    name: 'use-math',
-    hasGeneratedApi: true,
-    bundleSlug: 'workspaces/use-math',
-    facadeCrate: 'use-math',
-    manualPages: new Set(['use-math', 'use-combinatorics', 'use-collatz']),
-    pageDir: 'use-math',
-    repo: 'https://github.com/RustUse/use-math',
-    setPath: '/sets/use-math/',
-    sourcePath: '../use-math',
-    workspacePath: path.resolve(docsRoot, '../use-math'),
-  },
-  {
-    name: 'use-geometry',
-    hasGeneratedApi: true,
-    bundleSlug: 'workspaces/use-geometry',
-    facadeCrate: 'use-geometry',
-    manualPages: new Set(['use-geometry']),
-    pageDir: 'use-geometry',
-    repo: 'https://github.com/RustUse/use-geometry',
-    setPath: '/sets/use-geometry/',
-    sourcePath: '../use-geometry',
-    workspacePath: path.resolve(docsRoot, '../use-geometry'),
-  },
-];
-
-const rustuseSetNames = [
-  'use-accessibility',
-  'use-acoustics',
-  'use-astronomy',
-  'use-bioinformatics',
-  'use-biology',
-  'use-calendar',
-  'use-chemistry',
-  'use-cli',
-  'use-color',
-  'use-config',
-  'use-constants',
-  'use-control',
-  'use-data',
-  'use-diagnostic',
-  'use-ecology',
-  'use-electronics',
-  'use-encoding',
-  'use-fs',
-  'use-geography',
-  'use-geology',
-  'use-geometry',
-  'use-graph',
-  'use-id',
-  'use-locale',
-  'use-materials',
-  'use-math',
-  'use-measure',
-  'use-media',
-  'use-meteorology',
-  'use-net',
-  'use-optics',
-  'use-optimization',
-  'use-os',
-  'use-pattern',
-  'use-physics',
-  'use-presence',
-  'use-quant',
-  'use-robotics',
-  'use-rust',
-  'use-rustacean',
-  'use-signal',
-  'use-simulation',
-  'use-stats',
-  'use-text',
-  'use-time',
-  'use-typography',
-  'use-units',
-  'use-validate',
-  'use-wave',
-  'use-web',
-];
-
-const manualSetPages = new Set(['use-geometry', 'use-math']);
-const detailedSetConfigsByName = new Map(
-  detailedSetConfigs.map((setConfig) => [setConfig.name, setConfig]),
-);
-
-function buildSetConfig(setName) {
-  const detailedSetConfig = detailedSetConfigsByName.get(setName);
-
-  return {
-    name: setName,
-    hasGeneratedApi: detailedSetConfig?.hasGeneratedApi ?? false,
-    bundleSlug: detailedSetConfig?.bundleSlug ?? `workspaces/${setName}`,
-    facadeCrate: detailedSetConfig?.facadeCrate ?? setName,
-    manualPages: detailedSetConfig?.manualPages ?? new Set(),
-    pageDir: detailedSetConfig?.pageDir ?? setName,
-    repo: detailedSetConfig?.repo ?? `https://github.com/RustUse/${setName}`,
-    setPath: detailedSetConfig?.setPath ?? `/sets/${setName}/`,
-    sourcePath: detailedSetConfig?.sourcePath ?? `../${setName}`,
-    workspacePath:
-      detailedSetConfig?.workspacePath ??
-      path.resolve(docsRoot, `../${setName}`),
-  };
+function fail(message) {
+  console.error(message);
+  process.exit(1);
 }
 
-const setConfigs = rustuseSetNames.map((setName) => buildSetConfig(setName));
-const setConfigsByName = new Map(
-  setConfigs.map((setConfig) => [setConfig.name, setConfig]),
-);
-const rustdocSetConfigs = setConfigs.filter(
-  (setConfig) => setConfig.hasGeneratedApi,
-);
-const manualFacadePages = new Set(
-  setConfigs
-    .filter((setConfig) => setConfig.manualPages.has(setConfig.facadeCrate))
-    .map((setConfig) => setConfig.facadeCrate),
-);
+function sleep(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
 
-const crateOverrides = {
-  'use-geometry': {
-    'use-complex': {
-      apiPath: '/api/workspaces/use-geometry/use_complex/',
-      cratesIoUrl: null,
-      docsRsUrl: null,
-      docsUrl: '/api/workspaces/use-geometry/use_complex/',
-      status: 'scaffolded',
-    },
-  },
-};
+function normalizeRepositoryUrl(value) {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    return undefined;
+  }
 
-function cargoMetadata(workspacePath) {
+  const trimmed = value
+    .trim()
+    .replace(/\.git$/i, '')
+    .replace(/\/+$/g, '');
+
+  try {
+    const url = new URL(trimmed);
+    const pathName = url.pathname
+      .replace(/\.git$/i, '')
+      .replace(/\/+$/g, '')
+      .toLowerCase();
+
+    return `${url.protocol.toLowerCase()}//${url.hostname.toLowerCase()}${pathName}`;
+  } catch {
+    return trimmed.toLowerCase();
+  }
+}
+
+function repositoryUrlsMatch(left, right) {
+  const normalizedLeft = normalizeRepositoryUrl(left);
+  const normalizedRight = normalizeRepositoryUrl(right);
+
+  return Boolean(
+    normalizedLeft && normalizedRight && normalizedLeft === normalizedRight,
+  );
+}
+
+async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  const workerCount = Math.min(concurrency, items.length);
+
+  async function runWorker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  }
+
+  await Promise.all(
+    Array.from({ length: workerCount }, async () => {
+      await runWorker();
+    }),
+  );
+
+  return results;
+}
+
+const cratesIoCrateCache = new Map();
+
+async function fetchCratesIoCrate(packageName) {
+  if (cratesIoCrateCache.has(packageName)) {
+    return cratesIoCrateCache.get(packageName);
+  }
+
+  const requestUrl = `${cratesIoApiBaseUrl}/${encodeURIComponent(packageName)}`;
+  let lastError;
+
+  for (const attempt of [1, 2, 3]) {
+    try {
+      const response = await fetch(requestUrl, {
+        headers: cratesIoRequestHeaders,
+      });
+
+      if (response.status === 404) {
+        cratesIoCrateCache.set(packageName, null);
+        return null;
+      }
+
+      if (response.status === 429 || response.status >= 500) {
+        const retryAfter = Number(response.headers.get('retry-after'));
+        const delayMilliseconds = Number.isFinite(retryAfter)
+          ? retryAfter * 1000
+          : attempt * 1000;
+
+        if (attempt < 3) {
+          await sleep(delayMilliseconds);
+          continue;
+        }
+      }
+
+      if (!response.ok) {
+        fail(
+          `Unable to query crates.io for ${packageName}: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const body = await response.json();
+      const crateRecord = body?.crate ?? null;
+      cratesIoCrateCache.set(packageName, crateRecord);
+      return crateRecord;
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < 3) {
+        await sleep(attempt * 1000);
+        continue;
+      }
+    }
+  }
+
+  fail(`Unable to query crates.io for ${packageName}: ${lastError.message}`);
+}
+
+function readJsonCommandOutput(command, args, cwd) {
   return JSON.parse(
-    execFileSync('cargo', ['metadata', '--format-version', '1', '--no-deps'], {
-      cwd: workspacePath,
+    execFileSync(command, args, {
+      cwd,
       encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'inherit'],
     }),
   );
 }
 
-function hasWorkspaceManifest(setConfig) {
-  return existsSync(path.join(setConfig.workspacePath, 'Cargo.toml'));
+function cargoMetadata(workspacePath) {
+  return readJsonCommandOutput(
+    'cargo',
+    ['metadata', '--format-version', '1', '--no-deps'],
+    workspacePath,
+  );
+}
+
+function cargoMetadataForManifest(manifestPath) {
+  return readJsonCommandOutput(
+    'cargo',
+    [
+      'metadata',
+      '--manifest-path',
+      manifestPath,
+      '--format-version',
+      '1',
+      '--no-deps',
+    ],
+    docsRoot,
+  );
+}
+
+function featureNameToSetName(featureName, sourceLabel) {
+  if (
+    typeof featureName !== 'string' ||
+    featureName.startsWith('dep:') ||
+    featureName.includes('/')
+  ) {
+    fail(
+      `Unsupported rustuse full feature "${featureName}" in ${sourceLabel}.`,
+    );
+  }
+
+  const setName = featureName.startsWith('use-')
+    ? featureName
+    : `use-${featureName}`;
+
+  if (!/^use-[a-z0-9][a-z0-9-]*$/.test(setName)) {
+    fail(`Unsupported RustUse set name "${setName}" from ${sourceLabel}.`);
+  }
+
+  return setName;
+}
+
+function featureNamesToSetNames(featureNames, sourceLabel) {
+  const setNames = featureNames.map((featureName) =>
+    featureNameToSetName(featureName, sourceLabel),
+  );
+  const uniqueSetNames = new Set(setNames);
+
+  if (uniqueSetNames.size !== setNames.length) {
+    fail(`Duplicate RustUse set feature found in ${sourceLabel}.`);
+  }
+
+  return setNames;
+}
+
+function extractFullFeatureNamesFromMetadata(metadata, sourceLabel) {
+  const rustusePackage = metadata.packages.find(
+    (pkg) => pkg.name === 'rustuse',
+  );
+  const fullFeature = rustusePackage?.features?.full;
+
+  if (!Array.isArray(fullFeature) || fullFeature.length === 0) {
+    fail(`Unable to find rustuse features.full in ${sourceLabel}.`);
+  }
+
+  return fullFeature;
+}
+
+function extractFullFeatureNamesFromManifest(content, sourceLabel) {
+  const lines = content.split(/\r?\n/);
+  let inFeatures = false;
+  let collectingFullFeature = false;
+  let fullFeatureText = '';
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (/^\[[^\]]+\]$/.test(trimmed)) {
+      inFeatures = trimmed === '[features]';
+      collectingFullFeature = false;
+      continue;
+    }
+
+    if (!inFeatures) {
+      continue;
+    }
+
+    if (collectingFullFeature) {
+      fullFeatureText += `\n${line}`;
+
+      if (line.includes(']')) {
+        break;
+      }
+
+      continue;
+    }
+
+    const match = /^\s*full\s*=\s*(.*)$/.exec(line);
+
+    if (match) {
+      fullFeatureText = match[1];
+
+      if (!fullFeatureText.includes(']')) {
+        collectingFullFeature = true;
+      }
+    }
+  }
+
+  const featureNames = [...fullFeatureText.matchAll(/"([^"]+)"/g)].map(
+    (match) => match[1],
+  );
+
+  if (featureNames.length === 0) {
+    fail(`Unable to parse rustuse features.full in ${sourceLabel}.`);
+  }
+
+  return featureNames;
+}
+
+function cloneRustuseSource() {
+  const tempRoot = path.join(os.tmpdir(), `rustuse-surface-${process.pid}`);
+  const workingDir = path.join(tempRoot, 'rustuse');
+
+  rmSync(tempRoot, { recursive: true, force: true });
+  mkdirSync(tempRoot, { recursive: true });
+
+  console.log(`Cloning RustUse set inventory source: ${rustuseRepoUrl}`);
+  execFileSync('git', ['clone', '--depth', '1', rustuseRepoUrl, workingDir], {
+    cwd: docsRoot,
+    stdio: 'inherit',
+  });
+
+  return {
+    manifestPath: path.join(workingDir, 'Cargo.toml'),
+    tempRoot,
+  };
+}
+
+function discoverRustuseSetNamesFromManifest(manifestPath, sourceLabel) {
+  try {
+    return featureNamesToSetNames(
+      extractFullFeatureNamesFromMetadata(
+        cargoMetadataForManifest(manifestPath),
+        sourceLabel,
+      ),
+      sourceLabel,
+    );
+  } catch {
+    console.warn(
+      `Unable to read rustuse set inventory with cargo metadata from ${sourceLabel}; falling back to manifest parsing.`,
+    );
+
+    return featureNamesToSetNames(
+      extractFullFeatureNamesFromManifest(
+        readFileSync(manifestPath, 'utf8'),
+        sourceLabel,
+      ),
+      sourceLabel,
+    );
+  }
+}
+
+function discoverRustuseSetNames() {
+  if (existsSync(rustuseManifestPath)) {
+    return discoverRustuseSetNamesFromManifest(
+      rustuseManifestPath,
+      rustuseManifestPath,
+    );
+  }
+
+  const clonedSource = cloneRustuseSource();
+
+  try {
+    return discoverRustuseSetNamesFromManifest(
+      clonedSource.manifestPath,
+      rustuseRepoUrl,
+    );
+  } finally {
+    rmSync(clonedSource.tempRoot, { recursive: true, force: true });
+  }
+}
+
+const rustuseSetNames = discoverRustuseSetNames();
+
+function buildSetConfig(setName) {
+  return {
+    name: setName,
+    bundleSlug: `workspaces/${setName}`,
+    facadeCrate: setName,
+    pageDir: setName,
+    repo: `https://github.com/RustUse/${setName}`,
+    setPath: `/sets/${setName}/`,
+    sourcePath: `../${setName}`,
+    workspacePath: path.resolve(docsRoot, `../${setName}`),
+  };
+}
+
+const setConfigs = rustuseSetNames.map((setName) => buildSetConfig(setName));
+
+function cloneSetWorkspace(setConfig) {
+  const workingDir = path.join(setWorkspaceTempRoot, setConfig.name);
+
+  console.log(`Cloning RustUse set workspace source: ${setConfig.repo}`);
+  execFileSync('git', ['clone', '--depth', '1', setConfig.repo, workingDir], {
+    cwd: docsRoot,
+    stdio: 'inherit',
+  });
+
+  return workingDir;
+}
+
+function resolveSetWorkspacePath(setConfig) {
+  if (existsSync(path.join(setConfig.workspacePath, 'Cargo.toml'))) {
+    return setConfig.workspacePath;
+  }
+
+  return cloneSetWorkspace(setConfig);
+}
+
+function isPublishablePackage(pkg) {
+  if (!pkg.name.startsWith('use-')) {
+    return false;
+  }
+
+  return !Array.isArray(pkg.publish) || pkg.publish.length > 0;
+}
+
+function packageRepositoryUrl(pkg, setConfig) {
+  return pkg.repository ?? setConfig.repo;
+}
+
+function workspacePackages(metadata) {
+  const workspaceIndex = new Map(
+    metadata.workspace_members.map((packageId, index) => [packageId, index]),
+  );
+
+  return metadata.packages
+    .slice()
+    .filter((pkg) => workspaceIndex.has(pkg.id) && isPublishablePackage(pkg))
+    .sort(
+      (left, right) =>
+        (workspaceIndex.get(left.id) ?? Number.MAX_SAFE_INTEGER) -
+        (workspaceIndex.get(right.id) ?? Number.MAX_SAFE_INTEGER),
+    );
+}
+
+function readSetWorkspaceRecord(setConfig) {
+  const workspacePath = resolveSetWorkspacePath(setConfig);
+  const metadata = cargoMetadata(workspacePath);
+  const packages = workspacePackages(metadata);
+
+  if (packages.length === 0) {
+    fail(`No publishable use-* packages found for ${setConfig.name}.`);
+  }
+
+  return {
+    metadata,
+    packages,
+    setConfig: {
+      ...setConfig,
+      workspacePath,
+    },
+  };
 }
 
 function relativeImportPath(fromDir, toFile) {
@@ -180,67 +455,68 @@ function formatSetLabel(setName) {
   return setName.replace(/^use-/, '').replace(/-/g, ' ');
 }
 
-function buildSetCatalogEntry(setName) {
-  const setConfig = setConfigsByName.get(setName);
-  const workspaceApiPath = setConfig?.hasGeneratedApi
+async function resolvePublicationStatus(pkg, setConfig) {
+  const crateRecord = await fetchCratesIoCrate(pkg.name);
+  const repositoryUrl = packageRepositoryUrl(pkg, setConfig);
+  const published = repositoryUrlsMatch(crateRecord?.repository, repositoryUrl);
+
+  return {
+    repositoryUrl,
+    status: published ? 'published' : 'scaffolded',
+  };
+}
+
+async function buildPublicationStatusByPackageId(setWorkspaceRecords) {
+  const packageRefs = setWorkspaceRecords.flatMap((setWorkspaceRecord) =>
+    setWorkspaceRecord.packages.map((pkg) => ({
+      pkg,
+      setConfig: setWorkspaceRecord.setConfig,
+    })),
+  );
+  const statusEntries = await mapWithConcurrency(
+    packageRefs,
+    cratesIoRequestConcurrency,
+    async ({ pkg, setConfig }) => [
+      pkg.id,
+      await resolvePublicationStatus(pkg, setConfig),
+    ],
+  );
+  const statusByPackageId = new Map(statusEntries);
+  const publishedCount = statusEntries.filter(
+    ([, statusInfo]) => statusInfo.status === 'published',
+  ).length;
+
+  console.log(
+    `Resolved crates.io status for ${statusEntries.length} packages: ${publishedCount} published, ${statusEntries.length - publishedCount} scaffolded.`,
+  );
+
+  return statusByPackageId;
+}
+
+function buildSetCatalogEntry(setConfig, facadeEntry, hasGeneratedApi) {
+  const published = facadeEntry.status === 'published';
+  const workspaceApiPath = hasGeneratedApi
     ? `/${setConfig.bundleSlug}/`.replace('/workspaces/', '/api/workspaces/')
     : undefined;
 
   return {
-    name: setName,
-    setPath: `/sets/${setName}/`,
-    status: 'published',
-    description: `RustUse ${formatSetLabel(setName)} utilities and facade surface.`,
-    repositoryUrl: `https://github.com/RustUse/${setName}`,
-    cratesIoUrl: `${cratesIoBaseUrl}/${setName}`,
-    docsRsUrl: `${docsRsBaseUrl}/${setName}`,
+    name: setConfig.name,
+    setPath: setConfig.setPath,
+    status: facadeEntry.status,
+    description: `RustUse ${formatSetLabel(setConfig.name)} utilities and facade surface.`,
+    repositoryUrl: setConfig.repo,
+    cratesIoUrl: published ? `${cratesIoBaseUrl}/${setConfig.name}` : undefined,
+    docsRsUrl: published ? `${docsRsBaseUrl}/${setConfig.name}` : undefined,
     ...(workspaceApiPath ? { workspaceApiPath } : {}),
   };
 }
 
-function buildFacadeTags(setName) {
-  const labelWords = formatSetLabel(setName).split(' ').filter(Boolean);
-
-  return [...new Set([labelWords[0] ?? 'rustuse', 'facade', 'rustuse'])];
-}
-
-function buildFacadeCrateCatalogEntry(setEntry, setConfig) {
-  const docsUrl = setConfig?.hasGeneratedApi
-    ? `/api/${setEntry.name}/`
-    : undefined;
-
-  return {
-    name: setEntry.name,
-    packageName: setEntry.name,
-    set: setEntry.name,
-    setPath: setEntry.setPath,
-    status: setEntry.status,
-    description: `Facade crate for the RustUse ${formatSetLabel(setEntry.name)} set.`,
-    repositoryUrl: setEntry.repositoryUrl,
-    cratesIoUrl: setEntry.cratesIoUrl,
-    docsUrl,
-    docsRsUrl: setEntry.docsRsUrl,
-    apiPath: docsUrl,
-    pagePath: `/${setEntry.name}/`,
-    tags: buildFacadeTags(setEntry.name),
-    public: true,
-  };
-}
-
-function buildCatalogEntry(setConfig, pkg) {
-  const override = crateOverrides[setConfig.name]?.[pkg.name] ?? {};
+function buildCatalogEntry(setConfig, pkg, statusInfo, hasGeneratedApi) {
   const isFacade = pkg.name === setConfig.facadeCrate;
-  const defaultDocsUrl = setConfig.hasGeneratedApi
-    ? `/api/${pkg.name}/`
-    : undefined;
-  const docsUrl =
-    override.docsUrl === null
-      ? undefined
-      : (override.docsUrl ?? defaultDocsUrl);
-  const apiPath =
-    override.apiPath === null ? undefined : (override.apiPath ?? docsUrl);
-  const status = override.status ?? 'published';
+  const status = statusInfo.status;
   const published = status === 'published';
+  const docsUrl =
+    published && hasGeneratedApi ? `/api/${pkg.name}/` : undefined;
 
   return {
     name: pkg.name,
@@ -248,20 +524,14 @@ function buildCatalogEntry(setConfig, pkg) {
     set: setConfig.name,
     setPath: setConfig.setPath,
     status,
-    description: pkg.description,
-    repositoryUrl: setConfig.repo,
-    cratesIoUrl:
-      override.cratesIoUrl === null
-        ? undefined
-        : (override.cratesIoUrl ??
-          (published ? `${cratesIoBaseUrl}/${pkg.name}` : undefined)),
+    description:
+      pkg.description ??
+      `RustUse ${formatSetLabel(setConfig.name)} ${isFacade ? 'facade' : 'focused'} crate.`,
+    repositoryUrl: statusInfo.repositoryUrl,
+    cratesIoUrl: published ? `${cratesIoBaseUrl}/${pkg.name}` : undefined,
     docsUrl,
-    docsRsUrl:
-      override.docsRsUrl === null
-        ? undefined
-        : (override.docsRsUrl ??
-          (published ? `${docsRsBaseUrl}/${pkg.name}` : undefined)),
-    apiPath,
+    docsRsUrl: published ? `${docsRsBaseUrl}/${pkg.name}` : undefined,
+    apiPath: docsUrl,
     pagePath: isFacade
       ? `/${setConfig.pageDir}/`
       : `/${setConfig.pageDir}/${pkg.name}/`,
@@ -295,45 +565,16 @@ async function buildGeneratedPage(entry, setConfig) {
 }
 
 async function writeGeneratedPage(entry, setConfig) {
-  if (setConfig.manualPages.has(entry.name)) {
-    return;
-  }
-
   const pageDir = path.join(contentRoot, setConfig.pageDir);
-  mkdirSync(pageDir, { recursive: true });
 
   const pagePath =
     entry.name === setConfig.facadeCrate
       ? path.join(pageDir, 'index.mdx')
       : path.join(pageDir, `${entry.name}.mdx`);
 
-  writeFileSync(pagePath, await buildGeneratedPage(entry, setConfig));
-}
-
-async function buildGeneratedFacadePage(entry) {
-  const pageDir = path.join(contentRoot, entry.name);
-  const componentImport = relativeImportPath(
-    pageDir,
-    path.join(componentsRoot, 'CrateOverviewPage.astro'),
-  );
-
-  return formatGeneratedContent(
-    `---\ntitle: ${JSON.stringify(entry.name)}\ndescription: ${JSON.stringify(entry.description)}\n---\n\nimport CrateOverviewPage from '${componentImport}';\n\n<CrateOverviewPage crateName=${JSON.stringify(entry.name)} />\n`,
-    'mdx',
-  );
-}
-
-async function writeGeneratedFacadePage(entry) {
-  if (manualFacadePages.has(entry.name)) {
-    return;
-  }
-
-  const pageDir = path.join(contentRoot, entry.name);
-  mkdirSync(pageDir, { recursive: true });
-
-  writeFileSync(
-    path.join(pageDir, 'index.mdx'),
-    await buildGeneratedFacadePage(entry),
+  await writeGeneratedPageIfSafe(
+    pagePath,
+    await buildGeneratedPage(entry, setConfig),
   );
 }
 
@@ -351,91 +592,131 @@ async function buildGeneratedSetPage(setEntry) {
 }
 
 async function writeGeneratedSetPage(setEntry) {
-  if (manualSetPages.has(setEntry.name)) {
-    return;
-  }
-
   const pageDir = path.join(contentRoot, 'sets');
-  mkdirSync(pageDir, { recursive: true });
 
-  writeFileSync(
+  await writeGeneratedPageIfSafe(
     path.join(pageDir, `${setEntry.name}.mdx`),
     await buildGeneratedSetPage(setEntry),
   );
 }
 
-function buildRustdocSources(cratesBySet) {
+function isGeneratedOverviewPage(content) {
+  const normalized = content.replace(/\r\n/g, '\n').trim();
+  const frontmatterMatch = /^---\n[\s\S]*?\n---\n\n/.exec(normalized);
+
+  if (!frontmatterMatch) {
+    return false;
+  }
+
+  const body = normalized.slice(frontmatterMatch[0].length).trim();
+
+  return (
+    /^import CrateOverviewPage from ['"][^'"]+['"];\n\n<CrateOverviewPage crateName=['"][^'"]+['"] \/>$/.test(
+      body,
+    ) ||
+    /^import SetOverviewPage from ['"][^'"]+['"];\n\n<SetOverviewPage setName=['"][^'"]+['"] \/>$/.test(
+      body,
+    )
+  );
+}
+
+async function writeGeneratedPageIfSafe(pagePath, content) {
+  if (existsSync(pagePath)) {
+    const existingContent = readFileSync(pagePath, 'utf8');
+
+    if (!isGeneratedOverviewPage(existingContent)) {
+      return;
+    }
+  }
+
+  mkdirSync(path.dirname(pagePath), { recursive: true });
+  writeFileSync(pagePath, content);
+}
+
+function buildRustdocSources(rustdocSourceRecords) {
   return {
-    sources: rustdocSetConfigs.map((setConfig) => ({
+    sources: rustdocSourceRecords.map(({ entries, setConfig }) => ({
       name: setConfig.name,
       path: setConfig.sourcePath,
       repo: setConfig.repo,
       bundleSlug: setConfig.bundleSlug,
-      publishedCrates: cratesBySet
-        .get(setConfig.name)
+      publishedCrates: entries
         .filter((crate) => crate.status === 'published')
         .map((crate) => crate.name),
     })),
   };
 }
 
-const sets = rustuseSetNames.map((setName) => buildSetCatalogEntry(setName));
-const crates = [];
-const cratesBySet = new Map();
+rmSync(setWorkspaceTempRoot, { recursive: true, force: true });
+mkdirSync(setWorkspaceTempRoot, { recursive: true });
 
-for (const setEntry of sets) {
-  await writeGeneratedSetPage(setEntry);
-
-  const setConfig = setConfigsByName.get(setEntry.name);
-
-  if (setConfig && hasWorkspaceManifest(setConfig)) {
-    continue;
-  }
-
-  const facadeEntry = buildFacadeCrateCatalogEntry(setEntry, setConfig);
-  cratesBySet.set(setEntry.name, [facadeEntry]);
-  crates.push(facadeEntry);
-  await writeGeneratedFacadePage(facadeEntry);
-}
-
-for (const setConfig of setConfigs) {
-  if (!hasWorkspaceManifest(setConfig)) {
-    continue;
-  }
-
-  const metadata = cargoMetadata(setConfig.workspacePath);
-  const workspaceIndex = new Map(
-    metadata.workspace_members.map((packageId, index) => [packageId, index]),
+try {
+  const setWorkspaceRecords = setConfigs.map((setConfig) =>
+    readSetWorkspaceRecord(setConfig),
   );
-  const packages = metadata.packages
-    .slice()
-    .filter((pkg) => workspaceIndex.has(pkg.id))
-    .sort(
-      (left, right) =>
-        (workspaceIndex.get(left.id) ?? Number.MAX_SAFE_INTEGER) -
-        (workspaceIndex.get(right.id) ?? Number.MAX_SAFE_INTEGER),
+  const publicationStatusByPackageId =
+    await buildPublicationStatusByPackageId(setWorkspaceRecords);
+  const sets = [];
+  const crates = [];
+  const rustdocSourceRecords = [];
+
+  for (const setWorkspaceRecord of setWorkspaceRecords) {
+    const { packages, setConfig } = setWorkspaceRecord;
+    const hasGeneratedApi = packages.every(
+      (pkg) => publicationStatusByPackageId.get(pkg.id)?.status === 'published',
     );
-  const entries = packages.map((pkg) => buildCatalogEntry(setConfig, pkg));
+    const entries = packages.map((pkg) =>
+      buildCatalogEntry(
+        setConfig,
+        pkg,
+        publicationStatusByPackageId.get(pkg.id),
+        hasGeneratedApi,
+      ),
+    );
+    const facadeEntry = entries.find(
+      (entry) => entry.name === setConfig.facadeCrate,
+    );
 
-  cratesBySet.set(setConfig.name, entries);
-  crates.push(...entries);
+    if (!facadeEntry) {
+      fail(
+        `No facade package named ${setConfig.facadeCrate} found in ${setConfig.name}.`,
+      );
+    }
 
-  for (const entry of entries) {
-    await writeGeneratedPage(entry, setConfig);
+    const setEntry = buildSetCatalogEntry(
+      setConfig,
+      facadeEntry,
+      hasGeneratedApi,
+    );
+
+    sets.push(setEntry);
+    crates.push(...entries);
+
+    if (hasGeneratedApi) {
+      rustdocSourceRecords.push({ entries, setConfig });
+    }
+
+    await writeGeneratedSetPage(setEntry);
+
+    for (const entry of entries) {
+      await writeGeneratedPage(entry, setConfig);
+    }
   }
-}
 
-writeFileSync(
-  catalogOutputPath,
-  await formatGeneratedContent(
-    buildGeneratedCatalogModule(sets, crates),
-    'babel',
-  ),
-);
-writeFileSync(
-  rustdocSourcesPath,
-  await formatGeneratedContent(
-    JSON.stringify(buildRustdocSources(cratesBySet), null, 2),
-    'json',
-  ),
-);
+  writeFileSync(
+    catalogOutputPath,
+    await formatGeneratedContent(
+      buildGeneratedCatalogModule(sets, crates),
+      'babel',
+    ),
+  );
+  writeFileSync(
+    rustdocSourcesPath,
+    await formatGeneratedContent(
+      JSON.stringify(buildRustdocSources(rustdocSourceRecords), null, 2),
+      'json',
+    ),
+  );
+} finally {
+  rmSync(setWorkspaceTempRoot, { recursive: true, force: true });
+}

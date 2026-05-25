@@ -1,6 +1,341 @@
 {
   "sources": [
     {
+      "name": "use-accessibility",
+      "path": "../use-accessibility",
+      "repo": "https://github.com/RustUse/use-accessibility",
+      "bundleSlug": "workspaces/use-accessibility",
+      "publishedCrates": [
+        "use-accessibility",
+        "use-accessibility-check",
+        "use-accessibility-score",
+        "use-accessible-label",
+        "use-contrast",
+        "use-focus-order",
+        "use-motion-preference",
+        "use-readable-text",
+        "use-touch-target"
+      ]
+    },
+    {
+      "name": "use-acoustics",
+      "path": "../use-acoustics",
+      "repo": "https://github.com/RustUse/use-acoustics",
+      "bundleSlug": "workspaces/use-acoustics",
+      "publishedCrates": ["use-acoustics"]
+    },
+    {
+      "name": "use-astronomy",
+      "path": "../use-astronomy",
+      "repo": "https://github.com/RustUse/use-astronomy",
+      "bundleSlug": "workspaces/use-astronomy",
+      "publishedCrates": [
+        "use-astronomy",
+        "use-astronomical-coordinate",
+        "use-astronomical-observation",
+        "use-astronomical-orbit",
+        "use-catalog-object",
+        "use-celestial-body",
+        "use-constellation",
+        "use-epoch",
+        "use-magnitude",
+        "use-moon",
+        "use-orbital-element",
+        "use-planet",
+        "use-star"
+      ]
+    },
+    {
+      "name": "use-bioinformatics",
+      "path": "../use-bioinformatics",
+      "repo": "https://github.com/RustUse/use-bioinformatics",
+      "bundleSlug": "workspaces/use-bioinformatics",
+      "publishedCrates": [
+        "use-bioinformatics",
+        "use-alignment",
+        "use-alphabet",
+        "use-amino-acid",
+        "use-annotation",
+        "use-feature",
+        "use-genomic-range",
+        "use-motif",
+        "use-nucleotide",
+        "use-residue",
+        "use-sequence",
+        "use-sequence-id"
+      ]
+    },
+    {
+      "name": "use-biology",
+      "path": "../use-biology",
+      "repo": "https://github.com/RustUse/use-biology",
+      "bundleSlug": "workspaces/use-biology",
+      "publishedCrates": [
+        "use-biology",
+        "use-biological-system",
+        "use-biological-cell",
+        "use-gene",
+        "use-life-stage",
+        "use-organ",
+        "use-organism",
+        "use-species",
+        "use-taxonomy",
+        "use-reproduction",
+        "use-tissue",
+        "use-trait"
+      ]
+    },
+    {
+      "name": "use-calendar",
+      "path": "../use-calendar",
+      "repo": "https://github.com/RustUse/use-calendar",
+      "bundleSlug": "workspaces/use-calendar",
+      "publishedCrates": [
+        "use-calendar",
+        "use-business-day",
+        "use-date",
+        "use-weekday",
+        "use-date-range",
+        "use-month",
+        "use-quarter",
+        "use-recurrence",
+        "use-year"
+      ]
+    },
+    {
+      "name": "use-chemistry",
+      "path": "../use-chemistry",
+      "repo": "https://github.com/RustUse/use-chemistry",
+      "bundleSlug": "workspaces/use-chemistry",
+      "publishedCrates": [
+        "use-chemistry",
+        "use-atomic-mass",
+        "use-element",
+        "use-atomic-number",
+        "use-bond",
+        "use-chemical-formula",
+        "use-compound",
+        "use-electron-shell",
+        "use-ion",
+        "use-isotope",
+        "use-molar-mass",
+        "use-molecule",
+        "use-oxidation-state",
+        "use-periodic-table",
+        "use-reaction",
+        "use-stoichiometry"
+      ]
+    },
+    {
+      "name": "use-cli",
+      "path": "../use-cli",
+      "repo": "https://github.com/RustUse/use-cli",
+      "bundleSlug": "workspaces/use-cli",
+      "publishedCrates": [
+        "use-cli",
+        "use-arg",
+        "use-command-name",
+        "use-env-var",
+        "use-exit-code",
+        "use-flag",
+        "use-option",
+        "use-prompt",
+        "use-stderr",
+        "use-stdin",
+        "use-stdout",
+        "use-terminal"
+      ]
+    },
+    {
+      "name": "use-color",
+      "path": "../use-color",
+      "repo": "https://github.com/RustUse/use-color",
+      "bundleSlug": "workspaces/use-color",
+      "publishedCrates": ["use-color"]
+    },
+    {
+      "name": "use-config",
+      "path": "../use-config",
+      "repo": "https://github.com/RustUse/use-config",
+      "bundleSlug": "workspaces/use-config",
+      "publishedCrates": [
+        "use-config",
+        "use-config-key",
+        "use-config-layer",
+        "use-config-source",
+        "use-config-value",
+        "use-config-profile",
+        "use-config-secret"
+      ]
+    },
+    {
+      "name": "use-constants",
+      "path": "../use-constants",
+      "repo": "https://github.com/RustUse/use-constants",
+      "bundleSlug": "workspaces/use-constants",
+      "publishedCrates": [
+        "use-astronomical-constants",
+        "use-chemical-constants",
+        "use-computing-constants",
+        "use-constants",
+        "use-earth-constants",
+        "use-math-constants",
+        "use-physical-constants"
+      ]
+    },
+    {
+      "name": "use-control",
+      "path": "../use-control",
+      "repo": "https://github.com/RustUse/use-control",
+      "bundleSlug": "workspaces/use-control",
+      "publishedCrates": [
+        "use-control",
+        "use-control-error",
+        "use-control-signal",
+        "use-feedback",
+        "use-pid",
+        "use-setpoint",
+        "use-stability",
+        "use-system-response"
+      ]
+    },
+    {
+      "name": "use-data",
+      "path": "../use-data",
+      "repo": "https://github.com/RustUse/use-data",
+      "bundleSlug": "workspaces/use-data",
+      "publishedCrates": [
+        "use-data",
+        "use-csv",
+        "use-json",
+        "use-toml",
+        "use-xml",
+        "use-yaml"
+      ]
+    },
+    {
+      "name": "use-diagnostic",
+      "path": "../use-diagnostic",
+      "repo": "https://github.com/RustUse/use-diagnostic",
+      "bundleSlug": "workspaces/use-diagnostic",
+      "publishedCrates": [
+        "use-diagnostic",
+        "use-diagnostic-code",
+        "use-diagnostic-label",
+        "use-diagnostic-message",
+        "use-diagnostic-span",
+        "use-diagnostic-level",
+        "use-diagnostic-report"
+      ]
+    },
+    {
+      "name": "use-ecology",
+      "path": "../use-ecology",
+      "repo": "https://github.com/RustUse/use-ecology",
+      "bundleSlug": "workspaces/use-ecology",
+      "publishedCrates": [
+        "use-ecology",
+        "use-biodiversity",
+        "use-biome",
+        "use-community",
+        "use-conservation-status",
+        "use-ecosystem",
+        "use-food-web",
+        "use-habitat",
+        "use-niche",
+        "use-population",
+        "use-species-interaction",
+        "use-trophic-level"
+      ]
+    },
+    {
+      "name": "use-electronics",
+      "path": "../use-electronics",
+      "repo": "https://github.com/RustUse/use-electronics",
+      "bundleSlug": "workspaces/use-electronics",
+      "publishedCrates": [
+        "use-electronics",
+        "use-board",
+        "use-capacitor",
+        "use-rating",
+        "use-circuit",
+        "use-component",
+        "use-net-label",
+        "use-pin",
+        "use-diode",
+        "use-package",
+        "use-resistor",
+        "use-transistor"
+      ]
+    },
+    {
+      "name": "use-encoding",
+      "path": "../use-encoding",
+      "repo": "https://github.com/RustUse/use-encoding",
+      "bundleSlug": "workspaces/use-encoding",
+      "publishedCrates": [
+        "use-encoding",
+        "use-ascii",
+        "use-base32",
+        "use-base64",
+        "use-escape",
+        "use-hex",
+        "use-percent",
+        "use-utf8"
+      ]
+    },
+    {
+      "name": "use-fs",
+      "path": "../use-fs",
+      "repo": "https://github.com/RustUse/use-fs",
+      "bundleSlug": "workspaces/use-fs",
+      "publishedCrates": [
+        "use-fs",
+        "use-dir",
+        "use-extension",
+        "use-file-name",
+        "use-file-stem",
+        "use-path"
+      ]
+    },
+    {
+      "name": "use-geography",
+      "path": "../use-geography",
+      "repo": "https://github.com/RustUse/use-geography",
+      "bundleSlug": "workspaces/use-geography",
+      "publishedCrates": [
+        "use-geography",
+        "use-address",
+        "use-boundary",
+        "use-elevation",
+        "use-geo-coordinate",
+        "use-geographic-region",
+        "use-map-scale",
+        "use-place",
+        "use-geographical-projection",
+        "use-spatial-reference"
+      ]
+    },
+    {
+      "name": "use-geology",
+      "path": "../use-geology",
+      "repo": "https://github.com/RustUse/use-geology",
+      "bundleSlug": "workspaces/use-geology",
+      "publishedCrates": [
+        "use-geology",
+        "use-fault",
+        "use-formation",
+        "use-fossil",
+        "use-geologic-process",
+        "use-geologic-time",
+        "use-mineral",
+        "use-rock",
+        "use-sediment",
+        "use-stratum",
+        "use-tectonic-plate"
+      ]
+    },
+    {
       "name": "use-geometry",
       "path": "../use-geometry",
       "repo": "https://github.com/RustUse/use-geometry",
@@ -78,6 +413,71 @@
       ]
     },
     {
+      "name": "use-graph",
+      "path": "../use-graph",
+      "repo": "https://github.com/RustUse/use-graph",
+      "bundleSlug": "workspaces/use-graph",
+      "publishedCrates": [
+        "use-graph",
+        "use-adjacency",
+        "use-edge",
+        "use-graph-metrics",
+        "use-graph-path",
+        "use-graph-traversal",
+        "use-node",
+        "use-weighted-graph"
+      ]
+    },
+    {
+      "name": "use-id",
+      "path": "../use-id",
+      "repo": "https://github.com/RustUse/use-id",
+      "bundleSlug": "workspaces/use-id",
+      "publishedCrates": [
+        "use-id",
+        "use-id-prefix",
+        "use-identifier",
+        "use-id-slug",
+        "use-stable-id",
+        "use-ulid",
+        "use-uuid"
+      ]
+    },
+    {
+      "name": "use-locale",
+      "path": "../use-locale",
+      "repo": "https://github.com/RustUse/use-locale",
+      "bundleSlug": "workspaces/use-locale",
+      "publishedCrates": [
+        "use-locale",
+        "use-currency-code",
+        "use-language",
+        "use-locale-match",
+        "use-locale-tag",
+        "use-region",
+        "use-script",
+        "use-time-zone-id",
+        "use-timezone"
+      ]
+    },
+    {
+      "name": "use-materials",
+      "path": "../use-materials",
+      "repo": "https://github.com/RustUse/use-materials",
+      "bundleSlug": "workspaces/use-materials",
+      "publishedCrates": [
+        "use-materials",
+        "use-conductivity",
+        "use-materials-density",
+        "use-hardness",
+        "use-material-elasticity",
+        "use-material-property",
+        "use-strain",
+        "use-stress",
+        "use-thermal-expansion"
+      ]
+    },
+    {
       "name": "use-math",
       "path": "../use-math",
       "repo": "https://github.com/RustUse/use-math",
@@ -112,6 +512,388 @@
         "use-set",
         "use-statistics",
         "use-trigonometry"
+      ]
+    },
+    {
+      "name": "use-measure",
+      "path": "../use-measure",
+      "repo": "https://github.com/RustUse/use-measure",
+      "bundleSlug": "workspaces/use-measure",
+      "publishedCrates": ["use-measure"]
+    },
+    {
+      "name": "use-media",
+      "path": "../use-media",
+      "repo": "https://github.com/RustUse/use-media",
+      "bundleSlug": "workspaces/use-media",
+      "publishedCrates": [
+        "use-media",
+        "use-aspect-ratio",
+        "use-bitrate",
+        "use-dimensions",
+        "use-frame-rate",
+        "use-image",
+        "use-media-duration",
+        "use-media-timestamp",
+        "use-media-type",
+        "use-resolution",
+        "use-svg"
+      ]
+    },
+    {
+      "name": "use-meteorology",
+      "path": "../use-meteorology",
+      "repo": "https://github.com/RustUse/use-meteorology",
+      "bundleSlug": "workspaces/use-meteorology",
+      "publishedCrates": [
+        "use-meteorology",
+        "use-air-temperature",
+        "use-atmosphere",
+        "use-atmospheric-pressure",
+        "use-cloud",
+        "use-humidity",
+        "use-precipitation",
+        "use-pressure-system",
+        "use-weather-forecast",
+        "use-weather-front",
+        "use-weather-observation",
+        "use-wind"
+      ]
+    },
+    {
+      "name": "use-net",
+      "path": "../use-net",
+      "repo": "https://github.com/RustUse/use-net",
+      "bundleSlug": "workspaces/use-net",
+      "publishedCrates": [
+        "use-net",
+        "use-cidr",
+        "use-dns",
+        "use-domain",
+        "use-host",
+        "use-ip",
+        "use-mac",
+        "use-port",
+        "use-socket",
+        "use-tcp",
+        "use-udp"
+      ]
+    },
+    {
+      "name": "use-optics",
+      "path": "../use-optics",
+      "repo": "https://github.com/RustUse/use-optics",
+      "bundleSlug": "workspaces/use-optics",
+      "publishedCrates": ["use-optics"]
+    },
+    {
+      "name": "use-optimization",
+      "path": "../use-optimization",
+      "repo": "https://github.com/RustUse/use-optimization",
+      "bundleSlug": "workspaces/use-optimization",
+      "publishedCrates": [
+        "use-optimization",
+        "use-grid-search",
+        "use-objective",
+        "use-local-search",
+        "use-loss",
+        "use-optimization-constraint",
+        "use-score",
+        "use-search-space"
+      ]
+    },
+    {
+      "name": "use-os",
+      "path": "../use-os",
+      "repo": "https://github.com/RustUse/use-os",
+      "bundleSlug": "workspaces/use-os",
+      "publishedCrates": [
+        "use-os",
+        "use-architecture",
+        "use-env-key",
+        "use-env-value",
+        "use-os-family",
+        "use-platform",
+        "use-process-id",
+        "use-process-status",
+        "use-thread-id",
+        "use-thread-name"
+      ]
+    },
+    {
+      "name": "use-pattern",
+      "path": "../use-pattern",
+      "repo": "https://github.com/RustUse/use-pattern",
+      "bundleSlug": "workspaces/use-pattern",
+      "publishedCrates": [
+        "use-pattern",
+        "use-glob",
+        "use-match",
+        "use-regex",
+        "use-wildcard"
+      ]
+    },
+    {
+      "name": "use-physics",
+      "path": "../use-physics",
+      "repo": "https://github.com/RustUse/use-physics",
+      "bundleSlug": "workspaces/use-physics",
+      "publishedCrates": [
+        "use-physics",
+        "use-collision",
+        "use-density",
+        "use-elasticity",
+        "use-electricity",
+        "use-electromagnetism",
+        "use-energy",
+        "use-fluid",
+        "use-force",
+        "use-gravity",
+        "use-magnetism",
+        "use-momentum",
+        "use-motion",
+        "use-nuclear",
+        "use-orbit",
+        "use-oscillation",
+        "use-particle",
+        "use-plasma",
+        "use-power",
+        "use-pressure",
+        "use-quantum",
+        "use-radiation",
+        "use-relativity",
+        "use-rigidbody",
+        "use-rotation",
+        "use-statics",
+        "use-thermodynamics",
+        "use-torque",
+        "use-work"
+      ]
+    },
+    {
+      "name": "use-presence",
+      "path": "../use-presence",
+      "repo": "https://github.com/RustUse/use-presence",
+      "bundleSlug": "workspaces/use-presence",
+      "publishedCrates": [
+        "use-presence",
+        "use-attribution",
+        "use-campaign",
+        "use-canonical",
+        "use-geo",
+        "use-listing",
+        "use-local",
+        "use-metadata",
+        "use-referrer",
+        "use-robots",
+        "use-schema",
+        "use-seo",
+        "use-sitemap",
+        "use-utm"
+      ]
+    },
+    {
+      "name": "use-quant",
+      "path": "../use-quant",
+      "repo": "https://github.com/RustUse/use-quant",
+      "bundleSlug": "workspaces/use-quant",
+      "publishedCrates": [
+        "use-quant",
+        "use-bar",
+        "use-market-price",
+        "use-drawdown",
+        "use-factor",
+        "use-portfolio-weight",
+        "use-price-series",
+        "use-return",
+        "use-risk",
+        "use-signal-score",
+        "use-tick",
+        "use-volatility"
+      ]
+    },
+    {
+      "name": "use-robotics",
+      "path": "../use-robotics",
+      "repo": "https://github.com/RustUse/use-robotics",
+      "bundleSlug": "workspaces/use-robotics",
+      "publishedCrates": [
+        "use-robotics",
+        "use-actuator",
+        "use-end-effector",
+        "use-frame",
+        "use-joint",
+        "use-kinematics-label",
+        "use-pose",
+        "use-robot",
+        "use-robot-id",
+        "use-robot-sensor",
+        "use-robot-subsystem"
+      ]
+    },
+    {
+      "name": "use-rust",
+      "path": "../use-rust",
+      "repo": "https://github.com/RustUse/use-rust",
+      "bundleSlug": "workspaces/use-rust",
+      "publishedCrates": [
+        "use-rust",
+        "use-crate",
+        "use-version",
+        "use-rust-cargo",
+        "use-rust-release"
+      ]
+    },
+    {
+      "name": "use-rustacean",
+      "path": "../use-rustacean",
+      "repo": "https://github.com/RustUse/use-rustacean",
+      "bundleSlug": "workspaces/use-rustacean",
+      "publishedCrates": [
+        "use-friend",
+        "use-friend-fixture",
+        "use-friend-markdown",
+        "use-friend-registry",
+        "use-rustacean"
+      ]
+    },
+    {
+      "name": "use-signal",
+      "path": "../use-signal",
+      "repo": "https://github.com/RustUse/use-signal",
+      "bundleSlug": "workspaces/use-signal",
+      "publishedCrates": [
+        "use-signal",
+        "use-amplitude",
+        "use-frequency",
+        "use-sample",
+        "use-signal-energy",
+        "use-signal-normalize",
+        "use-signal-window",
+        "use-simple-filter",
+        "use-zero-crossing"
+      ]
+    },
+    {
+      "name": "use-simulation",
+      "path": "../use-simulation",
+      "repo": "https://github.com/RustUse/use-simulation",
+      "bundleSlug": "workspaces/use-simulation",
+      "publishedCrates": [
+        "use-simulation",
+        "use-event-simulation",
+        "use-monte-carlo",
+        "use-seed",
+        "use-random-walk",
+        "use-simulation-clock",
+        "use-simulation-result",
+        "use-state-step"
+      ]
+    },
+    {
+      "name": "use-stats",
+      "path": "../use-stats",
+      "repo": "https://github.com/RustUse/use-stats",
+      "bundleSlug": "workspaces/use-stats",
+      "publishedCrates": [
+        "use-stats",
+        "use-average",
+        "use-correlation",
+        "use-distribution",
+        "use-percentile",
+        "use-standard-deviation",
+        "use-variance",
+        "use-z-score"
+      ]
+    },
+    {
+      "name": "use-text",
+      "path": "../use-text",
+      "repo": "https://github.com/RustUse/use-text",
+      "bundleSlug": "workspaces/use-text",
+      "publishedCrates": [
+        "use-text",
+        "use-case",
+        "use-markdown",
+        "use-slug",
+        "use-text-line",
+        "use-token",
+        "use-word"
+      ]
+    },
+    {
+      "name": "use-time",
+      "path": "../use-time",
+      "repo": "https://github.com/RustUse/use-time",
+      "bundleSlug": "workspaces/use-time",
+      "publishedCrates": ["use-time"]
+    },
+    {
+      "name": "use-typography",
+      "path": "../use-typography",
+      "repo": "https://github.com/RustUse/use-typography",
+      "bundleSlug": "workspaces/use-typography",
+      "publishedCrates": [
+        "use-typography",
+        "use-font-size",
+        "use-line-height",
+        "use-typography-measure",
+        "use-modular-scale",
+        "use-spacing-scale",
+        "use-text-block",
+        "use-type-rhythm",
+        "use-type-unit"
+      ]
+    },
+    {
+      "name": "use-units",
+      "path": "../use-units",
+      "repo": "https://github.com/RustUse/use-units",
+      "bundleSlug": "workspaces/use-units",
+      "publishedCrates": ["use-units"]
+    },
+    {
+      "name": "use-validate",
+      "path": "../use-validate",
+      "repo": "https://github.com/RustUse/use-validate",
+      "bundleSlug": "workspaces/use-validate",
+      "publishedCrates": [
+        "use-validate",
+        "use-bound",
+        "use-check",
+        "use-constraint",
+        "use-predicate",
+        "use-range",
+        "use-rule"
+      ]
+    },
+    {
+      "name": "use-wave",
+      "path": "../use-wave",
+      "repo": "https://github.com/RustUse/use-wave",
+      "bundleSlug": "workspaces/use-wave",
+      "publishedCrates": ["use-wave"]
+    },
+    {
+      "name": "use-web",
+      "path": "../use-web",
+      "repo": "https://github.com/RustUse/use-web",
+      "bundleSlug": "workspaces/use-web",
+      "publishedCrates": [
+        "use-web",
+        "use-cookie",
+        "use-web-css",
+        "use-header",
+        "use-html",
+        "use-http",
+        "use-method",
+        "use-mime",
+        "use-origin",
+        "use-query",
+        "use-route",
+        "use-status",
+        "use-uri",
+        "use-url"
       ]
     }
   ]

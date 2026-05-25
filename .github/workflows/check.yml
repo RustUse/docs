@@ -32,6 +32,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check out llms.txt sibling workspaces
+        run: npm run checkout:llms-workspaces
+
+      - name: Check llms.txt freshness
+        run: npm run check:llms:ci
+
       - name: Validate authored docs and site checks
         run: npm run validate
 

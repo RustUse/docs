@@ -41,29 +41,31 @@ This repository contains the RustUse docs site for `rustuse.org`. It combines hu
       Rebuilds configured Rustdocs into <code>public/api/</code>.
     </td>
     <td width="33%" valign="top">
-      <strong>Update public crate metadata</strong><br>
-      <code>src/data/crates.ts</code><br>
-      Status, routes, docs links, and publication-facing metadata.
+      <strong>Refresh LLM inventory</strong><br>
+      <code>npm run generate:llms</code><br>
+      Keeps <code>public/llms.txt</code> aligned with sibling RustUse workspaces.
     </td>
   </tr>
 </table>
 
 ## What this repository contains
 
-RustUse Docs is the public docs site, not the source workspace for every Rust crate. It has three primary responsibilities:
+RustUse Docs is the public docs site, not the source workspace for every Rust crate. It has four primary responsibilities:
 
-| Area                   | Location             | Purpose                                                                                         |
-| ---------------------- | -------------------- | ----------------------------------------------------------------------------------------------- |
-| Human docs             | `src/content/docs/`  | Guides, onboarding, set overviews, and contributor-facing content maintained in this repository |
-| Generated API docs     | `public/api/`        | Rustdoc HTML copied in from configured workspaces and treated as build output                   |
-| Crate catalog metadata | `src/data/crates.ts` | Public crate listing, publication status, docs links, and site routing metadata                 |
+| Area                   | Location            | Purpose                                                                                         |
+| ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
+| Human docs             | `src/content/docs/` | Guides, onboarding, set overviews, and contributor-facing content maintained in this repository |
+| Generated API docs     | `public/api/`       | Rustdoc HTML copied in from configured workspaces and treated as build output                   |
+| Crate catalog metadata | `src/data/`         | Generated crate listing plus site helpers for publication status, links, and routes             |
+| LLM inventory          | `public/llms.txt`   | Generated set and crate link inventory for LLM consumers                                        |
 
-| If you need to...                       | Start here                  |
-| --------------------------------------- | --------------------------- |
-| Write or edit site content              | `src/content/docs/`         |
-| Rebuild published API routes            | `npm run build:api`         |
-| Change Rustdoc source inputs            | `docs/rustdoc-sources.json` |
-| Update public crate visibility or links | `src/data/crates.ts`        |
+| If you need to...                         | Start here                    |
+| ----------------------------------------- | ----------------------------- |
+| Write or edit site content                | `src/content/docs/`           |
+| Regenerate crate catalog and API inputs   | `npm run sync:crate-surface`  |
+| Regenerate the LLM inventory              | `npm run generate:llms`       |
+| Rebuild published API routes              | `npm run build:api`           |
+| Update crate descriptions, tags, or names | The owning crate `Cargo.toml` |
 
 > [!IMPORTANT]
 > Generated Rustdoc HTML belongs in `public/api/`, not `src/content/docs/`.
@@ -72,11 +74,12 @@ RustUse Docs is the public docs site, not the source workspace for every Rust cr
 
 RustUse separates authored documentation from generated API output on purpose.
 
-| Content type           | Location             | Source of truth                                           |
-| ---------------------- | -------------------- | --------------------------------------------------------- |
-| Human docs             | `src/content/docs/`  | This repository                                           |
-| Generated API docs     | `public/api/`        | Rust workspaces configured in `docs/rustdoc-sources.json` |
-| Crate catalog metadata | `src/data/crates.ts` | This repository                                           |
+| Content type           | Location            | Source of truth                                                                      |
+| ---------------------- | ------------------- | ------------------------------------------------------------------------------------ |
+| Human docs             | `src/content/docs/` | This repository                                                                      |
+| Generated API docs     | `public/api/`       | Generated `docs/rustdoc-sources.json`, derived by `npm run sync:crate-surface`       |
+| Crate catalog metadata | `src/data/`         | `rustuse` features, set workspace Cargo metadata, and live crates.io package records |
+| LLM inventory          | `public/llms.txt`   | Sibling `use-*` workspaces discovered by `npm run generate:llms`                     |
 
 > [!NOTE]
 > `public/api/` is generated output. Expect it to be replaced whenever `npm run build:api` runs.
@@ -92,14 +95,18 @@ RustUse separates authored documentation from generated API output on purpose.
 
 Build path at a glance:
 
-`Rust workspace or repo` -> `scripts/build-rustdocs.mjs` -> `public/api/` -> `RustUse docs site` -> `rustuse.org`
+`rustuse` features + set workspaces -> `scripts/sync-crate-surface.mjs` -> generated catalog and Rustdoc inputs -> `scripts/build-rustdocs.mjs` -> `public/api/` -> `RustUse docs site` -> `rustuse.org`
 
-| Capability            | How it works                                                                         | Where to look                                             |
-| --------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------- |
-| Site shell            | Site configuration, components, and styles render the public docs surface            | `astro.config.mjs`, `src/components/`, `src/styles/`      |
-| Human docs authoring  | Markdown and MDX pages live in the docs content tree                                 | `src/content/docs/`                                       |
-| API docs generation   | A build script reads configured Rustdoc sources and copies output into `public/api/` | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json` |
-| Public crate metadata | Crate status and public links are maintained separately from generated docs          | `src/data/crates.ts`                                      |
+Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> generated regions in `public/llms.txt` -> `rustuse.org/llms.txt`
+
+| Capability            | How it works                                                                                  | Where to look                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Site shell            | Site configuration, components, and styles render the public docs surface                     | `astro.config.mjs`, `src/components/`, `src/styles/`                         |
+| Human docs authoring  | Markdown and MDX pages live in the docs content tree                                          | `src/content/docs/`                                                          |
+| Surface sync          | A sync script derives sets, crates, generated pages, catalog data, and Rustdoc source inputs  | `scripts/sync-crate-surface.mjs`                                             |
+| API docs generation   | A build script reads generated Rustdoc sources and copies output into `public/api/`           | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                    |
+| Public crate metadata | Crate metadata is generated, then exposed through small runtime and TypeScript helper modules | `src/data/catalog.generated.js`, `src/data/catalog.js`, `src/data/crates.ts` |
+| LLM inventory         | A generator replaces only marked set and crate regions in `public/llms.txt`                   | `scripts/generate-llms-txt.mjs`, `public/llms.txt`                           |
 
 ## Project structure
 
@@ -109,11 +116,16 @@ Build path at a glance:
 │   └── rustdoc-sources.json
 ├── public/
 │   ├── CNAME
+│   ├── llms.txt
 │   └── api/
 ├── scripts/
-│   └── build-rustdocs.mjs
+│   ├── build-rustdocs.mjs
+│   ├── generate-llms-txt.mjs
+│   └── sync-crate-surface.mjs
 ├── src/
 │   ├── content/docs/
+│   ├── data/catalog.generated.js
+│   ├── data/catalog.js
 │   ├── data/crates.ts
 │   └── styles/
 ├── astro.config.mjs
@@ -121,14 +133,19 @@ Build path at a glance:
 └── tsconfig.json
 ```
 
-| Path                         | Role                                                                             |
-| ---------------------------- | -------------------------------------------------------------------------------- |
-| `docs/rustdoc-sources.json`  | Declares which Rust workspaces feed generated API docs                           |
-| `public/api/`                | Generated Rustdoc bundle output and published crate entry routes                 |
-| `scripts/build-rustdocs.mjs` | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
-| `src/content/docs/`          | Human-authored pages for the docs site                                           |
-| `src/data/crates.ts`         | Public crate catalog, status flags, docs links, and route metadata               |
-| `public/CNAME`               | Keeps the custom domain aligned with the deployed site                           |
+| Path                             | Role                                                                             |
+| -------------------------------- | -------------------------------------------------------------------------------- |
+| `docs/rustdoc-sources.json`      | Generated Rustdoc source list consumed by `npm run build:api`                    |
+| `public/api/`                    | Generated Rustdoc bundle output and published crate entry routes                 |
+| `public/llms.txt`                | Hand-authored LLM entrypoint with generated RustUse set and crate link regions   |
+| `scripts/sync-crate-surface.mjs` | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
+| `scripts/generate-llms-txt.mjs`  | Updates `public/llms.txt` from sibling RustUse set workspaces                    |
+| `scripts/build-rustdocs.mjs`     | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
+| `src/content/docs/`              | Human-authored pages for the docs site                                           |
+| `src/data/catalog.generated.js`  | Generated public crate catalog data                                              |
+| `src/data/catalog.js`            | Runtime helpers around the generated catalog                                     |
+| `src/data/crates.ts`             | TypeScript-facing wrapper around the generated catalog helpers                   |
+| `public/CNAME`                   | Keeps the custom domain aligned with the deployed site                           |
 
 ## Requirements
 
@@ -159,6 +176,7 @@ npm run dev
 | `npm install`            | Installs site dependencies and applies the local Git hooks path      |
 | `npm run dev:doctor`     | Checks Node, npm, Rust, ports, and expected local workspace wiring   |
 | `npm run dev`            | Builds Rustdocs first, then starts the local docs site               |
+| `npm run generate:llms`  | Updates generated RustUse set and crate regions in `public/llms.txt` |
 | `npm run build:api`      | Builds and copies configured Rustdocs into `public/api/`             |
 | `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`      |
 | `npm run preview`        | Serves the production build locally                                  |
@@ -227,41 +245,20 @@ Use the launch profiles when you want a one-click server start, and use the task
 
 ## Generated Rust API docs
 
-The Rustdoc build pipeline is driven by `docs/rustdoc-sources.json`.
+The Rustdoc build pipeline consumes `docs/rustdoc-sources.json`. That file is generated by `npm run sync:crate-surface` from the `rustuse` facade `features.full` list, set workspace Cargo metadata, and live crates.io package records.
 
-The current source configuration points at a local sibling `use-math` workspace checkout:
+Do not hand-edit `docs/rustdoc-sources.json`. A set workspace is included automatically when every publishable public package in that set resolves on crates.io with the matching RustUse repository URL.
 
-<details>
-<summary>Current rustdoc source configuration</summary>
-
-```json
-{
-  "sources": [
-    {
-      "name": "use-math",
-      "path": "../use-math",
-      "repo": "https://github.com/RustUse/use-math",
-      "bundleSlug": "workspaces/use-math",
-      "publishedCrates": ["use-math", "use-geometry", "use-combinatorics"]
-    }
-  ]
-}
-```
-
-</details>
-
-For faster local iteration, keep a sibling `use-math` workspace checkout at `../use-math`.
-When that checkout is unavailable, `scripts/build-rustdocs.mjs` falls back to cloning the configured `repo` URL automatically.
-That fallback is what CI uses today, so contributors do not need a sibling checkout just to build the docs site successfully.
+For faster local iteration, keep sibling checkouts for the configured Rustdoc workspaces.
+When a checkout is unavailable, `scripts/build-rustdocs.mjs` falls back to cloning the generated `repo` URL automatically.
+That fallback is what CI uses today, so contributors do not need sibling checkouts just to build the docs site successfully.
 
 Generated output currently lands at:
 
-| Route                       | Purpose                                                                       |
-| --------------------------- | ----------------------------------------------------------------------------- |
-| `/api/workspaces/use-math/` | Full workspace bundle                                                         |
-| `/api/use-math/`            | Supported `use-math` entry route that redirects into the workspace bundle     |
-| `/api/use-geometry/`        | Supported `use-geometry` entry route that redirects into the workspace bundle |
-| `/api/use-combinatorics/`   | Currently configured `use-combinatorics` published route                      |
+| Route                          | Purpose                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| `/api/workspaces/<set-name>/`  | Full generated workspace bundle for a fully published set                   |
+| `/api/<published-crate-name>/` | Stable supported crate entry route that redirects into its workspace bundle |
 
 The supported crate entry roots redirect into the workspace bundle so the generated Rustdoc asset layout stays intact.
 
@@ -270,18 +267,34 @@ The supported crate entry roots redirect into the workspace bundle so the genera
 
 ## Crate catalog
 
-The public crate catalog lives in `src/data/crates.ts`.
+The public crate catalog is generated into `src/data/catalog.generated.js` and exposed through `src/data/catalog.js` and `src/data/crates.ts`.
 
-Keep that file aligned with:
+Keep the source inputs aligned with:
 
-| Keep in sync        | Why it matters                                                                  |
-| ------------------- | ------------------------------------------------------------------------------- |
-| Supported crates    | The public catalog and supported routes should describe the same surface area   |
-| Public API paths    | Cards and links should resolve to the generated `public/api/` routes            |
-| Internal docs links | Crate pages and set pages should stay navigable from the site                   |
-| Publication status  | External registry links should only appear once the crate is actually published |
+| Keep in sync          | Why it matters                                                                  |
+| --------------------- | ------------------------------------------------------------------------------- |
+| `rustuse` set feature | The public set list should come from the facade crate's `features.full` surface |
+| Set workspace crates  | The public catalog should reflect Cargo workspace membership and package data   |
+| crates.io records     | Publication status and external links should reflect live package identity      |
+| Public API paths      | Cards and links should resolve to the generated `public/api/` routes            |
+| Internal docs links   | Crate pages and set pages should stay navigable from the site                   |
+| Publication status    | External registry links should only appear once the crate is actually published |
 
-External `crates.io` and `docs.rs` links can be prewired in `src/data/crates.ts`, but the site should only render them after a crate status changes to `published`.
+## LLM inventory
+
+The public `llms.txt` file is hand-authored outside generated regions and generated inside these marked regions:
+
+```markdown
+<!-- BEGIN GENERATED RUSTUSE SETS -->
+<!-- END GENERATED RUSTUSE SETS -->
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+<!-- END GENERATED RUSTUSE CRATES -->
+```
+
+Run `npm run generate:llms` after adding, removing, or renaming a sibling RustUse set or crate workspace. The generator scans sibling `use-*` directories with root `Cargo.toml` files, prefers Cargo metadata for package names, and updates only the marked regions.
+
+CI runs `npm run check:llms` and fails when the committed `public/llms.txt` is stale. Make manual edits outside the generated markers.
 
 ## Deployment
 
@@ -344,6 +357,7 @@ Release Please is bootstrapped from the repository's current public baseline com
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `/api/workspaces/use-math/` returns the site 404 page | The dev server started before generated API routes existed or before config rewrites loaded | Restart `npm run dev`                                                                  |
 | API docs are missing locally                          | Rustdocs have not been generated yet                                                        | Run `npm run build:api`                                                                |
+| `llms.txt` freshness fails                            | Generated set or crate links are stale                                                      | Run `npm run generate:llms`                                                            |
 | CI cannot find the local sibling checkout             | Expected in CI                                                                              | Ensure the `repo` URL exists in `docs/rustdoc-sources.json` so the script can clone it |
 | External crate links do not render                    | Crate status is still scaffolded                                                            | Update `src/data/crates.ts` when the crate is published                                |
 
