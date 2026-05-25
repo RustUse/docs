@@ -60,11 +60,11 @@ function uniqueSortedCrates(crates) {
   }
 
   return [...cratesByKey.values()].sort((left, right) => {
-    const setComparison = compareNames(left.set, right.set);
+    const nameComparison = compareNames(left.name, right.name);
 
-    return setComparison === 0
-      ? compareNames(left.name, right.name)
-      : setComparison;
+    return nameComparison === 0
+      ? compareNames(left.set, right.set)
+      : nameComparison;
   });
 }
 
