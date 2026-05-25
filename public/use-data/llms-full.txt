@@ -1,0 +1,43 @@
+# use-data
+
+Expanded LLM context for the RustUse data set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-data/
+- Set overview alias: https://rustuse.org/sets/use-data/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-data/
+- Repository: https://github.com/RustUse/use-data
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-data/
+- https://rustuse.org/api/workspaces/use-data/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-data workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-csv](https://rustuse.org/use-data/use-csv/) - child crate of use-data
+- [use-data](https://rustuse.org/use-data/) - facade set
+- [use-json](https://rustuse.org/use-data/use-json/) - child crate of use-data
+- [use-toml](https://rustuse.org/use-data/use-toml/) - child crate of use-data
+- [use-xml](https://rustuse.org/use-data/use-xml/) - child crate of use-data
+- [use-yaml](https://rustuse.org/use-data/use-yaml/) - child crate of use-data
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-data/llms.txt and https://rustuse.org/use-data/llms-full.txt. The /sets/use-data/ aliases serve this exact generated content so the two paths cannot drift.

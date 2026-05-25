@@ -1,0 +1,41 @@
+# use-text
+
+RustUse text utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-text/
+- Set overview alias: https://rustuse.org/sets/use-text/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-text/
+- Repository: https://github.com/RustUse/use-text
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-text workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-case](https://rustuse.org/use-text/use-case/) - child crate of use-text
+- [use-markdown](https://rustuse.org/use-text/use-markdown/) - child crate of use-text
+- [use-slug](https://rustuse.org/use-text/use-slug/) - child crate of use-text
+- [use-text](https://rustuse.org/use-text/) - facade set
+- [use-text-line](https://rustuse.org/use-text/use-text-line/) - child crate of use-text
+- [use-token](https://rustuse.org/use-text/use-token/) - child crate of use-text
+- [use-word](https://rustuse.org/use-text/use-word/) - child crate of use-text
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-text LLM context](https://rustuse.org/use-text/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-text/llms-full.txt` when fuller set-level context is needed.

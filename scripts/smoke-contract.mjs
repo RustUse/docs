@@ -63,6 +63,27 @@ export function getSmokeChecks(repoRoot) {
       route: '/',
     },
     {
+      contentType: 'text/plain',
+      distPath: 'llms.txt',
+      mustExclude: ['<!-- BEGIN GENERATED RUSTUSE CRATES -->'],
+      mustInclude: [
+        '# RustUse',
+        '<!-- BEGIN GENERATED RUSTUSE SETS -->',
+        'https://rustuse.org/llms-full.txt',
+      ],
+      route: '/llms.txt',
+    },
+    {
+      contentType: 'text/plain',
+      distPath: 'llms-full.txt',
+      mustInclude: [
+        '<!-- BEGIN GENERATED RUSTUSE SETS -->',
+        '<!-- BEGIN GENERATED RUSTUSE CRATES -->',
+        'child crate of use-math',
+      ],
+      route: '/llms-full.txt',
+    },
+    {
       contentType: 'text/html',
       distPath: 'contributing/index.html',
       mustInclude: ['Contributing'],
@@ -105,6 +126,26 @@ export function getSmokeChecks(repoRoot) {
       route: '/use-math/',
     },
     {
+      contentType: 'text/plain',
+      distPath: 'use-math/llms.txt',
+      mustInclude: [
+        '# use-math',
+        'https://rustuse.org/use-math/llms-full.txt',
+        '<!-- BEGIN GENERATED RUSTUSE CRATES -->',
+      ],
+      route: '/use-math/llms.txt',
+    },
+    {
+      contentType: 'text/plain',
+      distPath: 'use-math/llms-full.txt',
+      mustInclude: [
+        'Expanded LLM context for the RustUse math set.',
+        'https://rustuse.org/api/workspaces/use-math/',
+        'child crate of use-math',
+      ],
+      route: '/use-math/llms-full.txt',
+    },
+    {
       contentType: 'text/html',
       distPath: 'use-math/use-combinatorics/index.html',
       mustInclude: ['Copy full crate'],
@@ -115,6 +156,26 @@ export function getSmokeChecks(repoRoot) {
       distPath: 'use-geometry/index.html',
       mustInclude: ['Copy full crate'],
       route: '/use-geometry/',
+    },
+    {
+      contentType: 'text/plain',
+      distPath: 'sets/use-math/llms.txt',
+      mustInclude: [
+        '# use-math',
+        'https://rustuse.org/use-math/llms-full.txt',
+        '<!-- BEGIN GENERATED RUSTUSE CRATES -->',
+      ],
+      route: '/sets/use-math/llms.txt',
+    },
+    {
+      contentType: 'text/plain',
+      distPath: 'sets/use-math/llms-full.txt',
+      mustInclude: [
+        'Expanded LLM context for the RustUse math set.',
+        'https://rustuse.org/api/workspaces/use-math/',
+        'child crate of use-math',
+      ],
+      route: '/sets/use-math/llms-full.txt',
     },
     {
       contentType: 'xml',

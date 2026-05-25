@@ -158,6 +158,7 @@ async function stopManagedPreviewServer(child) {
 async function checkRoute({
   contentType,
   expectedStatus = 200,
+  mustExclude = [],
   mustInclude = [],
   route,
   sourceArtifact,
@@ -214,6 +215,12 @@ async function checkRoute({
   for (const snippet of mustInclude) {
     if (!text.includes(snippet)) {
       problems.push(`Expected ${route} to include "${snippet}".`);
+    }
+  }
+
+  for (const snippet of mustExclude) {
+    if (text.includes(snippet)) {
+      problems.push(`Expected ${route} not to include "${snippet}".`);
     }
   }
 }

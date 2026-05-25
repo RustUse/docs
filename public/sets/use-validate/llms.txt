@@ -1,0 +1,41 @@
+# use-validate
+
+RustUse validate utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-validate/
+- Set overview alias: https://rustuse.org/sets/use-validate/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-validate/
+- Repository: https://github.com/RustUse/use-validate
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-validate workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-bound](https://rustuse.org/use-validate/use-bound/) - child crate of use-validate
+- [use-check](https://rustuse.org/use-validate/use-check/) - child crate of use-validate
+- [use-constraint](https://rustuse.org/use-validate/use-constraint/) - child crate of use-validate
+- [use-predicate](https://rustuse.org/use-validate/use-predicate/) - child crate of use-validate
+- [use-range](https://rustuse.org/use-validate/use-range/) - child crate of use-validate
+- [use-rule](https://rustuse.org/use-validate/use-rule/) - child crate of use-validate
+- [use-validate](https://rustuse.org/use-validate/) - facade set
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-validate LLM context](https://rustuse.org/use-validate/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-validate/llms-full.txt` when fuller set-level context is needed.

@@ -1,0 +1,49 @@
+# use-biology
+
+Expanded LLM context for the RustUse biology set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-biology/
+- Set overview alias: https://rustuse.org/sets/use-biology/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-biology/
+- Repository: https://github.com/RustUse/use-biology
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-biology/
+- https://rustuse.org/api/workspaces/use-biology/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-biology workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-biological-cell](https://rustuse.org/use-biology/use-biological-cell/) - child crate of use-biology
+- [use-biological-system](https://rustuse.org/use-biology/use-biological-system/) - child crate of use-biology
+- [use-biology](https://rustuse.org/use-biology/) - facade set
+- [use-gene](https://rustuse.org/use-biology/use-gene/) - child crate of use-biology
+- [use-life-stage](https://rustuse.org/use-biology/use-life-stage/) - child crate of use-biology
+- [use-organ](https://rustuse.org/use-biology/use-organ/) - child crate of use-biology
+- [use-organism](https://rustuse.org/use-biology/use-organism/) - child crate of use-biology
+- [use-reproduction](https://rustuse.org/use-biology/use-reproduction/) - child crate of use-biology
+- [use-species](https://rustuse.org/use-biology/use-species/) - child crate of use-biology
+- [use-taxonomy](https://rustuse.org/use-biology/use-taxonomy/) - child crate of use-biology
+- [use-tissue](https://rustuse.org/use-biology/use-tissue/) - child crate of use-biology
+- [use-trait](https://rustuse.org/use-biology/use-trait/) - child crate of use-biology
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-biology/llms.txt and https://rustuse.org/use-biology/llms-full.txt. The /sets/use-biology/ aliases serve this exact generated content so the two paths cannot drift.

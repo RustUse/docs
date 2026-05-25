@@ -1,0 +1,49 @@
+# use-git
+
+Expanded LLM context for the RustUse git set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-git/
+- Set overview alias: https://rustuse.org/sets/use-git/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-git/
+- Repository: https://github.com/RustUse/use-git
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-git/
+- https://rustuse.org/api/workspaces/use-git/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-git workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-git](https://rustuse.org/use-git/) - facade set
+- [use-git-attribute](https://rustuse.org/use-git/use-git-attribute/) - child crate of use-git
+- [use-git-branch](https://rustuse.org/use-git/use-git-branch/) - child crate of use-git
+- [use-git-ignore](https://rustuse.org/use-git/use-git-ignore/) - child crate of use-git
+- [use-git-oid](https://rustuse.org/use-git/use-git-oid/) - child crate of use-git
+- [use-git-pathspec](https://rustuse.org/use-git/use-git-pathspec/) - child crate of use-git
+- [use-git-ref](https://rustuse.org/use-git/use-git-ref/) - child crate of use-git
+- [use-git-refspec](https://rustuse.org/use-git/use-git-refspec/) - child crate of use-git
+- [use-git-remote](https://rustuse.org/use-git/use-git-remote/) - child crate of use-git
+- [use-git-revision](https://rustuse.org/use-git/use-git-revision/) - child crate of use-git
+- [use-git-status](https://rustuse.org/use-git/use-git-status/) - child crate of use-git
+- [use-git-tag](https://rustuse.org/use-git/use-git-tag/) - child crate of use-git
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-git/llms.txt and https://rustuse.org/use-git/llms-full.txt. The /sets/use-git/ aliases serve this exact generated content so the two paths cannot drift.

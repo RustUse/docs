@@ -1,0 +1,45 @@
+# use-robotics
+
+RustUse robotics utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-robotics/
+- Set overview alias: https://rustuse.org/sets/use-robotics/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-robotics/
+- Repository: https://github.com/RustUse/use-robotics
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-robotics workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-actuator](https://rustuse.org/use-robotics/use-actuator/) - child crate of use-robotics
+- [use-end-effector](https://rustuse.org/use-robotics/use-end-effector/) - child crate of use-robotics
+- [use-frame](https://rustuse.org/use-robotics/use-frame/) - child crate of use-robotics
+- [use-joint](https://rustuse.org/use-robotics/use-joint/) - child crate of use-robotics
+- [use-kinematics-label](https://rustuse.org/use-robotics/use-kinematics-label/) - child crate of use-robotics
+- [use-pose](https://rustuse.org/use-robotics/use-pose/) - child crate of use-robotics
+- [use-robot](https://rustuse.org/use-robotics/use-robot/) - child crate of use-robotics
+- [use-robot-id](https://rustuse.org/use-robotics/use-robot-id/) - child crate of use-robotics
+- [use-robot-sensor](https://rustuse.org/use-robotics/use-robot-sensor/) - child crate of use-robotics
+- [use-robot-subsystem](https://rustuse.org/use-robotics/use-robot-subsystem/) - child crate of use-robotics
+- [use-robotics](https://rustuse.org/use-robotics/) - facade set
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-robotics LLM context](https://rustuse.org/use-robotics/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-robotics/llms-full.txt` when fuller set-level context is needed.

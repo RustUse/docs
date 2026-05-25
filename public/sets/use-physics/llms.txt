@@ -1,0 +1,63 @@
+# use-physics
+
+RustUse physics utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-physics/
+- Set overview alias: https://rustuse.org/sets/use-physics/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-physics/
+- Repository: https://github.com/RustUse/use-physics
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-physics workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-collision](https://rustuse.org/use-physics/use-collision/) - child crate of use-physics
+- [use-density](https://rustuse.org/use-physics/use-density/) - child crate of use-physics
+- [use-elasticity](https://rustuse.org/use-physics/use-elasticity/) - child crate of use-physics
+- [use-electricity](https://rustuse.org/use-physics/use-electricity/) - child crate of use-physics
+- [use-electromagnetism](https://rustuse.org/use-physics/use-electromagnetism/) - child crate of use-physics
+- [use-energy](https://rustuse.org/use-physics/use-energy/) - child crate of use-physics
+- [use-fluid](https://rustuse.org/use-physics/use-fluid/) - child crate of use-physics
+- [use-force](https://rustuse.org/use-physics/use-force/) - child crate of use-physics
+- [use-gravity](https://rustuse.org/use-physics/use-gravity/) - child crate of use-physics
+- [use-magnetism](https://rustuse.org/use-physics/use-magnetism/) - child crate of use-physics
+- [use-momentum](https://rustuse.org/use-physics/use-momentum/) - child crate of use-physics
+- [use-motion](https://rustuse.org/use-physics/use-motion/) - child crate of use-physics
+- [use-nuclear](https://rustuse.org/use-physics/use-nuclear/) - child crate of use-physics
+- [use-orbit](https://rustuse.org/use-physics/use-orbit/) - child crate of use-physics
+- [use-oscillation](https://rustuse.org/use-physics/use-oscillation/) - child crate of use-physics
+- [use-particle](https://rustuse.org/use-physics/use-particle/) - child crate of use-physics
+- [use-physics](https://rustuse.org/use-physics/) - facade set
+- [use-plasma](https://rustuse.org/use-physics/use-plasma/) - child crate of use-physics
+- [use-power](https://rustuse.org/use-physics/use-power/) - child crate of use-physics
+- [use-pressure](https://rustuse.org/use-physics/use-pressure/) - child crate of use-physics
+- [use-quantum](https://rustuse.org/use-physics/use-quantum/) - child crate of use-physics
+- [use-radiation](https://rustuse.org/use-physics/use-radiation/) - child crate of use-physics
+- [use-relativity](https://rustuse.org/use-physics/use-relativity/) - child crate of use-physics
+- [use-rigidbody](https://rustuse.org/use-physics/use-rigidbody/) - child crate of use-physics
+- [use-rotation](https://rustuse.org/use-physics/use-rotation/) - child crate of use-physics
+- [use-statics](https://rustuse.org/use-physics/use-statics/) - child crate of use-physics
+- [use-thermodynamics](https://rustuse.org/use-physics/use-thermodynamics/) - child crate of use-physics
+- [use-torque](https://rustuse.org/use-physics/use-torque/) - child crate of use-physics
+- [use-work](https://rustuse.org/use-physics/use-work/) - child crate of use-physics
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-physics LLM context](https://rustuse.org/use-physics/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-physics/llms-full.txt` when fuller set-level context is needed.

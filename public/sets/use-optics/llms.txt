@@ -1,0 +1,35 @@
+# use-optics
+
+RustUse optics utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-optics/
+- Set overview alias: https://rustuse.org/sets/use-optics/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-optics/
+- Repository: https://github.com/RustUse/use-optics
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-optics workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-optics](https://rustuse.org/use-optics/) - facade set
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-optics LLM context](https://rustuse.org/use-optics/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-optics/llms-full.txt` when fuller set-level context is needed.

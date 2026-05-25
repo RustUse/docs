@@ -1,0 +1,41 @@
+# use-id
+
+RustUse id utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-id/
+- Set overview alias: https://rustuse.org/sets/use-id/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-id/
+- Repository: https://github.com/RustUse/use-id
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-id workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-id](https://rustuse.org/use-id/) - facade set
+- [use-id-prefix](https://rustuse.org/use-id/use-id-prefix/) - child crate of use-id
+- [use-id-slug](https://rustuse.org/use-id/use-id-slug/) - child crate of use-id
+- [use-identifier](https://rustuse.org/use-id/use-identifier/) - child crate of use-id
+- [use-stable-id](https://rustuse.org/use-id/use-stable-id/) - child crate of use-id
+- [use-ulid](https://rustuse.org/use-id/use-ulid/) - child crate of use-id
+- [use-uuid](https://rustuse.org/use-id/use-uuid/) - child crate of use-id
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-id LLM context](https://rustuse.org/use-id/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-id/llms-full.txt` when fuller set-level context is needed.

@@ -1,0 +1,46 @@
+# use-quant
+
+RustUse quant utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-quant/
+- Set overview alias: https://rustuse.org/sets/use-quant/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-quant/
+- Repository: https://github.com/RustUse/use-quant
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-quant workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-bar](https://rustuse.org/use-quant/use-bar/) - child crate of use-quant
+- [use-drawdown](https://rustuse.org/use-quant/use-drawdown/) - child crate of use-quant
+- [use-factor](https://rustuse.org/use-quant/use-factor/) - child crate of use-quant
+- [use-market-price](https://rustuse.org/use-quant/use-market-price/) - child crate of use-quant
+- [use-portfolio-weight](https://rustuse.org/use-quant/use-portfolio-weight/) - child crate of use-quant
+- [use-price-series](https://rustuse.org/use-quant/use-price-series/) - child crate of use-quant
+- [use-quant](https://rustuse.org/use-quant/) - facade set
+- [use-return](https://rustuse.org/use-quant/use-return/) - child crate of use-quant
+- [use-risk](https://rustuse.org/use-quant/use-risk/) - child crate of use-quant
+- [use-signal-score](https://rustuse.org/use-quant/use-signal-score/) - child crate of use-quant
+- [use-tick](https://rustuse.org/use-quant/use-tick/) - child crate of use-quant
+- [use-volatility](https://rustuse.org/use-quant/use-volatility/) - child crate of use-quant
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-quant LLM context](https://rustuse.org/use-quant/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-quant/llms-full.txt` when fuller set-level context is needed.

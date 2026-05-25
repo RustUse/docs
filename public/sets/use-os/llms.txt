@@ -1,0 +1,44 @@
+# use-os
+
+RustUse os utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-os/
+- Set overview alias: https://rustuse.org/sets/use-os/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-os/
+- Repository: https://github.com/RustUse/use-os
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-os workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-architecture](https://rustuse.org/use-os/use-architecture/) - child crate of use-os
+- [use-env-key](https://rustuse.org/use-os/use-env-key/) - child crate of use-os
+- [use-env-value](https://rustuse.org/use-os/use-env-value/) - child crate of use-os
+- [use-os](https://rustuse.org/use-os/) - facade set
+- [use-os-family](https://rustuse.org/use-os/use-os-family/) - child crate of use-os
+- [use-platform](https://rustuse.org/use-os/use-platform/) - child crate of use-os
+- [use-process-id](https://rustuse.org/use-os/use-process-id/) - child crate of use-os
+- [use-process-status](https://rustuse.org/use-os/use-process-status/) - child crate of use-os
+- [use-thread-id](https://rustuse.org/use-os/use-thread-id/) - child crate of use-os
+- [use-thread-name](https://rustuse.org/use-os/use-thread-name/) - child crate of use-os
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-os LLM context](https://rustuse.org/use-os/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-os/llms-full.txt` when fuller set-level context is needed.

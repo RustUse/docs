@@ -1,0 +1,41 @@
+# use-diagnostic
+
+RustUse diagnostic utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-diagnostic/
+- Set overview alias: https://rustuse.org/sets/use-diagnostic/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-diagnostic/
+- Repository: https://github.com/RustUse/use-diagnostic
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-diagnostic workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-diagnostic](https://rustuse.org/use-diagnostic/) - facade set
+- [use-diagnostic-code](https://rustuse.org/use-diagnostic/use-diagnostic-code/) - child crate of use-diagnostic
+- [use-diagnostic-label](https://rustuse.org/use-diagnostic/use-diagnostic-label/) - child crate of use-diagnostic
+- [use-diagnostic-level](https://rustuse.org/use-diagnostic/use-diagnostic-level/) - child crate of use-diagnostic
+- [use-diagnostic-message](https://rustuse.org/use-diagnostic/use-diagnostic-message/) - child crate of use-diagnostic
+- [use-diagnostic-report](https://rustuse.org/use-diagnostic/use-diagnostic-report/) - child crate of use-diagnostic
+- [use-diagnostic-span](https://rustuse.org/use-diagnostic/use-diagnostic-span/) - child crate of use-diagnostic
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-diagnostic LLM context](https://rustuse.org/use-diagnostic/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-diagnostic/llms-full.txt` when fuller set-level context is needed.

@@ -1,0 +1,35 @@
+# use-time
+
+RustUse time utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-time/
+- Set overview alias: https://rustuse.org/sets/use-time/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-time/
+- Repository: https://github.com/RustUse/use-time
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-time workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-time](https://rustuse.org/use-time/) - facade set
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-time LLM context](https://rustuse.org/use-time/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-time/llms-full.txt` when fuller set-level context is needed.

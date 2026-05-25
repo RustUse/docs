@@ -1,0 +1,58 @@
+# use-php
+
+Expanded LLM context for the RustUse php set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-php/
+- Set overview alias: https://rustuse.org/sets/use-php/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-php/
+- Repository: https://github.com/RustUse/use-php
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-php/
+- https://rustuse.org/api/workspaces/use-php/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-php workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-composer-json](https://rustuse.org/use-php/use-composer-json/) - child crate of use-php
+- [use-drupal](https://rustuse.org/use-php/use-drupal/) - child crate of use-php
+- [use-laravel](https://rustuse.org/use-php/use-laravel/) - child crate of use-php
+- [use-packagist](https://rustuse.org/use-php/use-packagist/) - child crate of use-php
+- [use-php](https://rustuse.org/use-php/) - facade set
+- [use-php-attribute](https://rustuse.org/use-php/use-php-attribute/) - child crate of use-php
+- [use-php-autoload](https://rustuse.org/use-php/use-php-autoload/) - child crate of use-php
+- [use-php-docblock](https://rustuse.org/use-php/use-php-docblock/) - child crate of use-php
+- [use-php-error](https://rustuse.org/use-php/use-php-error/) - child crate of use-php
+- [use-php-extension](https://rustuse.org/use-php/use-php-extension/) - child crate of use-php
+- [use-php-ini](https://rustuse.org/use-php/use-php-ini/) - child crate of use-php
+- [use-php-namespace](https://rustuse.org/use-php/use-php-namespace/) - child crate of use-php
+- [use-php-symbol](https://rustuse.org/use-php/use-php-symbol/) - child crate of use-php
+- [use-php-syntax](https://rustuse.org/use-php/use-php-syntax/) - child crate of use-php
+- [use-php-token](https://rustuse.org/use-php/use-php-token/) - child crate of use-php
+- [use-php-type](https://rustuse.org/use-php/use-php-type/) - child crate of use-php
+- [use-php-version](https://rustuse.org/use-php/use-php-version/) - child crate of use-php
+- [use-psr](https://rustuse.org/use-php/use-psr/) - child crate of use-php
+- [use-wordpress](https://rustuse.org/use-php/use-wordpress/) - child crate of use-php
+- [use-wordpress-block](https://rustuse.org/use-php/use-wordpress-block/) - child crate of use-php
+- [use-wordpress-hook](https://rustuse.org/use-php/use-wordpress-hook/) - child crate of use-php
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-php/llms.txt and https://rustuse.org/use-php/llms-full.txt. The /sets/use-php/ aliases serve this exact generated content so the two paths cannot drift.

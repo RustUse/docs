@@ -1,0 +1,53 @@
+# use-chemistry
+
+Expanded LLM context for the RustUse chemistry set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-chemistry/
+- Set overview alias: https://rustuse.org/sets/use-chemistry/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-chemistry/
+- Repository: https://github.com/RustUse/use-chemistry
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-chemistry/
+- https://rustuse.org/api/workspaces/use-chemistry/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-chemistry workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-atomic-mass](https://rustuse.org/use-chemistry/use-atomic-mass/) - child crate of use-chemistry
+- [use-atomic-number](https://rustuse.org/use-chemistry/use-atomic-number/) - child crate of use-chemistry
+- [use-bond](https://rustuse.org/use-chemistry/use-bond/) - child crate of use-chemistry
+- [use-chemical-formula](https://rustuse.org/use-chemistry/use-chemical-formula/) - child crate of use-chemistry
+- [use-chemistry](https://rustuse.org/use-chemistry/) - facade set
+- [use-compound](https://rustuse.org/use-chemistry/use-compound/) - child crate of use-chemistry
+- [use-electron-shell](https://rustuse.org/use-chemistry/use-electron-shell/) - child crate of use-chemistry
+- [use-element](https://rustuse.org/use-chemistry/use-element/) - child crate of use-chemistry
+- [use-ion](https://rustuse.org/use-chemistry/use-ion/) - child crate of use-chemistry
+- [use-isotope](https://rustuse.org/use-chemistry/use-isotope/) - child crate of use-chemistry
+- [use-molar-mass](https://rustuse.org/use-chemistry/use-molar-mass/) - child crate of use-chemistry
+- [use-molecule](https://rustuse.org/use-chemistry/use-molecule/) - child crate of use-chemistry
+- [use-oxidation-state](https://rustuse.org/use-chemistry/use-oxidation-state/) - child crate of use-chemistry
+- [use-periodic-table](https://rustuse.org/use-chemistry/use-periodic-table/) - child crate of use-chemistry
+- [use-reaction](https://rustuse.org/use-chemistry/use-reaction/) - child crate of use-chemistry
+- [use-stoichiometry](https://rustuse.org/use-chemistry/use-stoichiometry/) - child crate of use-chemistry
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-chemistry/llms.txt and https://rustuse.org/use-chemistry/llms-full.txt. The /sets/use-chemistry/ aliases serve this exact generated content so the two paths cannot drift.

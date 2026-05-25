@@ -20,7 +20,12 @@ function readDistFile(relativePath) {
   return readFileSync(path.join(distRoot, ...relativePath.split('/')), 'utf8');
 }
 
-function checkFile({ distPath, mustInclude = [], sourceArtifact }) {
+function checkFile({
+  distPath,
+  mustExclude = [],
+  mustInclude = [],
+  sourceArtifact,
+}) {
   const absolutePath = path.join(distRoot, ...distPath.split('/'));
   checks += 1;
 
@@ -39,7 +44,7 @@ function checkFile({ distPath, mustInclude = [], sourceArtifact }) {
     return;
   }
 
-  if (mustInclude.length === 0) {
+  if (mustInclude.length === 0 && mustExclude.length === 0) {
     return;
   }
 
@@ -47,6 +52,12 @@ function checkFile({ distPath, mustInclude = [], sourceArtifact }) {
   for (const snippet of mustInclude) {
     if (!content.includes(snippet)) {
       problems.push(`Expected ${distPath} to include "${snippet}".`);
+    }
+  }
+
+  for (const snippet of mustExclude) {
+    if (content.includes(snippet)) {
+      problems.push(`Expected ${distPath} not to include "${snippet}".`);
     }
   }
 }

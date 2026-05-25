@@ -43,7 +43,7 @@ This repository contains the RustUse docs site for `rustuse.org`. It combines hu
     <td width="33%" valign="top">
       <strong>Refresh LLM inventory</strong><br>
       <code>npm run generate:llms</code><br>
-      Keeps <code>public/llms.txt</code> aligned with sibling RustUse workspaces.
+      Keeps root, full, and per-set LLM files aligned with sibling RustUse workspaces.
     </td>
   </tr>
 </table>
@@ -57,7 +57,7 @@ RustUse Docs is the public docs site, not the source workspace for every Rust cr
 | Human docs             | `src/content/docs/` | Guides, onboarding, set overviews, and contributor-facing content maintained in this repository |
 | Generated API docs     | `public/api/`       | Rustdoc HTML copied in from configured workspaces and treated as build output                   |
 | Crate catalog metadata | `src/data/`         | Generated crate listing plus site helpers for publication status, links, and routes             |
-| LLM inventory          | `public/llms.txt`   | Generated set and crate link inventory for LLM consumers                                        |
+| LLM inventory          | `public/llms*.txt`  | Generated root, full, and per-set link inventories for LLM consumers                            |
 
 | If you need to...                         | Start here                    |
 | ----------------------------------------- | ----------------------------- |
@@ -79,7 +79,7 @@ RustUse separates authored documentation from generated API output on purpose.
 | Human docs             | `src/content/docs/` | This repository                                                                      |
 | Generated API docs     | `public/api/`       | Generated `docs/rustdoc-sources.json`, derived by `npm run sync:crate-surface`       |
 | Crate catalog metadata | `src/data/`         | `rustuse` features, set workspace Cargo metadata, and live crates.io package records |
-| LLM inventory          | `public/llms.txt`   | Sibling `use-*` workspaces discovered by `npm run generate:llms`                     |
+| LLM inventory          | `public/llms*.txt`  | Sibling `use-*` workspaces discovered by `npm run generate:llms`                     |
 
 > [!NOTE]
 > `public/api/` is generated output. Expect it to be replaced whenever `npm run build:api` runs.
@@ -97,7 +97,7 @@ Build path at a glance:
 
 `rustuse` features + set workspaces -> `scripts/sync-crate-surface.mjs` -> generated catalog and Rustdoc inputs -> `scripts/build-rustdocs.mjs` -> `public/api/` -> `RustUse docs site` -> `rustuse.org`
 
-Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> generated regions in `public/llms.txt` -> `rustuse.org/llms.txt`
+Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and per-set LLM text files in `public/` -> `rustuse.org/llms.txt`
 
 | Capability            | How it works                                                                                  | Where to look                                                                |
 | --------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -106,7 +106,7 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> generated regio
 | Surface sync          | A sync script derives sets, crates, generated pages, catalog data, and Rustdoc source inputs  | `scripts/sync-crate-surface.mjs`                                             |
 | API docs generation   | A build script reads generated Rustdoc sources and copies output into `public/api/`           | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                    |
 | Public crate metadata | Crate metadata is generated, then exposed through small runtime and TypeScript helper modules | `src/data/catalog.generated.js`, `src/data/catalog.js`, `src/data/crates.ts` |
-| LLM inventory         | A generator replaces only marked set and crate regions in `public/llms.txt`                   | `scripts/generate-llms-txt.mjs`, `public/llms.txt`                           |
+| LLM inventory         | A generator renders compact root, expanded full, and per-set LLM text files                   | `scripts/generate-llms-txt.mjs`, `public/llms.txt`, `public/llms-full.txt`   |
 
 ## Project structure
 
@@ -117,6 +117,7 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> generated regio
 ├── public/
 │   ├── CNAME
 │   ├── llms.txt
+│   ├── llms-full.txt
 │   └── api/
 ├── scripts/
 │   ├── build-rustdocs.mjs
@@ -137,9 +138,12 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> generated regio
 | -------------------------------- | -------------------------------------------------------------------------------- |
 | `docs/rustdoc-sources.json`      | Generated Rustdoc source list consumed by `npm run build:api`                    |
 | `public/api/`                    | Generated Rustdoc bundle output and published crate entry routes                 |
-| `public/llms.txt`                | Hand-authored LLM entrypoint with generated RustUse set and crate link regions   |
+| `public/llms.txt`                | Compact LLM routing map with generated RustUse set links only                    |
+| `public/llms-full.txt`           | Expanded LLM context with generated RustUse set and crate links                  |
+| `public/{set}/llms*.txt`         | Generated canonical per-set LLM routing and full context files                   |
+| `public/sets/{set}/llms*.txt`    | Generated per-set aliases with the same content as the canonical short routes    |
 | `scripts/sync-crate-surface.mjs` | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
-| `scripts/generate-llms-txt.mjs`  | Updates `public/llms.txt` from sibling RustUse set workspaces                    |
+| `scripts/generate-llms-txt.mjs`  | Renders split LLM context files from sibling RustUse set workspaces              |
 | `scripts/build-rustdocs.mjs`     | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
 | `src/content/docs/`              | Human-authored pages for the docs site                                           |
 | `src/data/catalog.generated.js`  | Generated public crate catalog data                                              |
@@ -176,7 +180,7 @@ npm run dev
 | `npm install`            | Installs site dependencies and applies the local Git hooks path      |
 | `npm run dev:doctor`     | Checks Node, npm, Rust, ports, and expected local workspace wiring   |
 | `npm run dev`            | Builds Rustdocs first, then starts the local docs site               |
-| `npm run generate:llms`  | Updates generated RustUse set and crate regions in `public/llms.txt` |
+| `npm run generate:llms`  | Updates generated root, full, and per-set LLM context files          |
 | `npm run build:api`      | Builds and copies configured Rustdocs into `public/api/`             |
 | `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`      |
 | `npm run preview`        | Serves the production build locally                                  |
@@ -282,7 +286,14 @@ Keep the source inputs aligned with:
 
 ## LLM inventory
 
-The public `llms.txt` file is hand-authored outside generated regions and generated inside these marked regions:
+The public LLM context is split by detail level:
+
+- `public/llms.txt` is the compact root routing map. It includes primary links, workspace Rustdoc patterns, and generated RustUse sets only.
+- `public/llms-full.txt` is the expanded root context. It includes the same shared sections plus generated RustUse sets and generated RustUse crates.
+- `public/{set}/llms.txt` and `public/{set}/llms-full.txt` are generated canonical per-set files.
+- `public/sets/{set}/llms.txt` and `public/sets/{set}/llms-full.txt` are generated aliases with the exact same content as the canonical short set routes.
+
+The generator preserves these marked regions in the generated files:
 
 ```markdown
 <!-- BEGIN GENERATED RUSTUSE SETS -->
@@ -292,9 +303,9 @@ The public `llms.txt` file is hand-authored outside generated regions and genera
 <!-- END GENERATED RUSTUSE CRATES -->
 ```
 
-Run `npm run generate:llms` after adding, removing, or renaming a sibling RustUse set or crate workspace. The generator scans sibling `use-*` directories with root `Cargo.toml` files, prefers Cargo metadata for package names, and updates only the marked regions.
+Run `npm run generate:llms` after adding, removing, or renaming a sibling RustUse set or crate workspace. The generator scans sibling `use-*` directories with root `Cargo.toml` files, prefers Cargo metadata for package names, and renders every expected LLM context file.
 
-CI runs `npm run check:llms` and fails when the committed `public/llms.txt` is stale. Make manual edits outside the generated markers.
+CI runs `npm run check:llms` and fails when any committed LLM context file is stale. The root `llms.txt` intentionally omits the generated crate block; use `llms-full.txt` when crate-level context is needed.
 
 ## Deployment
 
@@ -357,7 +368,7 @@ Release Please is bootstrapped from the repository's current public baseline com
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `/api/workspaces/use-math/` returns the site 404 page | The dev server started before generated API routes existed or before config rewrites loaded | Restart `npm run dev`                                                                  |
 | API docs are missing locally                          | Rustdocs have not been generated yet                                                        | Run `npm run build:api`                                                                |
-| `llms.txt` freshness fails                            | Generated set or crate links are stale                                                      | Run `npm run generate:llms`                                                            |
+| LLM context freshness fails                           | Generated root, full, or per-set LLM files are stale                                        | Run `npm run generate:llms`                                                            |
 | CI cannot find the local sibling checkout             | Expected in CI                                                                              | Ensure the `repo` URL exists in `docs/rustdoc-sources.json` so the script can clone it |
 | External crate links do not render                    | Crate status is still scaffolded                                                            | Update `src/data/crates.ts` when the crate is published                                |
 

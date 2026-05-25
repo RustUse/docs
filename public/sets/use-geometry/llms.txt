@@ -1,0 +1,103 @@
+# use-geometry
+
+RustUse geometry utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-geometry/
+- Set overview alias: https://rustuse.org/sets/use-geometry/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-geometry/
+- Repository: https://github.com/RustUse/use-geometry
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-geometry workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-affine](https://rustuse.org/use-geometry/use-affine/) - child crate of use-geometry
+- [use-angle](https://rustuse.org/use-geometry/use-angle/) - child crate of use-geometry
+- [use-archimedean](https://rustuse.org/use-geometry/use-archimedean/) - child crate of use-geometry
+- [use-bezier](https://rustuse.org/use-geometry/use-bezier/) - child crate of use-geometry
+- [use-bounds](https://rustuse.org/use-geometry/use-bounds/) - child crate of use-geometry
+- [use-catalan-solid](https://rustuse.org/use-geometry/use-catalan-solid/) - child crate of use-geometry
+- [use-cell](https://rustuse.org/use-geometry/use-cell/) - child crate of use-geometry
+- [use-circle](https://rustuse.org/use-geometry/use-circle/) - child crate of use-geometry
+- [use-configuration](https://rustuse.org/use-geometry/use-configuration/) - child crate of use-geometry
+- [use-congruence](https://rustuse.org/use-geometry/use-congruence/) - child crate of use-geometry
+- [use-conic](https://rustuse.org/use-geometry/use-conic/) - child crate of use-geometry
+- [use-containment](https://rustuse.org/use-geometry/use-containment/) - child crate of use-geometry
+- [use-coordinate](https://rustuse.org/use-geometry/use-coordinate/) - child crate of use-geometry
+- [use-coxeter](https://rustuse.org/use-geometry/use-coxeter/) - child crate of use-geometry
+- [use-crease](https://rustuse.org/use-geometry/use-crease/) - child crate of use-geometry
+- [use-curve](https://rustuse.org/use-geometry/use-curve/) - child crate of use-geometry
+- [use-delaunay](https://rustuse.org/use-geometry/use-delaunay/) - child crate of use-geometry
+- [use-dihedral](https://rustuse.org/use-geometry/use-dihedral/) - child crate of use-geometry
+- [use-dimension](https://rustuse.org/use-geometry/use-dimension/) - child crate of use-geometry
+- [use-distance](https://rustuse.org/use-geometry/use-distance/) - child crate of use-geometry
+- [use-duality](https://rustuse.org/use-geometry/use-duality/) - child crate of use-geometry
+- [use-face](https://rustuse.org/use-geometry/use-face/) - child crate of use-geometry
+- [use-folding](https://rustuse.org/use-geometry/use-folding/) - child crate of use-geometry
+- [use-geometric-complex](https://rustuse.org/use-geometry/use-geometric-complex/) - child crate of use-geometry
+- [use-geometry](https://rustuse.org/use-geometry/) - facade set
+- [use-hull](https://rustuse.org/use-geometry/use-hull/) - child crate of use-geometry
+- [use-hyperplane](https://rustuse.org/use-geometry/use-hyperplane/) - child crate of use-geometry
+- [use-hypersphere](https://rustuse.org/use-geometry/use-hypersphere/) - child crate of use-geometry
+- [use-incidence](https://rustuse.org/use-geometry/use-incidence/) - child crate of use-geometry
+- [use-intersection](https://rustuse.org/use-geometry/use-intersection/) - child crate of use-geometry
+- [use-inversion](https://rustuse.org/use-geometry/use-inversion/) - child crate of use-geometry
+- [use-johnson-solid](https://rustuse.org/use-geometry/use-johnson-solid/) - child crate of use-geometry
+- [use-line](https://rustuse.org/use-geometry/use-line/) - child crate of use-geometry
+- [use-linkage](https://rustuse.org/use-geometry/use-linkage/) - child crate of use-geometry
+- [use-manifold](https://rustuse.org/use-geometry/use-manifold/) - child crate of use-geometry
+- [use-mesh](https://rustuse.org/use-geometry/use-mesh/) - child crate of use-geometry
+- [use-orientation](https://rustuse.org/use-geometry/use-orientation/) - child crate of use-geometry
+- [use-origami](https://rustuse.org/use-geometry/use-origami/) - child crate of use-geometry
+- [use-orthotope](https://rustuse.org/use-geometry/use-orthotope/) - child crate of use-geometry
+- [use-plane](https://rustuse.org/use-geometry/use-plane/) - child crate of use-geometry
+- [use-point](https://rustuse.org/use-geometry/use-point/) - child crate of use-geometry
+- [use-polygon](https://rustuse.org/use-geometry/use-polygon/) - child crate of use-geometry
+- [use-polyhedral-net](https://rustuse.org/use-geometry/use-polyhedral-net/) - child crate of use-geometry
+- [use-polyhedron](https://rustuse.org/use-geometry/use-polyhedron/) - child crate of use-geometry
+- [use-polyline](https://rustuse.org/use-geometry/use-polyline/) - child crate of use-geometry
+- [use-polytope](https://rustuse.org/use-geometry/use-polytope/) - child crate of use-geometry
+- [use-projection](https://rustuse.org/use-geometry/use-projection/) - child crate of use-geometry
+- [use-projective](https://rustuse.org/use-geometry/use-projective/) - child crate of use-geometry
+- [use-ray](https://rustuse.org/use-geometry/use-ray/) - child crate of use-geometry
+- [use-rectangle](https://rustuse.org/use-geometry/use-rectangle/) - child crate of use-geometry
+- [use-reflection](https://rustuse.org/use-geometry/use-reflection/) - child crate of use-geometry
+- [use-regular-polytope](https://rustuse.org/use-geometry/use-regular-polytope/) - child crate of use-geometry
+- [use-rigid-folding](https://rustuse.org/use-geometry/use-rigid-folding/) - child crate of use-geometry
+- [use-schlafli](https://rustuse.org/use-geometry/use-schlafli/) - child crate of use-geometry
+- [use-segment](https://rustuse.org/use-geometry/use-segment/) - child crate of use-geometry
+- [use-similarity](https://rustuse.org/use-geometry/use-similarity/) - child crate of use-geometry
+- [use-simplex](https://rustuse.org/use-geometry/use-simplex/) - child crate of use-geometry
+- [use-sphere](https://rustuse.org/use-geometry/use-sphere/) - child crate of use-geometry
+- [use-spline](https://rustuse.org/use-geometry/use-spline/) - child crate of use-geometry
+- [use-surface](https://rustuse.org/use-geometry/use-surface/) - child crate of use-geometry
+- [use-tessellation](https://rustuse.org/use-geometry/use-tessellation/) - child crate of use-geometry
+- [use-torus](https://rustuse.org/use-geometry/use-torus/) - child crate of use-geometry
+- [use-transform](https://rustuse.org/use-geometry/use-transform/) - child crate of use-geometry
+- [use-triangle](https://rustuse.org/use-geometry/use-triangle/) - child crate of use-geometry
+- [use-triangulation](https://rustuse.org/use-geometry/use-triangulation/) - child crate of use-geometry
+- [use-unfolding](https://rustuse.org/use-geometry/use-unfolding/) - child crate of use-geometry
+- [use-uniform-polytope](https://rustuse.org/use-geometry/use-uniform-polytope/) - child crate of use-geometry
+- [use-voronoi](https://rustuse.org/use-geometry/use-voronoi/) - child crate of use-geometry
+- [use-wythoff](https://rustuse.org/use-geometry/use-wythoff/) - child crate of use-geometry
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-geometry LLM context](https://rustuse.org/use-geometry/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-geometry/llms-full.txt` when fuller set-level context is needed.

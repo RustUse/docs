@@ -1,0 +1,45 @@
+# use-python
+
+RustUse python utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-python/
+- Set overview alias: https://rustuse.org/sets/use-python/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-python/
+- Repository: https://github.com/RustUse/use-python
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-python workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-pip](https://rustuse.org/use-python/use-pip/) - child crate of use-python
+- [use-pyproject](https://rustuse.org/use-python/use-pyproject/) - child crate of use-python
+- [use-pytest](https://rustuse.org/use-python/use-pytest/) - child crate of use-python
+- [use-python](https://rustuse.org/use-python/) - facade set
+- [use-python-identifier](https://rustuse.org/use-python/use-python-identifier/) - child crate of use-python
+- [use-python-keyword](https://rustuse.org/use-python/use-python-keyword/) - child crate of use-python
+- [use-python-module](https://rustuse.org/use-python/use-python-module/) - child crate of use-python
+- [use-python-value](https://rustuse.org/use-python/use-python-value/) - child crate of use-python
+- [use-python-version](https://rustuse.org/use-python/use-python-version/) - child crate of use-python
+- [use-uv](https://rustuse.org/use-python/use-uv/) - child crate of use-python
+- [use-venv](https://rustuse.org/use-python/use-venv/) - child crate of use-python
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-python LLM context](https://rustuse.org/use-python/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-python/llms-full.txt` when fuller set-level context is needed.

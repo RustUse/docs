@@ -33,7 +33,7 @@ expectations.
 - Human-authored docs live in `src/content/docs/`.
 - Generated RustDocs live in `public/api/` and are treated as build output.
 - Rustdoc source definitions are generated into `docs/rustdoc-sources.json`.
-- RustUse set and crate links inside `public/llms.txt` generated regions are generated from sibling `use-*` workspaces.
+- RustUse root, full, and per-set LLM context files under `public/` are generated from sibling `use-*` workspaces.
 
 Keep curated docs and generated Rustdocs separate. Do not copy generated Rustdoc
 HTML into `src/content/docs/`.
@@ -64,7 +64,7 @@ clone the source workspace and run `cargo doc` from scratch.
 - Set workspace Cargo metadata controls crate names, descriptions, keywords, and categories.
 - Live crates.io package records control publication status and external package links.
 - `scripts/sync-crate-surface.mjs` generates crate catalog data, overview pages, and `docs/rustdoc-sources.json`.
-- `scripts/generate-llms-txt.mjs` updates the generated RustUse inventory regions in `public/llms.txt`.
+- `scripts/generate-llms-txt.mjs` renders the generated RustUse root, full, and per-set LLM context files in `public/`.
 - `scripts/build-rustdocs.mjs` consumes generated Rustdoc sources and publishes stable entry roots under `/api/`.
 
 ## Publication dry-run
@@ -122,15 +122,19 @@ This repository does not ship a project database, shared DB container flow,
 `.env` bootstrap, or Ollama setup. Keep contributor setup focused on the docs
 site, the Rust toolchain, and the configured Rustdoc source workspace.
 
-## `llms.txt` maintenance
+## LLM context maintenance
 
-`public/llms.txt` keeps its title, primary links, and Rustdoc URL patterns as
-hand-authored content. The RustUse set and crate lists are generated between
-the `BEGIN GENERATED RUSTUSE ...` and `END GENERATED RUSTUSE ...` markers.
+`public/llms.txt` is the compact root routing map. It includes primary links,
+workspace Rustdoc URL patterns, and generated RustUse sets only.
+`public/llms-full.txt` carries the expanded root context with generated sets and
+crates. Per-set files are generated at both `public/{set}/llms*.txt` and
+`public/sets/{set}/llms*.txt`, with aliases serving the same generated content
+as the canonical short routes.
 
 Run `npm run generate:llms` after adding, removing, or renaming a sibling
 RustUse set or crate workspace. CI runs `npm run check:llms` and fails when the
-generated regions are stale. Keep manual edits outside the generated markers.
+generated LLM context files are stale. Use `llms-full.txt` when crate-level
+context is needed from the root.
 
 ## Styling layout
 
@@ -161,7 +165,7 @@ generated regions are stale. Keep manual edits outside the generated markers.
 - Add or update the crate in the owning set workspace.
 - Add or update the curated docs page under `src/content/docs/`.
 - Publish the crate when it is ready and verify its crates.io repository URL matches the owning RustUse repository.
-- Run `npm run sync:crate-surface` and `npm run generate:llms`, then `npm run build`, and verify the generated catalog, `llms.txt`, and stable RustDocs route resolve without a 404.
+- Run `npm run sync:crate-surface` and `npm run generate:llms`, then `npm run build`, and verify the generated catalog, root and full LLM files, and stable RustDocs route resolve without a 404.
 
 ## Pull requests
 

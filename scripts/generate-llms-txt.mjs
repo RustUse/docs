@@ -1,11 +1,18 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const scriptPath = fileURLToPath(import.meta.url);
 const docsRoot = path.resolve(path.dirname(scriptPath), '..');
+const publicRoot = path.join(docsRoot, 'public');
 const reposRoot = process.env.RUSTUSE_REPOS_ROOT
   ? path.resolve(process.env.RUSTUSE_REPOS_ROOT)
   : path.resolve(docsRoot, '..');
@@ -13,6 +20,7 @@ const checkMode = process.argv.includes('--check');
 const allowMissingWorkspaces = process.argv.includes(
   '--allow-missing-workspaces',
 );
+const siteOrigin = 'https://rustuse.org';
 
 const generatedRegions = {
   crates: {
@@ -27,6 +35,9 @@ const generatedRegions = {
   },
 };
 
+const llmsRootPath = path.join(publicRoot, 'llms.txt');
+const llmsFullPath = path.join(publicRoot, 'llms-full.txt');
+
 function fail(message) {
   console.error(message);
   process.exit(1);
@@ -38,6 +49,10 @@ function normalizeNewlines(content) {
 
 function normalizePath(filePath) {
   return filePath.replace(/\\/g, '/');
+}
+
+function relativeOutputPath(filePath) {
+  return normalizePath(path.relative(docsRoot, filePath));
 }
 
 function isRustUseName(name) {
@@ -66,33 +81,6 @@ function uniqueSortedCrates(crates) {
       ? compareNames(left.set, right.set)
       : nameComparison;
   });
-}
-
-function llmsPathCandidates() {
-  const candidates = [
-    path.join(docsRoot, 'public', 'llms.txt'),
-    path.join(docsRoot, 'docs', 'public', 'llms.txt'),
-    path.join(docsRoot, 'llms.txt'),
-    path.resolve(process.cwd(), 'public', 'llms.txt'),
-    path.resolve(process.cwd(), 'docs', 'public', 'llms.txt'),
-    path.resolve(process.cwd(), 'llms.txt'),
-  ];
-
-  return [...new Set(candidates)];
-}
-
-function findLlmsPath() {
-  const existingPath = llmsPathCandidates().find((candidatePath) =>
-    existsSync(candidatePath),
-  );
-
-  if (!existingPath) {
-    fail(
-      `Unable to locate an existing llms.txt. Checked: ${llmsPathCandidates().join(', ')}`,
-    );
-  }
-
-  return existingPath;
 }
 
 function discoverSetWorkspaces() {
@@ -294,11 +282,15 @@ function buildInventoryFromWorkspaces() {
   };
 }
 
-function extractSectionText(content, heading) {
+function extractSectionText(content, heading, { required = true } = {}) {
   const headingIndex = content.indexOf(heading);
 
   if (headingIndex === -1) {
-    fail(`Missing required llms.txt section heading: ${heading}`);
+    if (required) {
+      fail(`Missing required LLM context section heading: ${heading}`);
+    }
+
+    return undefined;
   }
 
   const afterHeadingIndex = headingIndex + heading.length;
@@ -311,7 +303,7 @@ function extractSectionText(content, heading) {
   return content.slice(afterHeadingIndex, sectionEnd);
 }
 
-function extractGeneratedRegionText(content, region) {
+function extractGeneratedRegionText(content, region, { required = true } = {}) {
   const beginIndex = content.indexOf(region.begin);
   const endIndex = content.indexOf(region.end);
 
@@ -329,14 +321,25 @@ function extractGeneratedRegionText(content, region) {
     return content.slice(beginIndex + region.begin.length, endIndex);
   }
 
-  return extractSectionText(content, region.heading);
+  return extractSectionText(content, region.heading, { required });
 }
 
-function parseExistingSetLinks(content) {
-  const regionText = extractGeneratedRegionText(content, generatedRegions.sets);
+function parseExistingSetLinks(content, { required = true } = {}) {
+  const regionText = extractGeneratedRegionText(
+    content,
+    generatedRegions.sets,
+    {
+      required,
+    },
+  );
+
+  if (regionText === undefined) {
+    return [];
+  }
+
   const setNames = [];
   const setLinkPattern =
-    /^- \[(use-[a-z0-9][a-z0-9-]*)\]\(https:\/\/rustuse\.org\/(use-[a-z0-9][a-z0-9-]*)\/\)$/gm;
+    /^- \[(use-[a-z0-9][a-z0-9-]*)\]\(https:\/\/rustuse\.org\/(use-[a-z0-9][a-z0-9-]*)\/\)(?:\s+- .*)?$/gm;
 
   for (const match of regionText.matchAll(setLinkPattern)) {
     if (match[1] === match[2]) {
@@ -347,14 +350,20 @@ function parseExistingSetLinks(content) {
   return uniqueSortedNames(setNames);
 }
 
-function parseExistingCrateLinks(content) {
+function parseExistingCrateLinks(content, { required = true } = {}) {
   const regionText = extractGeneratedRegionText(
     content,
     generatedRegions.crates,
+    { required },
   );
+
+  if (regionText === undefined) {
+    return [];
+  }
+
   const crateLinks = [];
   const crateLinkPattern =
-    /^- \[(use-[a-z0-9][a-z0-9-]*)\]\(https:\/\/rustuse\.org\/(use-[a-z0-9][a-z0-9-]*)(?:\/(use-[a-z0-9][a-z0-9-]*))?\/\)$/gm;
+    /^- \[(use-[a-z0-9][a-z0-9-]*)\]\(https:\/\/rustuse\.org\/(use-[a-z0-9][a-z0-9-]*)(?:\/(use-[a-z0-9][a-z0-9-]*))?\/\)(?:\s+- .*)?$/gm;
 
   for (const match of regionText.matchAll(crateLinkPattern)) {
     const crateName = match[3] ?? match[2];
@@ -367,11 +376,28 @@ function parseExistingCrateLinks(content) {
   return uniqueSortedCrates(crateLinks);
 }
 
-function parseExistingInventory(content) {
-  return {
-    crates: parseExistingCrateLinks(content),
-    sets: parseExistingSetLinks(content),
-  };
+function readExistingContent(filePath) {
+  return existsSync(filePath)
+    ? normalizeNewlines(readFileSync(filePath, 'utf8'))
+    : undefined;
+}
+
+function parseExistingInventoryForMissingWorkspaces() {
+  const rootContent = readExistingContent(llmsRootPath);
+  const fullContent = readExistingContent(llmsFullPath);
+
+  if (!rootContent) {
+    fail(
+      `Missing llms.txt at ${llmsRootPath}. Run npm run generate:llms first.`,
+    );
+  }
+
+  const sets = parseExistingSetLinks(rootContent);
+  const crates = fullContent
+    ? parseExistingCrateLinks(fullContent)
+    : parseExistingCrateLinks(rootContent, { required: false });
+
+  return { crates, sets };
 }
 
 function preserveMissingWorkspaceEntries(inventory, existingInventory) {
@@ -385,7 +411,7 @@ function preserveMissingWorkspaceEntries(inventory, existingInventory) {
   }
 
   console.warn(
-    `Preserving ${missingSetNames.length} existing llms.txt set(s) because matching local workspaces are unavailable: ${missingSetNames.join(', ')}`,
+    `Preserving ${missingSetNames.length} existing LLM set(s) because matching local workspaces are unavailable: ${missingSetNames.join(', ')}`,
   );
 
   const missingSetNameSet = new Set(missingSetNames);
@@ -401,21 +427,51 @@ function preserveMissingWorkspaceEntries(inventory, existingInventory) {
   };
 }
 
+function siteUrl(pathname) {
+  return `${siteOrigin}${pathname}`;
+}
+
+function setUrl(setName) {
+  return siteUrl(`/${setName}/`);
+}
+
+function setAliasUrl(setName) {
+  return siteUrl(`/sets/${setName}/`);
+}
+
+function crateUrl(crateEntry) {
+  return crateEntry.name === crateEntry.set
+    ? setUrl(crateEntry.set)
+    : siteUrl(`/${crateEntry.set}/${crateEntry.name}/`);
+}
+
+function workspaceRustdocsUrl(setName) {
+  return siteUrl(`/api/workspaces/${setName}/`);
+}
+
+function formatSetLabel(setName) {
+  return setName.replace(/^use-/, '').replace(/-/g, ' ');
+}
+
+function cratesForSet(inventory, setName) {
+  return inventory.crates.filter((crateEntry) => crateEntry.set === setName);
+}
+
 function renderSetList(setNames) {
   return setNames
-    .map((setName) => `- [${setName}](https://rustuse.org/${setName}/)`)
+    .map((setName) => `- [${setName}](${setUrl(setName)})`)
     .join('\n');
 }
 
 function renderCrateList(crates) {
   return crates
     .map((crateEntry) => {
-      const url =
+      const detail =
         crateEntry.name === crateEntry.set
-          ? `https://rustuse.org/${crateEntry.set}/`
-          : `https://rustuse.org/${crateEntry.set}/${crateEntry.name}/`;
+          ? 'facade set'
+          : `child crate of ${crateEntry.set}`;
 
-      return `- [${crateEntry.name}](${url})`;
+      return `- [${crateEntry.name}](${crateUrl(crateEntry)}) - ${detail}`;
     })
     .join('\n');
 }
@@ -424,103 +480,216 @@ function generatedBlock(region, body) {
   return `${region.begin}\n${body}\n${region.end}`;
 }
 
-function replaceMarkedRegion(content, region, body) {
-  const beginIndex = content.indexOf(region.begin);
-  const endIndex = content.indexOf(region.end);
+function renderGeneratedSets(setNames) {
+  return generatedBlock(generatedRegions.sets, renderSetList(setNames));
+}
 
-  if ((beginIndex === -1) !== (endIndex === -1)) {
-    fail(
-      `Incomplete generated region markers for ${region.heading}. Expected both ${region.begin} and ${region.end}.`,
+function renderGeneratedCrates(crates) {
+  return generatedBlock(generatedRegions.crates, renderCrateList(crates));
+}
+
+function renderRustUseHeading() {
+  return `# RustUse\n\nComposable sets of primitive Rust utility crates for fellow crustaceans.`;
+}
+
+function renderPrimaryLinks() {
+  return `## Primary links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Set docs overview: https://rustuse.org/sets/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
+}
+
+function renderWorkspaceRustdocsPatterns() {
+  return `## Workspace Rustdocs\n\nWorkspace Rustdocs follow these patterns:\n\n- https://rustuse.org/api/workspaces/{set}/\n- https://rustuse.org/api/workspaces/{set}/{crate_module}/index.html\n\nExample:\n\n- https://rustuse.org/api/workspaces/use-math/\n- https://rustuse.org/api/workspaces/use-math/use_combinatorics/index.html`;
+}
+
+function renderCommonRustUseContext() {
+  return `${renderRustUseHeading()}\n\n${renderPrimaryLinks()}\n\n${renderWorkspaceRustdocsPatterns()}`;
+}
+
+function renderLlmsRootIndex(inventory) {
+  return normalizeNewlines(`${renderCommonRustUseContext()}
+
+## RustUse sets
+
+${renderGeneratedSets(inventory.sets)}
+
+## Full context
+
+- [Full RustUse documentation bundle including all available crates](https://rustuse.org/llms-full.txt)
+
+The root \`llms.txt\` intentionally lists only primary links, workspace Rustdoc patterns, and facade sets. Use \`llms-full.txt\` when crate-level context is needed.
+`);
+}
+
+function renderLlmsFullIndex(inventory) {
+  return normalizeNewlines(`${renderCommonRustUseContext()}
+
+## RustUse sets
+
+${renderGeneratedSets(inventory.sets)}
+
+## RustUse crates
+
+All known facade crates and child crates generated from the RustUse workspace/site registry.
+
+${renderGeneratedCrates(inventory.crates)}
+`);
+}
+
+function renderSetLinks(setName) {
+  return `## Set links\n\n- Canonical set page: ${setUrl(setName)}\n- Set overview alias: ${setAliasUrl(setName)}\n- Workspace Rustdocs: ${workspaceRustdocsUrl(setName)}\n- Repository: https://github.com/RustUse/${setName}\n- Root LLM routing map: https://rustuse.org/llms.txt\n- Full RustUse context: https://rustuse.org/llms-full.txt`;
+}
+
+function renderParentRustUseLinks() {
+  return `## Parent RustUse links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Set docs overview: https://rustuse.org/sets/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
+}
+
+function renderSetLlmsIndex(setName, inventory) {
+  const setCrates = cratesForSet(inventory, setName);
+
+  return normalizeNewlines(`# ${setName}
+
+RustUse ${formatSetLabel(setName)} utilities and facade set.
+
+${renderSetLinks(setName)}
+
+${renderParentRustUseLinks()}
+
+## Set crates
+
+Current facade and child crates generated from the ${setName} workspace inventory.
+
+${renderGeneratedCrates(setCrates)}
+
+## Full set context
+
+- [Full ${setName} LLM context](https://rustuse.org/${setName}/llms-full.txt)
+
+The set \`llms.txt\` keeps routing, workspace Rustdocs, and crate links for this set. Use \`${setName}/llms-full.txt\` when fuller set-level context is needed.
+`);
+}
+
+function renderSetLlmsFull(setName, inventory) {
+  const setCrates = cratesForSet(inventory, setName);
+
+  return normalizeNewlines(`# ${setName}
+
+Expanded LLM context for the RustUse ${formatSetLabel(setName)} set.
+
+${renderSetLinks(setName)}
+
+${renderParentRustUseLinks()}
+
+## Workspace Rustdocs
+
+- ${workspaceRustdocsUrl(setName)}
+- ${siteUrl(`/api/workspaces/${setName}/{crate_module}/index.html`)}
+
+## Crate-level context
+
+All known facade and child crates generated from the ${setName} workspace inventory.
+
+${renderGeneratedCrates(setCrates)}
+
+## Routing notes
+
+The canonical short routes are ${siteUrl(`/${setName}/llms.txt`)} and ${siteUrl(`/${setName}/llms-full.txt`)}. The /sets/${setName}/ aliases serve this exact generated content so the two paths cannot drift.
+`);
+}
+
+function buildLlmsOutputs(inventory) {
+  const outputs = [
+    { content: renderLlmsRootIndex(inventory), filePath: llmsRootPath },
+    { content: renderLlmsFullIndex(inventory), filePath: llmsFullPath },
+  ];
+
+  for (const setName of inventory.sets) {
+    const setIndex = renderSetLlmsIndex(setName, inventory);
+    const setFull = renderSetLlmsFull(setName, inventory);
+
+    outputs.push(
+      {
+        content: setIndex,
+        filePath: path.join(publicRoot, setName, 'llms.txt'),
+      },
+      {
+        content: setFull,
+        filePath: path.join(publicRoot, setName, 'llms-full.txt'),
+      },
+      {
+        content: setIndex,
+        filePath: path.join(publicRoot, 'sets', setName, 'llms.txt'),
+      },
+      {
+        content: setFull,
+        filePath: path.join(publicRoot, 'sets', setName, 'llms-full.txt'),
+      },
     );
   }
 
-  if (beginIndex === -1) {
-    return undefined;
+  return outputs;
+}
+
+function changedOutputs(outputs) {
+  return outputs.filter((output) => {
+    const currentContent = readExistingContent(output.filePath);
+
+    return currentContent !== output.content;
+  });
+}
+
+function writeLlmsOutputs(outputs) {
+  const changed = changedOutputs(outputs);
+
+  for (const output of changed) {
+    mkdirSync(path.dirname(output.filePath), { recursive: true });
+    writeFileSync(output.filePath, output.content, 'utf8');
   }
 
-  if (beginIndex > endIndex) {
-    fail(`Generated region markers are out of order for ${region.heading}.`);
-  }
-
-  return `${content.slice(0, beginIndex)}${generatedBlock(region, body)}${content.slice(endIndex + region.end.length)}`;
+  return changed;
 }
 
-function replaceUnmarkedSection(content, region, body) {
-  const headingIndex = content.indexOf(region.heading);
-
-  if (headingIndex === -1) {
-    fail(`Missing required llms.txt section heading: ${region.heading}`);
-  }
-
-  const afterHeadingIndex = headingIndex + region.heading.length;
-  const rest = content.slice(afterHeadingIndex);
-  const nextHeadingMatch = /\n##\s+/.exec(rest);
-  const sectionEnd = nextHeadingMatch
-    ? afterHeadingIndex + nextHeadingMatch.index
-    : content.length;
-  const tail = content.slice(sectionEnd).replace(/^\n+/, '');
-
-  return `${content.slice(0, afterHeadingIndex)}\n\n${generatedBlock(region, body)}\n\n${tail}`;
-}
-
-function replaceGeneratedRegion(content, region, body) {
-  return (
-    replaceMarkedRegion(content, region, body) ??
-    replaceUnmarkedSection(content, region, body)
-  );
-}
-
-function renderLlmsContent(originalContent, inventory) {
-  let nextContent = normalizeNewlines(originalContent);
-
-  nextContent = replaceGeneratedRegion(
-    nextContent,
-    generatedRegions.sets,
-    renderSetList(inventory.sets),
-  );
-  nextContent = replaceGeneratedRegion(
-    nextContent,
-    generatedRegions.crates,
-    renderCrateList(inventory.crates),
-  );
-
-  return normalizeNewlines(nextContent);
-}
-
-const llmsPath = findLlmsPath();
-const originalContent = normalizeNewlines(readFileSync(llmsPath, 'utf8'));
 let inventory = buildInventoryFromWorkspaces();
 
 if (allowMissingWorkspaces) {
   inventory = preserveMissingWorkspaceEntries(
     inventory,
-    parseExistingInventory(originalContent),
+    parseExistingInventoryForMissingWorkspaces(),
   );
 }
 
-const nextContent = renderLlmsContent(originalContent, inventory);
+const llmsOutputs = buildLlmsOutputs(inventory);
+const staleOutputs = changedOutputs(llmsOutputs);
 
 if (checkMode) {
-  if (nextContent !== originalContent) {
+  if (staleOutputs.length > 0) {
     console.error(
-      `${path.relative(docsRoot, llmsPath)} is stale. Run npm run generate:llms from the docs repo and commit the updated file.`,
+      `${staleOutputs.length} LLM context file(s) are stale. Run npm run generate:llms from the docs repo and commit the updated files.`,
     );
+
+    for (const output of staleOutputs.slice(0, 20)) {
+      console.error(`- ${relativeOutputPath(output.filePath)}`);
+    }
+
+    if (staleOutputs.length > 20) {
+      console.error(`- ...and ${staleOutputs.length - 20} more`);
+    }
+
     process.exit(1);
   }
 
   console.log(
-    `llms.txt is current (${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `LLM context files are current (${llmsOutputs.length} files, ${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
   );
   process.exit(0);
 }
 
-if (nextContent !== originalContent) {
-  writeFileSync(llmsPath, nextContent, 'utf8');
+const writtenOutputs = writeLlmsOutputs(llmsOutputs);
+
+if (writtenOutputs.length > 0) {
   console.log(
-    `Updated ${path.relative(docsRoot, llmsPath)} (${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `Updated ${writtenOutputs.length} of ${llmsOutputs.length} LLM context file(s) (${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
   );
 } else {
   console.log(
-    `llms.txt is already current (${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `LLM context files are already current (${llmsOutputs.length} files, ${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
   );
 }

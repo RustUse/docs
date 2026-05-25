@@ -1,0 +1,43 @@
+# use-fs
+
+Expanded LLM context for the RustUse fs set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-fs/
+- Set overview alias: https://rustuse.org/sets/use-fs/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-fs/
+- Repository: https://github.com/RustUse/use-fs
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-fs/
+- https://rustuse.org/api/workspaces/use-fs/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-fs workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-dir](https://rustuse.org/use-fs/use-dir/) - child crate of use-fs
+- [use-extension](https://rustuse.org/use-fs/use-extension/) - child crate of use-fs
+- [use-file-name](https://rustuse.org/use-fs/use-file-name/) - child crate of use-fs
+- [use-file-stem](https://rustuse.org/use-fs/use-file-stem/) - child crate of use-fs
+- [use-fs](https://rustuse.org/use-fs/) - facade set
+- [use-path](https://rustuse.org/use-fs/use-path/) - child crate of use-fs
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-fs/llms.txt and https://rustuse.org/use-fs/llms-full.txt. The /sets/use-fs/ aliases serve this exact generated content so the two paths cannot drift.

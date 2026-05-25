@@ -1,0 +1,45 @@
+# use-optimization
+
+Expanded LLM context for the RustUse optimization set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-optimization/
+- Set overview alias: https://rustuse.org/sets/use-optimization/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-optimization/
+- Repository: https://github.com/RustUse/use-optimization
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-optimization/
+- https://rustuse.org/api/workspaces/use-optimization/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-optimization workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-grid-search](https://rustuse.org/use-optimization/use-grid-search/) - child crate of use-optimization
+- [use-local-search](https://rustuse.org/use-optimization/use-local-search/) - child crate of use-optimization
+- [use-loss](https://rustuse.org/use-optimization/use-loss/) - child crate of use-optimization
+- [use-objective](https://rustuse.org/use-optimization/use-objective/) - child crate of use-optimization
+- [use-optimization](https://rustuse.org/use-optimization/) - facade set
+- [use-optimization-constraint](https://rustuse.org/use-optimization/use-optimization-constraint/) - child crate of use-optimization
+- [use-score](https://rustuse.org/use-optimization/use-score/) - child crate of use-optimization
+- [use-search-space](https://rustuse.org/use-optimization/use-search-space/) - child crate of use-optimization
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-optimization/llms.txt and https://rustuse.org/use-optimization/llms-full.txt. The /sets/use-optimization/ aliases serve this exact generated content so the two paths cannot drift.

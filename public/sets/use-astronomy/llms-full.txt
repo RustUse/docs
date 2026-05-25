@@ -1,0 +1,50 @@
+# use-astronomy
+
+Expanded LLM context for the RustUse astronomy set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-astronomy/
+- Set overview alias: https://rustuse.org/sets/use-astronomy/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-astronomy/
+- Repository: https://github.com/RustUse/use-astronomy
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-astronomy/
+- https://rustuse.org/api/workspaces/use-astronomy/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-astronomy workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-astronomical-coordinate](https://rustuse.org/use-astronomy/use-astronomical-coordinate/) - child crate of use-astronomy
+- [use-astronomical-observation](https://rustuse.org/use-astronomy/use-astronomical-observation/) - child crate of use-astronomy
+- [use-astronomical-orbit](https://rustuse.org/use-astronomy/use-astronomical-orbit/) - child crate of use-astronomy
+- [use-astronomy](https://rustuse.org/use-astronomy/) - facade set
+- [use-catalog-object](https://rustuse.org/use-astronomy/use-catalog-object/) - child crate of use-astronomy
+- [use-celestial-body](https://rustuse.org/use-astronomy/use-celestial-body/) - child crate of use-astronomy
+- [use-constellation](https://rustuse.org/use-astronomy/use-constellation/) - child crate of use-astronomy
+- [use-epoch](https://rustuse.org/use-astronomy/use-epoch/) - child crate of use-astronomy
+- [use-magnitude](https://rustuse.org/use-astronomy/use-magnitude/) - child crate of use-astronomy
+- [use-moon](https://rustuse.org/use-astronomy/use-moon/) - child crate of use-astronomy
+- [use-orbital-element](https://rustuse.org/use-astronomy/use-orbital-element/) - child crate of use-astronomy
+- [use-planet](https://rustuse.org/use-astronomy/use-planet/) - child crate of use-astronomy
+- [use-star](https://rustuse.org/use-astronomy/use-star/) - child crate of use-astronomy
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-astronomy/llms.txt and https://rustuse.org/use-astronomy/llms-full.txt. The /sets/use-astronomy/ aliases serve this exact generated content so the two paths cannot drift.

@@ -1,0 +1,45 @@
+# use-stats
+
+Expanded LLM context for the RustUse stats set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-stats/
+- Set overview alias: https://rustuse.org/sets/use-stats/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-stats/
+- Repository: https://github.com/RustUse/use-stats
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-stats/
+- https://rustuse.org/api/workspaces/use-stats/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-stats workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-average](https://rustuse.org/use-stats/use-average/) - child crate of use-stats
+- [use-correlation](https://rustuse.org/use-stats/use-correlation/) - child crate of use-stats
+- [use-distribution](https://rustuse.org/use-stats/use-distribution/) - child crate of use-stats
+- [use-percentile](https://rustuse.org/use-stats/use-percentile/) - child crate of use-stats
+- [use-standard-deviation](https://rustuse.org/use-stats/use-standard-deviation/) - child crate of use-stats
+- [use-stats](https://rustuse.org/use-stats/) - facade set
+- [use-variance](https://rustuse.org/use-stats/use-variance/) - child crate of use-stats
+- [use-z-score](https://rustuse.org/use-stats/use-z-score/) - child crate of use-stats
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-stats/llms.txt and https://rustuse.org/use-stats/llms-full.txt. The /sets/use-stats/ aliases serve this exact generated content so the two paths cannot drift.

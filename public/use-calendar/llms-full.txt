@@ -1,0 +1,46 @@
+# use-calendar
+
+Expanded LLM context for the RustUse calendar set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-calendar/
+- Set overview alias: https://rustuse.org/sets/use-calendar/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-calendar/
+- Repository: https://github.com/RustUse/use-calendar
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-calendar/
+- https://rustuse.org/api/workspaces/use-calendar/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-calendar workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-business-day](https://rustuse.org/use-calendar/use-business-day/) - child crate of use-calendar
+- [use-calendar](https://rustuse.org/use-calendar/) - facade set
+- [use-date](https://rustuse.org/use-calendar/use-date/) - child crate of use-calendar
+- [use-date-range](https://rustuse.org/use-calendar/use-date-range/) - child crate of use-calendar
+- [use-month](https://rustuse.org/use-calendar/use-month/) - child crate of use-calendar
+- [use-quarter](https://rustuse.org/use-calendar/use-quarter/) - child crate of use-calendar
+- [use-recurrence](https://rustuse.org/use-calendar/use-recurrence/) - child crate of use-calendar
+- [use-weekday](https://rustuse.org/use-calendar/use-weekday/) - child crate of use-calendar
+- [use-year](https://rustuse.org/use-calendar/use-year/) - child crate of use-calendar
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-calendar/llms.txt and https://rustuse.org/use-calendar/llms-full.txt. The /sets/use-calendar/ aliases serve this exact generated content so the two paths cannot drift.

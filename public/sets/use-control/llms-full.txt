@@ -1,0 +1,45 @@
+# use-control
+
+Expanded LLM context for the RustUse control set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-control/
+- Set overview alias: https://rustuse.org/sets/use-control/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-control/
+- Repository: https://github.com/RustUse/use-control
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-control/
+- https://rustuse.org/api/workspaces/use-control/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-control workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-control](https://rustuse.org/use-control/) - facade set
+- [use-control-error](https://rustuse.org/use-control/use-control-error/) - child crate of use-control
+- [use-control-signal](https://rustuse.org/use-control/use-control-signal/) - child crate of use-control
+- [use-feedback](https://rustuse.org/use-control/use-feedback/) - child crate of use-control
+- [use-pid](https://rustuse.org/use-control/use-pid/) - child crate of use-control
+- [use-setpoint](https://rustuse.org/use-control/use-setpoint/) - child crate of use-control
+- [use-stability](https://rustuse.org/use-control/use-stability/) - child crate of use-control
+- [use-system-response](https://rustuse.org/use-control/use-system-response/) - child crate of use-control
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-control/llms.txt and https://rustuse.org/use-control/llms-full.txt. The /sets/use-control/ aliases serve this exact generated content so the two paths cannot drift.

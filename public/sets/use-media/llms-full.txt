@@ -1,0 +1,48 @@
+# use-media
+
+Expanded LLM context for the RustUse media set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-media/
+- Set overview alias: https://rustuse.org/sets/use-media/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-media/
+- Repository: https://github.com/RustUse/use-media
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-media/
+- https://rustuse.org/api/workspaces/use-media/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-media workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-aspect-ratio](https://rustuse.org/use-media/use-aspect-ratio/) - child crate of use-media
+- [use-bitrate](https://rustuse.org/use-media/use-bitrate/) - child crate of use-media
+- [use-dimensions](https://rustuse.org/use-media/use-dimensions/) - child crate of use-media
+- [use-frame-rate](https://rustuse.org/use-media/use-frame-rate/) - child crate of use-media
+- [use-image](https://rustuse.org/use-media/use-image/) - child crate of use-media
+- [use-media](https://rustuse.org/use-media/) - facade set
+- [use-media-duration](https://rustuse.org/use-media/use-media-duration/) - child crate of use-media
+- [use-media-timestamp](https://rustuse.org/use-media/use-media-timestamp/) - child crate of use-media
+- [use-media-type](https://rustuse.org/use-media/use-media-type/) - child crate of use-media
+- [use-resolution](https://rustuse.org/use-media/use-resolution/) - child crate of use-media
+- [use-svg](https://rustuse.org/use-media/use-svg/) - child crate of use-media
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-media/llms.txt and https://rustuse.org/use-media/llms-full.txt. The /sets/use-media/ aliases serve this exact generated content so the two paths cannot drift.

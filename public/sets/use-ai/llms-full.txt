@@ -1,0 +1,53 @@
+# use-ai
+
+Expanded LLM context for the RustUse ai set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-ai/
+- Set overview alias: https://rustuse.org/sets/use-ai/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-ai/
+- Repository: https://github.com/RustUse/use-ai
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-ai/
+- https://rustuse.org/api/workspaces/use-ai/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-ai workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-agent](https://rustuse.org/use-ai/use-agent/) - child crate of use-ai
+- [use-ai](https://rustuse.org/use-ai/) - facade set
+- [use-ai-capability](https://rustuse.org/use-ai/use-ai-capability/) - child crate of use-ai
+- [use-ai-context](https://rustuse.org/use-ai/use-ai-context/) - child crate of use-ai
+- [use-ai-eval](https://rustuse.org/use-ai/use-ai-eval/) - child crate of use-ai
+- [use-ai-memory](https://rustuse.org/use-ai/use-ai-memory/) - child crate of use-ai
+- [use-ai-message](https://rustuse.org/use-ai/use-ai-message/) - child crate of use-ai
+- [use-ai-model](https://rustuse.org/use-ai/use-ai-model/) - child crate of use-ai
+- [use-ai-prompt](https://rustuse.org/use-ai/use-ai-prompt/) - child crate of use-ai
+- [use-ai-provider](https://rustuse.org/use-ai/use-ai-provider/) - child crate of use-ai
+- [use-ai-role](https://rustuse.org/use-ai/use-ai-role/) - child crate of use-ai
+- [use-guardrail](https://rustuse.org/use-ai/use-guardrail/) - child crate of use-ai
+- [use-planning](https://rustuse.org/use-ai/use-planning/) - child crate of use-ai
+- [use-rag](https://rustuse.org/use-ai/use-rag/) - child crate of use-ai
+- [use-reasoning](https://rustuse.org/use-ai/use-reasoning/) - child crate of use-ai
+- [use-tool-call](https://rustuse.org/use-ai/use-tool-call/) - child crate of use-ai
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-ai/llms.txt and https://rustuse.org/use-ai/llms-full.txt. The /sets/use-ai/ aliases serve this exact generated content so the two paths cannot drift.

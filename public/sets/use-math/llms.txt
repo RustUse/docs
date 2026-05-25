@@ -1,0 +1,63 @@
+# use-math
+
+RustUse math utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-math/
+- Set overview alias: https://rustuse.org/sets/use-math/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-math/
+- Repository: https://github.com/RustUse/use-math
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-math workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-algebra](https://rustuse.org/use-math/use-algebra/) - child crate of use-math
+- [use-arithmetic](https://rustuse.org/use-math/use-arithmetic/) - child crate of use-math
+- [use-calculus](https://rustuse.org/use-math/use-calculus/) - child crate of use-math
+- [use-catalan](https://rustuse.org/use-math/use-catalan/) - child crate of use-math
+- [use-collatz](https://rustuse.org/use-math/use-collatz/) - child crate of use-math
+- [use-combinatorics](https://rustuse.org/use-math/use-combinatorics/) - child crate of use-math
+- [use-complex](https://rustuse.org/use-math/use-complex/) - child crate of use-math
+- [use-eigen](https://rustuse.org/use-math/use-eigen/) - child crate of use-math
+- [use-equation](https://rustuse.org/use-math/use-equation/) - child crate of use-math
+- [use-geode](https://rustuse.org/use-math/use-geode/) - child crate of use-math
+- [use-integer](https://rustuse.org/use-math/use-integer/) - child crate of use-math
+- [use-interval](https://rustuse.org/use-math/use-interval/) - child crate of use-math
+- [use-linear](https://rustuse.org/use-math/use-linear/) - child crate of use-math
+- [use-logic](https://rustuse.org/use-math/use-logic/) - child crate of use-math
+- [use-math](https://rustuse.org/use-math/) - facade set
+- [use-matrix](https://rustuse.org/use-math/use-matrix/) - child crate of use-math
+- [use-modular](https://rustuse.org/use-math/use-modular/) - child crate of use-math
+- [use-number](https://rustuse.org/use-math/use-number/) - child crate of use-math
+- [use-numerical](https://rustuse.org/use-math/use-numerical/) - child crate of use-math
+- [use-polynomial](https://rustuse.org/use-math/use-polynomial/) - child crate of use-math
+- [use-prime](https://rustuse.org/use-math/use-prime/) - child crate of use-math
+- [use-probability](https://rustuse.org/use-math/use-probability/) - child crate of use-math
+- [use-rational](https://rustuse.org/use-math/use-rational/) - child crate of use-math
+- [use-real](https://rustuse.org/use-math/use-real/) - child crate of use-math
+- [use-series](https://rustuse.org/use-math/use-series/) - child crate of use-math
+- [use-set](https://rustuse.org/use-math/use-set/) - child crate of use-math
+- [use-statistics](https://rustuse.org/use-math/use-statistics/) - child crate of use-math
+- [use-trigonometry](https://rustuse.org/use-math/use-trigonometry/) - child crate of use-math
+- [use-vector](https://rustuse.org/use-math/use-vector/) - child crate of use-math
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-math LLM context](https://rustuse.org/use-math/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-math/llms-full.txt` when fuller set-level context is needed.

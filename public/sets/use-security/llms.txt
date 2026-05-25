@@ -1,0 +1,48 @@
+# use-security
+
+RustUse security utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-security/
+- Set overview alias: https://rustuse.org/sets/use-security/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-security/
+- Repository: https://github.com/RustUse/use-security
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-security workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-authn](https://rustuse.org/use-security/use-authn/) - child crate of use-security
+- [use-authz](https://rustuse.org/use-security/use-authz/) - child crate of use-security
+- [use-crypto](https://rustuse.org/use-security/use-crypto/) - child crate of use-security
+- [use-cve](https://rustuse.org/use-security/use-cve/) - child crate of use-security
+- [use-cvss](https://rustuse.org/use-security/use-cvss/) - child crate of use-security
+- [use-cwe](https://rustuse.org/use-security/use-cwe/) - child crate of use-security
+- [use-owasp](https://rustuse.org/use-security/use-owasp/) - child crate of use-security
+- [use-sbom](https://rustuse.org/use-security/use-sbom/) - child crate of use-security
+- [use-secret](https://rustuse.org/use-security/use-secret/) - child crate of use-security
+- [use-security](https://rustuse.org/use-security/) - facade set
+- [use-security-finding](https://rustuse.org/use-security/use-security-finding/) - child crate of use-security
+- [use-security-header](https://rustuse.org/use-security/use-security-header/) - child crate of use-security
+- [use-security-risk](https://rustuse.org/use-security/use-security-risk/) - child crate of use-security
+- [use-threat](https://rustuse.org/use-security/use-threat/) - child crate of use-security
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-security LLM context](https://rustuse.org/use-security/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-security/llms-full.txt` when fuller set-level context is needed.

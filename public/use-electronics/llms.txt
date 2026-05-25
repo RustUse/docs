@@ -1,0 +1,46 @@
+# use-electronics
+
+RustUse electronics utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-electronics/
+- Set overview alias: https://rustuse.org/sets/use-electronics/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-electronics/
+- Repository: https://github.com/RustUse/use-electronics
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-electronics workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-board](https://rustuse.org/use-electronics/use-board/) - child crate of use-electronics
+- [use-capacitor](https://rustuse.org/use-electronics/use-capacitor/) - child crate of use-electronics
+- [use-circuit](https://rustuse.org/use-electronics/use-circuit/) - child crate of use-electronics
+- [use-component](https://rustuse.org/use-electronics/use-component/) - child crate of use-electronics
+- [use-diode](https://rustuse.org/use-electronics/use-diode/) - child crate of use-electronics
+- [use-electronics](https://rustuse.org/use-electronics/) - facade set
+- [use-net-label](https://rustuse.org/use-electronics/use-net-label/) - child crate of use-electronics
+- [use-package](https://rustuse.org/use-electronics/use-package/) - child crate of use-electronics
+- [use-pin](https://rustuse.org/use-electronics/use-pin/) - child crate of use-electronics
+- [use-rating](https://rustuse.org/use-electronics/use-rating/) - child crate of use-electronics
+- [use-resistor](https://rustuse.org/use-electronics/use-resistor/) - child crate of use-electronics
+- [use-transistor](https://rustuse.org/use-electronics/use-transistor/) - child crate of use-electronics
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-electronics LLM context](https://rustuse.org/use-electronics/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-electronics/llms-full.txt` when fuller set-level context is needed.

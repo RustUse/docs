@@ -1,0 +1,48 @@
+# use-net
+
+Expanded LLM context for the RustUse net set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-net/
+- Set overview alias: https://rustuse.org/sets/use-net/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-net/
+- Repository: https://github.com/RustUse/use-net
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-net/
+- https://rustuse.org/api/workspaces/use-net/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-net workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-cidr](https://rustuse.org/use-net/use-cidr/) - child crate of use-net
+- [use-dns](https://rustuse.org/use-net/use-dns/) - child crate of use-net
+- [use-domain](https://rustuse.org/use-net/use-domain/) - child crate of use-net
+- [use-host](https://rustuse.org/use-net/use-host/) - child crate of use-net
+- [use-ip](https://rustuse.org/use-net/use-ip/) - child crate of use-net
+- [use-mac](https://rustuse.org/use-net/use-mac/) - child crate of use-net
+- [use-net](https://rustuse.org/use-net/) - facade set
+- [use-port](https://rustuse.org/use-net/use-port/) - child crate of use-net
+- [use-socket](https://rustuse.org/use-net/use-socket/) - child crate of use-net
+- [use-tcp](https://rustuse.org/use-net/use-tcp/) - child crate of use-net
+- [use-udp](https://rustuse.org/use-net/use-udp/) - child crate of use-net
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-net/llms.txt and https://rustuse.org/use-net/llms-full.txt. The /sets/use-net/ aliases serve this exact generated content so the two paths cannot drift.

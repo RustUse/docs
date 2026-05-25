@@ -1,0 +1,48 @@
+# use-geology
+
+Expanded LLM context for the RustUse geology set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-geology/
+- Set overview alias: https://rustuse.org/sets/use-geology/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-geology/
+- Repository: https://github.com/RustUse/use-geology
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-geology/
+- https://rustuse.org/api/workspaces/use-geology/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-geology workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-fault](https://rustuse.org/use-geology/use-fault/) - child crate of use-geology
+- [use-formation](https://rustuse.org/use-geology/use-formation/) - child crate of use-geology
+- [use-fossil](https://rustuse.org/use-geology/use-fossil/) - child crate of use-geology
+- [use-geologic-process](https://rustuse.org/use-geology/use-geologic-process/) - child crate of use-geology
+- [use-geologic-time](https://rustuse.org/use-geology/use-geologic-time/) - child crate of use-geology
+- [use-geology](https://rustuse.org/use-geology/) - facade set
+- [use-mineral](https://rustuse.org/use-geology/use-mineral/) - child crate of use-geology
+- [use-rock](https://rustuse.org/use-geology/use-rock/) - child crate of use-geology
+- [use-sediment](https://rustuse.org/use-geology/use-sediment/) - child crate of use-geology
+- [use-stratum](https://rustuse.org/use-geology/use-stratum/) - child crate of use-geology
+- [use-tectonic-plate](https://rustuse.org/use-geology/use-tectonic-plate/) - child crate of use-geology
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-geology/llms.txt and https://rustuse.org/use-geology/llms-full.txt. The /sets/use-geology/ aliases serve this exact generated content so the two paths cannot drift.

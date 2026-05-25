@@ -1,0 +1,41 @@
+# use-constants
+
+RustUse constants utilities and facade set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-constants/
+- Set overview alias: https://rustuse.org/sets/use-constants/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-constants/
+- Repository: https://github.com/RustUse/use-constants
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Set crates
+
+Current facade and child crates generated from the use-constants workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-astronomical-constants](https://rustuse.org/use-constants/use-astronomical-constants/) - child crate of use-constants
+- [use-chemical-constants](https://rustuse.org/use-constants/use-chemical-constants/) - child crate of use-constants
+- [use-computing-constants](https://rustuse.org/use-constants/use-computing-constants/) - child crate of use-constants
+- [use-constants](https://rustuse.org/use-constants/) - facade set
+- [use-earth-constants](https://rustuse.org/use-constants/use-earth-constants/) - child crate of use-constants
+- [use-math-constants](https://rustuse.org/use-constants/use-math-constants/) - child crate of use-constants
+- [use-physical-constants](https://rustuse.org/use-constants/use-physical-constants/) - child crate of use-constants
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full set context
+
+- [Full use-constants LLM context](https://rustuse.org/use-constants/llms-full.txt)
+
+The set `llms.txt` keeps routing, workspace Rustdocs, and crate links for this set. Use `use-constants/llms-full.txt` when fuller set-level context is needed.

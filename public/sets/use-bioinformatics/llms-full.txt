@@ -1,0 +1,49 @@
+# use-bioinformatics
+
+Expanded LLM context for the RustUse bioinformatics set.
+
+## Set links
+
+- Canonical set page: https://rustuse.org/use-bioinformatics/
+- Set overview alias: https://rustuse.org/sets/use-bioinformatics/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-bioinformatics/
+- Repository: https://github.com/RustUse/use-bioinformatics
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Set docs overview: https://rustuse.org/sets/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-bioinformatics/
+- https://rustuse.org/api/workspaces/use-bioinformatics/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-bioinformatics workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-alignment](https://rustuse.org/use-bioinformatics/use-alignment/) - child crate of use-bioinformatics
+- [use-alphabet](https://rustuse.org/use-bioinformatics/use-alphabet/) - child crate of use-bioinformatics
+- [use-amino-acid](https://rustuse.org/use-bioinformatics/use-amino-acid/) - child crate of use-bioinformatics
+- [use-annotation](https://rustuse.org/use-bioinformatics/use-annotation/) - child crate of use-bioinformatics
+- [use-bioinformatics](https://rustuse.org/use-bioinformatics/) - facade set
+- [use-feature](https://rustuse.org/use-bioinformatics/use-feature/) - child crate of use-bioinformatics
+- [use-genomic-range](https://rustuse.org/use-bioinformatics/use-genomic-range/) - child crate of use-bioinformatics
+- [use-motif](https://rustuse.org/use-bioinformatics/use-motif/) - child crate of use-bioinformatics
+- [use-nucleotide](https://rustuse.org/use-bioinformatics/use-nucleotide/) - child crate of use-bioinformatics
+- [use-residue](https://rustuse.org/use-bioinformatics/use-residue/) - child crate of use-bioinformatics
+- [use-sequence](https://rustuse.org/use-bioinformatics/use-sequence/) - child crate of use-bioinformatics
+- [use-sequence-id](https://rustuse.org/use-bioinformatics/use-sequence-id/) - child crate of use-bioinformatics
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-bioinformatics/llms.txt and https://rustuse.org/use-bioinformatics/llms-full.txt. The /sets/use-bioinformatics/ aliases serve this exact generated content so the two paths cannot drift.
