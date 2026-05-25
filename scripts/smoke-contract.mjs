@@ -103,6 +103,36 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/html',
+      distPath: 'using-ai/index.html',
+      mustInclude: ['Using AI', 'AI-readable RustUse'],
+      route: '/using-ai/',
+    },
+    {
+      contentType: 'text/html',
+      distPath: 'using-ai/llms-txt/index.html',
+      mustInclude: ['LLM Text Files', '/llms.txt'],
+      route: '/using-ai/llms-txt/',
+    },
+    {
+      contentType: 'text/html',
+      distPath: 'using-ai/mcp/index.html',
+      mustInclude: ['RustUse MCP Server', 'rustuse://catalog'],
+      route: '/using-ai/mcp/',
+    },
+    {
+      contentType: 'text/html',
+      distPath: 'using-ai/recipes/index.html',
+      mustInclude: ['AI Usage Recipes', 'Use https://rustuse.org/llms.txt'],
+      route: '/using-ai/recipes/',
+    },
+    {
+      contentType: 'text/html',
+      distPath: 'using-ai/reference/index.html',
+      mustInclude: ['Using AI Reference', 'MCP resource URI patterns'],
+      route: '/using-ai/reference/',
+    },
+    {
+      contentType: 'text/html',
       distPath: 'sets/index.html',
       mustInclude: ['Sets'],
       route: '/sets/',

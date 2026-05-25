@@ -1,0 +1,82 @@
+---
+title: Using AI Reference
+description: URL patterns and planned MCP URI patterns for AI-readable RustUse documentation.
+---
+
+This reference summarizes the AI-readable route shapes documented in this section. Use the status column to distinguish live generated routes from planned surfaces.
+
+## Root files
+
+| Pattern          | Status | Notes                                                 |
+| ---------------- | ------ | ----------------------------------------------------- |
+| `/llms.txt`      | Live   | Concise project-wide index for discovery and routing. |
+| `/llms-full.txt` | Live   | Larger project-wide Markdown bundle.                  |
+
+## Set files
+
+| Pattern                     | Status | Notes                                                 |
+| --------------------------- | ------ | ----------------------------------------------------- |
+| `/sets/{set}/llms.txt`      | Live   | Set-level routing through the `/sets/` path.          |
+| `/sets/{set}/llms-full.txt` | Live   | Expanded set-level context through the `/sets/` path. |
+| `/{set}/llms.txt`           | Live   | Canonical short set-level routing file.               |
+| `/{set}/llms-full.txt`      | Live   | Canonical short expanded set-level context file.      |
+
+Examples:
+
+```text
+/sets/use-math/llms.txt
+/sets/use-math/llms-full.txt
+/use-math/llms.txt
+/use-math/llms-full.txt
+```
+
+## Crate files
+
+| Pattern                         | Status  | Notes                                     |
+| ------------------------------- | ------- | ----------------------------------------- |
+| `/crates/{crate}/llms.txt`      | Planned | Focused child-crate routing and examples. |
+| `/crates/{crate}/llms-full.txt` | Planned | Deeper crate-specific context.            |
+
+Planned examples:
+
+```text
+/crates/use-prime/llms.txt
+/crates/use-prime/llms-full.txt
+```
+
+## Rustdoc routes
+
+| Pattern                                           | Status                                      | Notes                                                |
+| ------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| `/api/workspaces/{set}/`                          | Live where workspace Rustdocs are generated | Workspace Rustdocs entry point for a set.            |
+| `/api/workspaces/{set}/{crate_module}/index.html` | Live where workspace Rustdocs are generated | Rustdoc module route for a crate inside a workspace. |
+
+Examples:
+
+```text
+/api/workspaces/use-math/
+/api/workspaces/use-math/use_combinatorics/index.html
+```
+
+## MCP resource URI patterns
+
+| Pattern                               | Status  | Notes                                           |
+| ------------------------------------- | ------- | ----------------------------------------------- |
+| `rustuse://catalog`                   | Planned | RustUse catalog resource.                       |
+| `rustuse://sets`                      | Planned | Set listing resource.                           |
+| `rustuse://sets/{set}`                | Planned | One set resource.                               |
+| `rustuse://sets/{set}/children`       | Planned | Child crates for one set.                       |
+| `rustuse://crates`                    | Planned | Crate listing resource.                         |
+| `rustuse://crates/{crate}`            | Planned | One crate resource.                             |
+| `rustuse://llms`                      | Planned | Root `llms.txt` discovery resource.             |
+| `rustuse://llms/full`                 | Planned | Root `llms-full.txt` discovery resource.        |
+| `rustuse://llms/sets/{set}`           | Planned | Set-level `llms.txt` discovery resource.        |
+| `rustuse://llms/sets/{set}/full`      | Planned | Set-level `llms-full.txt` discovery resource.   |
+| `rustuse://llms/crates/{crate}`       | Planned | Crate-level `llms.txt` discovery resource.      |
+| `rustuse://llms/crates/{crate}/full`  | Planned | Crate-level `llms-full.txt` discovery resource. |
+| `rustuse://rustdocs/workspaces/{set}` | Planned | Rustdoc workspace route discovery.              |
+| `rustuse://rustdocs/crates/{crate}`   | Planned | Crate Rustdoc route discovery.                  |
+
+:::caution
+AI-readable routes help assistants find RustUse context. They do not make generated code authoritative. Verify code against Rustdocs and `cargo test`.
+:::

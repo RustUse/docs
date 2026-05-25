@@ -1,0 +1,76 @@
+---
+title: LLM Text Files
+description: Root, set-level, and planned crate-level LLM text file conventions for RustUse.
+---
+
+RustUse publishes generated Markdown text files for tools that prefer a compact, AI-readable entry point. These files do not replace the docs site or Rustdocs. They help assistants route themselves to the right set, crate, repository, and API documentation.
+
+:::note
+The LLM text files are generated from the same public RustUse documentation sources as the docs site.
+:::
+
+## Root files
+
+| File             | Status | Use                                                                         |
+| ---------------- | ------ | --------------------------------------------------------------------------- |
+| `/llms.txt`      | Live   | Concise project-wide index for discovery, routing, and project orientation. |
+| `/llms-full.txt` | Live   | Larger project-wide Markdown bundle for tools that can ingest more context. |
+
+`/llms.txt` is best when the assistant needs a quick map of RustUse. It includes primary links, workspace Rustdoc patterns, and generated set links.
+
+`/llms-full.txt` is best when a tool can ingest more context. It includes the broader project context plus generated set and crate links.
+
+## Set-level files
+
+| File                        | Status | Use                                                        |
+| --------------------------- | ------ | ---------------------------------------------------------- |
+| `/sets/{set}/llms.txt`      | Live   | Focused set-level routing through the set overview route.  |
+| `/sets/{set}/llms-full.txt` | Live   | Expanded set-level context through the set overview route. |
+| `/{set}/llms.txt`           | Live   | Canonical short set-level routing file.                    |
+| `/{set}/llms-full.txt`      | Live   | Canonical short expanded set-level context file.           |
+
+The short set routes and `/sets/` routes are generated from the same content so they cannot drift.
+
+Examples:
+
+```text
+/sets/use-math/llms.txt
+/sets/use-math/llms-full.txt
+/use-math/llms.txt
+/use-math/llms-full.txt
+```
+
+Use set-level files when the task is already scoped to one RustUse set, such as `use-math`, `use-web`, or `use-python`.
+
+## Crate-level files
+
+| File                            | Status  | Use                                     |
+| ------------------------------- | ------- | --------------------------------------- |
+| `/crates/{crate}/llms.txt`      | Planned | Focused child-crate usage and examples. |
+| `/crates/{crate}/llms-full.txt` | Planned | Deeper crate-specific context.          |
+
+Planned examples:
+
+```text
+/crates/use-prime/llms.txt
+/crates/use-prime/llms-full.txt
+```
+
+Until crate-level files are generated, use the owning set's LLM text file, the crate guide page, and Rustdocs. For `use-prime`, start with `/sets/use-math/llms.txt` or `/use-math/llms.txt`.
+
+## Which file should I use?
+
+- Use root `llms.txt` for project discovery.
+- Use root `llms-full.txt` for broad project context.
+- Use set-level `llms.txt` for focused set work.
+- Use set-level `llms-full.txt` for complete set context.
+- Use crate-level `llms.txt` for focused child-crate usage once crate-level files are available.
+- Use crate-level `llms-full.txt` for deeper crate-specific work once crate-level files are available.
+
+:::caution
+AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`.
+:::
+
+## Verification path
+
+When an assistant suggests RustUse code, check the generated code against the public crate page, the workspace Rustdocs, and local tests. The LLM text files are routing and context surfaces, not an authority on final API correctness.

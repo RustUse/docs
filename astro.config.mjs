@@ -99,6 +99,7 @@ export default defineConfig({
         { label: 'Onboarding', link: '/onboarding/' },
         {
           label: 'Sets',
+          collapsed: true,
           items: [
             { label: 'Overview', link: '/sets/' },
             ...getSidebarSetLinks(),
@@ -110,6 +111,18 @@ export default defineConfig({
           items: [
             { label: 'Overview', link: '/crates/' },
             ...getSidebarCrateLinks(),
+          ],
+        },
+        { label: 'CLI', link: '/cli/' },
+        {
+          label: 'Using AI',
+          collapsed: true,
+          items: [
+            { label: 'Overview', link: '/using-ai/' },
+            { label: 'LLM text files', link: '/using-ai/llms-txt/' },
+            { label: 'RustUse MCP Server', link: '/using-ai/mcp/' },
+            { label: 'AI usage recipes', link: '/using-ai/recipes/' },
+            { label: 'Reference', link: '/using-ai/reference/' },
           ],
         },
         { label: 'Contributing', link: '/contributing/' },

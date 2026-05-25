@@ -1,0 +1,238 @@
+---
+title: RustUse CLI
+description: Use the rustuse command to search, add, copy, initialize, and track RustUse primitives.
+---
+
+import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import ferris2d from '../../assets/ferris-2D.png';
+import ferris3d from '../../assets/ferris-3D.png';
+
+<DocsMascotPanel
+  image2d={ferris2d}
+  image3d={ferris3d}
+  alt="Ferris introducing the RustUse CLI guide"
+  eyebrow="CLI"
+  title="Search. Add. Copy. Track."
+  description="The `rustuse` CLI helps you adopt RustUse primitives at the boundary you choose. Install crates from crates.io, copy source into your project, or initialize managed tracking with `rustuse.toml`."
+  quickLinks={[
+    { href: '/crates/', label: 'Browse crates' },
+    { href: '/sets/', label: 'Browse sets' },
+    { href: '/onboarding/', label: 'Onboarding' },
+    { href: '/copy/', label: 'Copy source' },
+  ]}
+  theme="teal"
+/>
+
+The `rustuse` CLI is the third RustUse adoption path alongside Cargo/crates.io and copying source from `rustuse.org`.
+
+Use Cargo when you want normal Rust dependency management. Copy source when you want direct ownership of a primitive inside your project. Use the CLI when you want a practical command surface for discovery, adding crates, copying source, and opting into managed tracking only when that workflow fits.
+
+The CLI is not a package manager. It does not replace Cargo, and it does not force `rustuse.toml` into every project.
+
+## What the CLI is for
+
+`rustuse` helps you:
+
+- search RustUse crates and primitives
+- inspect crate metadata and docs links
+- add crates from crates.io
+- copy source into a project
+- optionally include tests and examples
+- optionally initialize managed tracking
+- eventually diff and upgrade copied source
+
+The distinction is simple:
+
+- `rustuse copy` is lightweight.
+- `rustuse init` is managed.
+
+One-shot copy usage should not require `rustuse.toml`. Cargo-only usage should not require `rustuse.toml`. Copy-only usage from `rustuse.org` should not require `rustuse.toml`.
+
+## Install the CLI
+
+Install the CLI from crates.io:
+
+```bash
+cargo install rustuse-cli
+```
+
+Then confirm the binary is available:
+
+```bash
+rustuse --help
+```
+
+The binary is `rustuse`. The published package may use `rustuse-cli`.
+
+## Command overview
+
+| Command                  | Purpose                                                          | Requires rustuse.toml?    |
+| ------------------------ | ---------------------------------------------------------------- | ------------------------- |
+| `rustuse search <query>` | Search RustUse primitives.                                       | No                        |
+| `rustuse info <name>`    | Show crate or primitive details.                                 | No                        |
+| `rustuse add <name>`     | Add a crates.io dependency.                                      | No                        |
+| `rustuse copy <name>`    | Copy source into the project.                                    | No                        |
+| `rustuse init`           | Create managed tracking state.                                   | Yes, creates it           |
+| `rustuse list`           | List tracked RustUse usage.                                      | Only for managed tracking |
+| `rustuse docs <name>`    | Open or print docs links.                                        | No                        |
+| `rustuse doctor`         | Inspect local project state.                                     | No                        |
+| `rustuse diff <name>`    | Compare copied source with upstream. Future managed command.     | Yes                       |
+| `rustuse upgrade <name>` | Preview or apply copied-source upgrades. Future managed command. | Yes                       |
+
+Discovery commands and Cargo-mode commands do not need managed state. Tracking, diff, and copied-source upgrade workflows belong to the managed `rustuse.toml` path.
+
+## Search and inspect primitives
+
+Use search and info when you are still choosing the right primitive or crate:
+
+```bash
+rustuse search geometry
+rustuse search slug
+rustuse info use-geometry
+rustuse docs use-math --workspace
+```
+
+These commands inspect the RustUse catalog and documentation links. They do not modify your project, add dependencies, copy files, or create `rustuse.toml`.
+
+## Add crates from crates.io
+
+Use `rustuse add` when you want Cargo mode:
+
+```bash
+rustuse add use-geometry
+rustuse add use-combinatorics
+rustuse add use-math
+```
+
+Cargo mode means the RustUse crate stays an external dependency. The command should add crates.io dependencies, and project state stays in `Cargo.toml` and `Cargo.lock`.
+
+`rustuse.toml` is not required for Cargo mode. Cargo remains the dependency manager.
+
+## Copy source without tracking
+
+Use `rustuse copy` when you want one-shot copy mode:
+
+```bash
+rustuse copy use-slug --to src/text/slug.rs
+rustuse copy use-case --with-tests
+```
+
+One-shot copy mode does not create `rustuse.toml`. It does not require `rustuse init`. The project owns the copied source after adoption, just as it would if you copied the source directly from `rustuse.org`.
+
+Copied files should include provenance so future maintainers can see where the code came from:
+
+```rust
+// Copied from RustUse: use-slug v0.1.0
+// Source: https://rustuse.org/use-slug/
+// License: MIT OR Apache-2.0
+```
+
+Copy mode can place code faster and include tests or examples when requested, but it should not hide the ownership boundary. Once copied, the local file belongs to your project.
+
+## Initialize managed tracking
+
+Use `rustuse init` only when you want RustUse-managed project tracking:
+
+```bash
+rustuse init
+rustuse init --copy-first
+rustuse init --cargo-first
+```
+
+`rustuse init` is opt-in. It creates `rustuse.toml`, may create `.rustuse/`, and prepares the project for managed RustUse workflows.
+
+Initialization should not modify `Cargo.toml`, copy source, or install dependencies. It prepares state so later managed commands can understand which RustUse primitives are tracked and how copied source should be compared.
+
+An initialized managed workflow can create project state such as:
+
+```text
+rustuse.toml
+rustuse.lock
+.rustuse/
+```
+
+`rustuse.lock` may appear only after resolved managed operations exist.
+
+## rustuse.toml
+
+`rustuse.toml` records RustUse-managed project intent. It is not a replacement for `Cargo.toml`.
+
+Cargo dependencies stay in `Cargo.toml`. Copy-only source can remain untracked. Managed copied source can be tracked for future diff and upgrade workflows.
+
+```toml
+version = 1
+
+[project]
+default_mode = "cargo"
+copy_root = "src"
+test_root = "tests"
+license = "MIT OR Apache-2.0"
+
+[updates]
+check_copied = true
+write_candidates = true
+```
+
+<MascotTip
+  title="rustuse.toml is opt-in"
+  description="Use `rustuse init` only when you want RustUse-managed tracking. If you only want to install crates or copy source once, skip it."
+/>
+
+## Common workflows
+
+| Goal                       | Commands                                      |
+| -------------------------- | --------------------------------------------- |
+| Find a primitive           | `rustuse search slug`                         |
+| Inspect a crate            | `rustuse info use-geometry`                   |
+| Add a dependency           | `rustuse add use-geometry`                    |
+| Copy one primitive         | `rustuse copy use-slug --to src/text/slug.rs` |
+| Copy with tests            | `rustuse copy use-case --with-tests`          |
+| Start managed tracking     | `rustuse init`                                |
+| Copy-first managed project | `rustuse init --copy-first`                   |
+| View docs                  | `rustuse docs use-math --workspace`           |
+| Check project state        | `rustuse doctor`                              |
+
+## Ownership and updates
+
+Cargo mode keeps RustUse as an external dependency.
+
+| Mode                  | Ownership                            | Updates                                                                  |
+| --------------------- | ------------------------------------ | ------------------------------------------------------------------------ |
+| Cargo mode            | RustUse owns the crate.              | Your project updates through Cargo.                                      |
+| Copy mode             | Your project owns the copied source. | No automatic updates.                                                    |
+| CLI copy without init | Same ownership as manual copy.       | Faster placement, no tracking.                                           |
+| CLI with init         | RustUse can track copied primitives. | Future commands can support diff, upgrade previews, and safer refreshes. |
+
+Choose the ownership boundary before choosing the command. Cargo keeps updates external. Copying source moves ownership into your project. Managed CLI workflows make copied-source tracking explicit instead of automatic.
+
+## What the CLI does not do
+
+The `rustuse` CLI does not:
+
+- replace Cargo
+- act as a package manager
+- require `rustuse.toml`
+- require managed tracking for one-shot copying
+- hide ownership boundaries
+- silently overwrite copied source
+
+## Future commands
+
+Managed workflows can support future copied-source maintenance commands such as:
+
+```bash
+rustuse diff use-slug
+rustuse upgrade use-slug --preview
+rustuse upgrade --all
+rustuse remove use-slug
+```
+
+These commands belong to the managed `rustuse.toml` workflow. They are meant for projects that want RustUse to remember copied primitives, compare local source with upstream, preview upgrades, and make refreshes safer.
+
+## Related docs
+
+- [Onboarding](/onboarding/)
+- [Browse crates](/crates/)
+- [Browse sets](/sets/)
+- [Copy source](/copy/)

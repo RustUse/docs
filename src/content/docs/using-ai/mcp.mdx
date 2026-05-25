@@ -1,0 +1,116 @@
+---
+title: RustUse MCP Server
+description: Planned structured RustUse catalog access for MCP-capable clients.
+---
+
+import MascotExperimental from '../../../components/MascotExperimental.astro';
+
+<MascotExperimental
+  title="Experimental MCP surface"
+  description="The RustUse MCP Server is experimental until its resource and tool surfaces stabilize. Current docs describe the planned read-only shape, not a production server contract."
+/>
+
+The RustUse MCP Server provides structured access to the RustUse catalog, set hierarchy, crate metadata, generated documentation routes, and reusable planning prompts.
+
+Use it when your AI client supports Model Context Protocol and you want RustUse-aware assistance without manually pasting documentation.
+
+The server is planned as a structured alternative to choosing LLM text files by hand. Initial versions should prefer read-only resources and explicit user-controlled capabilities.
+
+## Structured access
+
+The RustUse MCP Server is intended to expose:
+
+- the RustUse catalog
+- set hierarchy
+- crate metadata
+- generated documentation routes
+- LLM text file routes
+- Rustdoc routes
+- reusable planning prompts
+
+## What the server provides
+
+- RustUse catalog resources
+- Set and crate lookup
+- LLM text file discovery
+- Rustdoc route discovery
+- Set planning prompts
+- Child-crate planning prompts
+- Collision checks for proposed crate names
+- GitHub Copilot prompt generation
+
+## What the server does not do
+
+- It does not publish crates.
+- It does not create repositories by default.
+- It does not mutate files unless explicitly configured.
+- It does not replace Rustdocs, crates.io, or the docs site.
+
+## Planned resource URI patterns
+
+```text
+rustuse://catalog
+rustuse://sets
+rustuse://sets/{set}
+rustuse://sets/{set}/children
+rustuse://crates
+rustuse://crates/{crate}
+rustuse://llms
+rustuse://llms/full
+rustuse://llms/sets/{set}
+rustuse://llms/sets/{set}/full
+rustuse://llms/crates/{crate}
+rustuse://llms/crates/{crate}/full
+rustuse://rustdocs/workspaces/{set}
+rustuse://rustdocs/crates/{crate}
+```
+
+## Planned tools
+
+| Tool                                           | Candidate status | Expected behavior                                                                     |
+| ---------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------- |
+| `search_sets(query)`                           | Stable/read-only | Search public RustUse sets by name, tags, or description.                             |
+| `search_crates(query)`                         | Stable/read-only | Search public RustUse crates by name, tags, or description.                           |
+| `get_set(name)`                                | Stable/read-only | Return metadata and route information for one set.                                    |
+| `get_crate(name)`                              | Stable/read-only | Return metadata and route information for one crate.                                  |
+| `list_children(set)`                           | Stable/read-only | Return child crates for a set.                                                        |
+| `find_possible_collisions(name)`               | Experimental     | Check proposed names against known RustUse and crates.io-style collision rules.       |
+| `suggest_child_crates(set, goal, min_count)`   | Experimental     | Suggest focused primitive child crates for a set goal.                                |
+| `generate_copilot_prompt(task, set, children)` | Experimental     | Generate a GitHub Copilot Plan Mode prompt from RustUse conventions.                  |
+| `validate_set_shape`                           | Experimental     | Check whether a proposed set structure follows RustUse naming and facade conventions. |
+
+## Stable read-only candidates
+
+- `search_sets`
+- `search_crates`
+- `get_set`
+- `get_crate`
+- `list_children`
+
+## Experimental candidates
+
+- `find_possible_collisions`
+- `suggest_child_crates`
+- `generate_copilot_prompt`
+- `validate_set_shape`
+
+## Planned prompts
+
+```text
+plan-new-set
+add-child-crate
+audit-set-taxonomy
+write-copilot-plan-prompt
+write-readme
+write-onboarding-example
+split-llms-files
+prepare-release-checklist
+```
+
+## Security
+
+The RustUse MCP Server should be read-only by default.
+
+Initial versions should not publish crates, write files, create repositories, run shell commands, or mutate local projects unless the user explicitly enables those capabilities.
+
+Even when an MCP client provides structured RustUse context, generated code should still be checked against Rustdocs and local tests.

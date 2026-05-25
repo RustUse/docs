@@ -1,6 +1,6 @@
 ---
 title: Onboarding
-description: Start using RustUse by choosing the smallest crate that fits the problem.
+description: Start using RustUse by choosing the smallest adoption path that fits the problem.
 ---
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
@@ -13,63 +13,208 @@ import ferris3d from '../../assets/ferris-3D.png';
   image3d={ferris3d}
   alt="Ferris introducing the RustUse onboarding guide"
   eyebrow="Onboarding"
-  title="Use the crate that fits the problem."
-  description="RustUse keeps adoption precise. Start with the smallest public crate that solves the job, then compose outward only when a broader entry point makes your codebase clearer."
+  title="Install it. Copy it. Add it with the CLI."
+  description="RustUse keeps adoption precise. Start with the smallest primitive that solves the job, then choose the boundary that fits your project: install the crate from crates.io, copy the source from rustuse.org, or use the RustUse CLI."
   quickLinks={[
     { href: '/crates/', label: 'Browse crates' },
     { href: '/sets/', label: 'Browse sets' },
+    { href: '/copy/', label: 'Copy source' },
+    { href: '/cli/', label: 'Use the CLI' },
   ]}
   theme="sand"
 />
 
-RustUse organizes focused utility crates into composable sets. Each crate can stand alone, while each set forms part of a larger reef of reusable Rust utilities. The current public surface begins with the `use-math` set and the focused `use-geometry` set.
+RustUse organizes focused Rust utility crates into composable sets. Each crate can stand alone, while each set forms part of a larger reef of reusable Rust primitives.
 
-## Choose the crate that matches the work
+You can use RustUse in three ways:
 
-Choose the crate by the shape of the immediate problem. Add more surface area only when it makes the system easier to understand, not just broader.
+- Install crates from crates.io with Cargo.
+- Copy source directly from `rustuse.org`.
+- Use the `rustuse` CLI to search, add, copy, initialize, track, and inspect RustUse primitives.
+
+The goal is the same in every mode: choose the smallest public surface that solves the problem, then compose outward only when a broader entry point makes your codebase clearer.
+
+## Three ways to use RustUse
+
+RustUse supports three adoption paths. None of them are the only correct path. They represent different ownership and update boundaries.
+
+| Path  | Best when                                                            | State lives in                |
+| ----- | -------------------------------------------------------------------- | ----------------------------- |
+| Cargo | You want normal Rust dependency management, versioning, and updates. | `Cargo.toml` and `Cargo.lock` |
+| Copy  | You want zero dependency surface and direct ownership of the source. | The copied source file        |
+| CLI   | You want guided search, add, copy, or optional managed tracking.     | Depends on the command        |
+
+The `rustuse` CLI does not force a `rustuse.toml` workflow. You can use it for one-shot copy commands without initializing project tracking.
+
+## Install from crates.io with Cargo
+
+Use Cargo when you want RustUse to behave like a normal Rust dependency.
+
+```bash
+cargo add use-geometry
+```
+
+Or add the dependency manually:
+
+```toml
+[dependencies]
+use-geometry = "0.1"
+```
+
+Cargo mode is usually best for:
+
+- libraries
+- shared codebases
+- versioned updates
+- normal Rust dependency workflows
+- crates that contain more than one tiny primitive
+
+Focused crates and facade crates are both installed from crates.io.
+
+```bash
+cargo add use-combinatorics
+cargo add use-math
+```
+
+Use a focused crate when the problem is narrow. Use a facade crate when a broader domain boundary makes the code clearer.
+
+<MascotTip title="Cargo mode keeps updates external">
+  <p>
+    Cargo mode keeps RustUse as an external dependency. RustUse owns the crate,
+    and your project updates through normal Cargo workflows.
+  </p>
+</MascotTip>
+
+## Copy source from rustuse.org
+
+Use copy mode when you want to own the primitive directly in your project.
+
+Copy mode is usually best for:
+
+- tiny helpers
+- application code
+- dependency-sensitive projects
+- learning how a primitive works
+- adapting a primitive to local project rules
+- avoiding another dependency for a small amount of code
+
+A copied primitive should include provenance so the source remains clear.
+
+```rust
+// Copied from RustUse: use-slug v0.1.0
+// Source: https://rustuse.org/use-slug/
+// License: MIT OR Apache-2.0
+```
+
+Copied source does not update automatically. After you copy a primitive, your project owns that local version.
+
+<MascotTip title="Copy mode means ownership">
+  <p>
+    Copy mode is useful when you want zero dependency surface, but it changes
+    the update model. RustUse can provide the source, tests, and provenance, but
+    your project owns the copied code after adoption.
+  </p>
+</MascotTip>
+
+## Use the RustUse CLI
+
+Use the `rustuse` CLI when you want faster discovery or guided adoption.
+
+The CLI is intended to support workflows like:
+
+```bash
+rustuse search geometry
+rustuse info use-geometry
+rustuse add use-geometry
+rustuse copy use-slug --to src/text/slug.rs
+rustuse copy use-case --with-tests
+```
+
+CLI mode is useful when you want to:
+
+- find the right primitive
+- add a crate dependency
+- copy source into a project
+- include tests or examples
+- preserve source provenance
+- optionally track copied primitives for future diffs and upgrades
+
+The CLI should not replace Cargo or manual copy mode. It should make both easier to use.
+
+## Use rustuse init for managed workflows
+
+`rustuse.toml` is optional. It is only needed when you want RustUse-managed project tracking.
+
+```bash
+rustuse init
+```
+
+A managed RustUse project can use:
+
+```bash
+rustuse init
+rustuse add use-slug --copy --with-tests
+rustuse list
+rustuse diff use-slug
+rustuse upgrade use-slug --preview
+```
+
+The initialized workflow can create project state such as:
+
+```text
+rustuse.toml
+rustuse.lock
+.rustuse/
+```
+
+Use this path when you want future RustUse commands to understand which primitives were copied, where they were placed, and how to compare them against upstream versions.
+
+Cargo-only usage does not need `rustuse.toml`.
+
+Copy-only usage does not need `rustuse.toml`.
+
+One-shot CLI copy usage does not need `rustuse.toml`.
+
+<MascotTip title="rustuse.toml is opt-in">
+  <p>
+    Run <code>rustuse init</code> only when you want managed tracking. If you
+    only want to install crates with Cargo or copy source once, skip it.
+  </p>
+</MascotTip>
+
+## Choose your distribution path
+
+Use the smallest adoption path that matches your constraints.
+
+| Question                                                      | Cargo       | Copy | CLI without init | CLI with init  |
+| ------------------------------------------------------------- | ----------- | ---- | ---------------- | -------------- |
+| Do you want normal dependency updates?                        | Yes         | No   | Optional         | Optional       |
+| Do you want zero dependency surface?                          | No          | Yes  | Yes, with copy   | Yes, with copy |
+| Do you want to modify the primitive locally?                  | Not usually | Yes  | Yes              | Yes            |
+| Do you want RustUse project tracking?                         | No          | No   | No               | Yes            |
+| Do you want future diff or upgrade support for copied source? | No          | No   | No               | Yes            |
+| Do you want the easiest Rust default?                         | Yes         | No   | Sometimes        | No             |
+
+When unsure, start with Cargo for libraries and copy mode for tiny application-only primitives.
+
+Use `rustuse init` only after you know you want RustUse-managed tracking.
+
+## Choose the smallest public surface
+
+After choosing a distribution path, choose the RustUse surface that matches the work.
+
+- Use a focused child crate when the problem is narrow.
+- Use a facade crate when a broader domain boundary makes the code clearer.
+- Use a set page when you are exploring related crates.
+- Use workspace RustDocs when you want to trace re-exports across a set.
+
+Current examples:
 
 - Start with `use-geometry` for direct 2D primitives, measurements, and related helpers.
 - Start with `use-combinatorics` for counting, permutations, combinations, factorials, and other discrete helpers.
 - Start with `use-math` when you want one facade dependency that can expose curated functionality through features and a shared `prelude`.
 
-## Install from the matching repository while scaffolded
-
-The current public crates are scaffolded, so pull each crate from the repository that currently owns it while publication metadata remains staged.
-
-```toml
-[dependencies]
-use-geometry = { git = "https://github.com/RustUse/use-geometry" }
-```
-
-Use the shared `use-math` workspace when you want one of the current math-set crates.
-
-```toml
-[dependencies]
-use-combinatorics = { git = "https://github.com/RustUse/use-math", package = "use-combinatorics" }
-use-math = { git = "https://github.com/RustUse/use-math", package = "use-math" }
-```
-
-Switch the package name when you want a different crate from the shared `use-math` workspace.
-
-Treat each crate README as the source of truth for versioning, feature flags, examples, and any crate-specific setup notes.
-
-## Read the docs in this order
-
-Onboarding moves fastest when you go from scope, to RustDocs, to workspace context.
-
-1. Read the crate overview page to confirm what belongs in the crate.
-2. Open the crate RustDocs for the concrete modules, functions, and types you need.
-3. Use the workspace Rustdocs when you want to trace re-exports or browse the set as a whole.
-
-- [use-geometry crate page](/use-geometry/)
-- [use-combinatorics crate page](/use-math/use-combinatorics/)
-- [use-math crate page](/use-math/)
-- [use-geometry RustDocs](/api/use-geometry/)
-- [use-combinatorics RustDocs](/api/use-combinatorics/)
-- [use-math RustDocs](/api/use-math/)
-- [use-math workspace Rustdocs](/api/workspaces/use-math/)
-
-<MascotTip title="Use the facade crate deliberately">
+<MascotTip title="Use facade crates deliberately">
   <p>
     Reach for <code>use-math</code> when a broader entry point clarifies the
     boundary of the code you are building. If geometry or combinatorics is all
@@ -77,22 +222,109 @@ Onboarding moves fastest when you go from scope, to RustDocs, to workspace conte
   </p>
 </MascotTip>
 
+## Read the docs in this order
+
+Onboarding moves fastest when you go from scope, to adoption path, to implementation detail.
+
+1. Read the crate or set overview to confirm what belongs there.
+2. Choose Cargo, copy mode, CLI one-shot mode, or CLI managed mode.
+3. Open the crate RustDocs when using Cargo.
+4. Use copyable source sections when vendoring a primitive.
+5. Use the CLI guide when you want RustUse to place files for you.
+6. Use `rustuse init` only when you want managed tracking.
+7. Use workspace RustDocs when tracing facade re-exports or browsing the set as a whole.
+
+Starting points:
+
+- [Browse crates](/crates/)
+- [Browse sets](/sets/)
+- [Copy source](/copy/)
+- [Use the CLI](/cli/)
+- [use-geometry crate page](/use-geometry/)
+- [use-combinatorics crate page](/use-math/use-combinatorics/)
+- [use-math crate page](/use-math/)
+- [use-geometry RustDocs](/api/use-geometry/)
+- [use-combinatorics RustDocs](/api/use-combinatorics/)
+- [use-math RustDocs](/api/use-math/)
+- [use-math workspace RustDocs](/api/workspaces/use-math/)
+
 ## Common adoption paths
 
 A few starting points map cleanly to the current surface.
 
-- A rendering, layout, or CAD-adjacent tool usually starts with `use-geometry`.
-- A scheduling, allocation, or enumeration-heavy tool usually starts with `use-combinatorics`.
-- An application or library that wants one shared math dependency surface usually starts with `use-math`.
+| Need                                                | Suggested path                                       |
+| --------------------------------------------------- | ---------------------------------------------------- |
+| A normal Rust dependency                            | Install the focused crate from crates.io with Cargo. |
+| A broader domain dependency                         | Install the facade crate from crates.io with Cargo.  |
+| One small helper in an application                  | Copy the primitive from `rustuse.org`.               |
+| A one-shot CLI copy workflow                        | Use `rustuse copy <crate>`.                          |
+| A primitive plus local tests                        | Use `rustuse copy <crate> --with-tests`.             |
+| Tracked copied source                               | Run `rustuse init`, then add or copy with tracking.  |
+| Future diff or upgrade support                      | Use the managed `rustuse.toml` workflow.             |
+| A rendering, layout, or CAD-adjacent tool           | Start with `use-geometry`.                           |
+| A scheduling, allocation, or enumeration-heavy tool | Start with `use-combinatorics`.                      |
+| One shared math dependency surface                  | Start with `use-math`.                               |
+
+## Understand rustuse.toml
+
+`rustuse.toml` records RustUse-managed project intent. It is not a replacement for `Cargo.toml`.
+
+Cargo dependencies stay in `Cargo.toml`.
+
+Copied source can remain untracked.
+
+Managed copied source can be tracked in `rustuse.toml`.
+
+A minimal initialized file may look like this:
+
+```toml
+version = 1
+
+[project]
+default_mode = "cargo"
+copy_root = "src"
+test_root = "tests"
+license = "MIT OR Apache-2.0"
+
+[updates]
+check_copied = true
+write_candidates = true
+```
+
+A copy-first project may choose a different local layout:
+
+```bash
+rustuse init --copy-first
+```
+
+That kind of project can place copied primitives under a dedicated source area and reserve the managed workflow for source ownership, diffs, and future upgrades.
 
 ## What stays stable
 
-RustUse keeps the adoption path predictable even while the current crates remain scaffolded.
+RustUse keeps the adoption path predictable as the public surface grows.
 
-- The curated crate pages explain intended scope and role.
-- The stable `/api/` routes host the generated rustdocs.
-- External registry pages and `docs.rs` stay secondary until publication is fully live.
+- Crates are installed from crates.io.
+- Curated crate pages explain intended scope and role.
+- Stable `/api/` routes host generated RustDocs.
+- Set pages explain how focused crates compose.
+- Copyable source keeps small primitives usable without dependency overhead.
+- The `rustuse` CLI can provide search, add, copy, and optional managed tracking.
+- `rustuse.toml` remains opt-in project state.
+
+## Understand the ownership boundary
+
+Each path has a different update model.
+
+Cargo keeps RustUse as an external dependency. You update through normal Cargo workflows.
+
+Copy mode places source inside your project. Your project owns that copy, including future edits and updates.
+
+One-shot CLI copy mode also places source inside your project without requiring RustUse project tracking.
+
+Managed CLI mode uses `rustuse.toml` so future RustUse commands can track copied primitives, compare upstream changes, and support safer upgrades.
+
+Choose the boundary intentionally.
 
 ## Expand only when it helps
 
-RustUse favors small crates over premature consolidation. Start with one dependency, confirm that it fits the problem, and compose outward only when an additional crate or facade layer makes the system clearer.
+RustUse favors small crates over premature consolidation. Start with one primitive, one crate, or one facade. Confirm that it fits the problem, then compose outward only when an additional crate or broader set makes the system clearer.

@@ -1,0 +1,76 @@
+---
+title: AI Usage Recipes
+description: Copy and paste prompts for using RustUse documentation with AI assistants.
+---
+
+These recipes give assistants a small, explicit RustUse context path before they answer. They are intentionally short so they can be pasted into chat tools, coding assistants, or local agents.
+
+Use them as starting points, then verify any generated Rust code against RustUse Rustdocs and `cargo test`.
+
+:::caution
+AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`.
+:::
+
+## Understand RustUse
+
+```text
+Use https://rustuse.org/llms.txt to understand the RustUse project structure before answering.
+```
+
+Use this when the assistant needs a quick map of sets, docs routes, and Rustdoc patterns.
+
+## Work with one set
+
+```text
+Use https://rustuse.org/sets/use-math/llms.txt for focused context on the RustUse math set.
+```
+
+Use this when the task is scoped to one set and does not need the full RustUse catalog.
+
+## Work with one child crate
+
+Current live route:
+
+```text
+Use https://rustuse.org/sets/use-math/llms.txt for focused context on use-math, then verify use-prime examples against RustUse Rustdocs.
+```
+
+Planned crate-specific route:
+
+```text
+Use https://rustuse.org/crates/use-prime/llms.txt before suggesting examples for use-prime.
+```
+
+Use this shape once crate-level LLM text files are generated. Until then, start from the owning set file.
+
+## Avoid crate collisions
+
+```text
+Before suggesting a new RustUse crate, check the RustUse catalog and avoid names that already exist.
+```
+
+For crate naming work, also check whether a proposed hyphenated or underscored name would collide with an existing crates.io package identity.
+
+## Generate a GitHub Copilot prompt
+
+```text
+Use the RustUse conventions from the LLM text files and generate a GitHub Copilot Plan Mode prompt.
+```
+
+Use this when you want an assistant to produce a plan that respects RustUse set boundaries, facade crates, focused child crates, docs, tests, and release-readiness checks.
+
+## Plan a new set
+
+```text
+Use the RustUse catalog, avoid existing names, keep the set facade-only, and propose focused child crates that provide primitive utilities.
+```
+
+Good set plans should include a narrow domain boundary, proposed child crates, naming rationale, non-goals, documentation shape, and validation steps.
+
+## Ask for verification
+
+```text
+After suggesting RustUse code, list the Rustdocs route and cargo command I should use to verify it.
+```
+
+This keeps the assistant's answer tied to public docs and local Rust validation instead of treating generated output as final.
