@@ -5,22 +5,22 @@ description: Start using RustUse by choosing the smallest adoption path that fit
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
 import MascotTip from '../../components/MascotTip.astro';
-import ferris2d from '../../assets/ferris-2D.png';
-import ferris3d from '../../assets/ferris-3D.png';
+import onboarding2d from '../../assets/onboarding-2D.png';
+import onboarding3d from '../../assets/onboarding-3D.png';
 
 <DocsMascotPanel
-  image2d={ferris2d}
-  image3d={ferris3d}
+  image2d={onboarding2d}
+  image3d={onboarding3d}
   alt="Ferris introducing the RustUse onboarding guide"
   eyebrow="Onboarding"
   title="Install it. Copy it. Add it with the CLI."
   description="RustUse keeps adoption precise. Start with the smallest primitive that solves the job, then choose the boundary that fits your project: install the crate from crates.io, copy the source from rustuse.org, or use the RustUse CLI."
   quickLinks={[
-    { href: '/crates/', label: 'Browse crates' },
-    { href: '/sets/', label: 'Browse sets' },
-    { href: '/copy/', label: 'Copy source' },
+    { href: '/sets/', label: 'Browse facade sets' },
+    { href: '/crates/', label: 'Explore all crates' },
     { href: '/cli/', label: 'Use the CLI' },
   ]}
+  layout="stacked"
   theme="sand"
 />
 

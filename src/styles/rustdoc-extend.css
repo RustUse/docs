@@ -437,13 +437,61 @@ body.rustdoc .example-wrap pre {
 }
 
 body.rustdoc .content table {
-  margin-block: 1rem 1.5rem;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-block: 1.25rem 1.75rem;
+  overflow-x: auto;
+  border-spacing: 0;
+}
+
+body.rustdoc .content table thead {
+  background: color-mix(in srgb, var(--rustuse-sand) 10%, transparent);
+}
+
+body.rustdoc .content table tbody tr:nth-child(even) {
+  background: rgba(255, 247, 240, 0.035);
+}
+
+body.rustdoc .content table tbody tr:hover {
+  background: color-mix(in srgb, var(--rustuse-teal) 12%, transparent);
 }
 
 body.rustdoc .content th,
 body.rustdoc .content td {
-  padding: 0.72rem 0.95rem;
-  border-bottom-color: rgba(255, 255, 255, 0.08);
+  padding: 0.82rem clamp(0.9rem, 1.4vw, 1.1rem);
+  border-bottom-color: var(--rustuse-rule);
+  line-height: 1.48;
+  text-align: start;
+  vertical-align: top;
+}
+
+body.rustdoc .content th {
+  color: var(--rustuse-sand);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body.rustdoc .content tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+:root[data-theme='light'] body.rustdoc .content table thead {
+  background: rgba(244, 162, 97, 0.12);
+}
+
+:root[data-theme='light'] body.rustdoc .content table tbody tr:nth-child(even) {
+  background: rgba(38, 70, 83, 0.035);
+}
+
+:root[data-theme='light'] body.rustdoc .content table tbody tr:hover {
+  background: rgba(42, 157, 143, 0.09);
+}
+
+:root[data-theme='light'] body.rustdoc .content th {
+  color: var(--rustuse-deep);
 }
 
 body.rustdoc #copy-path {

@@ -17,6 +17,7 @@ interface Props {
   quickLinks?: QuickLink[];
   actionHref?: string;
   actionLabel?: string;
+  layout?: 'inline' | 'stacked';
   theme?: 'flame' | 'teal' | 'clay' | 'sand';
   reverse?: boolean;
 }
@@ -32,6 +33,7 @@ const {
   quickLinks = [],
   actionHref,
   actionLabel,
+  layout = 'inline',
   theme = 'flame',
   reverse = false,
 } = Astro.props;
@@ -45,6 +47,7 @@ const hasArtSlot = Astro.slots.has('art');
     'ru-mascot-panel',
     `is-${theme}`,
     reverse && 'is-reverse',
+    layout === 'stacked' && 'is-stacked',
     'not-content',
   ]}
 >
@@ -164,6 +167,18 @@ const hasArtSlot = Astro.slots.has('art');
 
   .ru-mascot-panel.is-reverse .ru-mascot-art {
     order: 1;
+  }
+
+  .ru-mascot-panel.is-stacked {
+    grid-template-columns: 1fr;
+  }
+
+  .ru-mascot-panel.is-stacked .ru-mascot-art {
+    min-height: clamp(16rem, 36vw, 24rem);
+  }
+
+  .ru-mascot-panel.is-stacked .ru-mascot-image {
+    width: min(100%, 24rem);
   }
 
   .ru-mascot-copy {
