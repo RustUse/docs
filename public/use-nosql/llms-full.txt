@@ -1,0 +1,50 @@
+# use-nosql
+
+Expanded LLM context for the RustUse nosql facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-nosql/
+- Facade overview page: https://rustuse.org/facades/use-nosql/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-nosql/
+- Repository: https://github.com/RustUse/use-nosql
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-nosql/
+- https://rustuse.org/api/workspaces/use-nosql/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-nosql workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-cache-store](https://rustuse.org/use-nosql/use-cache-store/) - child crate of use-nosql
+- [use-change-event](https://rustuse.org/use-nosql/use-change-event/) - child crate of use-nosql
+- [use-consistency](https://rustuse.org/use-nosql/use-consistency/) - child crate of use-nosql
+- [use-document-path](https://rustuse.org/use-nosql/use-document-path/) - child crate of use-nosql
+- [use-document-store](https://rustuse.org/use-nosql/use-document-store/) - child crate of use-nosql
+- [use-graph-store](https://rustuse.org/use-nosql/use-graph-store/) - child crate of use-nosql
+- [use-key-value-store](https://rustuse.org/use-nosql/use-key-value-store/) - child crate of use-nosql
+- [use-nosql](https://rustuse.org/use-nosql/) - facade crate
+- [use-partition-key](https://rustuse.org/use-nosql/use-partition-key/) - child crate of use-nosql
+- [use-search-index](https://rustuse.org/use-nosql/use-search-index/) - child crate of use-nosql
+- [use-timeseries-store](https://rustuse.org/use-nosql/use-timeseries-store/) - child crate of use-nosql
+- [use-vector-store](https://rustuse.org/use-nosql/use-vector-store/) - child crate of use-nosql
+- [use-wide-column](https://rustuse.org/use-nosql/use-wide-column/) - child crate of use-nosql
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-nosql/llms.txt and https://rustuse.org/use-nosql/llms-full.txt. The /facades/use-nosql/ routes serve this exact generated content so the two paths cannot drift.

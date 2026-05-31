@@ -1,9 +1,9 @@
 ---
 title: LLM Text Files
-description: Root, set-level, and planned crate-level LLM text file conventions for RustUse.
+description: Root, facade-level, and planned crate-level LLM text file conventions for RustUse.
 ---
 
-RustUse publishes generated Markdown text files for tools that prefer a compact, AI-readable entry point. These files do not replace the docs site or Rustdocs. They help assistants route themselves to the right set, crate, repository, and API documentation.
+RustUse publishes generated Markdown text files for tools that prefer a compact, AI-readable entry point. These files do not replace the docs site or Rustdocs. They help assistants route themselves to the right facade, crate, repository, and API documentation.
 
 :::note
 The LLM text files are generated from the same public RustUse documentation sources as the docs site.
@@ -16,31 +16,31 @@ The LLM text files are generated from the same public RustUse documentation sour
 | `/llms.txt`      | Live   | Concise project-wide index for discovery, routing, and project orientation. |
 | `/llms-full.txt` | Live   | Larger project-wide Markdown bundle for tools that can ingest more context. |
 
-`/llms.txt` is best when the assistant needs a quick map of RustUse. It includes primary links, workspace Rustdoc patterns, and generated set links.
+`/llms.txt` is best when the assistant needs a quick map of RustUse. It includes primary links, workspace Rustdoc patterns, and generated facade links.
 
-`/llms-full.txt` is best when a tool can ingest more context. It includes the broader project context plus generated set and crate links.
+`/llms-full.txt` is best when a tool can ingest more context. It includes the broader project context plus generated facade and crate links.
 
-## Set-level files
+## Facade-level files
 
-| File                        | Status | Use                                                        |
-| --------------------------- | ------ | ---------------------------------------------------------- |
-| `/sets/{set}/llms.txt`      | Live   | Focused set-level routing through the set overview route.  |
-| `/sets/{set}/llms-full.txt` | Live   | Expanded set-level context through the set overview route. |
-| `/{set}/llms.txt`           | Live   | Canonical short set-level routing file.                    |
-| `/{set}/llms-full.txt`      | Live   | Canonical short expanded set-level context file.           |
+| File                              | Status | Use                                                              |
+| --------------------------------- | ------ | ---------------------------------------------------------------- |
+| `/facades/{facade}/llms.txt`      | Live   | Focused facade-level routing through the facade overview route.  |
+| `/facades/{facade}/llms-full.txt` | Live   | Expanded facade-level context through the facade overview route. |
+| `/{facade}/llms.txt`              | Live   | Canonical short facade-level routing file.                       |
+| `/{facade}/llms-full.txt`         | Live   | Canonical short expanded facade-level context file.              |
 
-The short set routes and `/sets/` routes are generated from the same content so they cannot drift.
+The short facade routes and `/facades/` routes are generated from the same content so they cannot drift.
 
 Examples:
 
 ```text
-/sets/use-math/llms.txt
-/sets/use-math/llms-full.txt
+/facades/use-math/llms.txt
+/facades/use-math/llms-full.txt
 /use-math/llms.txt
 /use-math/llms-full.txt
 ```
 
-Use set-level files when the task is already scoped to one RustUse set, such as `use-math`, `use-web`, or `use-python`.
+Use facade-level files when the task is already scoped to one RustUse facade, such as `use-math`, `use-web`, or `use-python`.
 
 ## Crate-level files
 
@@ -56,14 +56,14 @@ Planned examples:
 /crates/use-prime/llms-full.txt
 ```
 
-Until crate-level files are generated, use the owning set's LLM text file, the crate guide page, and Rustdocs. For `use-prime`, start with `/sets/use-math/llms.txt` or `/use-math/llms.txt`.
+Until crate-level files are generated, use the owning facade's LLM text file, the crate guide page, and Rustdocs. For `use-prime`, start with `/facades/use-math/llms.txt` or `/use-math/llms.txt`.
 
 ## Which file should I use?
 
 - Use root `llms.txt` for project discovery.
 - Use root `llms-full.txt` for broad project context.
-- Use set-level `llms.txt` for focused set work.
-- Use set-level `llms-full.txt` for complete set context.
+- Use facade-level `llms.txt` for focused facade work.
+- Use facade-level `llms-full.txt` for complete facade context.
 - Use crate-level `llms.txt` for focused child-crate usage once crate-level files are available.
 - Use crate-level `llms-full.txt` for deeper crate-specific work once crate-level files are available.
 

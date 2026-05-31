@@ -29,9 +29,9 @@ const catalogOutputPath = path.join(dataRoot, 'catalog.generated.js');
 const rustdocSourcesPath = path.join(docsRoot, 'docs', 'rustdoc-sources.json');
 const rustuseRepoUrl = 'https://github.com/RustUse/rustuse';
 const rustuseManifestPath = path.resolve(docsRoot, '../rustuse/Cargo.toml');
-const setWorkspaceTempRoot = path.join(
+const facadeWorkspaceTempRoot = path.join(
   os.tmpdir(),
-  `rustuse-set-workspaces-${process.pid}`,
+  `rustuse-facade-workspaces-${process.pid}`,
 );
 const prettierOptions =
   (await resolveConfig(path.join(docsRoot, '.prettierrc.json'))) ?? {};
@@ -188,7 +188,7 @@ function cargoMetadataForManifest(manifestPath) {
   );
 }
 
-function featureNameToSetName(featureName, sourceLabel) {
+function featureNameToFacadeName(featureName, sourceLabel) {
   if (
     typeof featureName !== 'string' ||
     featureName.startsWith('dep:') ||
@@ -199,28 +199,30 @@ function featureNameToSetName(featureName, sourceLabel) {
     );
   }
 
-  const setName = featureName.startsWith('use-')
+  const facadeName = featureName.startsWith('use-')
     ? featureName
     : `use-${featureName}`;
 
-  if (!/^use-[a-z0-9][a-z0-9-]*$/.test(setName)) {
-    fail(`Unsupported RustUse set name "${setName}" from ${sourceLabel}.`);
+  if (!/^use-[a-z0-9][a-z0-9-]*$/.test(facadeName)) {
+    fail(
+      `Unsupported RustUse facade name "${facadeName}" from ${sourceLabel}.`,
+    );
   }
 
-  return setName;
+  return facadeName;
 }
 
-function featureNamesToSetNames(featureNames, sourceLabel) {
-  const setNames = featureNames.map((featureName) =>
-    featureNameToSetName(featureName, sourceLabel),
+function featureNamesToFacadeNames(featureNames, sourceLabel) {
+  const facadeNames = featureNames.map((featureName) =>
+    featureNameToFacadeName(featureName, sourceLabel),
   );
-  const uniqueSetNames = new Set(setNames);
+  const uniqueFacadeNames = new Set(facadeNames);
 
-  if (uniqueSetNames.size !== setNames.length) {
-    fail(`Duplicate RustUse set feature found in ${sourceLabel}.`);
+  if (uniqueFacadeNames.size !== facadeNames.length) {
+    fail(`Duplicate RustUse facade feature found in ${sourceLabel}.`);
   }
 
-  return setNames;
+  return facadeNames;
 }
 
 function extractFullFeatureNamesFromMetadata(metadata, sourceLabel) {
@@ -294,7 +296,7 @@ function cloneRustuseSource() {
   rmSync(tempRoot, { recursive: true, force: true });
   mkdirSync(tempRoot, { recursive: true });
 
-  console.log(`Cloning RustUse set inventory source: ${rustuseRepoUrl}`);
+  console.log(`Cloning RustUse facade inventory source: ${rustuseRepoUrl}`);
   execFileSync('git', ['clone', '--depth', '1', rustuseRepoUrl, workingDir], {
     cwd: docsRoot,
     stdio: 'inherit',
@@ -306,9 +308,9 @@ function cloneRustuseSource() {
   };
 }
 
-function discoverRustuseSetNamesFromManifest(manifestPath, sourceLabel) {
+function discoverRustuseFacadeNamesFromManifest(manifestPath, sourceLabel) {
   try {
-    return featureNamesToSetNames(
+    return featureNamesToFacadeNames(
       extractFullFeatureNamesFromMetadata(
         cargoMetadataForManifest(manifestPath),
         sourceLabel,
@@ -317,10 +319,10 @@ function discoverRustuseSetNamesFromManifest(manifestPath, sourceLabel) {
     );
   } catch {
     console.warn(
-      `Unable to read rustuse set inventory with cargo metadata from ${sourceLabel}; falling back to manifest parsing.`,
+      `Unable to read rustuse facade inventory with cargo metadata from ${sourceLabel}; falling back to manifest parsing.`,
     );
 
-    return featureNamesToSetNames(
+    return featureNamesToFacadeNames(
       extractFullFeatureNamesFromManifest(
         readFileSync(manifestPath, 'utf8'),
         sourceLabel,
@@ -330,9 +332,9 @@ function discoverRustuseSetNamesFromManifest(manifestPath, sourceLabel) {
   }
 }
 
-function discoverRustuseSetNames() {
+function discoverRustuseFacadeNames() {
   if (existsSync(rustuseManifestPath)) {
-    return discoverRustuseSetNamesFromManifest(
+    return discoverRustuseFacadeNamesFromManifest(
       rustuseManifestPath,
       rustuseManifestPath,
     );
@@ -341,7 +343,7 @@ function discoverRustuseSetNames() {
   const clonedSource = cloneRustuseSource();
 
   try {
-    return discoverRustuseSetNamesFromManifest(
+    return discoverRustuseFacadeNamesFromManifest(
       clonedSource.manifestPath,
       rustuseRepoUrl,
     );
@@ -350,41 +352,47 @@ function discoverRustuseSetNames() {
   }
 }
 
-const rustuseSetNames = discoverRustuseSetNames();
+const rustuseFacadeNames = discoverRustuseFacadeNames();
 
-function buildSetConfig(setName) {
+function buildFacadeConfig(facadeName) {
   return {
-    name: setName,
-    bundleSlug: `workspaces/${setName}`,
-    facadeCrate: setName,
-    pageDir: setName,
-    repo: `https://github.com/RustUse/${setName}`,
-    setPath: `/sets/${setName}/`,
-    sourcePath: `../${setName}`,
-    workspacePath: path.resolve(docsRoot, `../${setName}`),
+    name: facadeName,
+    bundleSlug: `workspaces/${facadeName}`,
+    facadeCrate: facadeName,
+    pageDir: facadeName,
+    repo: `https://github.com/RustUse/${facadeName}`,
+    facadePath: `/facades/${facadeName}/`,
+    sourcePath: `../${facadeName}`,
+    workspacePath: path.resolve(docsRoot, `../${facadeName}`),
   };
 }
 
-const setConfigs = rustuseSetNames.map((setName) => buildSetConfig(setName));
+const facadeConfigs = rustuseFacadeNames.map((facadeName) =>
+  buildFacadeConfig(facadeName),
+);
 
-function cloneSetWorkspace(setConfig) {
-  const workingDir = path.join(setWorkspaceTempRoot, setConfig.name);
+function cloneFacadeWorkspace(facadeConfig) {
+  const workingDir = path.join(facadeWorkspaceTempRoot, facadeConfig.name);
 
-  console.log(`Cloning RustUse set workspace source: ${setConfig.repo}`);
-  execFileSync('git', ['clone', '--depth', '1', setConfig.repo, workingDir], {
-    cwd: docsRoot,
-    stdio: 'inherit',
-  });
+  console.log(`Cloning RustUse facade workspace source: ${facadeConfig.repo}`);
+  execFileSync(
+    'git',
+    ['clone', '--depth', '1', facadeConfig.repo, workingDir],
+    {
+      cwd: docsRoot,
+      stdio: 'inherit',
+    },
+  );
 
   return workingDir;
 }
 
-function resolveSetWorkspacePath(setConfig) {
-  if (existsSync(path.join(setConfig.workspacePath, 'Cargo.toml'))) {
-    return setConfig.workspacePath;
+function resolveFacadeWorkspacePath(facadeConfig) {
+  if (existsSync(path.join(facadeConfig.workspacePath, 'Cargo.toml'))) {
+    return facadeConfig.workspacePath;
   }
 
-  return cloneSetWorkspace(setConfig);
+  return cloneFacadeWorkspace(facadeConfig);
 }
 
 function isPublishablePackage(pkg) {
@@ -395,8 +403,8 @@ function isPublishablePackage(pkg) {
   return !Array.isArray(pkg.publish) || pkg.publish.length > 0;
 }
 
-function packageRepositoryUrl(pkg, setConfig) {
-  return pkg.repository ?? setConfig.repo;
+function packageRepositoryUrl(pkg, facadeConfig) {
+  return pkg.repository ?? facadeConfig.repo;
 }
 
 function workspacePackages(metadata) {
@@ -414,20 +422,20 @@ function workspacePackages(metadata) {
     );
 }
 
-function readSetWorkspaceRecord(setConfig) {
-  const workspacePath = resolveSetWorkspacePath(setConfig);
+function readFacadeWorkspaceRecord(facadeConfig) {
+  const workspacePath = resolveFacadeWorkspacePath(facadeConfig);
   const metadata = cargoMetadata(workspacePath);
   const packages = workspacePackages(metadata);
 
   if (packages.length === 0) {
-    fail(`No publishable use-* packages found for ${setConfig.name}.`);
+    fail(`No publishable use-* packages found for ${facadeConfig.name}.`);
   }
 
   return {
     metadata,
     packages,
-    setConfig: {
-      ...setConfig,
+    facadeConfig: {
+      ...facadeConfig,
       workspacePath,
     },
   };
@@ -451,13 +459,13 @@ function buildTags(pkg) {
     : ['rustuse'];
 }
 
-function formatSetLabel(setName) {
-  return setName.replace(/^use-/, '').replace(/-/g, ' ');
+function formatFacadeLabel(facadeName) {
+  return facadeName.replace(/^use-/, '').replace(/-/g, ' ');
 }
 
-async function resolvePublicationStatus(pkg, setConfig) {
+async function resolvePublicationStatus(pkg, facadeConfig) {
   const crateRecord = await fetchCratesIoCrate(pkg.name);
-  const repositoryUrl = packageRepositoryUrl(pkg, setConfig);
+  const repositoryUrl = packageRepositoryUrl(pkg, facadeConfig);
   const published = repositoryUrlsMatch(crateRecord?.repository, repositoryUrl);
 
   return {
@@ -466,19 +474,19 @@ async function resolvePublicationStatus(pkg, setConfig) {
   };
 }
 
-async function buildPublicationStatusByPackageId(setWorkspaceRecords) {
-  const packageRefs = setWorkspaceRecords.flatMap((setWorkspaceRecord) =>
-    setWorkspaceRecord.packages.map((pkg) => ({
+async function buildPublicationStatusByPackageId(facadeWorkspaceRecords) {
+  const packageRefs = facadeWorkspaceRecords.flatMap((facadeWorkspaceRecord) =>
+    facadeWorkspaceRecord.packages.map((pkg) => ({
       pkg,
-      setConfig: setWorkspaceRecord.setConfig,
+      facadeConfig: facadeWorkspaceRecord.facadeConfig,
     })),
   );
   const statusEntries = await mapWithConcurrency(
     packageRefs,
     cratesIoRequestConcurrency,
-    async ({ pkg, setConfig }) => [
+    async ({ pkg, facadeConfig }) => [
       pkg.id,
-      await resolvePublicationStatus(pkg, setConfig),
+      await resolvePublicationStatus(pkg, facadeConfig),
     ],
   );
   const statusByPackageId = new Map(statusEntries);
@@ -493,26 +501,28 @@ async function buildPublicationStatusByPackageId(setWorkspaceRecords) {
   return statusByPackageId;
 }
 
-function buildSetCatalogEntry(setConfig, facadeEntry, hasGeneratedApi) {
+function buildFacadeCatalogEntry(facadeConfig, facadeEntry, hasGeneratedApi) {
   const published = facadeEntry.status === 'published';
   const workspaceApiPath = hasGeneratedApi
-    ? `/${setConfig.bundleSlug}/`.replace('/workspaces/', '/api/workspaces/')
+    ? `/${facadeConfig.bundleSlug}/`.replace('/workspaces/', '/api/workspaces/')
     : undefined;
 
   return {
-    name: setConfig.name,
-    setPath: setConfig.setPath,
+    name: facadeConfig.name,
+    facadePath: facadeConfig.facadePath,
     status: facadeEntry.status,
-    description: `RustUse ${formatSetLabel(setConfig.name)} utilities and facade surface.`,
-    repositoryUrl: setConfig.repo,
-    cratesIoUrl: published ? `${cratesIoBaseUrl}/${setConfig.name}` : undefined,
-    docsRsUrl: published ? `${docsRsBaseUrl}/${setConfig.name}` : undefined,
+    description: `RustUse ${formatFacadeLabel(facadeConfig.name)} utilities and facade surface.`,
+    repositoryUrl: facadeConfig.repo,
+    cratesIoUrl: published
+      ? `${cratesIoBaseUrl}/${facadeConfig.name}`
+      : undefined,
+    docsRsUrl: published ? `${docsRsBaseUrl}/${facadeConfig.name}` : undefined,
     ...(workspaceApiPath ? { workspaceApiPath } : {}),
   };
 }
 
-function buildCatalogEntry(setConfig, pkg, statusInfo, hasGeneratedApi) {
-  const isFacade = pkg.name === setConfig.facadeCrate;
+function buildCatalogEntry(facadeConfig, pkg, statusInfo, hasGeneratedApi) {
+  const isFacade = pkg.name === facadeConfig.facadeCrate;
   const status = statusInfo.status;
   const published = status === 'published';
   const docsUrl =
@@ -521,27 +531,27 @@ function buildCatalogEntry(setConfig, pkg, statusInfo, hasGeneratedApi) {
   return {
     name: pkg.name,
     packageName: pkg.name,
-    set: setConfig.name,
-    setPath: setConfig.setPath,
+    facade: facadeConfig.name,
+    facadePath: facadeConfig.facadePath,
     status,
     description:
       pkg.description ??
-      `RustUse ${formatSetLabel(setConfig.name)} ${isFacade ? 'facade' : 'focused'} crate.`,
+      `RustUse ${formatFacadeLabel(facadeConfig.name)} ${isFacade ? 'facade' : 'focused'} crate.`,
     repositoryUrl: statusInfo.repositoryUrl,
     cratesIoUrl: published ? `${cratesIoBaseUrl}/${pkg.name}` : undefined,
     docsUrl,
     docsRsUrl: published ? `${docsRsBaseUrl}/${pkg.name}` : undefined,
     apiPath: docsUrl,
     pagePath: isFacade
-      ? `/${setConfig.pageDir}/`
-      : `/${setConfig.pageDir}/${pkg.name}/`,
+      ? `/${facadeConfig.pageDir}/`
+      : `/${facadeConfig.pageDir}/${pkg.name}/`,
     tags: buildTags(pkg),
     public: true,
   };
 }
 
-function buildGeneratedCatalogModule(sets, crates) {
-  return `// This file is generated by scripts/sync-crate-surface.mjs. Do not edit by hand.\n\nexport const rustuseSets = ${JSON.stringify(sets, null, 2)};\n\nexport const rustuseCrates = ${JSON.stringify(crates, null, 2)};\n`;
+function buildGeneratedCatalogModule(facades, crates) {
+  return `// This file is generated by scripts/sync-crate-surface.mjs. Do not edit by hand.\n\nexport const rustuseFacades = ${JSON.stringify(facades, null, 2)};\n\nexport const rustuseCrates = ${JSON.stringify(crates, null, 2)};\n`;
 }
 
 async function formatGeneratedContent(content, parser) {
@@ -551,8 +561,8 @@ async function formatGeneratedContent(content, parser) {
   });
 }
 
-async function buildGeneratedPage(entry, setConfig) {
-  const pageDir = path.join(contentRoot, setConfig.pageDir);
+async function buildGeneratedPage(entry, facadeConfig) {
+  const pageDir = path.join(contentRoot, facadeConfig.pageDir);
   const componentImport = relativeImportPath(
     pageDir,
     path.join(componentsRoot, 'CrateOverviewPage.astro'),
@@ -564,39 +574,39 @@ async function buildGeneratedPage(entry, setConfig) {
   );
 }
 
-async function writeGeneratedPage(entry, setConfig) {
-  const pageDir = path.join(contentRoot, setConfig.pageDir);
+async function writeGeneratedPage(entry, facadeConfig) {
+  const pageDir = path.join(contentRoot, facadeConfig.pageDir);
 
   const pagePath =
-    entry.name === setConfig.facadeCrate
+    entry.name === facadeConfig.facadeCrate
       ? path.join(pageDir, 'index.mdx')
       : path.join(pageDir, `${entry.name}.mdx`);
 
   await writeGeneratedPageIfSafe(
     pagePath,
-    await buildGeneratedPage(entry, setConfig),
+    await buildGeneratedPage(entry, facadeConfig),
   );
 }
 
-async function buildGeneratedSetPage(setEntry) {
-  const pageDir = path.join(contentRoot, 'sets');
+async function buildGeneratedFacadePage(facadeEntry) {
+  const pageDir = path.join(contentRoot, 'facades');
   const componentImport = relativeImportPath(
     pageDir,
-    path.join(componentsRoot, 'SetOverviewPage.astro'),
+    path.join(componentsRoot, 'FacadeOverviewPage.astro'),
   );
 
   return formatGeneratedContent(
-    `---\ntitle: ${JSON.stringify(setEntry.name)}\ndescription: ${JSON.stringify(setEntry.description)}\n---\n\nimport SetOverviewPage from '${componentImport}';\n\n<SetOverviewPage setName=${JSON.stringify(setEntry.name)} />\n`,
+    `---\ntitle: ${JSON.stringify(facadeEntry.name)}\ndescription: ${JSON.stringify(facadeEntry.description)}\n---\n\nimport FacadeOverviewPage from '${componentImport}';\n\n<FacadeOverviewPage facadeName=${JSON.stringify(facadeEntry.name)} />\n`,
     'mdx',
   );
 }
 
-async function writeGeneratedSetPage(setEntry) {
-  const pageDir = path.join(contentRoot, 'sets');
+async function writeGeneratedFacadePage(facadeEntry) {
+  const pageDir = path.join(contentRoot, 'facades');
 
   await writeGeneratedPageIfSafe(
-    path.join(pageDir, `${setEntry.name}.mdx`),
-    await buildGeneratedSetPage(setEntry),
+    path.join(pageDir, `${facadeEntry.name}.mdx`),
+    await buildGeneratedFacadePage(facadeEntry),
   );
 }
 
@@ -614,7 +624,7 @@ function isGeneratedOverviewPage(content) {
     /^import CrateOverviewPage from ['"][^'"]+['"];\n\n<CrateOverviewPage crateName=['"][^'"]+['"] \/>$/.test(
       body,
     ) ||
-    /^import SetOverviewPage from ['"][^'"]+['"];\n\n<SetOverviewPage setName=['"][^'"]+['"] \/>$/.test(
+    /^import FacadeOverviewPage from ['"][^'"]+['"];\n\n<FacadeOverviewPage facadeName=['"][^'"]+['"] \/>$/.test(
       body,
     )
   );
@@ -635,11 +645,11 @@ async function writeGeneratedPageIfSafe(pagePath, content) {
 
 function buildRustdocSources(rustdocSourceRecords) {
   return {
-    sources: rustdocSourceRecords.map(({ entries, setConfig }) => ({
-      name: setConfig.name,
-      path: setConfig.sourcePath,
-      repo: setConfig.repo,
-      bundleSlug: setConfig.bundleSlug,
+    sources: rustdocSourceRecords.map(({ entries, facadeConfig }) => ({
+      name: facadeConfig.name,
+      path: facadeConfig.sourcePath,
+      repo: facadeConfig.repo,
+      bundleSlug: facadeConfig.bundleSlug,
       publishedCrates: entries
         .filter((crate) => crate.status === 'published')
         .map((crate) => crate.name),
@@ -647,66 +657,67 @@ function buildRustdocSources(rustdocSourceRecords) {
   };
 }
 
-rmSync(setWorkspaceTempRoot, { recursive: true, force: true });
-mkdirSync(setWorkspaceTempRoot, { recursive: true });
+rmSync(facadeWorkspaceTempRoot, { recursive: true, force: true });
+mkdirSync(facadeWorkspaceTempRoot, { recursive: true });
 
 try {
-  const setWorkspaceRecords = setConfigs.map((setConfig) =>
-    readSetWorkspaceRecord(setConfig),
+  const facadeWorkspaceRecords = facadeConfigs.map((facadeConfig) =>
+    readFacadeWorkspaceRecord(facadeConfig),
   );
-  const publicationStatusByPackageId =
-    await buildPublicationStatusByPackageId(setWorkspaceRecords);
-  const sets = [];
+  const publicationStatusByPackageId = await buildPublicationStatusByPackageId(
+    facadeWorkspaceRecords,
+  );
+  const facades = [];
   const crates = [];
   const rustdocSourceRecords = [];
 
-  for (const setWorkspaceRecord of setWorkspaceRecords) {
-    const { packages, setConfig } = setWorkspaceRecord;
+  for (const facadeWorkspaceRecord of facadeWorkspaceRecords) {
+    const { packages, facadeConfig } = facadeWorkspaceRecord;
     const hasGeneratedApi = packages.every(
       (pkg) => publicationStatusByPackageId.get(pkg.id)?.status === 'published',
     );
     const entries = packages.map((pkg) =>
       buildCatalogEntry(
-        setConfig,
+        facadeConfig,
         pkg,
         publicationStatusByPackageId.get(pkg.id),
         hasGeneratedApi,
       ),
     );
     const facadeEntry = entries.find(
-      (entry) => entry.name === setConfig.facadeCrate,
+      (entry) => entry.name === facadeConfig.facadeCrate,
     );
 
     if (!facadeEntry) {
       fail(
-        `No facade package named ${setConfig.facadeCrate} found in ${setConfig.name}.`,
+        `No facade package named ${facadeConfig.facadeCrate} found in ${facadeConfig.name}.`,
       );
     }
 
-    const setEntry = buildSetCatalogEntry(
-      setConfig,
+    const facadeCatalogEntry = buildFacadeCatalogEntry(
+      facadeConfig,
       facadeEntry,
       hasGeneratedApi,
     );
 
-    sets.push(setEntry);
+    facades.push(facadeCatalogEntry);
     crates.push(...entries);
 
     if (hasGeneratedApi) {
-      rustdocSourceRecords.push({ entries, setConfig });
+      rustdocSourceRecords.push({ entries, facadeConfig });
     }
 
-    await writeGeneratedSetPage(setEntry);
+    await writeGeneratedFacadePage(facadeCatalogEntry);
 
     for (const entry of entries) {
-      await writeGeneratedPage(entry, setConfig);
+      await writeGeneratedPage(entry, facadeConfig);
     }
   }
 
   writeFileSync(
     catalogOutputPath,
     await formatGeneratedContent(
-      buildGeneratedCatalogModule(sets, crates),
+      buildGeneratedCatalogModule(facades, crates),
       'babel',
     ),
   );
@@ -718,5 +729,5 @@ try {
     ),
   );
 } finally {
-  rmSync(setWorkspaceTempRoot, { recursive: true, force: true });
+  rmSync(facadeWorkspaceTempRoot, { recursive: true, force: true });
 }

@@ -17,22 +17,22 @@ AI assistants may still hallucinate APIs. Always verify generated code against R
 Use https://rustuse.org/llms.txt to understand the RustUse project structure before answering.
 ```
 
-Use this when the assistant needs a quick map of sets, docs routes, and Rustdoc patterns.
+Use this when the assistant needs a quick map of facades, docs routes, and Rustdoc patterns.
 
-## Work with one set
+## Work with one facade
 
 ```text
-Use https://rustuse.org/sets/use-math/llms.txt for focused context on the RustUse math set.
+Use https://rustuse.org/facades/use-math/llms.txt for focused context on the RustUse math facade.
 ```
 
-Use this when the task is scoped to one set and does not need the full RustUse catalog.
+Use this when the task is scoped to one facade and does not need the full RustUse catalog.
 
 ## Work with one child crate
 
 Current live route:
 
 ```text
-Use https://rustuse.org/sets/use-math/llms.txt for focused context on use-math, then verify use-prime examples against RustUse Rustdocs.
+Use https://rustuse.org/facades/use-math/llms.txt for focused context on use-math, then verify use-prime examples against RustUse Rustdocs.
 ```
 
 Planned crate-specific route:
@@ -41,7 +41,7 @@ Planned crate-specific route:
 Use https://rustuse.org/crates/use-prime/llms.txt before suggesting examples for use-prime.
 ```
 
-Use this shape once crate-level LLM text files are generated. Until then, start from the owning set file.
+Use this shape once crate-level LLM text files are generated. Until then, start from the owning facade file.
 
 ## Avoid crate collisions
 
@@ -57,15 +57,15 @@ For crate naming work, also check whether a proposed hyphenated or underscored n
 Use the RustUse conventions from the LLM text files and generate a GitHub Copilot Plan Mode prompt.
 ```
 
-Use this when you want an assistant to produce a plan that respects RustUse set boundaries, facade crates, focused child crates, docs, tests, and release-readiness checks.
+Use this when you want an assistant to produce a plan that respects RustUse facade boundaries, facade crates, focused child crates, docs, tests, and release-readiness checks.
 
-## Plan a new set
+## Plan a new facade
 
 ```text
-Use the RustUse catalog, avoid existing names, keep the set facade-only, and propose focused child crates that provide primitive utilities.
+Use the RustUse catalog, avoid existing names, keep the facade crate thin, and propose focused child crates that provide primitive utilities.
 ```
 
-Good set plans should include a narrow domain boundary, proposed child crates, naming rationale, non-goals, documentation shape, and validation steps.
+Good facade plans should include a narrow domain boundary, proposed child crates, naming rationale, non-goals, documentation shape, and validation steps.
 
 ## Ask for verification
 

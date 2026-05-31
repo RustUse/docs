@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -200,6 +200,35 @@ function runIfNeeded(label, filePaths, runner) {
   runner(filePaths);
 }
 
+function checkForLegacyFacadeOverviewProp(filePaths) {
+  const offenders = [];
+
+  for (const filePath of filePaths) {
+    if (!filePath.startsWith('src/content/docs/facades/')) {
+      continue;
+    }
+
+    if (path.extname(filePath) !== '.mdx') {
+      continue;
+    }
+
+    const content = readFileSync(path.join(repoRoot, filePath), 'utf8');
+
+    if (/<FacadeOverviewPage\s+setName=/.test(content)) {
+      offenders.push(filePath);
+    }
+  }
+
+  if (offenders.length > 0) {
+    const listed = offenders.map((filePath) => `- ${filePath}`).join('\n');
+    throw new Error(
+      `Legacy FacadeOverviewPage prop detected. Use facadeName instead of setName:\n${listed}`,
+    );
+  }
+
+  printStep('FacadeOverviewPage prop check: passed');
+}
+
 const changedFiles = collectChangedFiles();
 
 if (changedFiles.length === 0) {
@@ -210,6 +239,8 @@ if (changedFiles.length === 0) {
 console.log(
   `${stagedOnly ? 'Staged' : 'Changed'} authored files: ${changedFiles.length}`,
 );
+
+checkForLegacyFacadeOverviewProp(changedFiles);
 
 const prettierFiles = filterByExtension(changedFiles, prettierExtensions);
 const eslintFiles = filterByExtension(changedFiles, eslintExtensions);

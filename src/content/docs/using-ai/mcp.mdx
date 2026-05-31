@@ -50,40 +50,40 @@ The RustUse MCP Server is intended to expose:
 
 ```text
 rustuse://catalog
-rustuse://sets
-rustuse://sets/{set}
-rustuse://sets/{set}/children
+rustuse://facades
+rustuse://facades/{facade}
+rustuse://facades/{facade}/children
 rustuse://crates
 rustuse://crates/{crate}
 rustuse://llms
 rustuse://llms/full
-rustuse://llms/sets/{set}
-rustuse://llms/sets/{set}/full
+rustuse://llms/facades/{facade}
+rustuse://llms/facades/{facade}/full
 rustuse://llms/crates/{crate}
 rustuse://llms/crates/{crate}/full
-rustuse://rustdocs/workspaces/{set}
+rustuse://rustdocs/workspaces/{facade}
 rustuse://rustdocs/crates/{crate}
 ```
 
 ## Planned tools
 
-| Tool                                           | Candidate status | Expected behavior                                                                     |
-| ---------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------- |
-| `search_sets(query)`                           | Stable/read-only | Search public RustUse sets by name, tags, or description.                             |
-| `search_crates(query)`                         | Stable/read-only | Search public RustUse crates by name, tags, or description.                           |
-| `get_set(name)`                                | Stable/read-only | Return metadata and route information for one set.                                    |
-| `get_crate(name)`                              | Stable/read-only | Return metadata and route information for one crate.                                  |
-| `list_children(set)`                           | Stable/read-only | Return child crates for a set.                                                        |
-| `find_possible_collisions(name)`               | Experimental     | Check proposed names against known RustUse and crates.io-style collision rules.       |
-| `suggest_child_crates(set, goal, min_count)`   | Experimental     | Suggest focused primitive child crates for a set goal.                                |
-| `generate_copilot_prompt(task, set, children)` | Experimental     | Generate a GitHub Copilot Plan Mode prompt from RustUse conventions.                  |
-| `validate_set_shape`                           | Experimental     | Check whether a proposed set structure follows RustUse naming and facade conventions. |
+| Tool                                              | Candidate status | Expected behavior                                                               |
+| ------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------- |
+| `search_facades(query)`                           | Stable/read-only | Search public RustUse facades by name, tags, or description.                    |
+| `search_crates(query)`                            | Stable/read-only | Search public RustUse crates by name, tags, or description.                     |
+| `get_facade(name)`                                | Stable/read-only | Return metadata and route information for one facade.                           |
+| `get_crate(name)`                                 | Stable/read-only | Return metadata and route information for one crate.                            |
+| `list_children(facade)`                           | Stable/read-only | Return child crates for a facade.                                               |
+| `find_possible_collisions(name)`                  | Experimental     | Check proposed names against known RustUse and crates.io-style collision rules. |
+| `suggest_child_crates(facade, goal, min_count)`   | Experimental     | Suggest focused primitive child crates for a facade goal.                       |
+| `generate_copilot_prompt(task, facade, children)` | Experimental     | Generate a GitHub Copilot Plan Mode prompt from RustUse conventions.            |
+| `validate_facade_shape`                           | Experimental     | Check whether a proposed facade structure follows RustUse naming conventions.   |
 
 ## Stable read-only candidates
 
-- `search_sets`
+- `search_facades`
 - `search_crates`
-- `get_set`
+- `get_facade`
 - `get_crate`
 - `list_children`
 
@@ -92,14 +92,14 @@ rustuse://rustdocs/crates/{crate}
 - `find_possible_collisions`
 - `suggest_child_crates`
 - `generate_copilot_prompt`
-- `validate_set_shape`
+- `validate_facade_shape`
 
 ## Planned prompts
 
 ```text
-plan-new-set
+plan-new-facade
 add-child-crate
-audit-set-taxonomy
+audit-facade-taxonomy
 write-copilot-plan-prompt
 write-readme
 write-onboarding-example

@@ -28,10 +28,10 @@ const generatedRegions = {
     end: '<!-- END GENERATED RUSTUSE CRATES -->',
     heading: '## RustUse crates',
   },
-  sets: {
-    begin: '<!-- BEGIN GENERATED RUSTUSE SETS -->',
-    end: '<!-- END GENERATED RUSTUSE SETS -->',
-    heading: '## RustUse sets',
+  facades: {
+    begin: '<!-- BEGIN GENERATED RUSTUSE FACADES -->',
+    end: '<!-- END GENERATED RUSTUSE FACADES -->',
+    heading: '## RustUse facades',
   },
 };
 
@@ -71,19 +71,19 @@ function uniqueSortedCrates(crates) {
   const cratesByKey = new Map();
 
   for (const crateEntry of crates) {
-    cratesByKey.set(`${crateEntry.set}\0${crateEntry.name}`, crateEntry);
+    cratesByKey.set(`${crateEntry.facade}\0${crateEntry.name}`, crateEntry);
   }
 
   return [...cratesByKey.values()].sort((left, right) => {
     const nameComparison = compareNames(left.name, right.name);
 
     return nameComparison === 0
-      ? compareNames(left.set, right.set)
+      ? compareNames(left.facade, right.facade)
       : nameComparison;
   });
 }
 
-function discoverSetWorkspaces() {
+function discoverFacadeWorkspaces() {
   if (!existsSync(reposRoot)) {
     fail(`RustUse repository root does not exist: ${reposRoot}`);
   }
@@ -137,9 +137,9 @@ function packageManifestDir(packageRecord) {
   return path.dirname(path.resolve(packageRecord.manifest_path));
 }
 
-function packageLivesInSetCrateDir(packageRecord, setPath) {
+function packageLivesInFacadeCrateDir(packageRecord, facadePath) {
   const relativeManifestDir = normalizePath(
-    path.relative(setPath, packageManifestDir(packageRecord)),
+    path.relative(facadePath, packageManifestDir(packageRecord)),
   );
 
   return (
@@ -148,7 +148,7 @@ function packageLivesInSetCrateDir(packageRecord, setPath) {
   );
 }
 
-function workspacePackages(metadata, setPath) {
+function workspacePackages(metadata, facadePath) {
   const workspaceIndex = new Map(
     metadata.workspace_members.map((packageId, index) => [packageId, index]),
   );
@@ -158,7 +158,7 @@ function workspacePackages(metadata, setPath) {
       (packageRecord) =>
         workspaceIndex.has(packageRecord.id) &&
         isRustUseName(packageRecord.name) &&
-        packageLivesInSetCrateDir(packageRecord, setPath),
+        packageLivesInFacadeCrateDir(packageRecord, facadePath),
     )
     .sort(
       (left, right) =>
@@ -201,17 +201,17 @@ function packageNameFromManifest(manifestPath) {
   return undefined;
 }
 
-function discoverCrateNamesByScanning(setWorkspace) {
-  const crateNames = new Set([setWorkspace.name]);
+function discoverCrateNamesByScanning(facadeWorkspace) {
+  const crateNames = new Set([facadeWorkspace.name]);
   const rootPackageName = packageNameFromManifest(
-    path.join(setWorkspace.path, 'Cargo.toml'),
+    path.join(facadeWorkspace.path, 'Cargo.toml'),
   );
 
   if (rootPackageName && isRustUseName(rootPackageName)) {
     crateNames.add(rootPackageName);
   }
 
-  const cratesRoot = path.join(setWorkspace.path, 'crates');
+  const cratesRoot = path.join(facadeWorkspace.path, 'crates');
 
   if (!existsSync(cratesRoot)) {
     return [...crateNames];
@@ -240,45 +240,45 @@ function discoverCrateNamesByScanning(setWorkspace) {
   return [...crateNames];
 }
 
-function discoverCrateNames(setWorkspace) {
-  const metadata = readCargoMetadata(setWorkspace.path);
+function discoverCrateNames(facadeWorkspace) {
+  const metadata = readCargoMetadata(facadeWorkspace.path);
 
   if (!metadata) {
-    return discoverCrateNamesByScanning(setWorkspace);
+    return discoverCrateNamesByScanning(facadeWorkspace);
   }
 
-  const crateNames = workspacePackages(metadata, setWorkspace.path).map(
+  const crateNames = workspacePackages(metadata, facadeWorkspace.path).map(
     (packageRecord) => packageRecord.name,
   );
 
-  crateNames.push(setWorkspace.name);
+  crateNames.push(facadeWorkspace.name);
 
   return crateNames;
 }
 
 function buildInventoryFromWorkspaces() {
-  const setWorkspaces = discoverSetWorkspaces();
+  const facadeWorkspaces = discoverFacadeWorkspaces();
 
-  if (setWorkspaces.length === 0) {
-    fail(`No sibling RustUse set workspaces found under ${reposRoot}.`);
+  if (facadeWorkspaces.length === 0) {
+    fail(`No sibling RustUse facade workspaces found under ${reposRoot}.`);
   }
 
-  const sets = uniqueSortedNames(
-    setWorkspaces.map((setWorkspace) => setWorkspace.name),
+  const facades = uniqueSortedNames(
+    facadeWorkspaces.map((facadeWorkspace) => facadeWorkspace.name),
   );
   const crates = [];
 
-  for (const setWorkspace of setWorkspaces) {
+  for (const facadeWorkspace of facadeWorkspaces) {
     for (const crateName of uniqueSortedNames(
-      discoverCrateNames(setWorkspace),
+      discoverCrateNames(facadeWorkspace),
     )) {
-      crates.push({ name: crateName, set: setWorkspace.name });
+      crates.push({ name: crateName, facade: facadeWorkspace.name });
     }
   }
 
   return {
     crates: uniqueSortedCrates(crates),
-    sets,
+    facades,
   };
 }
 
@@ -324,10 +324,10 @@ function extractGeneratedRegionText(content, region, { required = true } = {}) {
   return extractSectionText(content, region.heading, { required });
 }
 
-function parseExistingSetLinks(content, { required = true } = {}) {
+function parseExistingFacadeLinks(content, { required = true } = {}) {
   const regionText = extractGeneratedRegionText(
     content,
-    generatedRegions.sets,
+    generatedRegions.facades,
     {
       required,
     },
@@ -337,17 +337,17 @@ function parseExistingSetLinks(content, { required = true } = {}) {
     return [];
   }
 
-  const setNames = [];
-  const setLinkPattern =
+  const facadeNames = [];
+  const facadeLinkPattern =
     /^- \[(use-[a-z0-9][a-z0-9-]*)\]\(https:\/\/rustuse\.org\/(use-[a-z0-9][a-z0-9-]*)\/\)(?:\s+- .*)?$/gm;
 
-  for (const match of regionText.matchAll(setLinkPattern)) {
+  for (const match of regionText.matchAll(facadeLinkPattern)) {
     if (match[1] === match[2]) {
-      setNames.push(match[1]);
+      facadeNames.push(match[1]);
     }
   }
 
-  return uniqueSortedNames(setNames);
+  return uniqueSortedNames(facadeNames);
 }
 
 function parseExistingCrateLinks(content, { required = true } = {}) {
@@ -369,7 +369,7 @@ function parseExistingCrateLinks(content, { required = true } = {}) {
     const crateName = match[3] ?? match[2];
 
     if (match[1] === crateName) {
-      crateLinks.push({ name: crateName, set: match[2] });
+      crateLinks.push({ name: crateName, facade: match[2] });
     }
   }
 
@@ -392,38 +392,38 @@ function parseExistingInventoryForMissingWorkspaces() {
     );
   }
 
-  const sets = parseExistingSetLinks(rootContent);
+  const facades = parseExistingFacadeLinks(rootContent);
   const crates = fullContent
     ? parseExistingCrateLinks(fullContent)
     : parseExistingCrateLinks(rootContent, { required: false });
 
-  return { crates, sets };
+  return { crates, facades };
 }
 
 function preserveMissingWorkspaceEntries(inventory, existingInventory) {
-  const discoveredSetNames = new Set(inventory.sets);
-  const missingSetNames = existingInventory.sets.filter(
-    (setName) => !discoveredSetNames.has(setName),
+  const discoveredFacadeNames = new Set(inventory.facades);
+  const missingFacadeNames = existingInventory.facades.filter(
+    (facadeName) => !discoveredFacadeNames.has(facadeName),
   );
 
-  if (missingSetNames.length === 0) {
+  if (missingFacadeNames.length === 0) {
     return inventory;
   }
 
   console.warn(
-    `Preserving ${missingSetNames.length} existing LLM set(s) because matching local workspaces are unavailable: ${missingSetNames.join(', ')}`,
+    `Preserving ${missingFacadeNames.length} existing LLM facade(s) because matching local workspaces are unavailable: ${missingFacadeNames.join(', ')}`,
   );
 
-  const missingSetNameSet = new Set(missingSetNames);
+  const missingFacadeNameSet = new Set(missingFacadeNames);
 
   return {
     crates: uniqueSortedCrates([
       ...inventory.crates,
       ...existingInventory.crates.filter((crateEntry) =>
-        missingSetNameSet.has(crateEntry.set),
+        missingFacadeNameSet.has(crateEntry.facade),
       ),
     ]),
-    sets: uniqueSortedNames([...inventory.sets, ...missingSetNames]),
+    facades: uniqueSortedNames([...inventory.facades, ...missingFacadeNames]),
   };
 }
 
@@ -431,35 +431,37 @@ function siteUrl(pathname) {
   return `${siteOrigin}${pathname}`;
 }
 
-function setUrl(setName) {
-  return siteUrl(`/${setName}/`);
+function facadeUrl(facadeName) {
+  return siteUrl(`/${facadeName}/`);
 }
 
-function setAliasUrl(setName) {
-  return siteUrl(`/sets/${setName}/`);
+function facadeAliasUrl(facadeName) {
+  return siteUrl(`/facades/${facadeName}/`);
 }
 
 function crateUrl(crateEntry) {
-  return crateEntry.name === crateEntry.set
-    ? setUrl(crateEntry.set)
-    : siteUrl(`/${crateEntry.set}/${crateEntry.name}/`);
+  return crateEntry.name === crateEntry.facade
+    ? facadeUrl(crateEntry.facade)
+    : siteUrl(`/${crateEntry.facade}/${crateEntry.name}/`);
 }
 
-function workspaceRustdocsUrl(setName) {
-  return siteUrl(`/api/workspaces/${setName}/`);
+function workspaceRustdocsUrl(facadeName) {
+  return siteUrl(`/api/workspaces/${facadeName}/`);
 }
 
-function formatSetLabel(setName) {
-  return setName.replace(/^use-/, '').replace(/-/g, ' ');
+function formatFacadeLabel(facadeName) {
+  return facadeName.replace(/^use-/, '').replace(/-/g, ' ');
 }
 
-function cratesForSet(inventory, setName) {
-  return inventory.crates.filter((crateEntry) => crateEntry.set === setName);
+function cratesForFacade(inventory, facadeName) {
+  return inventory.crates.filter(
+    (crateEntry) => crateEntry.facade === facadeName,
+  );
 }
 
-function renderSetList(setNames) {
-  return setNames
-    .map((setName) => `- [${setName}](${setUrl(setName)})`)
+function renderFacadeList(facadeNames) {
+  return facadeNames
+    .map((facadeName) => `- [${facadeName}](${facadeUrl(facadeName)})`)
     .join('\n');
 }
 
@@ -467,9 +469,9 @@ function renderCrateList(crates) {
   return crates
     .map((crateEntry) => {
       const detail =
-        crateEntry.name === crateEntry.set
-          ? 'facade set'
-          : `child crate of ${crateEntry.set}`;
+        crateEntry.name === crateEntry.facade
+          ? 'facade crate'
+          : `child crate of ${crateEntry.facade}`;
 
       return `- [${crateEntry.name}](${crateUrl(crateEntry)}) - ${detail}`;
     })
@@ -480,8 +482,11 @@ function generatedBlock(region, body) {
   return `${region.begin}\n${body}\n${region.end}`;
 }
 
-function renderGeneratedSets(setNames) {
-  return generatedBlock(generatedRegions.sets, renderSetList(setNames));
+function renderGeneratedFacades(facadeNames) {
+  return generatedBlock(
+    generatedRegions.facades,
+    renderFacadeList(facadeNames),
+  );
 }
 
 function renderGeneratedCrates(crates) {
@@ -489,15 +494,15 @@ function renderGeneratedCrates(crates) {
 }
 
 function renderRustUseHeading() {
-  return `# RustUse\n\nComposable sets of primitive Rust utility crates for fellow crustaceans.`;
+  return `# RustUse\n\nComposable facades of primitive Rust utility crates for fellow crustaceans.`;
 }
 
 function renderPrimaryLinks() {
-  return `## Primary links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Set docs overview: https://rustuse.org/sets/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
+  return `## Primary links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Facade docs overview: https://rustuse.org/facades/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
 }
 
 function renderWorkspaceRustdocsPatterns() {
-  return `## Workspace Rustdocs\n\nWorkspace Rustdocs follow these patterns:\n\n- https://rustuse.org/api/workspaces/{set}/\n- https://rustuse.org/api/workspaces/{set}/{crate_module}/index.html\n\nExample:\n\n- https://rustuse.org/api/workspaces/use-math/\n- https://rustuse.org/api/workspaces/use-math/use_combinatorics/index.html`;
+  return `## Workspace Rustdocs\n\nWorkspace Rustdocs follow these patterns:\n\n- https://rustuse.org/api/workspaces/{facade}/\n- https://rustuse.org/api/workspaces/{facade}/{crate_module}/index.html\n\nExample:\n\n- https://rustuse.org/api/workspaces/use-math/\n- https://rustuse.org/api/workspaces/use-math/use_combinatorics/index.html`;
 }
 
 function renderCommonRustUseContext() {
@@ -507,24 +512,24 @@ function renderCommonRustUseContext() {
 function renderLlmsRootIndex(inventory) {
   return normalizeNewlines(`${renderCommonRustUseContext()}
 
-## RustUse sets
+## RustUse facades
 
-${renderGeneratedSets(inventory.sets)}
+${renderGeneratedFacades(inventory.facades)}
 
 ## Full context
 
 - [Full RustUse documentation bundle including all available crates](https://rustuse.org/llms-full.txt)
 
-The root \`llms.txt\` intentionally lists only primary links, workspace Rustdoc patterns, and facade sets. Use \`llms-full.txt\` when crate-level context is needed.
+The root \`llms.txt\` intentionally lists only primary links, workspace Rustdoc patterns, and facade crates. Use \`llms-full.txt\` when crate-level context is needed.
 `);
 }
 
 function renderLlmsFullIndex(inventory) {
   return normalizeNewlines(`${renderCommonRustUseContext()}
 
-## RustUse sets
+## RustUse facades
 
-${renderGeneratedSets(inventory.sets)}
+${renderGeneratedFacades(inventory.facades)}
 
 ## RustUse crates
 
@@ -534,64 +539,64 @@ ${renderGeneratedCrates(inventory.crates)}
 `);
 }
 
-function renderSetLinks(setName) {
-  return `## Set links\n\n- Canonical set page: ${setUrl(setName)}\n- Set overview alias: ${setAliasUrl(setName)}\n- Workspace Rustdocs: ${workspaceRustdocsUrl(setName)}\n- Repository: https://github.com/RustUse/${setName}\n- Root LLM routing map: https://rustuse.org/llms.txt\n- Full RustUse context: https://rustuse.org/llms-full.txt`;
+function renderFacadeLinks(facadeName) {
+  return `## Facade links\n\n- Canonical facade crate page: ${facadeUrl(facadeName)}\n- Facade overview page: ${facadeAliasUrl(facadeName)}\n- Workspace Rustdocs: ${workspaceRustdocsUrl(facadeName)}\n- Repository: https://github.com/RustUse/${facadeName}\n- Root LLM routing map: https://rustuse.org/llms.txt\n- Full RustUse context: https://rustuse.org/llms-full.txt`;
 }
 
 function renderParentRustUseLinks() {
-  return `## Parent RustUse links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Set docs overview: https://rustuse.org/sets/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
+  return `## Parent RustUse links\n\n- Primary site: https://rustuse.org/\n- Onboarding docs: https://rustuse.org/onboarding/\n- Facade docs overview: https://rustuse.org/facades/\n- Crate docs overview: https://rustuse.org/crates/\n- Contributing: https://rustuse.org/contributing/\n- GitHub organization: https://github.com/RustUse`;
 }
 
-function renderSetLlmsIndex(setName, inventory) {
-  const setCrates = cratesForSet(inventory, setName);
+function renderFacadeLlmsIndex(facadeName, inventory) {
+  const facadeCrates = cratesForFacade(inventory, facadeName);
 
-  return normalizeNewlines(`# ${setName}
+  return normalizeNewlines(`# ${facadeName}
 
-RustUse ${formatSetLabel(setName)} utilities and facade set.
+RustUse ${formatFacadeLabel(facadeName)} utilities and facade crate.
 
-${renderSetLinks(setName)}
+${renderFacadeLinks(facadeName)}
 
 ${renderParentRustUseLinks()}
 
-## Set crates
+## Facade crates
 
-Current facade and child crates generated from the ${setName} workspace inventory.
+Current facade and child crates generated from the ${facadeName} workspace inventory.
 
-${renderGeneratedCrates(setCrates)}
+${renderGeneratedCrates(facadeCrates)}
 
-## Full set context
+## Full facade context
 
-- [Full ${setName} LLM context](https://rustuse.org/${setName}/llms-full.txt)
+- [Full ${facadeName} LLM context](https://rustuse.org/${facadeName}/llms-full.txt)
 
-The set \`llms.txt\` keeps routing, workspace Rustdocs, and crate links for this set. Use \`${setName}/llms-full.txt\` when fuller set-level context is needed.
+The facade \`llms.txt\` keeps routing, workspace Rustdocs, and crate links for this facade. Use \`${facadeName}/llms-full.txt\` when fuller facade-level context is needed.
 `);
 }
 
-function renderSetLlmsFull(setName, inventory) {
-  const setCrates = cratesForSet(inventory, setName);
+function renderFacadeLlmsFull(facadeName, inventory) {
+  const facadeCrates = cratesForFacade(inventory, facadeName);
 
-  return normalizeNewlines(`# ${setName}
+  return normalizeNewlines(`# ${facadeName}
 
-Expanded LLM context for the RustUse ${formatSetLabel(setName)} set.
+Expanded LLM context for the RustUse ${formatFacadeLabel(facadeName)} facade.
 
-${renderSetLinks(setName)}
+${renderFacadeLinks(facadeName)}
 
 ${renderParentRustUseLinks()}
 
 ## Workspace Rustdocs
 
-- ${workspaceRustdocsUrl(setName)}
-- ${siteUrl(`/api/workspaces/${setName}/{crate_module}/index.html`)}
+- ${workspaceRustdocsUrl(facadeName)}
+- ${siteUrl(`/api/workspaces/${facadeName}/{crate_module}/index.html`)}
 
 ## Crate-level context
 
-All known facade and child crates generated from the ${setName} workspace inventory.
+All known facade and child crates generated from the ${facadeName} workspace inventory.
 
-${renderGeneratedCrates(setCrates)}
+${renderGeneratedCrates(facadeCrates)}
 
 ## Routing notes
 
-The canonical short routes are ${siteUrl(`/${setName}/llms.txt`)} and ${siteUrl(`/${setName}/llms-full.txt`)}. The /sets/${setName}/ aliases serve this exact generated content so the two paths cannot drift.
+The canonical short routes are ${siteUrl(`/${facadeName}/llms.txt`)} and ${siteUrl(`/${facadeName}/llms-full.txt`)}. The /facades/${facadeName}/ routes serve this exact generated content so the two paths cannot drift.
 `);
 }
 
@@ -601,26 +606,26 @@ function buildLlmsOutputs(inventory) {
     { content: renderLlmsFullIndex(inventory), filePath: llmsFullPath },
   ];
 
-  for (const setName of inventory.sets) {
-    const setIndex = renderSetLlmsIndex(setName, inventory);
-    const setFull = renderSetLlmsFull(setName, inventory);
+  for (const facadeName of inventory.facades) {
+    const facadeIndex = renderFacadeLlmsIndex(facadeName, inventory);
+    const facadeFull = renderFacadeLlmsFull(facadeName, inventory);
 
     outputs.push(
       {
-        content: setIndex,
-        filePath: path.join(publicRoot, setName, 'llms.txt'),
+        content: facadeIndex,
+        filePath: path.join(publicRoot, facadeName, 'llms.txt'),
       },
       {
-        content: setFull,
-        filePath: path.join(publicRoot, setName, 'llms-full.txt'),
+        content: facadeFull,
+        filePath: path.join(publicRoot, facadeName, 'llms-full.txt'),
       },
       {
-        content: setIndex,
-        filePath: path.join(publicRoot, 'sets', setName, 'llms.txt'),
+        content: facadeIndex,
+        filePath: path.join(publicRoot, 'facades', facadeName, 'llms.txt'),
       },
       {
-        content: setFull,
-        filePath: path.join(publicRoot, 'sets', setName, 'llms-full.txt'),
+        content: facadeFull,
+        filePath: path.join(publicRoot, 'facades', facadeName, 'llms-full.txt'),
       },
     );
   }
@@ -677,7 +682,7 @@ if (checkMode) {
   }
 
   console.log(
-    `LLM context files are current (${llmsOutputs.length} files, ${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `LLM context files are current (${llmsOutputs.length} files, ${inventory.facades.length} facades, ${inventory.crates.length} crates).`,
   );
   process.exit(0);
 }
@@ -686,10 +691,10 @@ const writtenOutputs = writeLlmsOutputs(llmsOutputs);
 
 if (writtenOutputs.length > 0) {
   console.log(
-    `Updated ${writtenOutputs.length} of ${llmsOutputs.length} LLM context file(s) (${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `Updated ${writtenOutputs.length} of ${llmsOutputs.length} LLM context file(s) (${inventory.facades.length} facades, ${inventory.crates.length} crates).`,
   );
 } else {
   console.log(
-    `LLM context files are already current (${llmsOutputs.length} files, ${inventory.sets.length} sets, ${inventory.crates.length} crates).`,
+    `LLM context files are already current (${llmsOutputs.length} files, ${inventory.facades.length} facades, ${inventory.crates.length} crates).`,
   );
 }

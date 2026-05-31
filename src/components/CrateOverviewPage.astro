@@ -16,21 +16,21 @@ if (!crate) {
   throw new Error(`Unknown public crate for overview page: ${crateName}`);
 }
 
-const isFacade = crate.name === crate.set;
+const isFacade = crate.name === crate.facade;
 const hasApiDocs = Boolean(crate.docsUrl);
 const hasSourceBundle = Boolean(crate.apiPath);
 const usesWorkspaceApiRoute =
-  crate.docsUrl?.startsWith(`/api/workspaces/${crate.set}/`) ?? false;
+  crate.docsUrl?.startsWith(`/api/workspaces/${crate.facade}/`) ?? false;
 const roleTitle = isFacade ? 'Facade crate' : 'Focused crate';
 const roleDescription = isFacade
-  ? `${crate.name} is the facade entry point for the ${crate.set} set. ${crate.description}`
-  : `${crate.name} is a focused crate in the ${crate.set} set. ${crate.description}`;
+  ? `${crate.name} is the facade entry point for the ${crate.facade} facade. ${crate.description}`
+  : `${crate.name} is a focused crate in the ${crate.facade} facade. ${crate.description}`;
 const statusSummary =
   crate.status === 'published'
     ? 'Published crate with live registry and docs.rs links.'
     : 'RustUse-hosted docs are available while the external package identity remains staged or blocked.';
 const rustdocsSummary = !hasApiDocs
-  ? "RustUse-hosted RustDocs are not generated for this crate yet. Use the set page plus registry links while this set's generated docs surface is still being expanded."
+  ? "RustUse-hosted RustDocs are not generated for this crate yet. Use the facade page plus registry links while this facade's generated docs surface is still being expanded."
   : usesWorkspaceApiRoute
     ? 'This crate currently uses a workspace-scoped RustUse RustDocs route because a stable published crate route is not available.'
     : 'This crate uses a stable RustUse RustDocs route alongside the workspace Rustdocs bundle.';
@@ -47,30 +47,30 @@ const sourcePanelDescription = usesWorkspaceApiRoute
 </p>
 
 <p>
-  <code>{crate.name}</code> belongs to the <a href={crate.setPath}
-    >{crate.set}</a
+  <code>{crate.name}</code> belongs to the <a href={crate.facadePath}
+    >{crate.facade}</a
   >{' '}
-  set.
+  facade.
 </p>
 
 <h2>Package links</h2>
 
 <DocsLinks crate={crate} />
 
-<h2>Set placement</h2>
+<h2>Facade placement</h2>
 
 {
   isFacade ? (
     <p>
-      Use <code>{crate.name}</code> when you want the set facade instead of
+      Use <code>{crate.name}</code> when you want the facade crate instead of
       depending on focused crates one by one. The facade remains the curated
-      entry point for the current <code>{crate.set}</code> surface.
+      entry point for the current <code>{crate.facade}</code> surface.
     </p>
   ) : (
     <p>
       Use <code>{crate.name}</code> directly when you want a narrower dependency
-      surface than the <code>{crate.set}</code> facade. It remains part of the
-      current public crate inventory for this set.
+      surface than the <code>{crate.facade}</code> facade. It remains part of
+      the current public crate inventory for this facade.
     </p>
   )
 }
@@ -114,7 +114,7 @@ const sourcePanelDescription = usesWorkspaceApiRoute
       <p>
         This crate is currently treated as published in the RustUse docs
         surface. Registry links are live, and a dedicated RustUse RustDocs route
-        can be added later as this set&apos;s generated docs surface expands.
+        can be added later as this facade&apos;s generated docs surface expands.
       </p>
     )
   ) : (

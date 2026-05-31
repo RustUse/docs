@@ -18,7 +18,7 @@ const pageTitle = getMetaContent(head, 'property', 'og:title') ?? 'RustUse';
 const pageDescription =
   getMetaContent(head, 'name', 'description') ??
   getMetaContent(head, 'property', 'og:description') ??
-  'RustUse provides composable sets of primitive Rust utility crates.';
+  'RustUse provides composable facades of primitive Rust utility crates.';
 const socialImageUrl = new URL(logo.src, siteUrl).toString();
 const socialImageAlt = 'RustUse logo mark on a soft neutral background';
 const isHomePage = pathname === '/';
@@ -86,7 +86,7 @@ const structuredData = [
     name: 'RustUse',
     url: new URL('/', siteUrl).toString(),
     description:
-      'RustUse provides composable sets of primitive Rust utility crates.',
+      'RustUse provides composable facades of primitive Rust utility crates.',
     inLanguage: 'en',
   },
   {
@@ -96,7 +96,7 @@ const structuredData = [
     url: new URL('/', siteUrl).toString(),
     logo: socialImageUrl,
     description:
-      'RustUse provides composable sets of primitive Rust utility crates.',
+      'RustUse provides composable facades of primitive Rust utility crates.',
     sameAs: ['https://github.com/RustUse'],
   },
   ...(isDocsArticle

@@ -1,0 +1,49 @@
+# use-email
+
+Expanded LLM context for the RustUse email facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-email/
+- Facade overview page: https://rustuse.org/facades/use-email/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-email/
+- Repository: https://github.com/RustUse/use-email
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-email/
+- https://rustuse.org/api/workspaces/use-email/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-email workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-dkim](https://rustuse.org/use-email/use-dkim/) - child crate of use-email
+- [use-dmarc](https://rustuse.org/use-email/use-dmarc/) - child crate of use-email
+- [use-email](https://rustuse.org/use-email/) - facade crate
+- [use-email-address](https://rustuse.org/use-email/use-email-address/) - child crate of use-email
+- [use-email-auth](https://rustuse.org/use-email/use-email-auth/) - child crate of use-email
+- [use-email-envelope](https://rustuse.org/use-email/use-email-envelope/) - child crate of use-email
+- [use-email-header](https://rustuse.org/use-email/use-email-header/) - child crate of use-email
+- [use-email-id](https://rustuse.org/use-email/use-email-id/) - child crate of use-email
+- [use-email-message](https://rustuse.org/use-email/use-email-message/) - child crate of use-email
+- [use-mailto](https://rustuse.org/use-email/use-mailto/) - child crate of use-email
+- [use-smtp](https://rustuse.org/use-email/use-smtp/) - child crate of use-email
+- [use-spf](https://rustuse.org/use-email/use-spf/) - child crate of use-email
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-email/llms.txt and https://rustuse.org/use-email/llms-full.txt. The /facades/use-email/ routes serve this exact generated content so the two paths cannot drift.

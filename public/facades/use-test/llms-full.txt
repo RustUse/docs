@@ -1,0 +1,47 @@
+# use-test
+
+Expanded LLM context for the RustUse test facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-test/
+- Facade overview page: https://rustuse.org/facades/use-test/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-test/
+- Repository: https://github.com/RustUse/use-test
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-test/
+- https://rustuse.org/api/workspaces/use-test/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-test workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-test](https://rustuse.org/use-test/) - facade crate
+- [use-test-assertion](https://rustuse.org/use-test/use-test-assertion/) - child crate of use-test
+- [use-test-case](https://rustuse.org/use-test/use-test-case/) - child crate of use-test
+- [use-test-expectation](https://rustuse.org/use-test/use-test-expectation/) - child crate of use-test
+- [use-test-fixture](https://rustuse.org/use-test/use-test-fixture/) - child crate of use-test
+- [use-test-outcome](https://rustuse.org/use-test/use-test-outcome/) - child crate of use-test
+- [use-test-report](https://rustuse.org/use-test/use-test-report/) - child crate of use-test
+- [use-test-snapshot](https://rustuse.org/use-test/use-test-snapshot/) - child crate of use-test
+- [use-test-status](https://rustuse.org/use-test/use-test-status/) - child crate of use-test
+- [use-test-suite](https://rustuse.org/use-test/use-test-suite/) - child crate of use-test
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-test/llms.txt and https://rustuse.org/use-test/llms-full.txt. The /facades/use-test/ routes serve this exact generated content so the two paths cannot drift.

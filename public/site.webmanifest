@@ -1,7 +1,7 @@
 {
   "name": "RustUse",
   "short_name": "RustUse",
-  "description": "RustUse provides composable sets of primitive Rust utility crates.",
+  "description": "RustUse provides composable facades of primitive Rust utility crates.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fff8f0",

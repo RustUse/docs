@@ -1,0 +1,52 @@
+# use-event
+
+Expanded LLM context for the RustUse event facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-event/
+- Facade overview page: https://rustuse.org/facades/use-event/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-event/
+- Repository: https://github.com/RustUse/use-event
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-event/
+- https://rustuse.org/api/workspaces/use-event/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-event workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-event](https://rustuse.org/use-event/) - facade crate
+- [use-event-dispatch](https://rustuse.org/use-event/use-event-dispatch/) - child crate of use-event
+- [use-event-envelope](https://rustuse.org/use-event/use-event-envelope/) - child crate of use-event
+- [use-event-handler](https://rustuse.org/use-event/use-event-handler/) - child crate of use-event
+- [use-event-id](https://rustuse.org/use-event/use-event-id/) - child crate of use-event
+- [use-event-kind](https://rustuse.org/use-event/use-event-kind/) - child crate of use-event
+- [use-event-log](https://rustuse.org/use-event/use-event-log/) - child crate of use-event
+- [use-event-metadata](https://rustuse.org/use-event/use-event-metadata/) - child crate of use-event
+- [use-event-name](https://rustuse.org/use-event/use-event-name/) - child crate of use-event
+- [use-event-payload](https://rustuse.org/use-event/use-event-payload/) - child crate of use-event
+- [use-event-source](https://rustuse.org/use-event/use-event-source/) - child crate of use-event
+- [use-event-status](https://rustuse.org/use-event/use-event-status/) - child crate of use-event
+- [use-event-stream](https://rustuse.org/use-event/use-event-stream/) - child crate of use-event
+- [use-event-target](https://rustuse.org/use-event/use-event-target/) - child crate of use-event
+- [use-event-timestamp](https://rustuse.org/use-event/use-event-timestamp/) - child crate of use-event
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-event/llms.txt and https://rustuse.org/use-event/llms-full.txt. The /facades/use-event/ routes serve this exact generated content so the two paths cannot drift.

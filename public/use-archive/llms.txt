@@ -1,0 +1,57 @@
+# use-archive
+
+RustUse archive utilities and facade crate.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-archive/
+- Facade overview page: https://rustuse.org/facades/use-archive/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-archive/
+- Repository: https://github.com/RustUse/use-archive
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Facade crates
+
+Current facade and child crates generated from the use-archive workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-7z](https://rustuse.org/use-archive/use-7z/) - child crate of use-archive
+- [use-ar](https://rustuse.org/use-archive/use-ar/) - child crate of use-archive
+- [use-archive](https://rustuse.org/use-archive/) - facade crate
+- [use-archive-entry](https://rustuse.org/use-archive/use-archive-entry/) - child crate of use-archive
+- [use-archive-format](https://rustuse.org/use-archive/use-archive-format/) - child crate of use-archive
+- [use-archive-manifest](https://rustuse.org/use-archive/use-archive-manifest/) - child crate of use-archive
+- [use-archive-path](https://rustuse.org/use-archive/use-archive-path/) - child crate of use-archive
+- [use-archive-policy](https://rustuse.org/use-archive/use-archive-policy/) - child crate of use-archive
+- [use-brotli](https://rustuse.org/use-archive/use-brotli/) - child crate of use-archive
+- [use-bzip2](https://rustuse.org/use-archive/use-bzip2/) - child crate of use-archive
+- [use-cab](https://rustuse.org/use-archive/use-cab/) - child crate of use-archive
+- [use-compression](https://rustuse.org/use-archive/use-compression/) - child crate of use-archive
+- [use-cpio](https://rustuse.org/use-archive/use-cpio/) - child crate of use-archive
+- [use-gzip](https://rustuse.org/use-archive/use-gzip/) - child crate of use-archive
+- [use-iso](https://rustuse.org/use-archive/use-iso/) - child crate of use-archive
+- [use-lz4](https://rustuse.org/use-archive/use-lz4/) - child crate of use-archive
+- [use-mtree](https://rustuse.org/use-archive/use-mtree/) - child crate of use-archive
+- [use-rar](https://rustuse.org/use-archive/use-rar/) - child crate of use-archive
+- [use-tar](https://rustuse.org/use-archive/use-tar/) - child crate of use-archive
+- [use-warc](https://rustuse.org/use-archive/use-warc/) - child crate of use-archive
+- [use-xz](https://rustuse.org/use-archive/use-xz/) - child crate of use-archive
+- [use-zip](https://rustuse.org/use-archive/use-zip/) - child crate of use-archive
+- [use-zstd](https://rustuse.org/use-archive/use-zstd/) - child crate of use-archive
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full facade context
+
+- [Full use-archive LLM context](https://rustuse.org/use-archive/llms-full.txt)
+
+The facade `llms.txt` keeps routing, workspace Rustdocs, and crate links for this facade. Use `use-archive/llms-full.txt` when fuller facade-level context is needed.

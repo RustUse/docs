@@ -7,7 +7,20 @@
       "command": "npm run dev",
       "isBackground": true,
       "problemMatcher": [],
-      "detail": "Build Rustdocs, then start the local Astro dev server.",
+      "detail": "Start the local Astro dev server, building Rustdocs only when public/api is missing.",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Docs: dev fresh",
+      "type": "shell",
+      "command": "npm run dev:fresh",
+      "isBackground": true,
+      "problemMatcher": [],
+      "detail": "Rebuild Rustdocs, then start the local Astro dev server.",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated",

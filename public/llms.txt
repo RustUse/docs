@@ -1,12 +1,12 @@
 # RustUse
 
-Composable sets of primitive Rust utility crates for fellow crustaceans.
+Composable facades of primitive Rust utility crates for fellow crustaceans.
 
 ## Primary links
 
 - Primary site: https://rustuse.org/
 - Onboarding docs: https://rustuse.org/onboarding/
-- Set docs overview: https://rustuse.org/sets/
+- Facade docs overview: https://rustuse.org/facades/
 - Crate docs overview: https://rustuse.org/crates/
 - Contributing: https://rustuse.org/contributing/
 - GitHub organization: https://github.com/RustUse
@@ -15,21 +15,22 @@ Composable sets of primitive Rust utility crates for fellow crustaceans.
 
 Workspace Rustdocs follow these patterns:
 
-- https://rustuse.org/api/workspaces/{set}/
-- https://rustuse.org/api/workspaces/{set}/{crate_module}/index.html
+- https://rustuse.org/api/workspaces/{facade}/
+- https://rustuse.org/api/workspaces/{facade}/{crate_module}/index.html
 
 Example:
 
 - https://rustuse.org/api/workspaces/use-math/
 - https://rustuse.org/api/workspaces/use-math/use_combinatorics/index.html
 
-## RustUse sets
+## RustUse facades
 
-<!-- BEGIN GENERATED RUSTUSE SETS -->
+<!-- BEGIN GENERATED RUSTUSE FACADES -->
 - [use-accessibility](https://rustuse.org/use-accessibility/)
 - [use-acoustics](https://rustuse.org/use-acoustics/)
 - [use-ai](https://rustuse.org/use-ai/)
 - [use-api](https://rustuse.org/use-api/)
+- [use-archive](https://rustuse.org/use-archive/)
 - [use-astronomy](https://rustuse.org/use-astronomy/)
 - [use-bioinformatics](https://rustuse.org/use-bioinformatics/)
 - [use-biology](https://rustuse.org/use-biology/)
@@ -41,11 +42,14 @@ Example:
 - [use-constants](https://rustuse.org/use-constants/)
 - [use-control](https://rustuse.org/use-control/)
 - [use-data](https://rustuse.org/use-data/)
+- [use-database](https://rustuse.org/use-database/)
 - [use-diagnostic](https://rustuse.org/use-diagnostic/)
 - [use-docker](https://rustuse.org/use-docker/)
 - [use-ecology](https://rustuse.org/use-ecology/)
 - [use-electronics](https://rustuse.org/use-electronics/)
+- [use-email](https://rustuse.org/use-email/)
 - [use-encoding](https://rustuse.org/use-encoding/)
+- [use-event](https://rustuse.org/use-event/)
 - [use-fs](https://rustuse.org/use-fs/)
 - [use-geography](https://rustuse.org/use-geography/)
 - [use-geology](https://rustuse.org/use-geology/)
@@ -64,6 +68,7 @@ Example:
 - [use-ml](https://rustuse.org/use-ml/)
 - [use-music](https://rustuse.org/use-music/)
 - [use-net](https://rustuse.org/use-net/)
+- [use-nosql](https://rustuse.org/use-nosql/)
 - [use-oci](https://rustuse.org/use-oci/)
 - [use-optics](https://rustuse.org/use-optics/)
 - [use-optimization](https://rustuse.org/use-optimization/)
@@ -71,6 +76,7 @@ Example:
 - [use-pattern](https://rustuse.org/use-pattern/)
 - [use-php](https://rustuse.org/use-php/)
 - [use-physics](https://rustuse.org/use-physics/)
+- [use-postgres](https://rustuse.org/use-postgres/)
 - [use-presence](https://rustuse.org/use-presence/)
 - [use-python](https://rustuse.org/use-python/)
 - [use-quant](https://rustuse.org/use-quant/)
@@ -80,19 +86,22 @@ Example:
 - [use-security](https://rustuse.org/use-security/)
 - [use-signal](https://rustuse.org/use-signal/)
 - [use-simulation](https://rustuse.org/use-simulation/)
+- [use-sql](https://rustuse.org/use-sql/)
 - [use-stats](https://rustuse.org/use-stats/)
+- [use-test](https://rustuse.org/use-test/)
 - [use-text](https://rustuse.org/use-text/)
 - [use-time](https://rustuse.org/use-time/)
 - [use-typography](https://rustuse.org/use-typography/)
+- [use-ui](https://rustuse.org/use-ui/)
 - [use-units](https://rustuse.org/use-units/)
 - [use-validate](https://rustuse.org/use-validate/)
 - [use-wasm](https://rustuse.org/use-wasm/)
 - [use-wave](https://rustuse.org/use-wave/)
 - [use-web](https://rustuse.org/use-web/)
-<!-- END GENERATED RUSTUSE SETS -->
+<!-- END GENERATED RUSTUSE FACADES -->
 
 ## Full context
 
 - [Full RustUse documentation bundle including all available crates](https://rustuse.org/llms-full.txt)
 
-The root `llms.txt` intentionally lists only primary links, workspace Rustdoc patterns, and facade sets. Use `llms-full.txt` when crate-level context is needed.
+The root `llms.txt` intentionally lists only primary links, workspace Rustdoc patterns, and facade crates. Use `llms-full.txt` when crate-level context is needed.

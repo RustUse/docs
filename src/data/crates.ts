@@ -1,10 +1,10 @@
 import {
   getPublicCrate as getCatalogPublicCrate,
-  getPublicCratesBySet as getCatalogPublicCratesBySet,
-  getRustuseSet as getCatalogRustuseSet,
+  getPublicCratesByFacade as getCatalogPublicCratesByFacade,
+  getRustuseFacade as getCatalogRustuseFacade,
   publicRustuseCrates,
   rustuseCrates,
-  rustuseSets,
+  rustuseFacades,
 } from './catalog.js';
 
 export type CrateStatus = 'planned' | 'scaffolded' | 'published';
@@ -12,8 +12,8 @@ export type CrateStatus = 'planned' | 'scaffolded' | 'published';
 export interface RustUseCrate {
   name: string;
   packageName: string;
-  set: string;
-  setPath: string;
+  facade: string;
+  facadePath: string;
   status: CrateStatus;
   description: string;
   repositoryUrl: string;
@@ -26,9 +26,9 @@ export interface RustUseCrate {
   public: boolean;
 }
 
-export interface RustUseSet {
+export interface RustUseFacade {
   name: string;
-  setPath: string;
+  facadePath: string;
   status: CrateStatus;
   description: string;
   repositoryUrl: string;
@@ -37,20 +37,20 @@ export interface RustUseSet {
   workspaceApiPath?: string;
 }
 
-export const sets = rustuseSets as RustUseSet[];
+export const facades = rustuseFacades as RustUseFacade[];
 
 export const crates = rustuseCrates as RustUseCrate[];
 
 export const publicCrates = publicRustuseCrates as RustUseCrate[];
 
-export function getPublicCratesBySet(setName: string) {
-  return getCatalogPublicCratesBySet(setName) as RustUseCrate[];
+export function getPublicCratesByFacade(facadeName: string) {
+  return getCatalogPublicCratesByFacade(facadeName) as RustUseCrate[];
 }
 
 export function getPublicCrate(name: string) {
   return getCatalogPublicCrate(name) as RustUseCrate | undefined;
 }
 
-export function getRustuseSet(name: string) {
-  return getCatalogRustuseSet(name) as RustUseSet | undefined;
+export function getRustuseFacade(name: string) {
+  return getCatalogRustuseFacade(name) as RustUseFacade | undefined;
 }

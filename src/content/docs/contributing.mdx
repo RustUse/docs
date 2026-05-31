@@ -95,7 +95,13 @@ npm run preview
 Use `npm run dev` for day-to-day site work.
 Use `npm run dev:doctor` after cloning or when local setup seems off.
 
-If `../use-math` is absent, `npm run dev` still works; it will clone the
+`npm run dev` reuses existing generated API output in `public/api/`. If that
+output is missing, it runs `npm run build:api` once before starting Astro.
+
+Use `npm run dev:fresh` after changing Rust source workspaces, Rustdoc CSS, or
+`docs/rustdoc-sources.json`.
+
+If a configured sibling workspace is absent, fresh Rustdoc builds clone the
 configured source workspace automatically before generating `public/api/`.
 
 Use `npm run smoke:dist` after `npm run build` when you want to verify the
@@ -125,14 +131,14 @@ site, the Rust toolchain, and the configured Rustdoc source workspace.
 ## LLM context maintenance
 
 `public/llms.txt` is the compact root routing map. It includes primary links,
-workspace Rustdoc URL patterns, and generated RustUse sets only.
-`public/llms-full.txt` carries the expanded root context with generated sets and
-crates. Per-set files are generated at both `public/{set}/llms*.txt` and
-`public/sets/{set}/llms*.txt`, with aliases serving the same generated content
+workspace Rustdoc URL patterns, and generated RustUse facades only.
+`public/llms-full.txt` carries the expanded root context with generated facades and
+crates. Per-facade files are generated at both `public/{facade}/llms*.txt` and
+`public/facades/{facade}/llms*.txt`, with both routes serving the same generated content
 as the canonical short routes.
 
 Run `npm run generate:llms` after adding, removing, or renaming a sibling
-RustUse set or crate workspace. CI runs `npm run check:llms` and fails when the
+RustUse facade or crate workspace. CI runs `npm run check:llms` and fails when the
 generated LLM context files are stale. Use `llms-full.txt` when crate-level
 context is needed from the root.
 
@@ -149,14 +155,14 @@ context is needed from the root.
 <MascotWarning title="Do not widen the public surface early">
   <p>
     Keep the public surface aligned with the generated catalog, live package
-    identities, and the currently active sets. Do not add planned crates from
-    other sets to navigation or `/api/` roots before they are intentionally
+    identities, and the currently active facades. Do not add planned crates from
+    other facades to navigation or `/api/` roots before they are intentionally
     public.
   </p>
 </MascotWarning>
 
 - Keep the public support surface aligned with the generated catalog entries rather than ad hoc links or hand-maintained sidebars.
-- Do not add planned crates from other sets to navigation, homepage copy, or public set pages early.
+- Do not add planned crates from other facades to navigation, homepage copy, or public facade pages early.
 - When a local crate name conflicts with an existing published package identity, resolve it in Cargo package metadata before relying on generated docs routes.
 - Prefer linking to generated RustUse RustDocs rather than rewriting rustdoc HTML or scraping docs.rs.
 

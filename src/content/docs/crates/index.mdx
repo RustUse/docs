@@ -13,10 +13,10 @@ import { publicCrates } from '../../../data/crates';
   alt="A Rust mascot presenting the RustUse crate catalog"
   eyebrow="Catalog"
   title={`One catalog, ${publicCrates.length} public crate tracks.`}
-  description="RustUse keeps the public crate catalog in generated shared metadata so status badges, set links, guide links, and RustDocs routes stay aligned across the docs site."
+  description="RustUse keeps the public crate catalog in generated shared metadata so status badges, facade links, guide links, and RustDocs routes stay aligned across the docs site."
   quickLinks={[
-    { href: '/sets/use-math/', label: 'use-math set' },
-    { href: '/sets/use-geometry/', label: 'use-geometry set' },
+    { href: '/facades/use-math/', label: 'use-math facade' },
+    { href: '/facades/use-geometry/', label: 'use-geometry facade' },
     { href: '/api/workspaces/use-math/', label: 'workspace RustDocs' },
   ]}
   theme="clay"
@@ -24,7 +24,7 @@ import { publicCrates } from '../../../data/crates';
   <MascotNote slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse currently surfaces {publicCrates.length} public crate tracks across the published RustUse set surface.
+RustUse currently surfaces {publicCrates.length} public crate tracks across the published RustUse facade surface.
 
 Most current public crates are published with live crates.io and docs.rs links. A smaller set of exceptions can still appear in the catalog with RustUse-hosted docs only when the external package identity is unavailable or blocked.
 
@@ -43,8 +43,8 @@ Most current public crates are published with live crates.io and docs.rs links. 
 
 ## How to read the catalog
 
-- The shared catalog now includes the current crate inventory from the scanned RustUse workspaces, not just the set facades.
-- `use-math` and `use-geometry` still go further than the other sets: they have curated guides and generated RustUse RustDocs for their current child crates.
+- The shared catalog now includes the current crate inventory from the scanned RustUse workspaces, not just the facade crates.
+- `use-math` and `use-geometry` still go further than the other facades: they have curated guides and generated RustUse RustDocs for their current child crates.
 - Many other crates currently appear here with generated overview pages plus live package links while RustUse-hosted RustDocs routes are added incrementally.
 - `Published` means the crate has live registry links and is part of the supported public docs surface. Many published crates also have canonical RustUse RustDocs already.
 - `Scaffolded` means RustUse-hosted docs are available, but the external package identity is still staged or blocked.

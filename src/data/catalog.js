@@ -1,9 +1,9 @@
 import {
   rustuseCrates as generatedRustuseCrates,
-  rustuseSets as generatedRustuseSets,
+  rustuseFacades as generatedRustuseFacades,
 } from './catalog.generated.js';
 
-export const rustuseSets = generatedRustuseSets;
+export const rustuseFacades = generatedRustuseFacades;
 
 export const rustuseCrates = generatedRustuseCrates;
 
@@ -15,22 +15,22 @@ export const publicRustuseCrates = rustuseCrates
   .filter((crate) => crate.public)
   .sort(compareCratesByName);
 
-export function getPublicCratesBySet(setName) {
-  return publicRustuseCrates.filter((crate) => crate.set === setName);
+export function getPublicCratesByFacade(facadeName) {
+  return publicRustuseCrates.filter((crate) => crate.facade === facadeName);
 }
 
 export function getPublicCrate(name) {
   return publicRustuseCrates.find((crate) => crate.name === name);
 }
 
-export function getRustuseSet(name) {
-  return rustuseSets.find((set) => set.name === name);
+export function getRustuseFacade(name) {
+  return rustuseFacades.find((facade) => facade.name === name);
 }
 
-export function getSidebarSetLinks() {
-  return rustuseSets.map((set) => ({
-    label: set.name,
-    link: set.setPath,
+export function getSidebarFacadeLinks() {
+  return rustuseFacades.map((facade) => ({
+    label: facade.name,
+    link: facade.facadePath,
   }));
 }
 

@@ -1,6 +1,6 @@
 ---
 title: use-geometry
-description: Overview of the published use-geometry facade and the full current RustUse geometry set.
+description: Overview of the published use-geometry facade and the full current RustUse geometry facade.
 ---
 
 import CrateGrid from '../../../components/CrateGrid.astro';
@@ -9,15 +9,15 @@ import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
 import MascotImportant from '../../../components/MascotImportant.astro';
 import MascotTip from '../../../components/MascotTip.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
-import { getPublicCratesBySet } from '../../../data/crates';
+import { getPublicCratesByFacade } from '../../../data/crates';
 
 <DocsMascotPanel
-  alt="A Rust mascot introducing the use-geometry set"
-  eyebrow="Published set + facade"
+  alt="A Rust mascot introducing the use-geometry facade"
+  eyebrow="Published facade"
   title="Geometry scales better when the facade stays thin."
-  description={`use-geometry is the published facade for a broad geometry workspace that currently exposes ${getPublicCratesBySet('use-geometry').length} public crate tracks across foundations, primitives, transformations, relations, curves, regions, polytopes, configurations, complexes, and decomposition or folding crates.`}
+  description={`use-geometry is the published facade for a broad geometry workspace that currently exposes ${getPublicCratesByFacade('use-geometry').length} public crate tracks across foundations, primitives, transformations, relations, curves, regions, polytopes, configurations, complexes, and decomposition or folding crates.`}
   quickLinks={[
-    { href: '/sets/use-geometry/', label: 'use-geometry set' },
+    { href: '/facades/use-geometry/', label: 'use-geometry facade' },
     { href: '/use-geometry/use-point/', label: 'use-point' },
     { href: '/use-geometry/use-line/', label: 'use-line' },
     { href: '/api/workspaces/use-geometry/', label: 'workspace Rustdocs' },
@@ -28,7 +28,7 @@ import { getPublicCratesBySet } from '../../../data/crates';
   <MascotTip slot="art" spriteOnly />
 </DocsMascotPanel>
 
-This page combines the `use-geometry` facade overview with the current public inventory for the RustUse geometry set.
+This page combines the `use-geometry` facade overview with the current public inventory for the RustUse geometry facade.
 
 <p>
   <StatusBadge status="published" /> Published facade crate and focused child
@@ -46,7 +46,7 @@ This page combines the `use-geometry` facade overview with the current public in
 
 ## Overview
 
-The current `use-geometry` set surfaces {getPublicCratesBySet('use-geometry').length} public crate tracks: the `use-geometry` facade plus its focused child crates. The set is intentionally broad inside pure geometry, but the facade remains thin: implementation lives in focused crates with explicit boundaries.
+The current `use-geometry` set surfaces {getPublicCratesByFacade('use-geometry').length} public crate tracks: the `use-geometry` facade plus its focused child crates. The set is intentionally broad inside pure geometry, but the facade remains thin: implementation lives in focused crates with explicit boundaries.
 
 ## Install
 
@@ -102,7 +102,7 @@ Every child crate has a matching feature name without the `use-` prefix. Hyphena
 
 ## Public crate tracks
 
-<CrateGrid crates={getPublicCratesBySet('use-geometry')} />
+<CrateGrid crates={getPublicCratesByFacade('use-geometry')} />
 
 ## Generated RustDocs
 

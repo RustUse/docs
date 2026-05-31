@@ -1,0 +1,55 @@
+# use-database
+
+Expanded LLM context for the RustUse database facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-database/
+- Facade overview page: https://rustuse.org/facades/use-database/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-database/
+- Repository: https://github.com/RustUse/use-database
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-database/
+- https://rustuse.org/api/workspaces/use-database/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-database workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-database](https://rustuse.org/use-database/) - facade crate
+- [use-db-column](https://rustuse.org/use-database/use-db-column/) - child crate of use-database
+- [use-db-constraint](https://rustuse.org/use-database/use-db-constraint/) - child crate of use-database
+- [use-db-core](https://rustuse.org/use-database/use-db-core/) - child crate of use-database
+- [use-db-driver](https://rustuse.org/use-database/use-db-driver/) - child crate of use-database
+- [use-db-index](https://rustuse.org/use-database/use-db-index/) - child crate of use-database
+- [use-db-key](https://rustuse.org/use-database/use-db-key/) - child crate of use-database
+- [use-db-migration](https://rustuse.org/use-database/use-db-migration/) - child crate of use-database
+- [use-db-name](https://rustuse.org/use-database/use-db-name/) - child crate of use-database
+- [use-db-query](https://rustuse.org/use-database/use-db-query/) - child crate of use-database
+- [use-db-record](https://rustuse.org/use-database/use-db-record/) - child crate of use-database
+- [use-db-relation](https://rustuse.org/use-database/use-db-relation/) - child crate of use-database
+- [use-db-result](https://rustuse.org/use-database/use-db-result/) - child crate of use-database
+- [use-db-row](https://rustuse.org/use-database/use-db-row/) - child crate of use-database
+- [use-db-schema](https://rustuse.org/use-database/use-db-schema/) - child crate of use-database
+- [use-db-table](https://rustuse.org/use-database/use-db-table/) - child crate of use-database
+- [use-db-transaction](https://rustuse.org/use-database/use-db-transaction/) - child crate of use-database
+- [use-db-url](https://rustuse.org/use-database/use-db-url/) - child crate of use-database
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-database/llms.txt and https://rustuse.org/use-database/llms-full.txt. The /facades/use-database/ routes serve this exact generated content so the two paths cannot drift.

@@ -68,7 +68,7 @@ export function getSmokeChecks(repoRoot) {
       mustExclude: ['<!-- BEGIN GENERATED RUSTUSE CRATES -->'],
       mustInclude: [
         '# RustUse',
-        '<!-- BEGIN GENERATED RUSTUSE SETS -->',
+        '<!-- BEGIN GENERATED RUSTUSE FACADES -->',
         'https://rustuse.org/llms-full.txt',
       ],
       route: '/llms.txt',
@@ -77,7 +77,7 @@ export function getSmokeChecks(repoRoot) {
       contentType: 'text/plain',
       distPath: 'llms-full.txt',
       mustInclude: [
-        '<!-- BEGIN GENERATED RUSTUSE SETS -->',
+        '<!-- BEGIN GENERATED RUSTUSE FACADES -->',
         '<!-- BEGIN GENERATED RUSTUSE CRATES -->',
         'child crate of use-math',
       ],
@@ -133,21 +133,21 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/html',
-      distPath: 'sets/index.html',
-      mustInclude: ['Sets'],
-      route: '/sets/',
+      distPath: 'facades/index.html',
+      mustInclude: ['Facades'],
+      route: '/facades/',
     },
     {
       contentType: 'text/html',
-      distPath: 'sets/use-math/index.html',
+      distPath: 'facades/use-math/index.html',
       mustInclude: ['use-math'],
-      route: '/sets/use-math/',
+      route: '/facades/use-math/',
     },
     {
       contentType: 'text/html',
-      distPath: 'sets/use-geometry/index.html',
+      distPath: 'facades/use-geometry/index.html',
       mustInclude: ['use-geometry'],
-      route: '/sets/use-geometry/',
+      route: '/facades/use-geometry/',
     },
     {
       contentType: 'text/html',
@@ -169,7 +169,7 @@ export function getSmokeChecks(repoRoot) {
       contentType: 'text/plain',
       distPath: 'use-math/llms-full.txt',
       mustInclude: [
-        'Expanded LLM context for the RustUse math set.',
+        'Expanded LLM context for the RustUse math facade.',
         'https://rustuse.org/api/workspaces/use-math/',
         'child crate of use-math',
       ],
@@ -189,23 +189,23 @@ export function getSmokeChecks(repoRoot) {
     },
     {
       contentType: 'text/plain',
-      distPath: 'sets/use-math/llms.txt',
+      distPath: 'facades/use-math/llms.txt',
       mustInclude: [
         '# use-math',
         'https://rustuse.org/use-math/llms-full.txt',
         '<!-- BEGIN GENERATED RUSTUSE CRATES -->',
       ],
-      route: '/sets/use-math/llms.txt',
+      route: '/facades/use-math/llms.txt',
     },
     {
       contentType: 'text/plain',
-      distPath: 'sets/use-math/llms-full.txt',
+      distPath: 'facades/use-math/llms-full.txt',
       mustInclude: [
-        'Expanded LLM context for the RustUse math set.',
+        'Expanded LLM context for the RustUse math facade.',
         'https://rustuse.org/api/workspaces/use-math/',
         'child crate of use-math',
       ],
-      route: '/sets/use-math/llms-full.txt',
+      route: '/facades/use-math/llms-full.txt',
     },
     {
       contentType: 'xml',

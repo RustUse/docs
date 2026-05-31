@@ -13,8 +13,8 @@ const { crate } = Astro.props as Props;
 
 <article class:list={['ru-crate-card', `is-${crate.status}`]}>
   <div class="ru-crate-card-header">
-    <a class="ru-crate-set" href={crate.setPath}>
-      {crate.set}
+    <a class="ru-crate-facade" href={crate.facadePath}>
+      {crate.facade}
     </a>
     <StatusBadge status={crate.status} />
   </div>
@@ -59,7 +59,7 @@ const { crate } = Astro.props as Props;
     justify-content: space-between;
   }
 
-  .ru-crate-set {
+  .ru-crate-facade {
     color: var(--sl-color-accent-high);
     font-size: 0.84rem;
     font-weight: 700;

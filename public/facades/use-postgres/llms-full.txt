@@ -1,0 +1,48 @@
+# use-postgres
+
+Expanded LLM context for the RustUse postgres facade.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-postgres/
+- Facade overview page: https://rustuse.org/facades/use-postgres/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-postgres/
+- Repository: https://github.com/RustUse/use-postgres
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Workspace Rustdocs
+
+- https://rustuse.org/api/workspaces/use-postgres/
+- https://rustuse.org/api/workspaces/use-postgres/{crate_module}/index.html
+
+## Crate-level context
+
+All known facade and child crates generated from the use-postgres workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-pg-column](https://rustuse.org/use-postgres/use-pg-column/) - child crate of use-postgres
+- [use-pg-constraint](https://rustuse.org/use-postgres/use-pg-constraint/) - child crate of use-postgres
+- [use-pg-enum](https://rustuse.org/use-postgres/use-pg-enum/) - child crate of use-postgres
+- [use-pg-extension](https://rustuse.org/use-postgres/use-pg-extension/) - child crate of use-postgres
+- [use-pg-identifier](https://rustuse.org/use-postgres/use-pg-identifier/) - child crate of use-postgres
+- [use-pg-index](https://rustuse.org/use-postgres/use-pg-index/) - child crate of use-postgres
+- [use-pg-schema](https://rustuse.org/use-postgres/use-pg-schema/) - child crate of use-postgres
+- [use-pg-sequence](https://rustuse.org/use-postgres/use-pg-sequence/) - child crate of use-postgres
+- [use-pg-table](https://rustuse.org/use-postgres/use-pg-table/) - child crate of use-postgres
+- [use-pg-type](https://rustuse.org/use-postgres/use-pg-type/) - child crate of use-postgres
+- [use-postgres](https://rustuse.org/use-postgres/) - facade crate
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Routing notes
+
+The canonical short routes are https://rustuse.org/use-postgres/llms.txt and https://rustuse.org/use-postgres/llms-full.txt. The /facades/use-postgres/ routes serve this exact generated content so the two paths cannot drift.

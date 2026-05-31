@@ -1,6 +1,6 @@
 ---
 title: use-math
-description: Overview of the published use-math facade and the full current RustUse math set.
+description: Overview of the published use-math facade and the full current RustUse math facade.
 ---
 
 import CrateGrid from '../../../components/CrateGrid.astro';
@@ -9,15 +9,15 @@ import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
 import MascotImportant from '../../../components/MascotImportant.astro';
 import MascotNote from '../../../components/MascotNote.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
-import { getPublicCratesBySet } from '../../../data/crates';
+import { getPublicCratesByFacade } from '../../../data/crates';
 
 <DocsMascotPanel
-  alt="A Rust mascot introducing the use-math set"
-  eyebrow="Published set + facade"
+  alt="A Rust mascot introducing the use-math facade"
+  eyebrow="Published facade"
   title="Math stays clearer when crates stay narrow."
-  description={`use-math is the published facade for the RustUse math set, which currently spans ${getPublicCratesBySet('use-math').length} public crate tracks across focused arithmetic, algebra, sequence, linear, numerical, and validated-number crates.`}
+  description={`use-math is the published facade for the RustUse math facade, which currently spans ${getPublicCratesByFacade('use-math').length} public crate tracks across focused arithmetic, algebra, sequence, linear, numerical, and validated-number crates.`}
   quickLinks={[
-    { href: '/sets/use-math/', label: 'use-math set' },
+    { href: '/facades/use-math/', label: 'use-math facade' },
     { href: '/use-math/use-arithmetic/', label: 'use-arithmetic' },
     { href: '/use-math/use-vector/', label: 'use-vector' },
     { href: '/api/workspaces/use-math/', label: 'workspace Rustdocs' },
@@ -27,7 +27,7 @@ import { getPublicCratesBySet } from '../../../data/crates';
   <MascotNote slot="art" spriteOnly />
 </DocsMascotPanel>
 
-This page combines the `use-math` facade overview with the current public inventory for the RustUse math set.
+This page combines the `use-math` facade overview with the current public inventory for the RustUse math facade.
 
 <MascotImportant
   title="Published facade surface"
@@ -41,7 +41,7 @@ This page combines the `use-math` facade overview with the current public invent
 
 ## Overview
 
-The current `use-math` set surfaces {getPublicCratesBySet('use-math').length}
+The current `use-math` facade surfaces {getPublicCratesByFacade('use-math').length}
 public crate tracks: the `use-math` facade plus its focused crates. The facade
 stays intentionally thin: it re-exports focused crates behind explicit
 features, preserves crate-shaped namespace modules, and keeps the shared
@@ -85,7 +85,7 @@ Feature names match the focused crates without the `use-` prefix. Hyphenated cra
 
 ## Supported crates
 
-<CrateGrid crates={getPublicCratesBySet('use-math')} />
+<CrateGrid crates={getPublicCratesByFacade('use-math')} />
 
 ## Facade role
 

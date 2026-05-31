@@ -99,14 +99,14 @@ Build path at a glance:
 
 Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and per-set LLM text files in `public/` -> `rustuse.org/llms.txt`
 
-| Capability            | How it works                                                                                  | Where to look                                                                |
-| --------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Site shell            | Site configuration, components, and styles render the public docs surface                     | `astro.config.mjs`, `src/components/`, `src/styles/`                         |
-| Human docs authoring  | Markdown and MDX pages live in the docs content tree                                          | `src/content/docs/`                                                          |
-| Surface sync          | A sync script derives sets, crates, generated pages, catalog data, and Rustdoc source inputs  | `scripts/sync-crate-surface.mjs`                                             |
-| API docs generation   | A build script reads generated Rustdoc sources and copies output into `public/api/`           | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                    |
-| Public crate metadata | Crate metadata is generated, then exposed through small runtime and TypeScript helper modules | `src/data/catalog.generated.js`, `src/data/catalog.js`, `src/data/crates.ts` |
-| LLM inventory         | A generator renders compact root, expanded full, and per-set LLM text files                   | `scripts/generate-llms-txt.mjs`, `public/llms.txt`, `public/llms-full.txt`   |
+| Capability            | How it works                                                                                    | Where to look                                                                |
+| --------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Site shell            | Site configuration, components, and styles render the public docs surface                       | `astro.config.mjs`, `src/components/`, `src/styles/`                         |
+| Human docs authoring  | Markdown and MDX pages live in the docs content tree                                            | `src/content/docs/`                                                          |
+| Surface sync          | A sync script derives facades, crates, generated pages, catalog data, and Rustdoc source inputs | `scripts/sync-crate-surface.mjs`                                             |
+| API docs generation   | A build script reads generated Rustdoc sources and copies output into `public/api/`             | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                    |
+| Public crate metadata | Crate metadata is generated, then exposed through small runtime and TypeScript helper modules   | `src/data/catalog.generated.js`, `src/data/catalog.js`, `src/data/crates.ts` |
+| LLM inventory         | A generator renders compact root, expanded full, and per-set LLM text files                     | `scripts/generate-llms-txt.mjs`, `public/llms.txt`, `public/llms-full.txt`   |
 
 ## Project structure
 
@@ -134,22 +134,22 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and
 └── tsconfig.json
 ```
 
-| Path                             | Role                                                                             |
-| -------------------------------- | -------------------------------------------------------------------------------- |
-| `docs/rustdoc-sources.json`      | Generated Rustdoc source list consumed by `npm run build:api`                    |
-| `public/api/`                    | Generated Rustdoc bundle output and published crate entry routes                 |
-| `public/llms.txt`                | Compact LLM routing map with generated RustUse set links only                    |
-| `public/llms-full.txt`           | Expanded LLM context with generated RustUse set and crate links                  |
-| `public/{set}/llms*.txt`         | Generated canonical per-set LLM routing and full context files                   |
-| `public/sets/{set}/llms*.txt`    | Generated per-set aliases with the same content as the canonical short routes    |
-| `scripts/sync-crate-surface.mjs` | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
-| `scripts/generate-llms-txt.mjs`  | Renders split LLM context files from sibling RustUse set workspaces              |
-| `scripts/build-rustdocs.mjs`     | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
-| `src/content/docs/`              | Human-authored pages for the docs site                                           |
-| `src/data/catalog.generated.js`  | Generated public crate catalog data                                              |
-| `src/data/catalog.js`            | Runtime helpers around the generated catalog                                     |
-| `src/data/crates.ts`             | TypeScript-facing wrapper around the generated catalog helpers                   |
-| `public/CNAME`                   | Keeps the custom domain aligned with the deployed site                           |
+| Path                                | Role                                                                             |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| `docs/rustdoc-sources.json`         | Generated Rustdoc source list consumed by `npm run build:api`                    |
+| `public/api/`                       | Generated Rustdoc bundle output and published crate entry routes                 |
+| `public/llms.txt`                   | Compact LLM routing map with generated RustUse facade links only                 |
+| `public/llms-full.txt`              | Expanded LLM context with generated RustUse facade and crate links               |
+| `public/{facade}/llms*.txt`         | Generated canonical per-facade LLM routing and full context files                |
+| `public/facades/{facade}/llms*.txt` | Generated per-facade files with the same content as the canonical short routes   |
+| `scripts/sync-crate-surface.mjs`    | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
+| `scripts/generate-llms-txt.mjs`     | Renders split LLM context files from sibling RustUse facade workspaces           |
+| `scripts/build-rustdocs.mjs`        | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
+| `src/content/docs/`                 | Human-authored pages for the docs site                                           |
+| `src/data/catalog.generated.js`     | Generated public crate catalog data                                              |
+| `src/data/catalog.js`               | Runtime helpers around the generated catalog                                     |
+| `src/data/crates.ts`                | TypeScript-facing wrapper around the generated catalog helpers                   |
+| `public/CNAME`                      | Keeps the custom domain aligned with the deployed site                           |
 
 ## Requirements
 
@@ -175,31 +175,35 @@ npm run dev:doctor
 npm run dev
 ```
 
-| Command                  | What it does                                                         |
-| ------------------------ | -------------------------------------------------------------------- |
-| `npm install`            | Installs site dependencies and applies the local Git hooks path      |
-| `npm run dev:doctor`     | Checks Node, npm, Rust, ports, and expected local workspace wiring   |
-| `npm run dev`            | Builds Rustdocs first, then starts the local docs site               |
-| `npm run generate:llms`  | Updates generated root, full, and per-set LLM context files          |
-| `npm run build:api`      | Builds and copies configured Rustdocs into `public/api/`             |
-| `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`      |
-| `npm run preview`        | Serves the production build locally                                  |
-| `npm run smoke:dist`     | Verifies the built `dist/` artifact contains the expected routes     |
-| `npm run smoke:preview`  | Starts a temporary preview server and verifies the served responses  |
-| `npm run verify:changed` | Runs Prettier, ESLint, and Stylelint only on changed authored files  |
-| `npm run verify:fast`    | Runs `verify:changed` and then `astro check`                         |
-| `npm run validate`       | Runs format, JS lint, CSS lint, and `astro check`                    |
-| `npm run validate:full`  | Runs `validate`, a production build, and the built-route smoke check |
-| `npm run setup:hooks`    | Reapplies `.githooks` as the repo Git hooks path                     |
+| Command                  | What it does                                                                  |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| `npm install`            | Installs site dependencies and applies the local Git hooks path               |
+| `npm run dev:doctor`     | Checks Node, npm, Rust, ports, and expected local workspace wiring            |
+| `npm run dev`            | Starts the local docs site; builds Rustdocs only when `public/api` is missing |
+| `npm run dev:fresh`      | Rebuilds Rustdocs first, then starts the local docs site                      |
+| `npm run generate:llms`  | Updates generated root, full, and per-set LLM context files                   |
+| `npm run build:api`      | Builds and copies configured Rustdocs into `public/api/`                      |
+| `npm run build`          | Builds Rustdocs first, then builds the static site into `dist/`               |
+| `npm run preview`        | Serves the production build locally                                           |
+| `npm run smoke:dist`     | Verifies the built `dist/` artifact contains the expected routes              |
+| `npm run smoke:preview`  | Starts a temporary preview server and verifies the served responses           |
+| `npm run verify:changed` | Runs Prettier, ESLint, and Stylelint only on changed authored files           |
+| `npm run verify:fast`    | Runs `verify:changed` and then `astro check`                                  |
+| `npm run validate`       | Runs format, JS lint, CSS lint, and `astro check`                             |
+| `npm run validate:full`  | Runs `validate`, a production build, and the built-route smoke check          |
+| `npm run setup:hooks`    | Reapplies `.githooks` as the repo Git hooks path                              |
 
 > [!TIP]
-> `npm run dev` runs `npm run build:api` first, so the generated `/api/` routes exist before the local docs site starts.
+> `npm run dev` reuses the existing generated API output in `public/api/`. If that output is missing, it runs `npm run build:api` once before starting Astro. Use `npm run dev:fresh` or `npm run build:api` after changing Rust source workspaces, Rustdoc CSS, or `docs/rustdoc-sources.json`.
 
 > [!NOTE]
-> A sibling `../use-math` checkout is optional. If it is missing, the Rustdoc build clones the configured GitHub repo automatically. Expect the first cold `npm run build:api`, `npm run build`, or `npm run dev` run to take longer because it may need to clone the workspace and build Rustdocs from scratch.
+> Sibling checkouts for configured Rustdoc workspaces are optional. If one is missing, fresh Rustdoc builds clone the configured GitHub repo automatically. Expect the first cold `npm run build:api`, `npm run build`, `npm run dev:fresh`, or `npm run dev` run with missing `public/api` output to take longer because it may need to clone workspaces and build Rustdocs from scratch.
 
 > [!TIP]
 > VS Code tasks and launch profiles now map directly to the same npm scripts for dev, preview, doctor, and validation, so editor shortcuts follow the same bootstrapping path as terminal and CI workflows.
+
+> [!NOTE]
+> `npm run astro -- <command>` routes Astro CLI commands through `scripts/astro.mjs`. That wrapper suppresses the known Starlight `markdown.remarkPlugins` deprecation warning while Starlight still injects legacy markdown plugin config. Set `RUSTUSE_SHOW_ASTRO_MARKDOWN_WARNING=1` to show the upstream warning during troubleshooting.
 
 > [!TIP]
 > `npm install` runs `prepare`, which points Git at `.githooks/`. The pre-commit hook runs `npm run precommit:check`, mirroring the staged-file verification path.
@@ -234,6 +238,7 @@ The workspace now includes task and launch entries for the core docs workflows:
 | VS Code entry            | Underlying command       |
 | ------------------------ | ------------------------ |
 | `Docs: dev`              | `npm run dev`            |
+| `Docs: dev fresh`        | `npm run dev:fresh`      |
 | `Docs: build API`        | `npm run build:api`      |
 | `Docs: dev doctor`       | `npm run dev:doctor`     |
 | `Docs: verify changed`   | `npm run verify:changed` |
@@ -288,22 +293,22 @@ Keep the source inputs aligned with:
 
 The public LLM context is split by detail level:
 
-- `public/llms.txt` is the compact root routing map. It includes primary links, workspace Rustdoc patterns, and generated RustUse sets only.
-- `public/llms-full.txt` is the expanded root context. It includes the same shared sections plus generated RustUse sets and generated RustUse crates.
-- `public/{set}/llms.txt` and `public/{set}/llms-full.txt` are generated canonical per-set files.
-- `public/sets/{set}/llms.txt` and `public/sets/{set}/llms-full.txt` are generated aliases with the exact same content as the canonical short set routes.
+- `public/llms.txt` is the compact root routing map. It includes primary links, workspace Rustdoc patterns, and generated RustUse facades only.
+- `public/llms-full.txt` is the expanded root context. It includes the same shared sections plus generated RustUse facades and generated RustUse crates.
+- `public/{facade}/llms.txt` and `public/{facade}/llms-full.txt` are generated canonical per-facade files.
+- `public/facades/{facade}/llms.txt` and `public/facades/{facade}/llms-full.txt` are generated with the exact same content as the canonical short facade routes.
 
 The generator preserves these marked regions in the generated files:
 
 ```markdown
-<!-- BEGIN GENERATED RUSTUSE SETS -->
-<!-- END GENERATED RUSTUSE SETS -->
+<!-- BEGIN GENERATED RUSTUSE FACADES -->
+<!-- END GENERATED RUSTUSE FACADES -->
 
 <!-- BEGIN GENERATED RUSTUSE CRATES -->
 <!-- END GENERATED RUSTUSE CRATES -->
 ```
 
-Run `npm run generate:llms` after adding, removing, or renaming a sibling RustUse set or crate workspace. The generator scans sibling `use-*` directories with root `Cargo.toml` files, prefers Cargo metadata for package names, and renders every expected LLM context file.
+Run `npm run generate:llms` after adding, removing, or renaming a sibling RustUse facade or crate workspace. The generator scans sibling `use-*` directories with root `Cargo.toml` files, prefers Cargo metadata for package names, and renders every expected LLM context file.
 
 CI runs `npm run check:llms` and fails when any committed LLM context file is stale. The root `llms.txt` intentionally omits the generated crate block; use `llms-full.txt` when crate-level context is needed.
 
@@ -366,8 +371,8 @@ Release Please is bootstrapped from the repository's current public baseline com
 
 | Issue                                                 | Likely cause                                                                                | Fix                                                                                    |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `/api/workspaces/use-math/` returns the site 404 page | The dev server started before generated API routes existed or before config rewrites loaded | Restart `npm run dev`                                                                  |
-| API docs are missing locally                          | Rustdocs have not been generated yet                                                        | Run `npm run build:api`                                                                |
+| `/api/workspaces/use-math/` returns the site 404 page | The dev server started before generated API routes existed or before config rewrites loaded | Restart `npm run dev`; use `npm run dev:fresh` when the API output may be stale        |
+| API docs are missing locally                          | Rustdocs have not been generated yet                                                        | Run `npm run dev` or `npm run build:api`                                               |
 | LLM context freshness fails                           | Generated root, full, or per-set LLM files are stale                                        | Run `npm run generate:llms`                                                            |
 | CI cannot find the local sibling checkout             | Expected in CI                                                                              | Ensure the `repo` URL exists in `docs/rustdoc-sources.json` so the script can clone it |
 | External crate links do not render                    | Crate status is still scaffolded                                                            | Update `src/data/crates.ts` when the crate is published                                |

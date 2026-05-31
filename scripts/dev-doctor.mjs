@@ -251,7 +251,7 @@ async function main() {
       status: existsSync(localSourcePath) ? 'pass' : 'warn',
       summary: existsSync(localSourcePath)
         ? `Found local Rustdoc source at ${localSourcePath}.`
-        : `Local Rustdoc source is missing for ${sourceName}; build:api and dev will fall back to cloning the configured GitHub repo.`,
+        : `Local Rustdoc source is missing for ${sourceName}; build:api and fresh API dev runs will fall back to cloning the configured GitHub repo.`,
       suggestion: existsSync(localSourcePath)
         ? undefined
         : `Clone the sibling ${source.path} workspace only if you want faster local Rustdoc rebuilds or need to edit the Rust source locally.`,

@@ -37,6 +37,31 @@ function fail(message) {
   process.exit(1);
 }
 
+function removeDirWithRetry(targetPath, retries = 6) {
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    try {
+      rmSync(targetPath, {
+        recursive: true,
+        force: true,
+        maxRetries: 8,
+        retryDelay: 100,
+      });
+      return;
+    } catch (error) {
+      const isTransientDeleteError =
+        error &&
+        typeof error === 'object' &&
+        ['EBUSY', 'ENOTEMPTY', 'EPERM'].includes(error.code);
+
+      if (!isTransientDeleteError || attempt === retries) {
+        fail(
+          `Failed to remove ${targetPath}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+  }
+}
+
 function normalizeApiSlug(value, fieldName) {
   if (typeof value !== 'string') {
     fail(`Rustdoc source field "${fieldName}" must be a string.`);
@@ -317,8 +342,22 @@ function transformRustdocHtml(html) {
   return injectUiStateBootstrap(stripRustdocFontPreloadScript(html));
 }
 
+function isMissingPathError(error) {
+  return error && typeof error === 'object' && error.code === 'ENOENT';
+}
+
 function applyUiStateBootstrapToHtmlFiles(rootDir) {
-  for (const entry of readdirSync(rootDir, { withFileTypes: true })) {
+  let entries;
+  try {
+    entries = readdirSync(rootDir, { withFileTypes: true });
+  } catch (error) {
+    if (isMissingPathError(error)) {
+      return;
+    }
+    throw error;
+  }
+
+  for (const entry of entries) {
     const entryPath = path.join(rootDir, entry.name);
 
     if (entry.isDirectory()) {
@@ -327,10 +366,17 @@ function applyUiStateBootstrapToHtmlFiles(rootDir) {
     }
 
     if (entry.isFile() && entry.name.endsWith('.html')) {
-      writeFileSync(
-        entryPath,
-        transformRustdocHtml(readFileSync(entryPath, 'utf8')),
-      );
+      try {
+        writeFileSync(
+          entryPath,
+          transformRustdocHtml(readFileSync(entryPath, 'utf8')),
+        );
+      } catch (error) {
+        if (isMissingPathError(error)) {
+          continue;
+        }
+        throw error;
+      }
     }
   }
 }
@@ -531,7 +577,7 @@ if (!existsSync(rustdocShellCssPath)) {
 const parsed = JSON.parse(readFileSync(configPath, 'utf8'));
 const sources = Array.isArray(parsed.sources) ? parsed.sources : [];
 
-rmSync(apiRoot, { recursive: true, force: true });
+removeDirWithRetry(apiRoot);
 mkdirSync(apiRoot, { recursive: true });
 writeFileSync(
   path.join(apiRoot, rustdocShellCssFileName),
@@ -544,7 +590,7 @@ if (sources.length === 0) {
 }
 
 const tempRoot = path.join(os.tmpdir(), `rustuse-rustdocs-${process.pid}`);
-rmSync(tempRoot, { recursive: true, force: true });
+removeDirWithRetry(tempRoot);
 mkdirSync(tempRoot, { recursive: true });
 
 try {
@@ -561,7 +607,7 @@ try {
     const { bundleSlug, name, outputDir, publishedEntries, workingDir } =
       source;
 
-    rmSync(outputDir, { recursive: true, force: true });
+    removeDirWithRetry(outputDir);
 
     console.log(
       `Building Rustdocs for ${name} with cargo doc --workspace --no-deps. Cold builds can take several minutes.`,

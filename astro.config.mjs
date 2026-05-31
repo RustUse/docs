@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 import {
   getSidebarCrateLinks,
-  getSidebarSetLinks,
+  getSidebarFacadeLinks,
 } from './src/data/catalog.js';
 
 const workspaceRoot = fileURLToPath(new URL('.', import.meta.url));
@@ -79,7 +79,7 @@ export default defineConfig({
       title: 'RustUse',
       titleDelimiter: '|',
       description:
-        'RustUse provides composable sets of primitive Rust utility crates.',
+        'RustUse provides composable facades of primitive Rust utility crates.',
       favicon: '/favicon.ico',
       disable404Route: true,
       customCss: ['./src/styles/rustuse.css'],
@@ -98,11 +98,11 @@ export default defineConfig({
       sidebar: [
         { label: 'Onboarding', link: '/onboarding/' },
         {
-          label: 'Sets',
+          label: 'Facades',
           collapsed: true,
           items: [
-            { label: 'Overview', link: '/sets/' },
-            ...getSidebarSetLinks(),
+            { label: 'Overview', link: '/facades/' },
+            ...getSidebarFacadeLinks(),
           ],
         },
         {

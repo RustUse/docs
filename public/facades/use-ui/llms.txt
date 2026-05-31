@@ -1,0 +1,47 @@
+# use-ui
+
+RustUse ui utilities and facade crate.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-ui/
+- Facade overview page: https://rustuse.org/facades/use-ui/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-ui/
+- Repository: https://github.com/RustUse/use-ui
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Facade crates
+
+Current facade and child crates generated from the use-ui workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-affordance](https://rustuse.org/use-ui/use-affordance/) - child crate of use-ui
+- [use-breakpoint](https://rustuse.org/use-ui/use-breakpoint/) - child crate of use-ui
+- [use-design-token](https://rustuse.org/use-ui/use-design-token/) - child crate of use-ui
+- [use-focus](https://rustuse.org/use-ui/use-focus/) - child crate of use-ui
+- [use-interaction](https://rustuse.org/use-ui/use-interaction/) - child crate of use-ui
+- [use-layer](https://rustuse.org/use-ui/use-layer/) - child crate of use-ui
+- [use-layout](https://rustuse.org/use-ui/use-layout/) - child crate of use-ui
+- [use-spacing](https://rustuse.org/use-ui/use-spacing/) - child crate of use-ui
+- [use-theme](https://rustuse.org/use-ui/use-theme/) - child crate of use-ui
+- [use-ui](https://rustuse.org/use-ui/) - facade crate
+- [use-ui-component](https://rustuse.org/use-ui/use-ui-component/) - child crate of use-ui
+- [use-ui-motion](https://rustuse.org/use-ui/use-ui-motion/) - child crate of use-ui
+- [use-viewport](https://rustuse.org/use-ui/use-viewport/) - child crate of use-ui
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full facade context
+
+- [Full use-ui LLM context](https://rustuse.org/use-ui/llms-full.txt)
+
+The facade `llms.txt` keeps routing, workspace Rustdocs, and crate links for this facade. Use `use-ui/llms-full.txt` when fuller facade-level context is needed.

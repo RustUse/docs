@@ -5,7 +5,7 @@ description: AI-readable RustUse documentation surfaces for assistants, coding t
 
 RustUse is documented for humans first, but its documentation is also structured for AI-assisted development.
 
-The `llms.txt`, `llms-full.txt`, per-set text files, per-crate text files, and RustUse MCP Server provide progressively more structured ways for assistants and coding tools to understand the RustUse catalog.
+The `llms.txt`, `llms-full.txt`, per-facade text files, per-crate text files, and RustUse MCP Server provide progressively more structured ways for assistants and coding tools to understand the RustUse catalog.
 
 This section explains which surface to use when you want an assistant, coding tool, local agent, or MCP-capable client to work with RustUse without manually pasting large chunks of documentation.
 
@@ -15,34 +15,34 @@ The LLM text files are generated from the same public RustUse documentation sour
 
 ## Access modes
 
-| Mode                       | Status                   | Use it for                                                             |
-| -------------------------- | ------------------------ | ---------------------------------------------------------------------- |
-| `/llms.txt`                | Live                     | Quick RustUse orientation, routing, and set discovery.                 |
-| `/llms-full.txt`           | Live                     | Broad project context when a tool can ingest a larger Markdown bundle. |
-| `/sets/{set}/llms.txt`     | Live                     | Focused set-level discovery through the `/sets/` route shape.          |
-| `/{set}/llms.txt`          | Live                     | Canonical short set-level discovery for a RustUse set.                 |
-| `/crates/{crate}/llms.txt` | Planned                  | Focused child-crate context once crate-level text files are generated. |
-| RustUse MCP Server         | Planned and experimental | Structured catalog access from MCP-capable clients.                    |
+| Mode                         | Status                   | Use it for                                                             |
+| ---------------------------- | ------------------------ | ---------------------------------------------------------------------- |
+| `/llms.txt`                  | Live                     | Quick RustUse orientation, routing, and facade discovery.              |
+| `/llms-full.txt`             | Live                     | Broad project context when a tool can ingest a larger Markdown bundle. |
+| `/facades/{facade}/llms.txt` | Live                     | Focused facade-level discovery through the `/facades/` route shape.    |
+| `/{facade}/llms.txt`         | Live                     | Canonical short facade-level discovery for a RustUse facade.           |
+| `/crates/{crate}/llms.txt`   | Planned                  | Focused child-crate context once crate-level text files are generated. |
+| RustUse MCP Server           | Planned and experimental | Structured catalog access from MCP-capable clients.                    |
 
 ## Decision guide
 
 ```text
 Need a quick map of RustUse? Use /llms.txt
 Need all public docs in one file? Use /llms-full.txt
-Need only one set? Use /sets/{set}/llms.txt
+Need only one facade? Use /facades/{facade}/llms.txt
 Need only one child crate? Planned: use /crates/{crate}/llms.txt
 Using an MCP-capable client? Planned: use the RustUse MCP Server
 ```
 
-For current child-crate work, start with the set-level file that owns the crate, then verify against the crate page and Rustdocs. For example, use `/sets/use-math/llms.txt` when working with `use-prime` today.
+For current child-crate work, start with the facade-level file that owns the crate, then verify against the crate page and Rustdocs. For example, use `/facades/use-math/llms.txt` when working with `use-prime` today.
 
 ## How the surfaces fit together
 
-Use the root files when a tool needs to understand RustUse as a whole. They are best for project orientation, route discovery, and deciding which set or crate is relevant.
+Use the root files when a tool needs to understand RustUse as a whole. They are best for project orientation, route discovery, and deciding which facade or crate is relevant.
 
-Use set-level files when the work is already inside one RustUse domain. They keep the prompt smaller while preserving the facade crate, child-crate list, repository, and Rustdoc routes for that set.
+Use facade-level files when the work is already inside one RustUse domain. They keep the prompt smaller while preserving the facade crate, child-crate list, repository, and Rustdoc routes for that facade.
 
-Use planned crate-level files when they become available and the task is about one focused child crate. Until then, combine the owning set's LLM text file with the crate page and Rustdocs.
+Use planned crate-level files when they become available and the task is about one focused child crate. Until then, combine the owning facade's LLM text file with the crate page and Rustdocs.
 
 Use the planned RustUse MCP Server when your client supports Model Context Protocol and you want structured lookup instead of manually choosing text files.
 
@@ -52,7 +52,7 @@ AI assistants may still hallucinate APIs. Always verify generated code against R
 
 ## In this section
 
-- [LLM text files](/using-ai/llms-txt/) documents the current root and set-level text file conventions plus planned crate-level files.
+- [LLM text files](/using-ai/llms-txt/) documents the current root and facade-level text file conventions plus planned crate-level files.
 - [RustUse MCP Server](/using-ai/mcp/) describes the planned read-only MCP resource, tool, and prompt surface.
 - [AI usage recipes](/using-ai/recipes/) provides copy/paste prompts for common assistant workflows.
 - [Reference](/using-ai/reference/) summarizes the URL and MCP URI patterns.

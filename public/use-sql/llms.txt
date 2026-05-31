@@ -1,0 +1,49 @@
+# use-sql
+
+RustUse sql utilities and facade crate.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-sql/
+- Facade overview page: https://rustuse.org/facades/use-sql/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-sql/
+- Repository: https://github.com/RustUse/use-sql
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Facade crates
+
+Current facade and child crates generated from the use-sql workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-sql](https://rustuse.org/use-sql/) - facade crate
+- [use-sql-clause](https://rustuse.org/use-sql/use-sql-clause/) - child crate of use-sql
+- [use-sql-column](https://rustuse.org/use-sql/use-sql-column/) - child crate of use-sql
+- [use-sql-constraint](https://rustuse.org/use-sql/use-sql-constraint/) - child crate of use-sql
+- [use-sql-dialect](https://rustuse.org/use-sql/use-sql-dialect/) - child crate of use-sql
+- [use-sql-expression](https://rustuse.org/use-sql/use-sql-expression/) - child crate of use-sql
+- [use-sql-ident](https://rustuse.org/use-sql/use-sql-ident/) - child crate of use-sql
+- [use-sql-keyword](https://rustuse.org/use-sql/use-sql-keyword/) - child crate of use-sql
+- [use-sql-operator](https://rustuse.org/use-sql/use-sql-operator/) - child crate of use-sql
+- [use-sql-param](https://rustuse.org/use-sql/use-sql-param/) - child crate of use-sql
+- [use-sql-query](https://rustuse.org/use-sql/use-sql-query/) - child crate of use-sql
+- [use-sql-schema](https://rustuse.org/use-sql/use-sql-schema/) - child crate of use-sql
+- [use-sql-table](https://rustuse.org/use-sql/use-sql-table/) - child crate of use-sql
+- [use-sql-type](https://rustuse.org/use-sql/use-sql-type/) - child crate of use-sql
+- [use-sql-value](https://rustuse.org/use-sql/use-sql-value/) - child crate of use-sql
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full facade context
+
+- [Full use-sql LLM context](https://rustuse.org/use-sql/llms-full.txt)
+
+The facade `llms.txt` keeps routing, workspace Rustdocs, and crate links for this facade. Use `use-sql/llms-full.txt` when fuller facade-level context is needed.

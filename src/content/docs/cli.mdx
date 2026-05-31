@@ -17,7 +17,7 @@ import ferris3d from '../../assets/ferris-3D.png';
   description="The `rustuse` CLI helps you adopt RustUse primitives at the boundary you choose. Install crates from crates.io, copy source into your project, or initialize managed tracking with `rustuse.toml`."
   quickLinks={[
     { href: '/crates/', label: 'Browse crates' },
-    { href: '/sets/', label: 'Browse sets' },
+    { href: '/facades/', label: 'Browse facades' },
     { href: '/onboarding/', label: 'Onboarding' },
     { href: '/copy/', label: 'Copy source' },
   ]}
@@ -158,7 +158,13 @@ rustuse.lock
 
 `rustuse.toml` records RustUse-managed project intent. It is not a replacement for `Cargo.toml`.
 
-Cargo dependencies stay in `Cargo.toml`. Copy-only source can remain untracked. Managed copied source can be tracked for future diff and upgrade workflows.
+Cargo dependencies stay in `Cargo.toml`.
+
+Copied source can remain untracked.
+
+Managed copied source can be tracked in `rustuse.toml` for future diff and upgrade workflows.
+
+A minimal initialized file may look like this:
 
 ```toml
 version = 1
@@ -173,6 +179,14 @@ license = "MIT OR Apache-2.0"
 check_copied = true
 write_candidates = true
 ```
+
+A copy-first project may choose a different local layout:
+
+```bash
+rustuse init --copy-first
+```
+
+That kind of project can place copied primitives under a dedicated source area and reserve the managed workflow for source ownership, diffs, and future upgrades.
 
 <MascotTip
   title="rustuse.toml is opt-in"
@@ -234,5 +248,5 @@ These commands belong to the managed `rustuse.toml` workflow. They are meant for
 
 - [Onboarding](/onboarding/)
 - [Browse crates](/crates/)
-- [Browse sets](/sets/)
+- [Browse facades](/facades/)
 - [Copy source](/copy/)
