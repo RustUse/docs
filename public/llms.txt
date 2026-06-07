@@ -50,6 +50,7 @@ Example:
 - [use-email](https://rustuse.org/use-email/)
 - [use-encoding](https://rustuse.org/use-encoding/)
 - [use-event](https://rustuse.org/use-event/)
+- [use-finance](https://rustuse.org/use-finance/)
 - [use-fs](https://rustuse.org/use-fs/)
 - [use-geography](https://rustuse.org/use-geography/)
 - [use-geology](https://rustuse.org/use-geology/)

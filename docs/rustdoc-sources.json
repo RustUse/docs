@@ -285,6 +285,30 @@
       ]
     },
     {
+      "name": "use-finance",
+      "path": "../use-finance",
+      "repo": "https://github.com/RustUse/use-finance",
+      "bundleSlug": "workspaces/use-finance",
+      "publishedCrates": [
+        "use-finance",
+        "use-ach",
+        "use-amount",
+        "use-bai2",
+        "use-transaction",
+        "use-bank-account",
+        "use-bic",
+        "use-currency",
+        "use-iban",
+        "use-invoice",
+        "use-money",
+        "use-ledger",
+        "use-payment",
+        "use-receipt",
+        "use-reconciliation",
+        "use-routing-number"
+      ]
+    },
+    {
       "name": "use-fs",
       "path": "../use-fs",
       "repo": "https://github.com/RustUse/use-fs",

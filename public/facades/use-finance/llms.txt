@@ -1,0 +1,50 @@
+# use-finance
+
+RustUse finance utilities and facade crate.
+
+## Facade links
+
+- Canonical facade crate page: https://rustuse.org/use-finance/
+- Facade overview page: https://rustuse.org/facades/use-finance/
+- Workspace Rustdocs: https://rustuse.org/api/workspaces/use-finance/
+- Repository: https://github.com/RustUse/use-finance
+- Root LLM routing map: https://rustuse.org/llms.txt
+- Full RustUse context: https://rustuse.org/llms-full.txt
+
+## Parent RustUse links
+
+- Primary site: https://rustuse.org/
+- Onboarding docs: https://rustuse.org/onboarding/
+- Facade docs overview: https://rustuse.org/facades/
+- Crate docs overview: https://rustuse.org/crates/
+- Contributing: https://rustuse.org/contributing/
+- GitHub organization: https://github.com/RustUse
+
+## Facade crates
+
+Current facade and child crates generated from the use-finance workspace inventory.
+
+<!-- BEGIN GENERATED RUSTUSE CRATES -->
+- [use-ach](https://rustuse.org/use-finance/use-ach/) - child crate of use-finance
+- [use-amount](https://rustuse.org/use-finance/use-amount/) - child crate of use-finance
+- [use-bai2](https://rustuse.org/use-finance/use-bai2/) - child crate of use-finance
+- [use-bank-account](https://rustuse.org/use-finance/use-bank-account/) - child crate of use-finance
+- [use-bic](https://rustuse.org/use-finance/use-bic/) - child crate of use-finance
+- [use-currency](https://rustuse.org/use-finance/use-currency/) - child crate of use-finance
+- [use-finance](https://rustuse.org/use-finance/) - facade crate
+- [use-iban](https://rustuse.org/use-finance/use-iban/) - child crate of use-finance
+- [use-invoice](https://rustuse.org/use-finance/use-invoice/) - child crate of use-finance
+- [use-ledger](https://rustuse.org/use-finance/use-ledger/) - child crate of use-finance
+- [use-money](https://rustuse.org/use-finance/use-money/) - child crate of use-finance
+- [use-payment](https://rustuse.org/use-finance/use-payment/) - child crate of use-finance
+- [use-receipt](https://rustuse.org/use-finance/use-receipt/) - child crate of use-finance
+- [use-reconciliation](https://rustuse.org/use-finance/use-reconciliation/) - child crate of use-finance
+- [use-routing-number](https://rustuse.org/use-finance/use-routing-number/) - child crate of use-finance
+- [use-transaction](https://rustuse.org/use-finance/use-transaction/) - child crate of use-finance
+<!-- END GENERATED RUSTUSE CRATES -->
+
+## Full facade context
+
+- [Full use-finance LLM context](https://rustuse.org/use-finance/llms-full.txt)
+
+The facade `llms.txt` keeps routing, workspace Rustdocs, and crate links for this facade. Use `use-finance/llms-full.txt` when fuller facade-level context is needed.

@@ -24,8 +24,6 @@
     "lint": "eslint . --cache --cache-location ./.cache/eslint/.eslintcache",
     "lint:fix": "eslint . --cache --cache-location ./.cache/eslint/.eslintcache --fix",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
-    "lint:js": "npm run lint",
-    "lint:js:fix": "npm run lint:fix",
     "precommit:check": "node scripts/verify-changed.mjs --staged",
     "preview": "npm run astro -- preview",
     "preview:8080": "npm run astro -- preview --host 127.0.0.1 --port 8080",
