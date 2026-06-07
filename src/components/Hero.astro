@@ -5,6 +5,8 @@ import { LinkButton } from '@astrojs/starlight/components';
 import DraftContentNotice from '@astrojs/starlight/components/DraftContentNotice.astro';
 import { Image } from 'astro:assets';
 
+import notFound2d from '../assets/404-2D.png';
+import notFound3d from '../assets/404-3D.png';
 import ferris2d from '../assets/ferris-2D.png';
 import ferris3d from '../assets/ferris-3D.png';
 
@@ -12,17 +14,39 @@ const PAGE_TITLE_ID = '_top';
 
 const { data } = Astro.locals.starlightRoute.entry;
 const { title = data.title, tagline, image, actions = [] } = data.hero || {};
-const isLandingPage = Astro.url.pathname === '/';
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isLandingPage = pathname === '/';
+const isNotFoundHero = Boolean(
+  image && 'file' in image && image.file.src === notFound2d.src,
+);
 
-const imageAttrs = {
+const HERO_IMAGE_WIDTH = 400;
+
+const getImageAttrs = (source: ImageMetadata, alt = image?.alt || '') => ({
   loading: 'eager' as const,
   decoding: 'async' as const,
-  width: 400,
-  height: 400,
-  alt: image?.alt || '',
-};
+  width: HERO_IMAGE_WIDTH,
+  height: Math.round((HERO_IMAGE_WIDTH * source.height) / source.width),
+  alt,
+});
 
-const landingPageImageAlt = image?.alt || 'Ferris the Rust crab';
+const mascotModeImage:
+  | { alt: string; image2d: ImageMetadata; image3d: ImageMetadata }
+  | undefined = isLandingPage
+  ? {
+      alt: image?.alt || 'Ferris the Rust crab',
+      image2d: ferris2d,
+      image3d: ferris3d,
+    }
+  : isNotFoundHero
+    ? {
+        alt:
+          image?.alt ||
+          'A Rust mascot helping the reader recover from a missing page',
+        image2d: notFound2d,
+        image3d: notFound3d,
+      }
+    : undefined;
 
 let darkImage: ImageMetadata | undefined;
 let lightImage: ImageMetadata | undefined;
@@ -41,18 +65,16 @@ if (image) {
 
 <div class="hero">
   {
-    isLandingPage ? (
+    mascotModeImage ? (
       <>
         <Image
-          src={ferris3d}
-          {...imageAttrs}
-          alt={landingPageImageAlt}
+          src={mascotModeImage.image3d}
+          {...getImageAttrs(mascotModeImage.image3d, mascotModeImage.alt)}
           class="ru-hero-figure is-3d"
         />
         <Image
-          src={ferris2d}
-          {...imageAttrs}
-          alt={landingPageImageAlt}
+          src={mascotModeImage.image2d}
+          {...getImageAttrs(mascotModeImage.image2d, mascotModeImage.alt)}
           class="ru-hero-figure is-2d"
         />
       </>
@@ -61,12 +83,16 @@ if (image) {
         {darkImage && (
           <Image
             src={darkImage}
-            {...imageAttrs}
+            {...getImageAttrs(darkImage)}
             class:list={{ 'light:sl-hidden': Boolean(lightImage) }}
           />
         )}
         {lightImage && (
-          <Image src={lightImage} {...imageAttrs} class="dark:sl-hidden" />
+          <Image
+            src={lightImage}
+            {...getImageAttrs(lightImage)}
+            class="dark:sl-hidden"
+          />
         )}
       </>
     )
