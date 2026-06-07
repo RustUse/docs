@@ -5,13 +5,13 @@ description: Use the rustuse command to search, add, copy, initialize, and track
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
 import MascotTip from '../../components/MascotTip.astro';
-import ferris2d from '../../assets/ferris-2D.png';
-import ferris3d from '../../assets/ferris-3D.png';
+import cli2d from '../../assets/cli-2D.png';
+import cli3d from '../../assets/cli-3D.png';
 
 <DocsMascotPanel
-  image2d={ferris2d}
-  image3d={ferris3d}
-  alt="Ferris introducing the RustUse CLI guide"
+  image2d={cli2d}
+  image3d={cli3d}
+  alt="Ferris using the RustUse CLI"
   eyebrow="CLI"
   title="Search. Add. Copy. Track."
   description="The `rustuse` CLI helps you adopt RustUse primitives at the boundary you choose. Install crates from crates.io, copy source into your project, or initialize managed tracking with `rustuse.toml`."
@@ -21,6 +21,7 @@ import ferris3d from '../../assets/ferris-3D.png';
     { href: '/onboarding/', label: 'Onboarding' },
     { href: '/copy/', label: 'Copy source' },
   ]}
+  layout="stacked"
   theme="teal"
 />
 

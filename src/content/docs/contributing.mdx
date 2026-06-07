@@ -6,9 +6,13 @@ description: How to update the RustUse docs site, crate catalog, and generated R
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
 import MascotTip from '../../components/MascotTip.astro';
 import MascotWarning from '../../components/MascotWarning.astro';
+import contributing2d from '../../assets/contributing-2D.png';
+import contributing3d from '../../assets/contributing-3D.png';
 
 <DocsMascotPanel
-  alt="A Rust mascot introducing the RustUse contribution flow"
+  image2d={contributing2d}
+  image3d={contributing3d}
+  alt="Ferris contributing to RustUse"
   eyebrow="Contributing"
   title="Curated docs and generated rustdocs move together."
   description="RustUse keeps human-authored guides, crate metadata, and generated RustDocs aligned. The goal is simple maintenance, stable RustDocs paths, and a narrow public surface until support expands deliberately."
@@ -16,10 +20,9 @@ import MascotWarning from '../../components/MascotWarning.astro';
     { href: '/crates/', label: 'Current catalog' },
     { href: '/api/workspaces/use-math/', label: 'Workspace RustDocs' },
   ]}
+  layout="stacked"
   theme="sand"
->
-  <MascotTip slot="art" spriteOnly />
-</DocsMascotPanel>
+/>
 
 RustUse docs combine curated content under `src/content/docs/` with generated RustDocs under `public/api/`.
 
