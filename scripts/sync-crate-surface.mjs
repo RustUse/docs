@@ -588,28 +588,6 @@ async function writeGeneratedPage(entry, facadeConfig) {
   );
 }
 
-async function buildGeneratedFacadePage(facadeEntry) {
-  const pageDir = path.join(contentRoot, 'facades');
-  const componentImport = relativeImportPath(
-    pageDir,
-    path.join(componentsRoot, 'FacadeOverviewPage.astro'),
-  );
-
-  return formatGeneratedContent(
-    `---\ntitle: ${JSON.stringify(facadeEntry.name)}\ndescription: ${JSON.stringify(facadeEntry.description)}\n---\n\nimport FacadeOverviewPage from '${componentImport}';\n\n<FacadeOverviewPage facadeName=${JSON.stringify(facadeEntry.name)} />\n`,
-    'mdx',
-  );
-}
-
-async function writeGeneratedFacadePage(facadeEntry) {
-  const pageDir = path.join(contentRoot, 'facades');
-
-  await writeGeneratedPageIfSafe(
-    path.join(pageDir, `${facadeEntry.name}.mdx`),
-    await buildGeneratedFacadePage(facadeEntry),
-  );
-}
-
 function isGeneratedOverviewPage(content) {
   const normalized = content.replace(/\r\n/g, '\n').trim();
   const frontmatterMatch = /^---\n[\s\S]*?\n---\n\n/.exec(normalized);
@@ -620,13 +598,8 @@ function isGeneratedOverviewPage(content) {
 
   const body = normalized.slice(frontmatterMatch[0].length).trim();
 
-  return (
-    /^import CrateOverviewPage from ['"][^'"]+['"];\n\n<CrateOverviewPage crateName=['"][^'"]+['"] \/>$/.test(
-      body,
-    ) ||
-    /^import FacadeOverviewPage from ['"][^'"]+['"];\n\n<FacadeOverviewPage facadeName=['"][^'"]+['"] \/>$/.test(
-      body,
-    )
+  return /^import CrateOverviewPage from ['"][^'"]+['"];\n\n<CrateOverviewPage crateName=['"][^'"]+['"] \/>$/.test(
+    body,
   );
 }
 
@@ -706,8 +679,6 @@ try {
     if (hasGeneratedApi) {
       rustdocSourceRecords.push({ entries, facadeConfig });
     }
-
-    await writeGeneratedFacadePage(facadeCatalogEntry);
 
     for (const entry of entries) {
       await writeGeneratedPage(entry, facadeConfig);

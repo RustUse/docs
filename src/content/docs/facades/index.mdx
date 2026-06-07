@@ -16,27 +16,17 @@ import {
   eyebrow="Ecosystem map"
   title="Pick the facade before you pick the crate."
   description={`RustUse now exposes ${facades.length} published facade entries in the docs menu. The shared crate catalog currently tracks ${publicCrates.length} public crates across the scanned RustUse workspaces.`}
-  quickLinks={[
-    { href: '/facades/use-math/', label: 'use-math' },
-    { href: '/facades/use-geometry/', label: 'use-geometry' },
-    { href: '/facades/use-web/', label: 'use-web' },
-    { href: '/facades/use-rust/', label: 'use-rust' },
-  ]}
   theme="clay"
   reverse
 >
   <MascotImportant slot="art" spriteOnly />
 </DocsMascotPanel>
 
-RustUse organizes public navigation around published facades so facade crates, focused crates, and generated RustDocs routes stay easy to navigate as the ecosystem grows.
-
 ## Facades
 
 A facade is the top-level RustUse domain. Facades define the shared problem space, naming conventions, and the boundary between a facade crate and the focused crates behind it.
 
-The menu now includes every published facade tracked by the unified `rustuse` crate. The shared catalog also includes the current focused crates from each scanned workspace. Curated facade guides and generated workspace Rustdocs still roll out incrementally.
-
-## Current public facades
+## RustUse facades
 
 <ul>
   {facades.map((set) => {
@@ -56,19 +46,3 @@ The menu now includes every published facade tracked by the unified `rustuse` cr
 })}
 
 </ul>
-
-## Current model in practice
-
-- Every scanned workspace now contributes its current crate inventory to the shared catalog and sidebar.
-- `use-math` and `use-geometry` currently go further than the other facades with curated pages and generated workspace Rustdocs.
-- The facade pages, crate catalog, and sidebar entries are generated from shared metadata so counts, routes, and statuses stay aligned as more facades are expanded.
-
-<MascotImportant title="Curated guides can lead Rustdocs" />
-
-## Status
-
-The current public docs surface includes all published facades in the menu.
-The Crates menu now follows the shared workspace catalog, so focused crates from
-the scanned facades are visible there as well. Curated guides and generated
-workspace Rustdocs remain incremental so each facade can be validated as it
-graduates into the detailed docs surface.
