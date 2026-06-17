@@ -65,16 +65,16 @@ clone the source workspace and run `cargo doc` from scratch.
 
 - `rustuse/Cargo.toml` `features.full` controls the public set inventory.
 - Set workspace Cargo metadata controls crate names, descriptions, keywords, and categories.
-- Live crates.io package records control publication status and external package links.
-- `scripts/sync-crate-surface.mjs` generates crate catalog data, overview pages, and `docs/rustdoc-sources.json`.
+- Live crates.io package records control displayed versions and external package links.
+- `scripts/generate-catalog.mjs` generates crate catalog data, overview pages, and `docs/rustdoc-sources.json`.
 - `scripts/generate-llms-txt.mjs` renders the generated RustUse root, full, and per-set LLM context files in `public/`.
 - `scripts/build-rustdocs.mjs` consumes generated Rustdoc sources and publishes stable entry roots under `/api/`.
 
 ## Publication dry-run
 
 - Keep crate manifest metadata aligned before publishing so crates.io records resolve with the matching RustUse repository URL.
-- The generated catalog keeps a crate non-published until the live crates.io package record matches the local package repository URL.
-- A fully published set is added to generated RustDocs inputs automatically by `npm run sync:crate-surface`.
+- The generated catalog expects every listed crate to have a live crates.io package record with the matching RustUse repository URL.
+- Each supported set is added to generated RustDocs inputs automatically by `npm run generate:catalog`.
 
 ## Common commands
 
@@ -174,7 +174,7 @@ context is needed from the root.
 - Add or update the crate in the owning set workspace.
 - Add or update the curated docs page under `src/content/docs/`.
 - Publish the crate when it is ready and verify its crates.io repository URL matches the owning RustUse repository.
-- Run `npm run sync:crate-surface` and `npm run generate:llms`, then `npm run build`, and verify the generated catalog, root and full LLM files, and stable RustDocs route resolve without a 404.
+- Run `npm run generate:catalog` and `npm run generate:llms`, then `npm run build`, and verify the generated catalog, root and full LLM files, and stable RustDocs route resolve without a 404.
 
 ## Pull requests
 

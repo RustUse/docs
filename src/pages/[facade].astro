@@ -1,0 +1,28 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+import FacadeComponent from '../components/Facade.astro';
+import { facades, type RustUseFacade } from '../data/catalog';
+
+interface Props {
+  facade: RustUseFacade;
+}
+
+export function getStaticPaths() {
+  return facades.map((facade) => ({
+    params: { facade: facade.name },
+    props: { facade },
+  }));
+}
+
+const { facade } = Astro.props as Props;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: facade.name,
+    description: facade.description,
+  }}
+>
+  <FacadeComponent name={facade.name} />
+</StarlightPage>

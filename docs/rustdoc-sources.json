@@ -25,6 +25,96 @@
       "publishedCrates": ["use-acoustics"]
     },
     {
+      "name": "use-ai",
+      "path": "../use-ai",
+      "repo": "https://github.com/RustUse/use-ai",
+      "bundleSlug": "workspaces/use-ai",
+      "publishedCrates": [
+        "use-ai",
+        "use-agent",
+        "use-ai-capability",
+        "use-ai-context",
+        "use-ai-eval",
+        "use-ai-memory",
+        "use-ai-message",
+        "use-ai-model",
+        "use-ai-prompt",
+        "use-ai-provider",
+        "use-ai-role",
+        "use-guardrail",
+        "use-planning",
+        "use-rag",
+        "use-reasoning",
+        "use-tool-call"
+      ]
+    },
+    {
+      "name": "use-api",
+      "path": "../use-api",
+      "repo": "https://github.com/RustUse/use-api",
+      "bundleSlug": "workspaces/use-api",
+      "publishedCrates": [
+        "use-api",
+        "use-api-auth",
+        "use-api-deprecation",
+        "use-api-error",
+        "use-api-header",
+        "use-api-key",
+        "use-api-media-type",
+        "use-api-operation",
+        "use-api-param",
+        "use-api-request",
+        "use-api-resource",
+        "use-api-response",
+        "use-api-route",
+        "use-api-schema",
+        "use-api-version",
+        "use-content-negotiation",
+        "use-cursor",
+        "use-endpoint",
+        "use-graphql",
+        "use-grpc",
+        "use-idempotency",
+        "use-openapi",
+        "use-pagination",
+        "use-rate-limit",
+        "use-rest",
+        "use-rpc",
+        "use-webhook"
+      ]
+    },
+    {
+      "name": "use-archive",
+      "path": "../use-archive",
+      "repo": "https://github.com/RustUse/use-archive",
+      "bundleSlug": "workspaces/use-archive",
+      "publishedCrates": [
+        "use-archive",
+        "use-7z",
+        "use-ar",
+        "use-archive-entry",
+        "use-archive-format",
+        "use-archive-manifest",
+        "use-archive-path",
+        "use-archive-policy",
+        "use-brotli",
+        "use-bzip2",
+        "use-cab",
+        "use-compression",
+        "use-gzip",
+        "use-lz4",
+        "use-xz",
+        "use-zstd",
+        "use-cpio",
+        "use-iso",
+        "use-mtree",
+        "use-rar",
+        "use-tar",
+        "use-warc",
+        "use-zip"
+      ]
+    },
+    {
       "name": "use-astronomy",
       "path": "../use-astronomy",
       "repo": "https://github.com/RustUse/use-astronomy",
@@ -214,6 +304,32 @@
       ]
     },
     {
+      "name": "use-database",
+      "path": "../use-database",
+      "repo": "https://github.com/RustUse/use-database",
+      "bundleSlug": "workspaces/use-database",
+      "publishedCrates": [
+        "use-database",
+        "use-db-column",
+        "use-db-name",
+        "use-db-constraint",
+        "use-db-core",
+        "use-db-driver",
+        "use-db-index",
+        "use-db-key",
+        "use-db-migration",
+        "use-db-query",
+        "use-db-record",
+        "use-db-relation",
+        "use-db-result",
+        "use-db-row",
+        "use-db-schema",
+        "use-db-table",
+        "use-db-transaction",
+        "use-db-url"
+      ]
+    },
+    {
       "name": "use-diagnostic",
       "path": "../use-diagnostic",
       "repo": "https://github.com/RustUse/use-diagnostic",
@@ -226,6 +342,28 @@
         "use-diagnostic-span",
         "use-diagnostic-level",
         "use-diagnostic-report"
+      ]
+    },
+    {
+      "name": "use-docker",
+      "path": "../use-docker",
+      "repo": "https://github.com/RustUse/use-docker",
+      "bundleSlug": "workspaces/use-docker",
+      "publishedCrates": [
+        "use-docker",
+        "use-docker-build",
+        "use-docker-compose",
+        "use-docker-env",
+        "use-docker-healthcheck",
+        "use-docker-image",
+        "use-docker-label",
+        "use-docker-network",
+        "use-docker-port",
+        "use-docker-registry",
+        "use-docker-tag",
+        "use-docker-volume",
+        "use-dockerfile",
+        "use-dockerignore"
       ]
     },
     {
@@ -269,6 +407,26 @@
       ]
     },
     {
+      "name": "use-email",
+      "path": "../use-email",
+      "repo": "https://github.com/RustUse/use-email",
+      "bundleSlug": "workspaces/use-email",
+      "publishedCrates": [
+        "use-email",
+        "use-dkim",
+        "use-dmarc",
+        "use-email-address",
+        "use-email-auth",
+        "use-spf",
+        "use-email-envelope",
+        "use-email-header",
+        "use-email-id",
+        "use-email-message",
+        "use-mailto",
+        "use-smtp"
+      ]
+    },
+    {
       "name": "use-encoding",
       "path": "../use-encoding",
       "repo": "https://github.com/RustUse/use-encoding",
@@ -282,6 +440,29 @@
         "use-hex",
         "use-percent",
         "use-utf8"
+      ]
+    },
+    {
+      "name": "use-event",
+      "path": "../use-event",
+      "repo": "https://github.com/RustUse/use-event",
+      "bundleSlug": "workspaces/use-event",
+      "publishedCrates": [
+        "use-event",
+        "use-event-dispatch",
+        "use-event-envelope",
+        "use-event-id",
+        "use-event-kind",
+        "use-event-metadata",
+        "use-event-name",
+        "use-event-source",
+        "use-event-target",
+        "use-event-timestamp",
+        "use-event-handler",
+        "use-event-log",
+        "use-event-payload",
+        "use-event-status",
+        "use-event-stream"
       ]
     },
     {
@@ -437,6 +618,45 @@
       ]
     },
     {
+      "name": "use-git",
+      "path": "../use-git",
+      "repo": "https://github.com/RustUse/use-git",
+      "bundleSlug": "workspaces/use-git",
+      "publishedCrates": [
+        "use-git",
+        "use-git-attribute",
+        "use-git-branch",
+        "use-git-ignore",
+        "use-git-oid",
+        "use-git-pathspec",
+        "use-git-ref",
+        "use-git-refspec",
+        "use-git-remote",
+        "use-git-revision",
+        "use-git-status",
+        "use-git-tag"
+      ]
+    },
+    {
+      "name": "use-go",
+      "path": "../use-go",
+      "repo": "https://github.com/RustUse/use-go",
+      "bundleSlug": "workspaces/use-go",
+      "publishedCrates": [
+        "use-go",
+        "use-go-identifier",
+        "use-go-import",
+        "use-go-keyword",
+        "use-go-mod",
+        "use-go-module",
+        "use-go-version",
+        "use-go-package",
+        "use-go-test",
+        "use-go-value",
+        "use-go-work"
+      ]
+    },
+    {
       "name": "use-graph",
       "path": "../use-graph",
       "repo": "https://github.com/RustUse/use-graph",
@@ -465,6 +685,46 @@
         "use-stable-id",
         "use-ulid",
         "use-uuid"
+      ]
+    },
+    {
+      "name": "use-js",
+      "path": "../use-js",
+      "repo": "https://github.com/RustUse/use-js",
+      "bundleSlug": "workspaces/use-js",
+      "publishedCrates": [
+        "use-js",
+        "use-angular",
+        "use-js-identifier",
+        "use-astro",
+        "use-bun",
+        "use-deno",
+        "use-ecmascript",
+        "use-jquery",
+        "use-js-export",
+        "use-js-module",
+        "use-js-import",
+        "use-js-keyword",
+        "use-js-value",
+        "use-lit",
+        "use-next",
+        "use-node-js",
+        "use-npm",
+        "use-nuxt",
+        "use-package-json",
+        "use-pnpm",
+        "use-preact",
+        "use-qwik",
+        "use-react",
+        "use-remix",
+        "use-solid",
+        "use-storybook",
+        "use-svelte",
+        "use-ts",
+        "use-tsconfig",
+        "use-vite",
+        "use-vue",
+        "use-yarn"
       ]
     },
     {
@@ -585,6 +845,52 @@
       ]
     },
     {
+      "name": "use-ml",
+      "path": "../use-ml",
+      "repo": "https://github.com/RustUse/use-ml",
+      "bundleSlug": "workspaces/use-ml",
+      "publishedCrates": [
+        "use-ml",
+        "use-ml-dataset",
+        "use-ml-embedding",
+        "use-ml-evaluation",
+        "use-ml-experiment",
+        "use-ml-feature",
+        "use-ml-inference",
+        "use-ml-label",
+        "use-ml-metric",
+        "use-ml-model",
+        "use-ml-model-card",
+        "use-ml-pipeline",
+        "use-ml-tensor",
+        "use-ml-training"
+      ]
+    },
+    {
+      "name": "use-music",
+      "path": "../use-music",
+      "repo": "https://github.com/RustUse/use-music",
+      "bundleSlug": "workspaces/use-music",
+      "publishedCrates": [
+        "use-music",
+        "use-articulation",
+        "use-chord",
+        "use-dynamics",
+        "use-music-interval",
+        "use-key",
+        "use-meter",
+        "use-midi",
+        "use-mode",
+        "use-notation",
+        "use-note",
+        "use-pitch",
+        "use-rhythm",
+        "use-scale",
+        "use-tempo",
+        "use-tuning"
+      ]
+    },
+    {
       "name": "use-net",
       "path": "../use-net",
       "repo": "https://github.com/RustUse/use-net",
@@ -601,6 +907,53 @@
         "use-socket",
         "use-tcp",
         "use-udp"
+      ]
+    },
+    {
+      "name": "use-nosql",
+      "path": "../use-nosql",
+      "repo": "https://github.com/RustUse/use-nosql",
+      "bundleSlug": "workspaces/use-nosql",
+      "publishedCrates": [
+        "use-nosql",
+        "use-cache-store",
+        "use-change-event",
+        "use-consistency",
+        "use-document-path",
+        "use-document-store",
+        "use-graph-store",
+        "use-key-value-store",
+        "use-partition-key",
+        "use-search-index",
+        "use-timeseries-store",
+        "use-vector-store",
+        "use-wide-column"
+      ]
+    },
+    {
+      "name": "use-oci",
+      "path": "../use-oci",
+      "repo": "https://github.com/RustUse/use-oci",
+      "bundleSlug": "workspaces/use-oci",
+      "publishedCrates": [
+        "use-oci",
+        "use-oci-annotation",
+        "use-oci-config",
+        "use-oci-platform",
+        "use-oci-descriptor",
+        "use-oci-digest",
+        "use-oci-media-type",
+        "use-oci-distribution",
+        "use-oci-tag",
+        "use-oci-hook",
+        "use-oci-image",
+        "use-oci-reference",
+        "use-oci-index",
+        "use-oci-layer",
+        "use-oci-layout",
+        "use-oci-manifest",
+        "use-oci-namespace",
+        "use-oci-runtime"
       ]
     },
     {
@@ -658,6 +1011,35 @@
       ]
     },
     {
+      "name": "use-php",
+      "path": "../use-php",
+      "repo": "https://github.com/RustUse/use-php",
+      "bundleSlug": "workspaces/use-php",
+      "publishedCrates": [
+        "use-php",
+        "use-composer-json",
+        "use-drupal",
+        "use-laravel",
+        "use-packagist",
+        "use-php-attribute",
+        "use-php-autoload",
+        "use-php-docblock",
+        "use-php-error",
+        "use-php-extension",
+        "use-php-ini",
+        "use-php-namespace",
+        "use-php-symbol",
+        "use-php-syntax",
+        "use-php-token",
+        "use-php-type",
+        "use-php-version",
+        "use-psr",
+        "use-wordpress",
+        "use-wordpress-block",
+        "use-wordpress-hook"
+      ]
+    },
+    {
       "name": "use-physics",
       "path": "../use-physics",
       "repo": "https://github.com/RustUse/use-physics",
@@ -695,6 +1077,25 @@
       ]
     },
     {
+      "name": "use-postgres",
+      "path": "../use-postgres",
+      "repo": "https://github.com/RustUse/use-postgres",
+      "bundleSlug": "workspaces/use-postgres",
+      "publishedCrates": [
+        "use-postgres",
+        "use-pg-column",
+        "use-pg-identifier",
+        "use-pg-type",
+        "use-pg-constraint",
+        "use-pg-table",
+        "use-pg-schema",
+        "use-pg-enum",
+        "use-pg-extension",
+        "use-pg-index",
+        "use-pg-sequence"
+      ]
+    },
+    {
       "name": "use-presence",
       "path": "../use-presence",
       "repo": "https://github.com/RustUse/use-presence",
@@ -714,6 +1115,25 @@
         "use-seo",
         "use-sitemap",
         "use-utm"
+      ]
+    },
+    {
+      "name": "use-python",
+      "path": "../use-python",
+      "repo": "https://github.com/RustUse/use-python",
+      "bundleSlug": "workspaces/use-python",
+      "publishedCrates": [
+        "use-python",
+        "use-pip",
+        "use-pyproject",
+        "use-pytest",
+        "use-python-identifier",
+        "use-python-keyword",
+        "use-python-module",
+        "use-python-value",
+        "use-python-version",
+        "use-uv",
+        "use-venv"
       ]
     },
     {
@@ -782,6 +1202,28 @@
       ]
     },
     {
+      "name": "use-security",
+      "path": "../use-security",
+      "repo": "https://github.com/RustUse/use-security",
+      "bundleSlug": "workspaces/use-security",
+      "publishedCrates": [
+        "use-security",
+        "use-authn",
+        "use-authz",
+        "use-crypto",
+        "use-cve",
+        "use-cvss",
+        "use-cwe",
+        "use-owasp",
+        "use-sbom",
+        "use-secret",
+        "use-security-finding",
+        "use-security-header",
+        "use-security-risk",
+        "use-threat"
+      ]
+    },
+    {
       "name": "use-signal",
       "path": "../use-signal",
       "repo": "https://github.com/RustUse/use-signal",
@@ -815,6 +1257,29 @@
       ]
     },
     {
+      "name": "use-sql",
+      "path": "../use-sql",
+      "repo": "https://github.com/RustUse/use-sql",
+      "bundleSlug": "workspaces/use-sql",
+      "publishedCrates": [
+        "use-sql",
+        "use-sql-clause",
+        "use-sql-column",
+        "use-sql-ident",
+        "use-sql-table",
+        "use-sql-schema",
+        "use-sql-constraint",
+        "use-sql-dialect",
+        "use-sql-expression",
+        "use-sql-operator",
+        "use-sql-param",
+        "use-sql-value",
+        "use-sql-keyword",
+        "use-sql-query",
+        "use-sql-type"
+      ]
+    },
+    {
       "name": "use-stats",
       "path": "../use-stats",
       "repo": "https://github.com/RustUse/use-stats",
@@ -828,6 +1293,24 @@
         "use-standard-deviation",
         "use-variance",
         "use-z-score"
+      ]
+    },
+    {
+      "name": "use-test",
+      "path": "../use-test",
+      "repo": "https://github.com/RustUse/use-test",
+      "bundleSlug": "workspaces/use-test",
+      "publishedCrates": [
+        "use-test",
+        "use-test-assertion",
+        "use-test-case",
+        "use-test-expectation",
+        "use-test-fixture",
+        "use-test-outcome",
+        "use-test-report",
+        "use-test-snapshot",
+        "use-test-status",
+        "use-test-suite"
       ]
     },
     {
@@ -870,6 +1353,27 @@
       ]
     },
     {
+      "name": "use-ui",
+      "path": "../use-ui",
+      "repo": "https://github.com/RustUse/use-ui",
+      "bundleSlug": "workspaces/use-ui",
+      "publishedCrates": [
+        "use-ui",
+        "use-affordance",
+        "use-breakpoint",
+        "use-design-token",
+        "use-focus",
+        "use-interaction",
+        "use-layer",
+        "use-layout",
+        "use-spacing",
+        "use-theme",
+        "use-ui-component",
+        "use-ui-motion",
+        "use-viewport"
+      ]
+    },
+    {
       "name": "use-units",
       "path": "../use-units",
       "repo": "https://github.com/RustUse/use-units",
@@ -889,6 +1393,29 @@
         "use-predicate",
         "use-range",
         "use-rule"
+      ]
+    },
+    {
+      "name": "use-wasm",
+      "path": "../use-wasm",
+      "repo": "https://github.com/RustUse/use-wasm",
+      "bundleSlug": "workspaces/use-wasm",
+      "publishedCrates": [
+        "use-wasm",
+        "use-wasi",
+        "use-wasm-binary",
+        "use-wasm-component",
+        "use-wasm-export",
+        "use-wasm-feature",
+        "use-wasm-function",
+        "use-wasm-value",
+        "use-wasm-import",
+        "use-wasm-memory",
+        "use-wasm-module",
+        "use-wasm-section",
+        "use-wasm-target",
+        "use-wasm-text",
+        "use-wasm-wit"
       ]
     },
     {

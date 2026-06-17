@@ -1,0 +1,45 @@
+---
+title: Facades
+description: How RustUse organizes its published facades and current crate catalog.
+---
+
+import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
+import MascotTip from '../../components/MascotTip.astro';
+import MascotWarning from '../../components/MascotWarning.astro';
+import contributing2d from '../../assets/contributing-2D.png';
+import contributing3d from '../../assets/contributing-3D.png';
+import { facades, getCratesByFacade } from '../../data/catalog';
+
+<DocsMascotPanel
+  image2d={contributing2d}
+  image3d={contributing3d}
+  alt="Ferris viewing RustUse facades"
+  eyebrow="Facades"
+  title={`There are currently ${facades.length} facades in the RustUse catalog`}
+  description="A facade is the top-level RustUse domain. Facades define the shared problem space, naming conventions, and the boundary between a facade crate and the focused crates behind it."
+  quickLinks={[
+    { href: '/crates/', label: 'Full crate catalog' },
+    { href: '/cli/', label: 'RustUse CLI' },
+  ]}
+  layout="stacked"
+  theme="sand"
+/>
+
+## Facade Catalog
+
+<ul>
+  {facades.map((facade) => {
+    const crateCount = getCratesByFacade(facade.name).length;
+
+    return (
+      <li>
+        <a href={facade.facadePath}>{facade.name}</a> - {facade.description}{' '}
+        {crateCount > 0
+          ? crateCount > 1
+            ? `${crateCount} crate tracks are cataloged today.`
+            : 'Facade crate page is live now; focused crate pages are queued for a later docs wave.'
+          : 'Detailed crate pages are queued for a later docs wave.'}
+      </li>
+    );
+  })}
+</ul>

@@ -1,8 +1,8 @@
 ---
-import type { RustUseCrate } from '../data/crates';
+import type { RustUseCrate } from '../data/catalog';
 
+import Badge from './Badge.astro';
 import DocsLinks from './DocsLinks.astro';
-import StatusBadge from './StatusBadge.astro';
 
 interface Props {
   crate: RustUseCrate;
@@ -11,12 +11,12 @@ interface Props {
 const { crate } = Astro.props as Props;
 ---
 
-<article class:list={['ru-crate-card', `is-${crate.status}`]}>
+<article class="ru-crate-card">
   <div class="ru-crate-card-header">
     <a class="ru-crate-facade" href={crate.facadePath}>
       {crate.facade}
     </a>
-    <StatusBadge status={crate.status} />
+    <Badge value={crate.version} />
   </div>
   <h3>
     {
@@ -28,9 +28,6 @@ const { crate } = Astro.props as Props;
     }
   </h3>
   <p>{crate.description}</p>
-  <ul class="ru-crate-tags" aria-label={`${crate.name} tags`}>
-    {crate.tags.map((tag) => <li class="ru-crate-tag ru-pill">{tag}</li>)}
-  </ul>
   <DocsLinks crate={crate} />
 </article>
 
@@ -45,10 +42,6 @@ const { crate } = Astro.props as Props;
       linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 35%),
       linear-gradient(145deg, rgba(18, 32, 39, 0.92), rgba(10, 18, 23, 0.94));
     box-shadow: var(--sl-shadow-sm);
-  }
-
-  .ru-crate-card.is-planned {
-    opacity: 0.9;
   }
 
   .ru-crate-card-header {

@@ -1,5 +1,5 @@
 ---
-import type { RustUseCrate } from '../data/crates';
+import type { RustUseCrate } from '../data/catalog';
 
 import ApiDocsLink from './ApiDocsLink.astro';
 
@@ -8,22 +8,23 @@ interface Props {
 }
 
 const { crate } = Astro.props as Props;
-const registryLinksLive = crate.status === 'published';
-const cratesIoLabel = crate.cratesIoUrl
-  ? registryLinksLive
-    ? 'crates.io'
-    : 'crates.io after publish'
-  : 'crates.io pending';
-const docsRsLabel = crate.docsRsUrl
-  ? registryLinksLive
-    ? 'docs.rs'
-    : 'docs.rs after publish'
-  : 'docs.rs pending';
+const cratesIoLabel = crate.cratesIoUrl ? 'crates.io' : 'crates.io pending';
+const docsRsLabel = crate.docsRsUrl ? 'docs.rs' : 'docs.rs pending';
 ---
 
 <ul class="ru-docs-links">
   <li>
-    <ApiDocsLink href={crate.docsUrl} label="RustUse RustDocs" compact />
+    <ApiDocsLink href={'/' + crate.facade + '/' + crate.name} label="Guide" compact />
+  </li>
+  <li>
+    <a
+      class="ru-docs-link ru-pill"
+      href={crate.docsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      RustDocs
+    </a>
   </li>
   <li>
     <a
@@ -37,7 +38,7 @@ const docsRsLabel = crate.docsRsUrl
   </li>
   <li>
     {
-      crate.cratesIoUrl && registryLinksLive ? (
+      crate.cratesIoUrl ? (
         <a
           class="ru-docs-link ru-pill"
           href={crate.cratesIoUrl}
@@ -55,7 +56,7 @@ const docsRsLabel = crate.docsRsUrl
   </li>
   <li>
     {
-      crate.docsRsUrl && registryLinksLive ? (
+      crate.docsRsUrl ? (
         <a
           class="ru-docs-link ru-pill"
           href={crate.docsRsUrl}

@@ -3,6 +3,7 @@ import eslintPluginAstro from 'eslint-plugin-astro';
 import perfectionist from 'eslint-plugin-perfectionist';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default [
   {
@@ -49,6 +50,7 @@ export default [
     files: ['**/*.{js,mjs,ts,astro}'],
     plugins: {
       perfectionist,
+      unicorn: eslintPluginUnicorn,
     },
     rules: {
       'perfectionist/sort-exports': [

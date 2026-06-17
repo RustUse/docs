@@ -6,14 +6,14 @@ import DocsLinks from './DocsLinks.astro';
 import MascotNote from './MascotNote.astro';
 
 interface Props {
-  crateName: string;
+  name: string;
 }
 
-const { crateName } = Astro.props as Props;
-const crate = getCrate(crateName);
+const { name } = Astro.props as Props;
+const crate = getCrate(name);
 
 if (!crate) {
-  throw new Error(`Unknown crate for overview page: ${crateName}`);
+  throw new Error(`Unknown crate for overview page: ${name}`);
 }
 
 const isFacade = crate.name === crate.facade;

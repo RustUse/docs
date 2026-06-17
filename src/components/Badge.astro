@@ -1,0 +1,46 @@
+---
+interface Props {
+  value: string;
+  variant?: 'teal' | 'sand' | 'clay';
+}
+
+const { value, variant } = Astro.props as Props;
+---
+
+<span
+  class:list={['ru-badge', 'ru-pill', variant ? `is-${variant}` : 'is-teal']}
+  >{value}</span
+>
+
+<style>
+  .ru-badge {
+    --ru-pill-font-weight: 700;
+    --ru-pill-letter-spacing: 0.08em;
+    --ru-pill-text-transform: uppercase;
+  }
+  .ru-badge.is-teal {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-teal) 18%, transparent);
+    --ru-pill-color: var(--sl-color-accent-high);
+  }
+  .ru-badge.is-sand {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-sand) 18%, transparent);
+    --ru-pill-color: var(--ru-color-sand);
+  }
+  .ru-badge.is-clay {
+    --ru-pill-bg: color-mix(in srgb, var(--ru-color-clay) 18%, transparent);
+    --ru-pill-color: color-mix(
+      in srgb,
+      var(--sl-color-white) 82%,
+      var(--ru-color-clay)
+    );
+  }
+  :root[data-theme='light'] .ru-badge.is-teal {
+    --ru-pill-color: var(--ru-color-teal);
+  }
+  :root[data-theme='light'] .ru-badge.is-sand {
+    --ru-pill-color: var(--ru-color-clay);
+  }
+  :root[data-theme='light'] .ru-badge.is-clay {
+    --ru-pill-color: var(--ru-color-clay);
+  }
+</style>

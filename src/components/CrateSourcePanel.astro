@@ -2,7 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { getPublicCrate } from '../data/crates';
+import { getCrate } from '../data/catalog';
 
 interface SourceArtifactFile {
   content: string;
@@ -24,9 +24,9 @@ interface Props {
 
 const { crateName, description, title } = Astro.props;
 
-const crate = getPublicCrate(crateName);
+const crate = getCrate(crateName);
 if (!crate) {
-  throw new Error(`Unknown public crate for source panel: ${crateName}`);
+  throw new Error(`Unknown crate for source panel: ${crateName}`);
 }
 
 let artifact: SourceArtifact | null = null;

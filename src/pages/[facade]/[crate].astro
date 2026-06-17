@@ -1,0 +1,28 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+import CrateComponent from '../../components/Crate.astro';
+import { crates, type RustUseCrate } from '../../data/catalog';
+
+interface Props {
+  crate: RustUseCrate;
+}
+
+export function getStaticPaths() {
+  return crates.map((crate) => ({
+    params: { facade: crate.facade, crate: crate.name },
+    props: { facade: crate.facade, crate },
+  }));
+}
+
+const { crate } = Astro.props as Props;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: crate.name,
+    description: crate.description,
+  }}
+>
+  <CrateComponent name={crate.name} />
+</StarlightPage>

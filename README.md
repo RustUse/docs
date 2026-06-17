@@ -56,13 +56,13 @@ RustUse Docs is the public docs site, not the source workspace for every Rust cr
 | ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
 | Human docs             | `src/content/docs/` | Guides, onboarding, set overviews, and contributor-facing content maintained in this repository |
 | Generated API docs     | `public/api/`       | Rustdoc HTML copied in from configured workspaces and treated as build output                   |
-| Crate catalog metadata | `src/data/`         | Generated crate listing plus site helpers for publication status, links, and routes             |
+| Crate catalog metadata | `src/data/`         | Generated crate listing plus site helpers for versions, links, and routes                       |
 | LLM inventory          | `public/llms*.txt`  | Generated root, full, and per-set link inventories for LLM consumers                            |
 
 | If you need to...                         | Start here                    |
 | ----------------------------------------- | ----------------------------- |
 | Write or edit site content                | `src/content/docs/`           |
-| Regenerate crate catalog and API inputs   | `npm run sync:crate-surface`  |
+| Regenerate crate catalog and API inputs   | `npm run generate:catalog`    |
 | Regenerate the LLM inventory              | `npm run generate:llms`       |
 | Rebuild published API routes              | `npm run build:api`           |
 | Update crate descriptions, tags, or names | The owning crate `Cargo.toml` |
@@ -77,7 +77,7 @@ RustUse separates authored documentation from generated API output on purpose.
 | Content type           | Location            | Source of truth                                                                      |
 | ---------------------- | ------------------- | ------------------------------------------------------------------------------------ |
 | Human docs             | `src/content/docs/` | This repository                                                                      |
-| Generated API docs     | `public/api/`       | Generated `docs/rustdoc-sources.json`, derived by `npm run sync:crate-surface`       |
+| Generated API docs     | `public/api/`       | Generated `docs/rustdoc-sources.json`, derived by `npm run generate:catalog`         |
 | Crate catalog metadata | `src/data/`         | `rustuse` features, set workspace Cargo metadata, and live crates.io package records |
 | LLM inventory          | `public/llms*.txt`  | Sibling `use-*` workspaces discovered by `npm run generate:llms`                     |
 
@@ -95,18 +95,18 @@ RustUse separates authored documentation from generated API output on purpose.
 
 Build path at a glance:
 
-`rustuse` features + set workspaces -> `scripts/sync-crate-surface.mjs` -> generated catalog and Rustdoc inputs -> `scripts/build-rustdocs.mjs` -> `public/api/` -> `RustUse docs site` -> `rustuse.org`
+`rustuse` features + facade workspaces -> `scripts/generate-catalog.mjs` -> generated catalog and Rustdoc inputs -> `scripts/build-rustdocs.mjs` -> `public/api/` -> `RustUse docs site` -> `rustuse.org`
 
 Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and per-set LLM text files in `public/` -> `rustuse.org/llms.txt`
 
-| Capability            | How it works                                                                                    | Where to look                                                                |
-| --------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Site shell            | Site configuration, components, and styles render the public docs surface                       | `astro.config.mjs`, `src/components/`, `src/styles/`                         |
-| Human docs authoring  | Markdown and MDX pages live in the docs content tree                                            | `src/content/docs/`                                                          |
-| Surface sync          | A sync script derives facades, crates, generated pages, catalog data, and Rustdoc source inputs | `scripts/sync-crate-surface.mjs`                                             |
-| API docs generation   | A build script reads generated Rustdoc sources and copies output into `public/api/`             | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                    |
-| Public crate metadata | Crate metadata is generated, then exposed through small runtime and TypeScript helper modules   | `src/data/catalog.generated.js`, `src/data/catalog.js`, `src/data/crates.ts` |
-| LLM inventory         | A generator renders compact root, expanded full, and per-set LLM text files                     | `scripts/generate-llms-txt.mjs`, `public/llms.txt`, `public/llms-full.txt`   |
+| Capability           | How it works                                                                                  | Where to look                                                              |
+| -------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Site shell           | Site configuration, components, and styles render the public docs surface                     | `astro.config.ts`, `src/components/`, `src/styles/`                        |
+| Human docs authoring | Markdown and MDX pages live in the docs content tree                                          | `src/content/docs/`                                                        |
+| Catalog generation   | A generator derives facades, crates, generated pages, catalog data, and Rustdoc source inputs | `scripts/generate-catalog.mjs`                                             |
+| API docs generation  | A build script reads generated Rustdoc sources and copies output into `public/api/`           | `scripts/build-rustdocs.mjs`, `docs/rustdoc-sources.json`                  |
+| Crate metadata       | Crate metadata is generated, then exposed through the typed catalog module                    | `src/data/catalog.generated.js`, `src/data/catalog.ts`                     |
+| LLM inventory        | A generator renders compact root, expanded full, and per-set LLM text files                   | `scripts/generate-llms-txt.mjs`, `public/llms.txt`, `public/llms-full.txt` |
 
 ## Project structure
 
@@ -121,15 +121,14 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and
 │   └── api/
 ├── scripts/
 │   ├── build-rustdocs.mjs
-│   ├── generate-llms-txt.mjs
-│   └── sync-crate-surface.mjs
+│   ├── generate-catalog.mjs
+│   └── generate-llms-txt.mjs
 ├── src/
 │   ├── content/docs/
 │   ├── data/catalog.generated.js
-│   ├── data/catalog.js
-│   ├── data/crates.ts
+│   ├── data/catalog.ts
 │   └── styles/
-├── astro.config.mjs
+├── astro.config.ts
 ├── package.json
 └── tsconfig.json
 ```
@@ -142,13 +141,12 @@ Sibling `use-*` workspaces -> `scripts/generate-llms-txt.mjs` -> root, full, and
 | `public/llms-full.txt`              | Expanded LLM context with generated RustUse facade and crate links               |
 | `public/{facade}/llms*.txt`         | Generated canonical per-facade LLM routing and full context files                |
 | `public/facades/{facade}/llms*.txt` | Generated per-facade files with the same content as the canonical short routes   |
-| `scripts/sync-crate-surface.mjs`    | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
+| `scripts/generate-catalog.mjs`      | Derives catalog data, generated crate pages, and Rustdoc source inputs           |
 | `scripts/generate-llms-txt.mjs`     | Renders split LLM context files from sibling RustUse facade workspaces           |
 | `scripts/build-rustdocs.mjs`        | Builds Rustdocs, handles local-path or repo fallback, and writes redirect shells |
 | `src/content/docs/`                 | Human-authored pages for the docs site                                           |
-| `src/data/catalog.generated.js`     | Generated public crate catalog data                                              |
-| `src/data/catalog.js`               | Runtime helpers around the generated catalog                                     |
-| `src/data/crates.ts`                | TypeScript-facing wrapper around the generated catalog helpers                   |
+| `src/data/catalog.generated.js`     | Generated crate catalog data                                                     |
+| `src/data/catalog.ts`               | Typed catalog helpers around the generated catalog                               |
 | `public/CNAME`                      | Keeps the custom domain aligned with the deployed site                           |
 
 ## Requirements
@@ -254,7 +252,7 @@ Use the launch profiles when you want a one-click server start, and use the task
 
 ## Generated Rust API docs
 
-The Rustdoc build pipeline consumes `docs/rustdoc-sources.json`. That file is generated by `npm run sync:crate-surface` from the `rustuse` facade `features.full` list, set workspace Cargo metadata, and live crates.io package records.
+The Rustdoc build pipeline consumes `docs/rustdoc-sources.json`. That file is generated by `npm run generate:catalog` from the `rustuse` facade `features.full` list, set workspace Cargo metadata, and live crates.io package records.
 
 Do not hand-edit `docs/rustdoc-sources.json`. A set workspace is included automatically when every publishable public package in that set resolves on crates.io with the matching RustUse repository URL.
 
@@ -276,18 +274,18 @@ The supported crate entry roots redirect into the workspace bundle so the genera
 
 ## Crate catalog
 
-The public crate catalog is generated into `src/data/catalog.generated.js` and exposed through `src/data/catalog.js` and `src/data/crates.ts`.
+The crate catalog is generated into `src/data/catalog.generated.js` and exposed through `src/data/catalog.ts`.
 
 Keep the source inputs aligned with:
 
-| Keep in sync          | Why it matters                                                                  |
-| --------------------- | ------------------------------------------------------------------------------- |
-| `rustuse` set feature | The public set list should come from the facade crate's `features.full` surface |
-| Set workspace crates  | The public catalog should reflect Cargo workspace membership and package data   |
-| crates.io records     | Publication status and external links should reflect live package identity      |
-| Public API paths      | Cards and links should resolve to the generated `public/api/` routes            |
-| Internal docs links   | Crate pages and set pages should stay navigable from the site                   |
-| Publication status    | External registry links should only appear once the crate is actually published |
+| Keep in sync          | Why it matters                                                           |
+| --------------------- | ------------------------------------------------------------------------ |
+| `rustuse` set feature | The set list should come from the facade crate's `features.full` surface |
+| Set workspace crates  | The catalog should reflect Cargo workspace membership and package data   |
+| crates.io records     | Versions and external links should reflect live package identity         |
+| Public API paths      | Cards and links should resolve to the generated `public/api/` routes     |
+| Internal docs links   | Crate pages and set pages should stay navigable from the site            |
+| Crate versions        | Displayed versions should come from the live crates.io package record    |
 
 ## LLM inventory
 
@@ -359,13 +357,13 @@ Release Please is bootstrapped from the repository's current public baseline com
 > With squash merges, the PR title becomes the release signal. Use titles like `feat: add public API docs`, `fix: correct Pages route`, or `docs: clarify contributor setup`.
 
 > [!IMPORTANT]
-> Keep `public/CNAME` and `astro.config.mjs` aligned with `rustuse.org` so the deployed Pages site and custom domain stay in sync.
+> Keep `public/CNAME` and `astro.config.ts` aligned with `rustuse.org` so the deployed Pages site and custom domain stay in sync.
 
-| Deployment concern | Keep aligned                                              |
-| ------------------ | --------------------------------------------------------- |
-| Custom domain      | `public/CNAME` and the `site` value in `astro.config.mjs` |
-| Generated API docs | `npm run build:api` must run before the site build        |
-| Final artifact     | Astro publishes the static site into `dist/`              |
+| Deployment concern | Keep aligned                                             |
+| ------------------ | -------------------------------------------------------- |
+| Custom domain      | `public/CNAME` and the `site` value in `astro.config.ts` |
+| Generated API docs | `npm run build:api` must run before the site build       |
+| Final artifact     | Astro publishes the static site into `dist/`             |
 
 ## Troubleshooting
 
@@ -375,7 +373,7 @@ Release Please is bootstrapped from the repository's current public baseline com
 | API docs are missing locally                          | Rustdocs have not been generated yet                                                        | Run `npm run dev` or `npm run build:api`                                               |
 | LLM context freshness fails                           | Generated root, full, or per-set LLM files are stale                                        | Run `npm run generate:llms`                                                            |
 | CI cannot find the local sibling checkout             | Expected in CI                                                                              | Ensure the `repo` URL exists in `docs/rustdoc-sources.json` so the script can clone it |
-| External crate links do not render                    | Crate status is still scaffolded                                                            | Update `src/data/crates.ts` when the crate is published                                |
+| External crate links do not render                    | Crate package metadata is stale                                                             | Run `npm run generate:catalog` after the crate is published                            |
 
 ## Contributing
 
