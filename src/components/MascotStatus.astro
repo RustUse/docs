@@ -5,12 +5,7 @@ import ferrisStatusesLightMode2d from '../assets/ferris-statuses-light-mode-2D.p
 import ferrisStatusesLightMode3d from '../assets/ferris-statuses-light-mode-3D.png';
 
 type StatusVariant =
-  | 'note'
-  | 'tip'
-  | 'warning'
-  | 'success'
-  | 'important'
-  | 'experimental';
+  'note' | 'tip' | 'warning' | 'success' | 'important' | 'experimental';
 
 interface Props {
   variant: StatusVariant;
@@ -53,7 +48,8 @@ const spriteStyle = [
   role={decorative ? undefined : 'img'}
   aria-hidden={decorative ? 'true' : undefined}
   aria-label={decorative ? undefined : label}
-/>
+>
+</div>
 
 <style>
   .ru-status-card {
