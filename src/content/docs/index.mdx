@@ -20,14 +20,14 @@ hero:
         rel: noopener noreferrer
 ---
 
-import MascotExperimental from '../../components/MascotExperimental.astro';
+import StatusExperimental from '../../components/StatusExperimental.astro';
 import HomeInlineIllustration from '../../components/HomeInlineIllustration.astro';
-import MascotGrid from '../../components/MascotGrid.astro';
-import MascotImportant from '../../components/MascotImportant.astro';
-import MascotNote from '../../components/MascotNote.astro';
-import MascotSuccess from '../../components/MascotSuccess.astro';
-import MascotTip from '../../components/MascotTip.astro';
-import MascotWarning from '../../components/MascotWarning.astro';
+import StatusGrid from '../../components/StatusGrid.astro';
+import StatusImportant from '../../components/StatusImportant.astro';
+import StatusNote from '../../components/StatusNote.astro';
+import StatusSuccess from '../../components/StatusSuccess.astro';
+import StatusTip from '../../components/StatusTip.astro';
+import StatusWarning from '../../components/StatusWarning.astro';
 
 <div class="home-stack not-content">
   <section class="home-section home-intro-section">
@@ -100,20 +100,20 @@ import MascotWarning from '../../components/MascotWarning.astro';
   <section class="home-section home-intro-section">
     <div class="home-section-header">
       <span class="home-kicker">Ferris callout system</span>
-      <h2>Stable status semantics across visual modes</h2>
+      <h2>Consistent meanings across visual modes</h2>
       <p>
-        RustUse uses Ferris to give documentation callouts a clear visual language across Note, Tip, Warning, Success, Important, and Experimental content. Each status keeps a consistent meaning while adapting cleanly across light/2D, dark/2D, light/3D, and dark/3D modes.
+        RustUse uses Ferris to give documentation callouts a clear visual language across notes, tips, warnings, success states, important details, and experimental content. Each callout keeps the same meaning while adapting cleanly across light/2D, dark/2D, light/3D, and dark/3D modes.
       </p>
     </div>
 
-    <MascotGrid label="RustUse mascot callout cards">
-      <MascotNote />
-      <MascotTip />
-      <MascotWarning />
-      <MascotSuccess />
-      <MascotImportant />
-      <MascotExperimental />
-    </MascotGrid>
+    <StatusGrid label="Ferris callout system">
+      <StatusNote />
+      <StatusTip />
+      <StatusWarning />
+      <StatusSuccess />
+      <StatusImportant />
+      <StatusExperimental />
+    </StatusGrid>
 
   </section>
 </div>

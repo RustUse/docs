@@ -4,7 +4,7 @@ import ferrisStatusesDarkMode3d from '../assets/ferris-statuses-dark-mode-3D.png
 import ferrisStatusesLightMode2d from '../assets/ferris-statuses-light-mode-2D.png';
 import ferrisStatusesLightMode3d from '../assets/ferris-statuses-light-mode-3D.png';
 
-type MascotVariant =
+type StatusVariant =
   | 'note'
   | 'tip'
   | 'warning'
@@ -13,7 +13,7 @@ type MascotVariant =
   | 'experimental';
 
 interface Props {
-  variant: MascotVariant;
+  variant: StatusVariant;
   title?: string;
   description?: string;
   class?: string;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const mascotVariants: Record<
-  MascotVariant,
+  StatusVariant,
   { title: string; tagline: string; description: string; x: string; y: string }
 > = {
   note: {
@@ -82,39 +82,39 @@ const {
   spriteOnly = false,
 } = Astro.props as Props;
 
-const mascot = mascotVariants[variant];
-const ariaLabel = `${title ?? mascot.title}: ${description ?? mascot.description}`;
+const status = mascotVariants[variant];
+const ariaLabel = `${title ?? status.title}: ${description ?? status.description}`;
 const spriteStyle = [
-  `--ru-mascot-system-image-dark-2d: url(${ferrisStatusesDarkMode2d.src})`,
-  `--ru-mascot-system-image-dark-3d: url(${ferrisStatusesDarkMode3d.src})`,
-  `--ru-mascot-system-image-light-2d: url(${ferrisStatusesLightMode2d.src})`,
-  `--ru-mascot-system-image-light-3d: url(${ferrisStatusesLightMode3d.src})`,
-  `--ru-mascot-sprite-x: ${mascot.x}`,
-  `--ru-mascot-sprite-y: ${mascot.y}`,
+  `--ru-status-system-image-dark-2d: url(${ferrisStatusesDarkMode2d.src})`,
+  `--ru-status-system-image-dark-3d: url(${ferrisStatusesDarkMode3d.src})`,
+  `--ru-status-system-image-light-2d: url(${ferrisStatusesLightMode2d.src})`,
+  `--ru-status-system-image-light-3d: url(${ferrisStatusesLightMode3d.src})`,
+  `--ru-status-sprite-x: ${status.x}`,
+  `--ru-status-sprite-y: ${status.y}`,
 ].join('; ');
 ---
 
 {
   spriteOnly ? (
     <div
-      class:list={['ru-mascot-card', 'is-thumbnail', className]}
+      class:list={['ru-status-card', 'is-thumbnail', className]}
       style={spriteStyle}
       role="img"
       aria-label={ariaLabel}
     />
   ) : (
     <aside
-      class:list={['ru-mascot-callout', `is-${variant}`, className]}
+      class:list={['ru-status-callout', `is-${variant}`, className]}
       aria-label={ariaLabel}
     >
-      <div class="ru-mascot-callout-art" aria-hidden="true">
-        <div class="ru-mascot-card is-thumbnail" style={spriteStyle} />
+      <div class="ru-status-callout-art" aria-hidden="true">
+        <div class="ru-status-card is-thumbnail" style={spriteStyle} />
       </div>
-      <div class="ru-mascot-callout-copy">
-        <p class="ru-mascot-callout-title">{title ?? mascot.title}</p>
-        <span class="ru-mascot-callout-tagline">{mascot.tagline}</span>
-        <p class="ru-mascot-callout-description">
-          {description ?? mascot.description}
+      <div class="ru-status-callout-copy">
+        <p class="ru-status-callout-title">{title ?? status.title}</p>
+        <span class="ru-status-callout-tagline">{status.tagline}</span>
+        <p class="ru-status-callout-description">
+          {description ?? status.description}
         </p>
       </div>
     </aside>
@@ -122,27 +122,27 @@ const spriteStyle = [
 }
 
 <style>
-  .ru-mascot-card {
-    --ru-mascot-system-image-dark: var(--ru-mascot-system-image-dark-3d);
-    --ru-mascot-system-image-light: var(--ru-mascot-system-image-light-3d);
-    --ru-mascot-system-image: var(--ru-mascot-system-image-dark);
+  .ru-status-card {
+    --ru-status-system-image-dark: var(--ru-status-system-image-dark-3d);
+    --ru-status-system-image-light: var(--ru-status-system-image-light-3d);
+    --ru-status-system-image: var(--ru-status-system-image-dark);
     display: block;
     inline-size: 100%;
     aspect-ratio: 15 / 16;
     border-radius: 1.35rem;
     background-color: var(--ru-color-flame);
-    background-image: var(--ru-mascot-system-image);
+    background-image: var(--ru-status-system-image);
     background-repeat: no-repeat;
     background-size: 300% 200%;
-    background-position: var(--ru-mascot-sprite-x) var(--ru-mascot-sprite-y);
+    background-position: var(--ru-status-sprite-x) var(--ru-status-sprite-y);
   }
 
-  .ru-mascot-card.is-thumbnail {
+  .ru-status-card.is-thumbnail {
     max-inline-size: 21rem;
   }
 
-  .ru-mascot-callout {
-    --ru-mascot-accent: var(--ru-color-teal);
+  .ru-status-callout {
+    --ru-status-accent: var(--ru-color-teal);
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -153,119 +153,119 @@ const spriteStyle = [
     background:
       radial-gradient(
         circle at top right,
-        color-mix(in srgb, var(--ru-mascot-accent) 16%, transparent),
+        color-mix(in srgb, var(--ru-status-accent) 16%, transparent),
         transparent 34%
       ),
       linear-gradient(
         145deg,
-        color-mix(in srgb, var(--sl-color-bg) 90%, var(--ru-mascot-accent) 10%),
+        color-mix(in srgb, var(--sl-color-bg) 90%, var(--ru-status-accent) 10%),
         rgba(255, 255, 255, 0.02)
       );
   }
 
-  .ru-mascot-callout.is-note,
-  .ru-mascot-callout.is-success {
-    --ru-mascot-accent: var(--ru-color-teal);
+  .ru-status-callout.is-note,
+  .ru-status-callout.is-success {
+    --ru-status-accent: var(--ru-color-teal);
   }
 
-  .ru-mascot-callout.is-tip {
-    --ru-mascot-accent: var(--ru-color-sand);
+  .ru-status-callout.is-tip {
+    --ru-status-accent: var(--ru-color-sand);
   }
 
-  .ru-mascot-callout.is-warning {
-    --ru-mascot-accent: var(--ru-color-flame);
+  .ru-status-callout.is-warning {
+    --ru-status-accent: var(--ru-color-flame);
   }
 
-  .ru-mascot-callout.is-important {
-    --ru-mascot-accent: var(--ru-color-clay);
+  .ru-status-callout.is-important {
+    --ru-status-accent: var(--ru-color-clay);
   }
 
-  .ru-mascot-callout.is-experimental {
-    --ru-mascot-accent: color-mix(
+  .ru-status-callout.is-experimental {
+    --ru-status-accent: color-mix(
       in srgb,
       var(--sl-color-accent-high) 78%,
       var(--ru-color-teal)
     );
   }
 
-  .ru-mascot-callout-art {
+  .ru-status-callout-art {
     display: flex;
     justify-content: center;
   }
 
-  .ru-mascot-callout-copy {
+  .ru-status-callout-copy {
     display: grid;
     gap: 0.7rem;
     min-width: 0;
   }
 
-  .ru-mascot-callout-title,
-  .ru-mascot-callout-description {
+  .ru-status-callout-title,
+  .ru-status-callout-description {
     margin: 0;
   }
 
-  .ru-mascot-callout-title {
+  .ru-status-callout-title {
     font-family: var(--ru-font-display);
     font-size: 1.02rem;
     font-weight: 800;
     letter-spacing: 0.01em;
   }
 
-  .ru-mascot-callout-description {
+  .ru-status-callout-description {
     font-family: var(--ru-font-body);
     color: color-mix(in srgb, var(--sl-color-text) 90%, var(--ru-color-mist));
   }
 
-  .ru-mascot-callout-body {
+  .ru-status-callout-body {
     display: grid;
     gap: 0.75rem;
   }
 
-  .ru-mascot-callout-body :global(p),
-  .ru-mascot-callout-body :global(ul),
-  .ru-mascot-callout-body :global(ol) {
+  .ru-status-callout-body :global(p),
+  .ru-status-callout-body :global(ul),
+  .ru-status-callout-body :global(ol) {
     margin: 0;
   }
 
-  .ru-mascot-callout-body :global(code) {
+  .ru-status-callout-body :global(code) {
     font-size: 0.95em;
   }
 
-  :root[data-mascot-mode='2d'] .ru-mascot-card {
-    --ru-mascot-system-image-dark: var(--ru-mascot-system-image-dark-2d);
-    --ru-mascot-system-image-light: var(--ru-mascot-system-image-light-2d);
+  :root[data-status-mode='2d'] .ru-status-card {
+    --ru-status-system-image-dark: var(--ru-status-system-image-dark-2d);
+    --ru-status-system-image-light: var(--ru-status-system-image-light-2d);
   }
 
-  :root[data-theme='light'] .ru-mascot-card {
-    --ru-mascot-system-image: var(--ru-mascot-system-image-light);
+  :root[data-theme='light'] .ru-status-card {
+    --ru-status-system-image: var(--ru-status-system-image-light);
     background-color: rgba(255, 255, 255, 0.96);
     border-color: rgba(18, 32, 39, 0.08);
   }
 
-  :root[data-theme='light'] .ru-mascot-callout {
+  :root[data-theme='light'] .ru-status-callout {
     background:
       radial-gradient(
         circle at top right,
-        color-mix(in srgb, var(--ru-mascot-accent) 12%, transparent),
+        color-mix(in srgb, var(--ru-status-accent) 12%, transparent),
         transparent 34%
       ),
       linear-gradient(
         145deg,
         rgba(255, 255, 255, 0.9),
-        color-mix(in srgb, var(--ru-mascot-accent) 8%, white)
+        color-mix(in srgb, var(--ru-status-accent) 8%, white)
       );
   }
 
-  :root[data-theme='light'] .ru-mascot-callout-description {
+  :root[data-theme='light'] .ru-status-callout-description {
     color: color-mix(in srgb, var(--sl-color-gray-2) 92%, var(--ru-color-deep));
   }
 
   @media (max-width: 42rem) {
-    .ru-mascot-callout {
+    .ru-status-callout {
       grid-template-columns: 1fr;
     }
 
-    .ru-mascot-callout-art {
+    .ru-status-callout-art {
       justify-content: start;
     }
   }

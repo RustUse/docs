@@ -3,6 +3,8 @@ title: Using AI Reference
 description: URL patterns and planned MCP URI patterns for AI-readable RustUse documentation.
 ---
 
+import StatusWarning from '../../../components/StatusWarning.astro';
+
 This reference summarizes the AI-readable route shapes documented in this section. Use the status column to distinguish live generated routes from planned surfaces.
 
 ## Root files
@@ -77,6 +79,7 @@ Examples:
 | `rustuse://rustdocs/workspaces/{facade}` | Planned | Rustdoc workspace route discovery.               |
 | `rustuse://rustdocs/crates/{crate}`      | Planned | Crate Rustdoc route discovery.                   |
 
-:::caution
-AI-readable routes help assistants find RustUse context. They do not make generated code authoritative. Verify code against Rustdocs and `cargo test`.
-:::
+<StatusWarning
+  title="AI-readable routes"
+  description="AI-readable routes help assistants find RustUse context. They do not make generated code authoritative. Verify code against Rustdocs and `cargo test`."
+/>

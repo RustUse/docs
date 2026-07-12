@@ -4,9 +4,9 @@ description: Start using RustUse by choosing the adoption path that fits your pr
 ---
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
-import MascotNote from '../../components/MascotNote.astro';
-import MascotImportant from '../../components/MascotImportant.astro';
-import MascotTip from '../../components/MascotTip.astro';
+import StatusNote from '../../components/StatusNote.astro';
+import StatusImportant from '../../components/StatusImportant.astro';
+import StatusTip from '../../components/StatusTip.astro';
 import onboarding2d from '../../assets/onboarding-2D.png';
 import onboarding3d from '../../assets/onboarding-3D.png';
 
@@ -18,9 +18,9 @@ import onboarding3d from '../../assets/onboarding-3D.png';
   title="Install a crate. Copy a utility. Use the CLI."
   description="Start with a Cargo crate, copy a utility you want to own, or use the CLI for guided discovery and adoption."
   quickLinks={[
-    { href: '/facades/', label: 'Browse facades' },
-    { href: '/crates/', label: 'Explore all crates' },
-    { href: '/cli/', label: 'Use the CLI' },
+    { href: '/facades', label: 'Facades' },
+    { href: '/crates', label: 'Crate catalog' },
+    { href: '/cli', label: 'Use the CLI' },
   ]}
   layout="stacked"
   theme="sand"
@@ -74,7 +74,7 @@ cargo add use-combinatorics
 cargo add use-math
 ```
 
-<MascotNote
+<StatusNote
   title="Cargo keeps updates external"
   description="Use a focused crate when the problem is narrow. Use a facade crate when a broader domain boundary makes the code clearer."
 />
@@ -100,7 +100,7 @@ A copied utility should include provenance so the source, version, and license r
 // License: MIT OR Apache-2.0
 ```
 
-<MascotImportant
+<StatusImportant
   title="Copy mode means ownership"
   description="Use copy mode when you want to own the utility directly in your codebase. Copied source does not update automatically. After you copy a utility, your project owns that local version."
 />
@@ -132,7 +132,7 @@ The CLI supports both Cargo and copy workflows without requiring managed project
 
 `rustuse init` is optional. Use it only when you want managed tracking for copied utilities, future diffs, or upgrade support. Cargo-only usage, copy-only usage, and one-shot CLI copy usage do not need `rustuse.toml`.
 
-<MascotTip
+<StatusTip
   title="The CLI is optional"
   description="Use the CLI for discovery, adding crates, copying utilities, or managed
     tracking. Cargo-only and copy-only workflows do not require it."

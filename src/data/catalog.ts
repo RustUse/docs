@@ -79,7 +79,11 @@ function getSidebarCrateLinks(): SidebarLink[] {
   const linksByName = new Map<string, SidebarLink>();
 
   for (const crate of rustuseCrates) {
-    if (!crate.name.startsWith('use-') || !crate.pagePath || crate.name === crate.facade) {
+    if (
+      !crate.name.startsWith('use-') ||
+      !crate.pagePath ||
+      crate.name === crate.facade
+    ) {
       continue;
     }
 

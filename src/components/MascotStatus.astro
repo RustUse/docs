@@ -1,0 +1,89 @@
+---
+import ferrisStatusesDarkMode2d from '../assets/ferris-statuses-dark-mode-2D.png';
+import ferrisStatusesDarkMode3d from '../assets/ferris-statuses-dark-mode-3D.png';
+import ferrisStatusesLightMode2d from '../assets/ferris-statuses-light-mode-2D.png';
+import ferrisStatusesLightMode3d from '../assets/ferris-statuses-light-mode-3D.png';
+
+type StatusVariant =
+  | 'note'
+  | 'tip'
+  | 'warning'
+  | 'success'
+  | 'important'
+  | 'experimental';
+
+interface Props {
+  variant: StatusVariant;
+  label?: string;
+  class?: string;
+  decorative?: boolean;
+}
+
+const spritePositions: Record<StatusVariant, { x: string; y: string }> = {
+  note: { x: '5%', y: '-5%' },
+  tip: { x: '49%', y: '-5%' },
+  warning: { x: '95%', y: '-5%' },
+  success: { x: '5%', y: '95%' },
+  important: { x: '50%', y: '95%' },
+  experimental: { x: '95%', y: '95%' },
+};
+
+const {
+  variant,
+  label,
+  class: className,
+  decorative = false,
+} = Astro.props as Props;
+
+const position = spritePositions[variant];
+
+const spriteStyle = [
+  `--ru-status-system-image-dark-2d: url(${ferrisStatusesDarkMode2d.src})`,
+  `--ru-status-system-image-dark-3d: url(${ferrisStatusesDarkMode3d.src})`,
+  `--ru-status-system-image-light-2d: url(${ferrisStatusesLightMode2d.src})`,
+  `--ru-status-system-image-light-3d: url(${ferrisStatusesLightMode3d.src})`,
+  `--ru-status-sprite-x: ${position.x}`,
+  `--ru-status-sprite-y: ${position.y}`,
+].join('; ');
+---
+
+<div
+  class:list={['ru-status-card', 'is-thumbnail', className]}
+  style={spriteStyle}
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  aria-label={decorative ? undefined : label}
+/>
+
+<style>
+  .ru-status-card {
+    --ru-status-system-image-dark: var(--ru-status-system-image-dark-3d);
+    --ru-status-system-image-light: var(--ru-status-system-image-light-3d);
+    --ru-status-system-image: var(--ru-status-system-image-dark);
+
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 15 / 16;
+    border-radius: 1.35rem;
+    background-color: var(--ru-color-flame);
+    background-image: var(--ru-status-system-image);
+    background-repeat: no-repeat;
+    background-size: 300% 200%;
+    background-position: var(--ru-status-sprite-x) var(--ru-status-sprite-y);
+  }
+
+  .ru-status-card.is-thumbnail {
+    max-inline-size: 21rem;
+  }
+
+  :root[data-status-mode='2d'] .ru-status-card {
+    --ru-status-system-image-dark: var(--ru-status-system-image-dark-2d);
+    --ru-status-system-image-light: var(--ru-status-system-image-light-2d);
+  }
+
+  :root[data-theme='light'] .ru-status-card {
+    --ru-status-system-image: var(--ru-status-system-image-light);
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(18, 32, 39, 0.08);
+  }
+</style>

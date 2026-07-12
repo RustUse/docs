@@ -4,7 +4,7 @@ description: Use the rustuse command to search, add, copy, initialize, and track
 ---
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
-import MascotTip from '../../components/MascotTip.astro';
+import StatusTip from '../../components/StatusTip.astro';
 import cli2d from '../../assets/cli-2D.png';
 import cli3d from '../../assets/cli-3D.png';
 
@@ -16,10 +16,9 @@ import cli3d from '../../assets/cli-3D.png';
   title="Search. Add. Copy. Track."
   description="The `rustuse` CLI helps you adopt RustUse primitives at the boundary you choose. Install crates from crates.io, copy source into your project, or initialize managed tracking with `rustuse.toml`."
   quickLinks={[
-    { href: '/crates/', label: 'Browse crates' },
-    { href: '/facades/', label: 'Browse facades' },
-    { href: '/onboarding/', label: 'Onboarding' },
-    { href: '/copy/', label: 'Copy source' },
+    { href: '/facades', label: 'Facades' },
+    { href: '/crates', label: 'Crate catalog' },
+    { href: '/using-ai', label: 'Using AI' },
   ]}
   layout="stacked"
   theme="teal"
@@ -189,7 +188,7 @@ rustuse init --copy-first
 
 That kind of project can place copied primitives under a dedicated source area and reserve the managed workflow for source ownership, diffs, and future upgrades.
 
-<MascotTip
+<StatusTip
   title="rustuse.toml is opt-in"
   description="Use `rustuse init` only when you want RustUse-managed tracking. If you only want to install crates or copy source once, skip it."
 />

@@ -51,30 +51,6 @@
     );
   }
 
-  :root:not([data-mascot-mode='2d']) .site-title .ru-header-wordmark {
-    background-image: linear-gradient(
-      180deg,
-      #fff8f2 0%,
-      #ffdcb8 22%,
-      #f39b57 58%,
-      #cf5a2b 100%
-    );
-    filter: var(--ru-filter-header-wordmark);
-  }
-
-  :root[data-theme='light']:not([data-mascot-mode='2d'])
-    .site-title
-    .ru-header-wordmark {
-    background-image: linear-gradient(
-      180deg,
-      #ffe0bb 0%,
-      #f6a865 24%,
-      #dd6a37 60%,
-      #8e3617 100%
-    );
-    filter: var(--ru-filter-header-wordmark);
-  }
-
   :where(.ru-toolbar-select) {
     --sl-label-icon-size: 0.875rem;
     --sl-caret-size: 1.25rem;
@@ -537,45 +513,6 @@
     font-weight: 400;
     line-height: 0.94;
     text-wrap: balance;
-  }
-
-  .hero .ru-hero-title.is-landing {
-    background: none;
-    color: var(--sl-color-white);
-    -webkit-text-fill-color: currentColor;
-    filter: none;
-  }
-
-  :root[data-theme='light'] .hero .ru-hero-title.is-landing {
-    color: var(--ru-color-deep);
-  }
-
-  :root:not([data-mascot-mode='2d']) .hero .ru-hero-title.is-landing {
-    background-image: linear-gradient(
-      180deg,
-      #fffaf4 0%,
-      #ffe7d3 24%,
-      #ffc896 58%,
-      #ff9a5c 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    filter: var(--ru-filter-hero-title);
-  }
-
-  :root[data-theme='light']:not([data-mascot-mode='2d'])
-    .hero
-    .ru-hero-title.is-landing {
-    background-image: linear-gradient(
-      180deg,
-      #ffdcb8 0%,
-      #f6ab68 26%,
-      #e56d3d 62%,
-      #ad421c 100%
-    );
-    filter: var(--ru-filter-hero-title);
   }
 
   .hero .copy {

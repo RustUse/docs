@@ -1,9 +1,9 @@
 import js from '@eslint/js';
 import eslintPluginAstro from 'eslint-plugin-astro';
 import perfectionist from 'eslint-plugin-perfectionist';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 export default [
   {

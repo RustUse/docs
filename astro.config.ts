@@ -1,5 +1,4 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { ViteDevServer } from 'vite';
 
 import { satteri } from '@astrojs/markdown-satteri';
 import mdx from '@astrojs/mdx';
@@ -50,13 +49,6 @@ const handleRustdocDirectoryIndex = (
   return next();
 };
 
-const rustdocDirectoryIndexPlugin = {
-  name: 'rustuse-rustdoc-directory-index',
-  configureServer(server: ViteDevServer): void {
-    server.middlewares.use(handleRustdocDirectoryIndex);
-  },
-};
-
 function getCrateSlugRedirects(): Record<string, string> {
   const redirects: Record<string, string> = {};
 
@@ -71,7 +63,6 @@ function getCrateSlugRedirects(): Record<string, string> {
     }
 
     const from = `/${crate.name}`;
-    const fromWithSlash = `${from}/`;
 
     if (redirects[from] && redirects[from] !== crate.pagePath) {
       throw new Error(
@@ -80,7 +71,6 @@ function getCrateSlugRedirects(): Record<string, string> {
     }
 
     redirects[from] = crate.pagePath;
-    redirects[fromWithSlash] = crate.pagePath;
   }
 
   return redirects;
@@ -88,9 +78,18 @@ function getCrateSlugRedirects(): Record<string, string> {
 
 export default defineConfig({
   site: 'https://rustuse.org/',
+  compressHTML: true,
   redirects: getCrateSlugRedirects(),
   vite: {
-    plugins: [rustdocDirectoryIndexPlugin],
+    plugins: [
+      {
+        name: 'rustuse-rustdoc-directory-index',
+
+        configureServer(server) {
+          server.middlewares.use(handleRustdocDirectoryIndex);
+        },
+      },
+    ],
   },
   fonts: [
     {
