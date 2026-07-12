@@ -81,6 +81,11 @@ export default defineConfig({
   compressHTML: true,
   redirects: getCrateSlugRedirects(),
   vite: {
+    server: {
+      watch: {
+        ignored: ['**/public/api/**'],
+      },
+    },
     plugins: [
       {
         name: 'rustuse-rustdoc-directory-index',
