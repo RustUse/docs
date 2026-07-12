@@ -3,13 +3,16 @@ title: AI Usage Recipes
 description: Copy and paste prompts for using RustUse documentation with AI assistants.
 ---
 
+import StatusWarning from '../../../components/StatusWarning.astro';
+
 These recipes give assistants a small, explicit RustUse context path before they answer. They are intentionally short so they can be pasted into chat tools, coding assistants, or local agents.
 
 Use them as starting points, then verify any generated Rust code against RustUse Rustdocs and `cargo test`.
 
-:::caution
-AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`.
-:::
+<StatusWarning
+  title="AI Hallucination Warning"
+  description="AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`."
+/>
 
 ## Understand RustUse
 

@@ -3,7 +3,7 @@ import { getCrate } from '../data/catalog';
 import Badge from './Badge.astro';
 import CrateSourcePanel from './CrateSourcePanel.astro';
 import DocsLinks from './DocsLinks.astro';
-import MascotNote from './MascotNote.astro';
+import StatusNote from './StatusNote.astro';
 
 interface Props {
   name: string;
@@ -35,7 +35,7 @@ const sourcePanelDescription = usesWorkspaceApiRoute
   : `Copy the current ${crate.name} source bundle or inspect the files behind the stable RustUse docs surface for this crate.`;
 ---
 
-<MascotNote title={roleTitle} description={roleDescription} />
+<StatusNote title={roleTitle} description={roleDescription} />
 
 <p>
   <Badge value={crate.version} /> Versioned crate with live registry and docs.rs links.
@@ -90,31 +90,14 @@ const sourcePanelDescription = usesWorkspaceApiRoute
 
 <h2>Tags</h2>
 
-<ul class="ru-crate-overview-tags">
-  {crate.tags.map((tag) => <li>{tag}</li>)}
-</ul>
+<div class="ru-crate-overview-tags">
+  {crate.tags.map((tag) => <Badge value={tag} variant="clay" />)}
+</div>
 
 <style>
   .ru-crate-overview-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .ru-crate-overview-tags li {
-    padding: 0.38rem 0.7rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--ru-color-deep) 44%, transparent);
-    color: color-mix(in srgb, var(--sl-color-white) 82%, var(--ru-color-sand));
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  :root[data-theme='light'] .ru-crate-overview-tags li {
-    background: rgba(244, 162, 97, 0.14);
-    color: var(--ru-color-clay);
   }
 </style>

@@ -3,11 +3,15 @@ title: LLM Text Files
 description: Root, facade-level, and planned crate-level LLM text file conventions for RustUse.
 ---
 
+import StatusNote from '../../../components/StatusNote.astro';
+import StatusWarning from '../../../components/StatusWarning.astro';
+
 RustUse publishes generated Markdown text files for tools that prefer a compact, AI-readable entry point. These files do not replace the docs site or Rustdocs. They help assistants route themselves to the right facade, crate, repository, and API documentation.
 
-:::note
-The LLM text files are generated from the same public RustUse documentation sources as the docs site.
-:::
+<StatusNote
+  title="LLM Text Files"
+  description="The LLM text files are generated from the same public RustUse documentation sources as the docs site."
+/>
 
 ## Root files
 
@@ -67,9 +71,10 @@ Until crate-level files are generated, use the owning facade's LLM text file, th
 - Use crate-level `llms.txt` for focused child-crate usage once crate-level files are available.
 - Use crate-level `llms-full.txt` for deeper crate-specific work once crate-level files are available.
 
-:::caution
-AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`.
-:::
+<StatusWarning
+  title="AI Hallucination Warning"
+  description="AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`."
+/>
 
 ## Verification path
 

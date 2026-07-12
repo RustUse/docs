@@ -4,8 +4,8 @@ description: How to update the RustUse docs site, crate catalog, and generated R
 ---
 
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
-import MascotTip from '../../components/MascotTip.astro';
-import MascotWarning from '../../components/MascotWarning.astro';
+import StatusTip from '../../components/StatusTip.astro';
+import StatusWarning from '../../components/StatusWarning.astro';
 import contributing2d from '../../assets/contributing-2D.png';
 import contributing3d from '../../assets/contributing-3D.png';
 
@@ -155,14 +155,14 @@ context is needed from the root.
 
 ## Scope guardrails
 
-<MascotWarning title="Do not widen the public surface early">
+<StatusWarning title="Do not widen the public surface early">
   <p>
     Keep the public surface aligned with the generated catalog, live package
     identities, and the currently active facades. Do not add planned crates from
     other facades to navigation or `/api/` roots before they are intentionally
     public.
   </p>
-</MascotWarning>
+</StatusWarning>
 
 - Keep the public support surface aligned with the generated catalog entries rather than ad hoc links or hand-maintained sidebars.
 - Do not add planned crates from other facades to navigation, homepage copy, or public facade pages early.

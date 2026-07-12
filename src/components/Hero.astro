@@ -31,22 +31,22 @@ const getImageAttrs = (source: ImageMetadata, alt = image?.alt || '') => ({
 });
 
 const mascotModeImage:
-  | { alt: string; image2d: ImageMetadata; image3d: ImageMetadata }
-  | undefined = isLandingPage
-  ? {
-      alt: image?.alt || 'Ferris the Rust crab',
-      image2d: ferris2d,
-      image3d: ferris3d,
-    }
-  : isNotFoundHero
+  { alt: string; image2d: ImageMetadata; image3d: ImageMetadata } | undefined =
+  isLandingPage
     ? {
-        alt:
-          image?.alt ||
-          'A Rust mascot helping the reader recover from a missing page',
-        image2d: notFound2d,
-        image3d: notFound3d,
+        alt: image?.alt || 'Ferris the Rust crab',
+        image2d: ferris2d,
+        image3d: ferris3d,
       }
-    : undefined;
+    : isNotFoundHero
+      ? {
+          alt:
+            image?.alt ||
+            'A Rust mascot helping the reader recover from a missing page',
+          image2d: notFound2d,
+          image3d: notFound3d,
+        }
+      : undefined;
 
 let darkImage: ImageMetadata | undefined;
 let lightImage: ImageMetadata | undefined;

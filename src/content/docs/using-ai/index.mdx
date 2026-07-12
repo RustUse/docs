@@ -3,15 +3,40 @@ title: Using AI
 description: AI-readable RustUse documentation surfaces for assistants, coding tools, and local agents.
 ---
 
+import StatusNote from '../../../components/StatusNote.astro';
+import StatusTip from '../../../components/StatusTip.astro';
+import StatusWarning from '../../../components/StatusWarning.astro';
+import StatusImportant from '../../../components/StatusImportant.astro';
+import DocsMascotPanel from '../../../components/DocsMascotPanel.astro';
+import usingAI2d from '../../../assets/using-ai-2D.png';
+import usingAI3d from '../../../assets/using-ai-3D.png';
+
+<DocsMascotPanel
+  image2d={usingAI2d}
+  image3d={usingAI3d}
+  alt="Ferris interacting with AI-readable RustUse documentation"
+  eyebrow="Using AI"
+  title="AI-Readable RustUse Documentation"
+  description="AI-readable RustUse documentation surfaces for assistants, coding tools, and local agents."
+  quickLinks={[
+    { href: '/facades', label: 'Facades' },
+    { href: '/crates', label: 'Crate catalog' },
+    { href: '/cli', label: 'Use the CLI' },
+  ]}
+  layout="stacked"
+  theme="sand"
+/>
+
 RustUse is documented for humans first, but its documentation is also structured for AI-assisted development.
 
 The `llms.txt`, `llms-full.txt`, per-facade text files, per-crate text files, and RustUse MCP Server provide progressively more structured ways for assistants and coding tools to understand the RustUse catalog.
 
 This section explains which surface to use when you want an assistant, coding tool, local agent, or MCP-capable client to work with RustUse without manually pasting large chunks of documentation.
 
-:::note
-The LLM text files are generated from the same public RustUse documentation sources as the docs site.
-:::
+<StatusNote
+  title="LLM Text Files"
+  description="The LLM text files are generated from the same public RustUse documentation sources as the docs site."
+/>
 
 ## Access modes
 
@@ -46,9 +71,10 @@ Use planned crate-level files when they become available and the task is about o
 
 Use the planned RustUse MCP Server when your client supports Model Context Protocol and you want structured lookup instead of manually choosing text files.
 
-:::caution
-AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`.
-:::
+<StatusWarning
+  title="AI Hallucination Warning"
+  description="AI assistants may still hallucinate APIs. Always verify generated code against RustUse Rustdocs and `cargo test`."
+/>
 
 ## In this section
 

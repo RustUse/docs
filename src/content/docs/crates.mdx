@@ -5,23 +5,24 @@ description: Current RustUse crates, their roles, and where to find their guides
 
 import CrateGrid from '../../components/CrateGrid.astro';
 import DocsMascotPanel from '../../components/DocsMascotPanel.astro';
-import MascotNote from '../../components/MascotNote.astro';
-import MascotTip from '../../components/MascotTip.astro';
-import MascotWarning from '../../components/MascotWarning.astro';
-import contributing2d from '../../assets/contributing-2D.png';
-import contributing3d from '../../assets/contributing-3D.png';
+import StatusNote from '../../components/StatusNote.astro';
+import StatusTip from '../../components/StatusTip.astro';
+import StatusWarning from '../../components/StatusWarning.astro';
+import crates2d from '../../assets/crates-2D.png';
+import crates3d from '../../assets/crates-3D.png';
 import { crates } from '../../data/catalog';
 
 <DocsMascotPanel
-  image2d={contributing2d}
-  image3d={contributing3d}
+  image2d={crates2d}
+  image3d={crates3d}
   alt="Ferris viewing RustUse crates"
   eyebrow="Crates"
   title={`There are currently ${crates.length} crates in the RustUse catalog`}
   description="Crates are facade children. Each crate serves a specific purpose within the facade it belongs to, helping to modularize functionality and maintain clear boundaries."
   quickLinks={[
-    { href: '/facades/', label: 'Facades' },
-    { href: '/cli/', label: 'RustUse CLI' },
+    { href: '/onboarding', label: 'Onboarding' },
+    { href: '/facades', label: 'Facades' },
+    { href: '/cli', label: 'RustUse CLI' },
   ]}
   layout="stacked"
   theme="sand"
